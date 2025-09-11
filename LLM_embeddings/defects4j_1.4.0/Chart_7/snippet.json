@@ -1,0 +1,272 @@
+[
+  {
+    "name": "Series.Series",
+    "class_name": "org.jfree.data.general.Series",
+    "signature": "org.jfree.data.general.Series.Series(Comparable)",
+    "snippet": "    protected Series(Comparable key) {\n        this(key, null);\n    }",
+    "comment": " Creates a new series with the specified key.    @param key  the series key (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Series.Series",
+    "class_name": "org.jfree.data.general.Series",
+    "signature": "org.jfree.data.general.Series.Series(Comparable,String)",
+    "snippet": "    protected Series(Comparable key, String description) {\n        if (key == null) {\n            throw new IllegalArgumentException(\"Null 'key' argument.\");\n        }\n        this.key = key;\n        this.description = description;\n        this.listeners = new EventListenerList();\n        this.propertyChangeSupport = new PropertyChangeSupport(this);\n        this.notify = true;   \n    }",
+    "comment": " Creates a new series with the specified key and description.  @param key  the series key (<code>null</code> NOT permitted). @param description  the series description (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Series.fireSeriesChanged",
+    "class_name": "org.jfree.data.general.Series",
+    "signature": "org.jfree.data.general.Series.fireSeriesChanged()",
+    "snippet": "    public void fireSeriesChanged() {\n        if (this.notify) {\n            notifyListeners(new SeriesChangeEvent(this));\n        }\n    }",
+    "comment": " General method for signalling to registered listeners that the series has been changed. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Series.notifyListeners",
+    "class_name": "org.jfree.data.general.Series",
+    "signature": "org.jfree.data.general.Series.notifyListeners(SeriesChangeEvent)",
+    "snippet": "    protected void notifyListeners(SeriesChangeEvent event) {\n\n        Object[] listenerList = this.listeners.getListenerList();\n        for (int i = listenerList.length - 2; i >= 0; i -= 2) {\n            if (listenerList[i] == SeriesChangeListener.class) {\n                ((SeriesChangeListener) listenerList[i + 1]).seriesChanged(\n                        event);\n            }\n        }\n\n    }",
+    "comment": " Sends a change event to all registered listeners.  @param event  contains information about the event that triggered the  notification. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SeriesChangeEvent.SeriesChangeEvent",
+    "class_name": "org.jfree.data.general.SeriesChangeEvent",
+    "signature": "org.jfree.data.general.SeriesChangeEvent.SeriesChangeEvent(Object)",
+    "snippet": "    public SeriesChangeEvent(Object source) {\n        super(source);\n    }",
+    "comment": " Constructs a new event.  @param source  the source of the change event. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RegularTimePeriod.getEnd",
+    "class_name": "org.jfree.data.time.RegularTimePeriod",
+    "signature": "org.jfree.data.time.RegularTimePeriod.getEnd()",
+    "snippet": "    public Date getEnd() {\n        return new Date(getLastMillisecond());\n    }",
+    "comment": " Returns the date/time that marks the end of the time period.  This method returns a new <code>Date</code> instance every time it is called.  @return The end date/time.  @see #getLastMillisecond() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RegularTimePeriod.getStart",
+    "class_name": "org.jfree.data.time.RegularTimePeriod",
+    "signature": "org.jfree.data.time.RegularTimePeriod.getStart()",
+    "snippet": "    public Date getStart() {\n        return new Date(getFirstMillisecond());\n    }",
+    "comment": " Returns the date/time that marks the start of the time period.  This method returns a new <code>Date</code> instance every time it is called.  @return The start date/time.  @see #getFirstMillisecond() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimpleTimePeriod.SimpleTimePeriod",
+    "class_name": "org.jfree.data.time.SimpleTimePeriod",
+    "signature": "org.jfree.data.time.SimpleTimePeriod.SimpleTimePeriod(long,long)",
+    "snippet": "    public SimpleTimePeriod(long start, long end) {\n        if (start > end) {\n            throw new IllegalArgumentException(\"Requires start <= end.\");\n        }\n        this.start = start;\n        this.end = end;\n    }",
+    "comment": " Creates a new time allocation.  @param start  the start date/time in milliseconds. @param end  the end date/time in milliseconds. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimpleTimePeriod.getEnd",
+    "class_name": "org.jfree.data.time.SimpleTimePeriod",
+    "signature": "org.jfree.data.time.SimpleTimePeriod.getEnd()",
+    "snippet": "    public Date getEnd() {\n        return new Date(this.end);\n    }",
+    "comment": " Returns the end date/time.  @return The end date/time (never <code>null</code>). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimpleTimePeriod.getStart",
+    "class_name": "org.jfree.data.time.SimpleTimePeriod",
+    "signature": "org.jfree.data.time.SimpleTimePeriod.getStart()",
+    "snippet": "    public Date getStart() {\n        return new Date(this.start);\n    }",
+    "comment": " Returns the start date/time.  @return The start date/time (never <code>null</code>). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimePeriodValue.TimePeriodValue",
+    "class_name": "org.jfree.data.time.TimePeriodValue",
+    "signature": "org.jfree.data.time.TimePeriodValue.TimePeriodValue(TimePeriod,Number)",
+    "snippet": "    public TimePeriodValue(TimePeriod period, Number value) {\n        if (period == null) {\n            throw new IllegalArgumentException(\"Null 'period' argument.\");\n        }\n        this.period = period;\n        this.value = value;\n    }",
+    "comment": " Constructs a new data item.  @param period  the time period (<code>null</code> not permitted). @param value  the value associated with the time period.  @throws IllegalArgumentException if <code>period</code> is <code>null</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimePeriodValue.TimePeriodValue",
+    "class_name": "org.jfree.data.time.TimePeriodValue",
+    "signature": "org.jfree.data.time.TimePeriodValue.TimePeriodValue(TimePeriod,double)",
+    "snippet": "    public TimePeriodValue(TimePeriod period, double value) {\n        this(period, new Double(value));\n    }",
+    "comment": " Constructs a new data item.  @param period  the time period (<code>null</code> not permitted). @param value  the value associated with the time period.  @throws IllegalArgumentException if <code>period</code> is <code>null</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimePeriodValue.getPeriod",
+    "class_name": "org.jfree.data.time.TimePeriodValue",
+    "signature": "org.jfree.data.time.TimePeriodValue.getPeriod()",
+    "snippet": "    public TimePeriod getPeriod() {\n        return this.period;\n    }",
+    "comment": " Returns the time period.  @return The time period (never <code>null</code>). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimePeriodValues.TimePeriodValues",
+    "class_name": "org.jfree.data.time.TimePeriodValues",
+    "signature": "org.jfree.data.time.TimePeriodValues.TimePeriodValues(Comparable)",
+    "snippet": "    public TimePeriodValues(Comparable name) {\n        this(name, DEFAULT_DOMAIN_DESCRIPTION, DEFAULT_RANGE_DESCRIPTION);\n    }",
+    "comment": " Creates a new (empty) collection of time period values.  @param name  the name of the series (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimePeriodValues.TimePeriodValues",
+    "class_name": "org.jfree.data.time.TimePeriodValues",
+    "signature": "org.jfree.data.time.TimePeriodValues.TimePeriodValues(Comparable,String,String)",
+    "snippet": "    public TimePeriodValues(Comparable name, String domain, String range) {\n        super(name);\n        this.domain = domain;\n        this.range = range;\n        this.data = new ArrayList();\n    }",
+    "comment": " Creates a new time series that contains no data. <P> Descriptions can be specified for the domain and range.  One situation where this is helpful is when generating a chart for the time series - axis labels can be taken from the domain and range description.  @param name  the name of the series (<code>null</code> not permitted). @param domain  the domain description. @param range  the range description. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimePeriodValues.add",
+    "class_name": "org.jfree.data.time.TimePeriodValues",
+    "signature": "org.jfree.data.time.TimePeriodValues.add(TimePeriod,Number)",
+    "snippet": "    public void add(TimePeriod period, Number value) {\n        TimePeriodValue item = new TimePeriodValue(period, value);\n        add(item);\n    }",
+    "comment": " Adds a new data item to the series and sends a {@link SeriesChangeEvent} to all registered listeners.  @param period  the time period (<code>null</code> not permitted). @param value  the value (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimePeriodValues.add",
+    "class_name": "org.jfree.data.time.TimePeriodValues",
+    "signature": "org.jfree.data.time.TimePeriodValues.add(TimePeriod,double)",
+    "snippet": "    public void add(TimePeriod period, double value) {\n        TimePeriodValue item = new TimePeriodValue(period, value);\n        add(item);\n    }",
+    "comment": " Adds a new data item to the series and sends a {@link SeriesChangeEvent} to all registered listeners.  @param period  the time period (<code>null</code> not permitted). @param value  the value.  @see #add(TimePeriod, Number) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimePeriodValues.add",
+    "class_name": "org.jfree.data.time.TimePeriodValues",
+    "signature": "org.jfree.data.time.TimePeriodValues.add(TimePeriodValue)",
+    "snippet": "    public void add(TimePeriodValue item) {\n        if (item == null) {\n            throw new IllegalArgumentException(\"Null item not allowed.\");\n        }\n        this.data.add(item);\n        updateBounds(item.getPeriod(), this.data.size() - 1);\n        fireSeriesChanged();\n    }",
+    "comment": " Adds a data item to the series and sends a {@link SeriesChangeEvent} to all registered listeners.  @param item  the item (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimePeriodValues.getDataItem",
+    "class_name": "org.jfree.data.time.TimePeriodValues",
+    "signature": "org.jfree.data.time.TimePeriodValues.getDataItem(int)",
+    "snippet": "    public TimePeriodValue getDataItem(int index) {\n        return (TimePeriodValue) this.data.get(index);\n    }",
+    "comment": " Returns one data item for the series.  @param index  the item index (in the range <code>0</code> to  <code>getItemCount() - 1</code>).  @return One data item for the series. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimePeriodValues.getMaxMiddleIndex",
+    "class_name": "org.jfree.data.time.TimePeriodValues",
+    "signature": "org.jfree.data.time.TimePeriodValues.getMaxMiddleIndex()",
+    "snippet": "    public int getMaxMiddleIndex() {\n        return this.maxMiddleIndex;\n    }",
+    "comment": " Returns the index of the time period with the maximum middle  milliseconds.  @return The index. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimePeriodValues.updateBounds",
+    "class_name": "org.jfree.data.time.TimePeriodValues",
+    "signature": "org.jfree.data.time.TimePeriodValues.updateBounds(TimePeriod,int)",
+    "snippet": "    private void updateBounds(TimePeriod period, int index) {\n        \n        long start = period.getStart().getTime();\n        long end = period.getEnd().getTime();\n        long middle = start + ((end - start) / 2);\n\n        if (this.minStartIndex >= 0) {\n            long minStart = getDataItem(this.minStartIndex).getPeriod()\n                .getStart().getTime();\n            if (start < minStart) {\n                this.minStartIndex = index;           \n            }\n        }\n        else {\n            this.minStartIndex = index;\n        }\n        \n        if (this.maxStartIndex >= 0) {\n            long maxStart = getDataItem(this.maxStartIndex).getPeriod()\n                .getStart().getTime();\n            if (start > maxStart) {\n                this.maxStartIndex = index;           \n            }\n        }\n        else {\n            this.maxStartIndex = index;\n        }\n        \n        if (this.minMiddleIndex >= 0) {\n            long s = getDataItem(this.minMiddleIndex).getPeriod().getStart()\n                .getTime();\n            long e = getDataItem(this.minMiddleIndex).getPeriod().getEnd()\n                .getTime();\n            long minMiddle = s + (e - s) / 2;\n            if (middle < minMiddle) {\n                this.minMiddleIndex = index;           \n            }\n        }\n        else {\n            this.minMiddleIndex = index;\n        }\n        \n        if (this.maxMiddleIndex >= 0) {\n            long s = getDataItem(this.minMiddleIndex).getPeriod().getStart()\n                .getTime();\n            long e = getDataItem(this.minMiddleIndex).getPeriod().getEnd()\n                .getTime();\n            long maxMiddle = s + (e - s) / 2;\n            if (middle > maxMiddle) {\n                this.maxMiddleIndex = index;           \n            }\n        }\n        else {\n            this.maxMiddleIndex = index;\n        }\n        \n        if (this.minEndIndex >= 0) {\n            long minEnd = getDataItem(this.minEndIndex).getPeriod().getEnd()\n                .getTime();\n            if (end < minEnd) {\n                this.minEndIndex = index;           \n            }\n        }\n        else {\n            this.minEndIndex = index;\n        }\n       \n        if (this.maxEndIndex >= 0) {\n            long maxEnd = getDataItem(this.maxEndIndex).getPeriod().getEnd()\n                .getTime();\n            if (end > maxEnd) {\n                this.maxEndIndex = index;           \n            }\n        }\n        else {\n            this.maxEndIndex = index;\n        }\n        \n    }",
+    "comment": " Update the index values for the maximum and minimum bounds.  @param period  the time period. @param index  the index of the time period. ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Year.Year",
+    "class_name": "org.jfree.data.time.Year",
+    "signature": "org.jfree.data.time.Year.Year(int)",
+    "snippet": "    public Year(int year) {\n        if ((year < SerialDate.MINIMUM_YEAR_SUPPORTED)\n            || (year > SerialDate.MAXIMUM_YEAR_SUPPORTED)) {\n\n            throw new IllegalArgumentException(\n                \"Year constructor: year (\" + year + \") outside valid range.\");\n        }\n        this.year = (short) year;\n        peg(Calendar.getInstance());\n    }",
+    "comment": " Creates a time period representing a single year.  @param year  the year. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Year.getFirstMillisecond",
+    "class_name": "org.jfree.data.time.Year",
+    "signature": "org.jfree.data.time.Year.getFirstMillisecond()",
+    "snippet": "    public long getFirstMillisecond() {\n        return this.firstMillisecond;\n    }",
+    "comment": " Returns the first millisecond of the year.  This will be determined relative to the time zone specified in the constructor, or in the calendar instance passed in the most recent call to the {@link #peg(Calendar)} method.  @return The first millisecond of the year.  @see #getLastMillisecond() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Year.getFirstMillisecond",
+    "class_name": "org.jfree.data.time.Year",
+    "signature": "org.jfree.data.time.Year.getFirstMillisecond(Calendar)",
+    "snippet": "    public long getFirstMillisecond(Calendar calendar) {\n        calendar.set(this.year, Calendar.JANUARY, 1, 0, 0, 0);\n        calendar.set(Calendar.MILLISECOND, 0);\n        // in the following line, we'd rather call calendar.getTimeInMillis()\n        // to avoid object creation, but that isn't supported in Java 1.3.1\n        return calendar.getTime().getTime();\n    }",
+    "comment": " Returns the first millisecond of the year, evaluated using the supplied calendar (which determines the time zone).  @param calendar  the calendar (<code>null</code> not permitted).  @return The first millisecond of the year.  @throws NullPointerException if <code>calendar</code> is <code>null</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Year.getLastMillisecond",
+    "class_name": "org.jfree.data.time.Year",
+    "signature": "org.jfree.data.time.Year.getLastMillisecond()",
+    "snippet": "    public long getLastMillisecond() {\n        return this.lastMillisecond;\n    }",
+    "comment": " Returns the last millisecond of the year.  This will be determined relative to the time zone specified in the constructor, or in the calendar instance passed in the most recent call to the {@link #peg(Calendar)} method.  @return The last millisecond of the year.  @see #getFirstMillisecond() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Year.getLastMillisecond",
+    "class_name": "org.jfree.data.time.Year",
+    "signature": "org.jfree.data.time.Year.getLastMillisecond(Calendar)",
+    "snippet": "    public long getLastMillisecond(Calendar calendar) {\n        calendar.set(this.year, Calendar.DECEMBER, 31, 23, 59, 59);\n        calendar.set(Calendar.MILLISECOND, 999);\n        // in the following line, we'd rather call calendar.getTimeInMillis()\n        // to avoid object creation, but that isn't supported in Java 1.3.1\n        return calendar.getTime().getTime();\n    }",
+    "comment": " Returns the last millisecond of the year, evaluated using the supplied calendar (which determines the time zone).  @param calendar  the calendar (<code>null</code> not permitted).  @return The last millisecond of the year.  @throws NullPointerException if <code>calendar</code> is <code>null</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Year.peg",
+    "class_name": "org.jfree.data.time.Year",
+    "signature": "org.jfree.data.time.Year.peg(Calendar)",
+    "snippet": "    public void peg(Calendar calendar) {\n        this.firstMillisecond = getFirstMillisecond(calendar);\n        this.lastMillisecond = getLastMillisecond(calendar);\n    }",
+    "comment": " Recalculates the start date/time and end date/time for this time period relative to the supplied calendar (which incorporates a time zone).  @param calendar  the calendar (<code>null</code> not permitted).  @since 1.0.3 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

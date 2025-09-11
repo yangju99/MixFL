@@ -1,0 +1,42 @@
+[
+  {
+    "name": "ElitisticListPopulation.ElitisticListPopulation",
+    "class_name": "org.apache.commons.math3.genetics.ElitisticListPopulation",
+    "signature": "org.apache.commons.math3.genetics.ElitisticListPopulation.ElitisticListPopulation(List,int,double)",
+    "snippet": "    public ElitisticListPopulation(final List<Chromosome> chromosomes,\n                                   final int populationLimit,\n                                   final double elitismRate) {\n        super(chromosomes, populationLimit);\n        this.elitismRate = elitismRate;\n    }",
+    "comment": " Creates a new ElitisticListPopulation instance.  @param chromosomes list of chromosomes in the population @param populationLimit maximal size of the population @param elitismRate how many best chromosomes will be directly transferred to the next generation [in %] @throws OutOfRangeException if the elitism rate is outside the [0, 1] range ",
+    "is_bug": true,
+    "failing_test_cases": 4,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ElitisticListPopulation.ElitisticListPopulation",
+    "class_name": "org.apache.commons.math3.genetics.ElitisticListPopulation",
+    "signature": "org.apache.commons.math3.genetics.ElitisticListPopulation.ElitisticListPopulation(int,double)",
+    "snippet": "    public ElitisticListPopulation(final int populationLimit, final double elitismRate) {\n        super(populationLimit);\n        this.elitismRate = elitismRate;\n    }",
+    "comment": " Creates a new ListPopulation instance and initializes its inner chromosome list.  @param populationLimit maximal size of the population @param elitismRate how many best chromosomes will be directly transferred to the next generation [in %] @throws OutOfRangeException if the elitism rate is outside the [0, 1] range ",
+    "is_bug": true,
+    "failing_test_cases": 4,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ListPopulation.ListPopulation",
+    "class_name": "org.apache.commons.math3.genetics.ListPopulation",
+    "signature": "org.apache.commons.math3.genetics.ListPopulation.ListPopulation(List,int)",
+    "snippet": "    public ListPopulation(final List<Chromosome> chromosomes, final int populationLimit) {\n        if (chromosomes.size() > populationLimit) {\n            throw new NumberIsTooLargeException(LocalizedFormats.LIST_OF_CHROMOSOMES_BIGGER_THAN_POPULATION_SIZE,\n                                                chromosomes.size(), populationLimit, false);\n        }\n        if (populationLimit <= 0) {\n            throw new NotPositiveException(LocalizedFormats.POPULATION_LIMIT_NOT_POSITIVE, populationLimit);\n        }\n\n        this.chromosomes = chromosomes;\n        this.populationLimit = populationLimit;\n    }",
+    "comment": " Creates a new ListPopulation instance.  @param chromosomes list of chromosomes in the population @param populationLimit maximal size of the population @throws NumberIsTooLargeException if the list of chromosomes exceeds the population limit @throws NotPositiveException if the population limit is not a positive number (&lt; 1) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ListPopulation.ListPopulation",
+    "class_name": "org.apache.commons.math3.genetics.ListPopulation",
+    "signature": "org.apache.commons.math3.genetics.ListPopulation.ListPopulation(int)",
+    "snippet": "    public ListPopulation(final int populationLimit) {\n        if (populationLimit <= 0) {\n            throw new NotPositiveException(LocalizedFormats.POPULATION_LIMIT_NOT_POSITIVE, populationLimit);\n        }\n        this.populationLimit = populationLimit;\n        this.chromosomes = new ArrayList<Chromosome>(populationLimit);\n    }",
+    "comment": " Creates a new ListPopulation instance and initializes its inner chromosome list.  @param populationLimit maximal size of the population @throws NotPositiveException if the population limit is not a positive number (&lt; 1) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 2
+  }
+]

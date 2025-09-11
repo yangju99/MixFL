@@ -1,0 +1,552 @@
+[
+  {
+    "name": "AbstractBlock.AbstractBlock",
+    "class_name": "org.jfree.chart.block.AbstractBlock",
+    "signature": "org.jfree.chart.block.AbstractBlock.AbstractBlock()",
+    "snippet": "    protected AbstractBlock() {\n        this.id = null;\n        this.width = 0.0;\n        this.height = 0.0;\n        this.bounds = new Rectangle2D.Float();\n        this.margin = RectangleInsets.ZERO_INSETS;\n        this.frame = BlockBorder.NONE; \n        this.padding = RectangleInsets.ZERO_INSETS;\n    }",
+    "comment": " Creates a new block. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractBlock.calculateTotalHeight",
+    "class_name": "org.jfree.chart.block.AbstractBlock",
+    "signature": "org.jfree.chart.block.AbstractBlock.calculateTotalHeight(double)",
+    "snippet": "    protected double calculateTotalHeight(double contentHeight) {\n        double result = contentHeight;\n        result = this.padding.extendHeight(result);\n        result = this.frame.getInsets().extendHeight(result);\n        result = this.margin.extendHeight(result);\n        return result;\n    }",
+    "comment": " Adds the margin, border and padding to the specified content height.  @param contentHeight  the content height.  @return The adjusted height. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractBlock.calculateTotalWidth",
+    "class_name": "org.jfree.chart.block.AbstractBlock",
+    "signature": "org.jfree.chart.block.AbstractBlock.calculateTotalWidth(double)",
+    "snippet": "    protected double calculateTotalWidth(double contentWidth) {\n        double result = contentWidth;\n        result = this.padding.extendWidth(result);\n        result = this.frame.getInsets().extendWidth(result);\n        result = this.margin.extendWidth(result);\n        return result;\n    }",
+    "comment": " Adds the margin, border and padding to the specified content width.  @param contentWidth  the content width.  @return The adjusted width. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractBlock.getHeight",
+    "class_name": "org.jfree.chart.block.AbstractBlock",
+    "signature": "org.jfree.chart.block.AbstractBlock.getHeight()",
+    "snippet": "    public double getHeight() {\n        return this.height;\n    }",
+    "comment": " Returns the natural height of the block, if this is known in advance. The actual height of the block may be overridden if layout constraints make this necessary.    @return The height.  @see #setHeight(double) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractBlock.getWidth",
+    "class_name": "org.jfree.chart.block.AbstractBlock",
+    "signature": "org.jfree.chart.block.AbstractBlock.getWidth()",
+    "snippet": "    public double getWidth() {\n        return this.width;\n    }",
+    "comment": " Returns the natural width of the block, if this is known in advance. The actual width of the block may be overridden if layout constraints make this necessary.    @return The width.  @see #setWidth(double) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractBlock.setBounds",
+    "class_name": "org.jfree.chart.block.AbstractBlock",
+    "signature": "org.jfree.chart.block.AbstractBlock.setBounds(Rectangle2D)",
+    "snippet": "    public void setBounds(Rectangle2D bounds) {\n        if (bounds == null) {\n            throw new IllegalArgumentException(\"Null 'bounds' argument.\");\n        }\n        this.bounds = bounds;\n    }",
+    "comment": " Sets the bounds of the block.  @param bounds  the bounds (<code>null</code> not permitted).  @see #getBounds() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractBlock.setHeight",
+    "class_name": "org.jfree.chart.block.AbstractBlock",
+    "signature": "org.jfree.chart.block.AbstractBlock.setHeight(double)",
+    "snippet": "    public void setHeight(double height) {\n        this.height = height;\n    }",
+    "comment": " Sets the natural width of the block, if this is known in advance.  @param height  the width (in Java2D units)  @see #getHeight() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractBlock.setWidth",
+    "class_name": "org.jfree.chart.block.AbstractBlock",
+    "signature": "org.jfree.chart.block.AbstractBlock.setWidth(double)",
+    "snippet": "    public void setWidth(double width) {\n        this.width = width;\n    }",
+    "comment": " Sets the natural width of the block, if this is known in advance.  @param width  the width (in Java2D units)  @see #getWidth() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractBlock.toContentConstraint",
+    "class_name": "org.jfree.chart.block.AbstractBlock",
+    "signature": "org.jfree.chart.block.AbstractBlock.toContentConstraint(RectangleConstraint)",
+    "snippet": "    protected RectangleConstraint toContentConstraint(RectangleConstraint c) {\n        if (c == null) {\n            throw new IllegalArgumentException(\"Null 'c' argument.\");\n        }\n        if (c.equals(RectangleConstraint.NONE)) {\n            return c;\n        }\n        double w = c.getWidth();\n        Range wr = c.getWidthRange();\n        double h = c.getHeight();\n        Range hr = c.getHeightRange();\n        double ww = trimToContentWidth(w);\n        double hh = trimToContentHeight(h);\n        Range wwr = trimToContentWidth(wr);\n        Range hhr = trimToContentHeight(hr);\n        return new RectangleConstraint(\n            ww, wwr, c.getWidthConstraintType(), \n            hh, hhr, c.getHeightConstraintType()\n        );\n    }",
+    "comment": " Returns a constraint for the content of this block that will result in the bounds of the block matching the specified constraint.  @param c  the outer constraint (<code>null</code> not permitted).  @return The content constraint. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractBlock.trimToContentHeight",
+    "class_name": "org.jfree.chart.block.AbstractBlock",
+    "signature": "org.jfree.chart.block.AbstractBlock.trimToContentHeight(Range)",
+    "snippet": "    private Range trimToContentHeight(Range r) {\n        if (r == null) {\n            return null;   \n        }\n        double lowerBound = 0.0;\n        double upperBound = Double.POSITIVE_INFINITY;\n        if (r.getLowerBound() > 0.0) {\n            lowerBound = trimToContentHeight(r.getLowerBound());   \n        }\n        if (r.getUpperBound() < Double.POSITIVE_INFINITY) {\n            upperBound = trimToContentHeight(r.getUpperBound());\n        }\n        return new Range(lowerBound, upperBound);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractBlock.trimToContentHeight",
+    "class_name": "org.jfree.chart.block.AbstractBlock",
+    "signature": "org.jfree.chart.block.AbstractBlock.trimToContentHeight(double)",
+    "snippet": "    protected double trimToContentHeight(double fixedHeight) {\n        double result = this.margin.trimHeight(fixedHeight);\n        result = this.frame.getInsets().trimHeight(result);\n        result = this.padding.trimHeight(result);\n        return Math.max(result, 0.0);\n    }",
+    "comment": " Calculate the height available for content after subtracting  the margin, border and padding space from the specified fixed  height.  @param fixedHeight  the fixed height.  @return The available space.  @see #trimToContentWidth(double) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractBlock.trimToContentWidth",
+    "class_name": "org.jfree.chart.block.AbstractBlock",
+    "signature": "org.jfree.chart.block.AbstractBlock.trimToContentWidth(Range)",
+    "snippet": "    private Range trimToContentWidth(Range r) {\n        if (r == null) {\n            return null;   \n        }\n        double lowerBound = 0.0;\n        double upperBound = Double.POSITIVE_INFINITY;\n        if (r.getLowerBound() > 0.0) {\n            lowerBound = trimToContentWidth(r.getLowerBound());   \n        }\n        if (r.getUpperBound() < Double.POSITIVE_INFINITY) {\n            upperBound = trimToContentWidth(r.getUpperBound());\n        }\n        return new Range(lowerBound, upperBound);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractBlock.trimToContentWidth",
+    "class_name": "org.jfree.chart.block.AbstractBlock",
+    "signature": "org.jfree.chart.block.AbstractBlock.trimToContentWidth(double)",
+    "snippet": "    protected double trimToContentWidth(double fixedWidth) {\n        double result = this.margin.trimWidth(fixedWidth);\n        result = this.frame.getInsets().trimWidth(result);\n        result = this.padding.trimWidth(result);\n        return Math.max(result, 0.0);\n    }",
+    "comment": " Calculate the width available for content after subtracting  the margin, border and padding space from the specified fixed  width.  @param fixedWidth  the fixed width.  @return The available space.  @see #trimToContentHeight(double) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BlockBorder.BlockBorder",
+    "class_name": "org.jfree.chart.block.BlockBorder",
+    "signature": "org.jfree.chart.block.BlockBorder.BlockBorder(RectangleInsets,Paint)",
+    "snippet": "    public BlockBorder(RectangleInsets insets, Paint paint) {\n        if (insets == null) {\n            throw new IllegalArgumentException(\"Null 'insets' argument.\");\n        }\n        if (paint == null) {\n            throw new IllegalArgumentException(\"Null 'paint' argument.\");   \n        }\n        this.insets = insets;\n        this.paint = paint;\n    }",
+    "comment": " Creates a new border.  @param insets  the border insets (<code>null</code> not permitted). @param paint  the paint (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BlockBorder.getInsets",
+    "class_name": "org.jfree.chart.block.BlockBorder",
+    "signature": "org.jfree.chart.block.BlockBorder.getInsets()",
+    "snippet": "    public RectangleInsets getInsets() {\n        return this.insets;\n    }",
+    "comment": " Returns the space reserved for the border.  @return The space (never <code>null</code>). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BlockContainer.BlockContainer",
+    "class_name": "org.jfree.chart.block.BlockContainer",
+    "signature": "org.jfree.chart.block.BlockContainer.BlockContainer(Arrangement)",
+    "snippet": "    public BlockContainer(Arrangement arrangement) {\n        if (arrangement == null) {\n            throw new IllegalArgumentException(\"Null 'arrangement' argument.\");\n        }\n        this.arrangement = arrangement;\n        this.blocks = new ArrayList();\n    }    ",
+    "comment": " Creates a new instance with the specified arrangement.  @param arrangement  the arrangement manager (<code>null</code> not  permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BlockContainer.add",
+    "class_name": "org.jfree.chart.block.BlockContainer",
+    "signature": "org.jfree.chart.block.BlockContainer.add(Block)",
+    "snippet": "    public void add(Block block) {\n        add(block, null);\n    }",
+    "comment": " Adds a block to the container.  @param block  the block (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BlockContainer.add",
+    "class_name": "org.jfree.chart.block.BlockContainer",
+    "signature": "org.jfree.chart.block.BlockContainer.add(Block,Object)",
+    "snippet": "    public void add(Block block, Object key) {\n        this.blocks.add(block);\n        this.arrangement.add(block, key);\n    }",
+    "comment": " Adds a block to the container.  @param block  the block (<code>null</code> permitted). @param key  the key (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BlockContainer.arrange",
+    "class_name": "org.jfree.chart.block.BlockContainer",
+    "signature": "org.jfree.chart.block.BlockContainer.arrange(Graphics2D,RectangleConstraint)",
+    "snippet": "    public Size2D arrange(Graphics2D g2, RectangleConstraint constraint) {\n        return this.arrangement.arrange(this, g2, constraint);\n    }",
+    "comment": " Arranges the contents of the block, within the given constraints, and  returns the block size.  @param g2  the graphics device. @param constraint  the constraint (<code>null</code> not permitted).  @return The block size (in Java2D units, never <code>null</code>). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BlockContainer.clear",
+    "class_name": "org.jfree.chart.block.BlockContainer",
+    "signature": "org.jfree.chart.block.BlockContainer.clear()",
+    "snippet": "    public void clear() {\n        this.blocks.clear();\n        this.arrangement.clear();\n    }",
+    "comment": " Clears all the blocks from the container. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BorderArrangement.BorderArrangement",
+    "class_name": "org.jfree.chart.block.BorderArrangement",
+    "signature": "org.jfree.chart.block.BorderArrangement.BorderArrangement()",
+    "snippet": "    public BorderArrangement() {\n    }",
+    "comment": " Creates a new instance. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BorderArrangement.add",
+    "class_name": "org.jfree.chart.block.BorderArrangement",
+    "signature": "org.jfree.chart.block.BorderArrangement.add(Block,Object)",
+    "snippet": "    public void add(Block block, Object key) {\n\n        if (key == null) {\n            this.centerBlock = block;\n        }\n        else {\n            RectangleEdge edge = (RectangleEdge) key;\n            if (edge == RectangleEdge.TOP) {\n                this.topBlock = block;\n            }\n            else if (edge == RectangleEdge.BOTTOM) {\n                this.bottomBlock = block;\n            }\n            else if (edge == RectangleEdge.LEFT) {\n                this.leftBlock = block;\n            }\n            else if (edge == RectangleEdge.RIGHT) {\n                this.rightBlock = block;\n            }\n        }\n    }",
+    "comment": " Adds a block to the arrangement manager at the specified edge.  @param block  the block (<code>null</code> permitted). @param key  the edge (an instance of {@link RectangleEdge}) or <code>null</code> for the center block. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BorderArrangement.arrange",
+    "class_name": "org.jfree.chart.block.BorderArrangement",
+    "signature": "org.jfree.chart.block.BorderArrangement.arrange(BlockContainer,Graphics2D,RectangleConstraint)",
+    "snippet": "    public Size2D arrange(BlockContainer container,\n                          Graphics2D g2,\n                          RectangleConstraint constraint) {\n        RectangleConstraint contentConstraint\n                = container.toContentConstraint(constraint);\n        Size2D contentSize = null;\n        LengthConstraintType w = contentConstraint.getWidthConstraintType();\n        LengthConstraintType h = contentConstraint.getHeightConstraintType();\n        if (w == LengthConstraintType.NONE) {\n            if (h == LengthConstraintType.NONE) {\n                contentSize = arrangeNN(container, g2);\n            }\n            else if (h == LengthConstraintType.FIXED) {\n                throw new RuntimeException(\"Not implemented.\");\n            }\n            else if (h == LengthConstraintType.RANGE) {\n                throw new RuntimeException(\"Not implemented.\");\n            }\n        }\n        else if (w == LengthConstraintType.FIXED) {\n            if (h == LengthConstraintType.NONE) {\n                contentSize = arrangeFN(container, g2, constraint.getWidth());\n            }\n            else if (h == LengthConstraintType.FIXED) {\n                contentSize = arrangeFF(container, g2, constraint);\n            }\n            else if (h == LengthConstraintType.RANGE) {\n                contentSize = arrangeFR(container, g2, constraint);\n            }\n        }\n        else if (w == LengthConstraintType.RANGE) {\n            if (h == LengthConstraintType.NONE) {\n                throw new RuntimeException(\"Not implemented.\");\n            }\n            else if (h == LengthConstraintType.FIXED) {\n                throw new RuntimeException(\"Not implemented.\");\n            }\n            else if (h == LengthConstraintType.RANGE) {\n                contentSize = arrangeRR(container, constraint.getWidthRange(),\n                        constraint.getHeightRange(), g2);\n            }\n        }\n        return new Size2D(container.calculateTotalWidth(contentSize.getWidth()),\n                container.calculateTotalHeight(contentSize.getHeight()));\n    }",
+    "comment": " Arranges the items in the specified container, subject to the given constraint.  @param container  the container. @param g2  the graphics device. @param constraint  the constraint.  @return The block size. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BorderArrangement.arrangeFF",
+    "class_name": "org.jfree.chart.block.BorderArrangement",
+    "signature": "org.jfree.chart.block.BorderArrangement.arrangeFF(BlockContainer,Graphics2D,RectangleConstraint)",
+    "snippet": "    protected Size2D arrangeFF(BlockContainer container, Graphics2D g2,\n                               RectangleConstraint constraint) {\n        double[] w = new double[5];\n        double[] h = new double[5];\n        w[0] = constraint.getWidth();\n        if (this.topBlock != null) {\n            RectangleConstraint c1 = new RectangleConstraint(w[0], null,\n                    LengthConstraintType.FIXED, 0.0,\n                    new Range(0.0, constraint.getHeight()),\n                    LengthConstraintType.RANGE);\n            Size2D size = this.topBlock.arrange(g2, c1);\n            h[0] = size.height;\n        }\n        w[1] = w[0];\n        if (this.bottomBlock != null) {\n            RectangleConstraint c2 = new RectangleConstraint(w[0], null,\n                    LengthConstraintType.FIXED, 0.0, new Range(0.0,\n                    constraint.getHeight() - h[0]), LengthConstraintType.RANGE);\n            Size2D size = this.bottomBlock.arrange(g2, c2);\n            h[1] = size.height;\n        }\n        h[2] = constraint.getHeight() - h[1] - h[0];\n        if (this.leftBlock != null) {\n            RectangleConstraint c3 = new RectangleConstraint(0.0,\n                    new Range(0.0, constraint.getWidth()),\n                    LengthConstraintType.RANGE, h[2], null,\n                    LengthConstraintType.FIXED);\n            Size2D size = this.leftBlock.arrange(g2, c3);\n            w[2] = size.width;\n        }\n        h[3] = h[2];\n        if (this.rightBlock != null) {\n            RectangleConstraint c4 = new RectangleConstraint(0.0,\n                    new Range(0.0, constraint.getWidth() - w[2]),\n                    LengthConstraintType.RANGE, h[2], null,\n                    LengthConstraintType.FIXED);\n            Size2D size = this.rightBlock.arrange(g2, c4);\n            w[3] = size.width;\n        }\n        h[4] = h[2];\n        w[4] = constraint.getWidth() - w[3] - w[2];\n        RectangleConstraint c5 = new RectangleConstraint(w[4], h[4]);\n        if (this.centerBlock != null) {\n            this.centerBlock.arrange(g2, c5);\n        }\n\n        if (this.topBlock != null) {\n            this.topBlock.setBounds(new Rectangle2D.Double(0.0, 0.0, w[0],\n                    h[0]));\n        }\n        if (this.bottomBlock != null) {\n            this.bottomBlock.setBounds(new Rectangle2D.Double(0.0, h[0] + h[2],\n                    w[1], h[1]));\n        }\n        if (this.leftBlock != null) {\n            this.leftBlock.setBounds(new Rectangle2D.Double(0.0, h[0], w[2],\n                    h[2]));\n        }\n        if (this.rightBlock != null) {\n            this.rightBlock.setBounds(new Rectangle2D.Double(w[2] + w[4], h[0],\n                    w[3], h[3]));\n        }\n        if (this.centerBlock != null) {\n            this.centerBlock.setBounds(new Rectangle2D.Double(w[2], h[0], w[4],\n                    h[4]));\n        }\n        return new Size2D(constraint.getWidth(), constraint.getHeight());\n    }",
+    "comment": " Arranges the items within a container.  @param container  the container. @param constraint  the constraint. @param g2  the graphics device.  @return The container size after the arrangement. ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BorderArrangement.arrangeFN",
+    "class_name": "org.jfree.chart.block.BorderArrangement",
+    "signature": "org.jfree.chart.block.BorderArrangement.arrangeFN(BlockContainer,Graphics2D,double)",
+    "snippet": "    protected Size2D arrangeFN(BlockContainer container, Graphics2D g2,\n                               double width) {\n        double[] w = new double[5];\n        double[] h = new double[5];\n        RectangleConstraint c1 = new RectangleConstraint(width, null,\n                LengthConstraintType.FIXED, 0.0, null,\n                LengthConstraintType.NONE);\n        if (this.topBlock != null) {\n            Size2D size = this.topBlock.arrange(g2, c1);\n            w[0] = size.width;\n            h[0] = size.height;\n        }\n        if (this.bottomBlock != null) {\n            Size2D size = this.bottomBlock.arrange(g2, c1);\n            w[1] = size.width;\n            h[1] = size.height;\n        }\n        RectangleConstraint c2 = new RectangleConstraint(0.0,\n                new Range(0.0, width), LengthConstraintType.RANGE,\n                0.0, null, LengthConstraintType.NONE);\n        if (this.leftBlock != null) {\n            Size2D size = this.leftBlock.arrange(g2, c2);\n            w[2] = size.width;\n            h[2] = size.height;\n        }\n        if (this.rightBlock != null) {\n            double maxW = Math.max(width - w[2], 0.0);\n            RectangleConstraint c3 = new RectangleConstraint(0.0,\n                    new Range(Math.min(w[2], maxW), maxW),\n                    LengthConstraintType.RANGE, 0.0, null,\n                    LengthConstraintType.NONE);\n            Size2D size = this.rightBlock.arrange(g2, c3);\n            w[3] = size.width;\n            h[3] = size.height;\n        }\n\n        h[2] = Math.max(h[2], h[3]);\n        h[3] = h[2];\n\n        if (this.centerBlock != null) {\n            RectangleConstraint c4 = new RectangleConstraint(width - w[2]\n                    - w[3], null, LengthConstraintType.FIXED, 0.0, null,\n                    LengthConstraintType.NONE);\n            Size2D size = this.centerBlock.arrange(g2, c4);\n            w[4] = size.width;\n            h[4] = size.height;\n        }\n        double height = h[0] + h[1] + Math.max(h[2], Math.max(h[3], h[4]));\n        return arrange(container, g2, new RectangleConstraint(width, height));\n    }",
+    "comment": " Arranges the container width a fixed width and no constraint on the height.  @param container  the container. @param g2  the graphics device. @param width  the fixed width.  @return The container size after arranging the contents. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BorderArrangement.clear",
+    "class_name": "org.jfree.chart.block.BorderArrangement",
+    "signature": "org.jfree.chart.block.BorderArrangement.clear()",
+    "snippet": "    public void clear() {\n        this.centerBlock = null;\n        this.topBlock = null;\n        this.bottomBlock = null;\n        this.leftBlock = null;\n        this.rightBlock = null;\n    }",
+    "comment": " Clears the layout. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "EmptyBlock.EmptyBlock",
+    "class_name": "org.jfree.chart.block.EmptyBlock",
+    "signature": "org.jfree.chart.block.EmptyBlock.EmptyBlock(double,double)",
+    "snippet": "    public EmptyBlock(double width, double height) {\n        setWidth(width);\n        setHeight(height);\n    }",
+    "comment": " Creates a new block with the specified width and height.  @param width  the width. @param height  the height. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "EmptyBlock.arrange",
+    "class_name": "org.jfree.chart.block.EmptyBlock",
+    "signature": "org.jfree.chart.block.EmptyBlock.arrange(Graphics2D,RectangleConstraint)",
+    "snippet": "    public Size2D arrange(Graphics2D g2, RectangleConstraint constraint) {\n        return new Size2D(calculateTotalWidth(getWidth()), \n                calculateTotalHeight(getHeight()));\n    }",
+    "comment": " Arranges the contents of the block, within the given constraints, and  returns the block size.  @param g2  the graphics device. @param constraint  the constraint (<code>null</code> not permitted).  @return The block size (in Java2D units, never <code>null</code>). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleConstraint.RectangleConstraint",
+    "class_name": "org.jfree.chart.block.RectangleConstraint",
+    "signature": "org.jfree.chart.block.RectangleConstraint.RectangleConstraint(double,Range,LengthConstraintType,double,Range,LengthConstraintType)",
+    "snippet": "    public RectangleConstraint(double w, Range widthRange, \n                               LengthConstraintType widthConstraintType,\n                               double h, Range heightRange, \n                               LengthConstraintType heightConstraintType) {\n        if (widthConstraintType == null) {\n            throw new IllegalArgumentException(\"Null 'widthType' argument.\");\n        }\n        if (heightConstraintType == null) {\n            throw new IllegalArgumentException(\"Null 'heightType' argument.\"); \n        }\n        this.width = w;\n        this.widthRange = widthRange;\n        this.widthConstraintType = widthConstraintType;\n        this.height = h;\n        this.heightRange = heightRange;\n        this.heightConstraintType = heightConstraintType;\n    }",
+    "comment": " Creates a new constraint.  @param w  the fixed or maximum width. @param widthRange  the width range. @param widthConstraintType  the width type. @param h  the fixed or maximum height. @param heightRange  the height range. @param heightConstraintType  the height type. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleConstraint.RectangleConstraint",
+    "class_name": "org.jfree.chart.block.RectangleConstraint",
+    "signature": "org.jfree.chart.block.RectangleConstraint.RectangleConstraint(double,double)",
+    "snippet": "    public RectangleConstraint(double w, double h) {\n        this(\n            w, null, LengthConstraintType.FIXED, \n            h, null, LengthConstraintType.FIXED\n        );  \n    }",
+    "comment": " Creates a new \"fixed width and height\" instance.  @param w  the fixed width. @param h  the fixed height. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleConstraint.getHeight",
+    "class_name": "org.jfree.chart.block.RectangleConstraint",
+    "signature": "org.jfree.chart.block.RectangleConstraint.getHeight()",
+    "snippet": "    public double getHeight() {\n        return this.height;\n    }",
+    "comment": " Returns the fixed height.  @return The height. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleConstraint.getHeightConstraintType",
+    "class_name": "org.jfree.chart.block.RectangleConstraint",
+    "signature": "org.jfree.chart.block.RectangleConstraint.getHeightConstraintType()",
+    "snippet": "    public LengthConstraintType getHeightConstraintType() {\n        return this.heightConstraintType;\n    }",
+    "comment": " Returns the constraint type.  @return The constraint type (never <code>null</code>). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleConstraint.getHeightRange",
+    "class_name": "org.jfree.chart.block.RectangleConstraint",
+    "signature": "org.jfree.chart.block.RectangleConstraint.getHeightRange()",
+    "snippet": "    public Range getHeightRange() {\n        return this.heightRange;   \n    }",
+    "comment": " Returns the width range.  @return The range (possibly <code>null</code>). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleConstraint.getWidth",
+    "class_name": "org.jfree.chart.block.RectangleConstraint",
+    "signature": "org.jfree.chart.block.RectangleConstraint.getWidth()",
+    "snippet": "    public double getWidth() {\n        return this.width;\n    }",
+    "comment": " Returns the fixed width.  @return The width. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleConstraint.getWidthConstraintType",
+    "class_name": "org.jfree.chart.block.RectangleConstraint",
+    "signature": "org.jfree.chart.block.RectangleConstraint.getWidthConstraintType()",
+    "snippet": "    public LengthConstraintType getWidthConstraintType() {\n        return this.widthConstraintType;\n    }",
+    "comment": " Returns the constraint type.  @return The constraint type (never <code>null</code>). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleConstraint.getWidthRange",
+    "class_name": "org.jfree.chart.block.RectangleConstraint",
+    "signature": "org.jfree.chart.block.RectangleConstraint.getWidthRange()",
+    "snippet": "    public Range getWidthRange() {\n        return this.widthRange;   \n    }",
+    "comment": " Returns the width range.  @return The range (possibly <code>null</code>). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleInsets.RectangleInsets",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.RectangleInsets(UnitType,double,double,double,double)",
+    "snippet": "    public RectangleInsets(UnitType unitType, double top, double left, \n                           double bottom, double right) {\n        if (unitType == null) {\n            throw new IllegalArgumentException(\"Null 'unitType' argument.\");\n        }\n        this.unitType = unitType;\n        this.top = top;\n        this.bottom = bottom;\n        this.left = left;\n        this.right = right;\n    }",
+    "comment": " Creates a new instance.  @param unitType  absolute or relative units (<code>null</code> not  permitted). @param top  the top insets. @param left  the left insets. @param bottom  the bottom insets. @param right  the right insets. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleInsets.calculateBottomInset",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.calculateBottomInset(double)",
+    "snippet": "    public double calculateBottomInset(double height) {\n        double result = this.bottom;\n        if (this.unitType == UnitType.RELATIVE) {\n            result = (this.bottom * height);\n        }\n        return result;\n    }",
+    "comment": " Returns the bottom margin.  @param height  the height of the base rectangle.  @return The bottom margin (in Java2D units). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleInsets.calculateBottomOutset",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.calculateBottomOutset(double)",
+    "snippet": "    public double calculateBottomOutset(double height) {\n        double result = this.bottom;\n        if (this.unitType == UnitType.RELATIVE) {\n            result = (height / (1 - this.top - this.bottom)) * this.bottom;\n        }\n        return result;\n    }",
+    "comment": " Returns the bottom margin.  @param height  the height of the base rectangle.  @return The bottom margin (in Java2D units). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleInsets.calculateLeftInset",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.calculateLeftInset(double)",
+    "snippet": "    public double calculateLeftInset(double width) {\n        double result = this.left;\n        if (this.unitType == UnitType.RELATIVE) {\n            result = (this.left * width);\n        }\n        return result;\n    }",
+    "comment": " Returns the left margin.  @param width  the width of the base rectangle.  @return The left margin (in Java2D units). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleInsets.calculateLeftOutset",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.calculateLeftOutset(double)",
+    "snippet": "    public double calculateLeftOutset(double width) {\n        double result = this.left;\n        if (this.unitType == UnitType.RELATIVE) {\n            result = (width / (1 - this.left - this.right)) * this.left;\n        }\n        return result;\n    }",
+    "comment": " Returns the left margin.  @param width  the width of the base rectangle.  @return The left margin (in Java2D units). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleInsets.calculateRightInset",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.calculateRightInset(double)",
+    "snippet": "    public double calculateRightInset(double width) {\n        double result = this.right;\n        if (this.unitType == UnitType.RELATIVE) {\n            result = (this.right * width);\n        }\n        return result;\n    }",
+    "comment": " Returns the right margin.  @param width  the width of the base rectangle.  @return The right margin (in Java2D units). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleInsets.calculateRightOutset",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.calculateRightOutset(double)",
+    "snippet": "    public double calculateRightOutset(double width) {\n        double result = this.right;\n        if (this.unitType == UnitType.RELATIVE) {\n            result = (width / (1 - this.left - this.right)) * this.right;\n        }\n        return result;\n    }",
+    "comment": " Returns the right margin.  @param width  the width of the base rectangle.  @return The right margin (in Java2D units). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleInsets.calculateTopInset",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.calculateTopInset(double)",
+    "snippet": "    public double calculateTopInset(double height) {\n        double result = this.top;\n        if (this.unitType == UnitType.RELATIVE) {\n            result = (this.top * height);\n        }\n        return result;\n    }",
+    "comment": " Returns the top margin.  @param height  the height of the base rectangle.  @return The top margin (in Java2D units). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleInsets.calculateTopOutset",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.calculateTopOutset(double)",
+    "snippet": "    public double calculateTopOutset(double height) {\n        double result = this.top;\n        if (this.unitType == UnitType.RELATIVE) {\n            result = (height / (1 - this.top - this.bottom)) * this.top;\n        }\n        return result;\n    }",
+    "comment": " Returns the top margin.  @param height  the height of the base rectangle.  @return The top margin (in Java2D units). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleInsets.extendHeight",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.extendHeight(double)",
+    "snippet": "    public double extendHeight(double height) {\n        return height \n               + calculateTopOutset(height) + calculateBottomOutset(height);   \n    }",
+    "comment": " Extends the given height to allow for the insets.  @param height  the height.  @return The extended height. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleInsets.extendWidth",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.extendWidth(double)",
+    "snippet": "    public double extendWidth(double width) {\n        return width + calculateLeftOutset(width) + calculateRightOutset(width);   \n    }",
+    "comment": " Extends the given width to allow for the insets.  @param width  the width.  @return The extended width. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleInsets.trimHeight",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.trimHeight(double)",
+    "snippet": "    public double trimHeight(double height) {\n        return height \n               - calculateTopInset(height) - calculateBottomInset(height);   \n    }",
+    "comment": " Trims the given height to allow for the insets.  @param height  the height.  @return The trimmed height. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleInsets.trimWidth",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.trimWidth(double)",
+    "snippet": "    public double trimWidth(double width) {\n        return width - calculateLeftInset(width) - calculateRightInset(width);   \n    }",
+    "comment": " Trims the given width to allow for the insets.  @param width  the width.  @return The trimmed width. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Size2D.Size2D",
+    "class_name": "org.jfree.chart.util.Size2D",
+    "signature": "org.jfree.chart.util.Size2D.Size2D(double,double)",
+    "snippet": "    public Size2D(double width, double height) {\n        this.width = width;\n        this.height = height;\n    }",
+    "comment": " Creates a new instance with the specified width and height.  @param width  the width. @param height  the height. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Size2D.getHeight",
+    "class_name": "org.jfree.chart.util.Size2D",
+    "signature": "org.jfree.chart.util.Size2D.getHeight()",
+    "snippet": "    public double getHeight() {\n        return this.height;\n    }",
+    "comment": " Returns the height.  @return The height. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Size2D.getWidth",
+    "class_name": "org.jfree.chart.util.Size2D",
+    "signature": "org.jfree.chart.util.Size2D.getWidth()",
+    "snippet": "    public double getWidth() {\n        return this.width;\n    }",
+    "comment": " Returns the width.  @return The width. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Range.Range",
+    "class_name": "org.jfree.data.Range",
+    "signature": "org.jfree.data.Range.Range(double,double)",
+    "snippet": "    public Range(double lower, double upper) {\n        if (lower > upper) {\n            String msg = \"Range(double, double): require lower (\" + lower \n                + \") <= upper (\" + upper + \").\";\n            throw new IllegalArgumentException(msg);\n        }\n        this.lower = lower;\n        this.upper = upper;\n    }",
+    "comment": " Creates a new range.  @param lower  the lower bound (must be <= upper bound). @param upper  the upper bound (must be >= lower bound). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Range.getLowerBound",
+    "class_name": "org.jfree.data.Range",
+    "signature": "org.jfree.data.Range.getLowerBound()",
+    "snippet": "    public double getLowerBound() {\n        return this.lower;\n    }",
+    "comment": " Returns the lower bound for the range.  @return The lower bound. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Range.getUpperBound",
+    "class_name": "org.jfree.data.Range",
+    "signature": "org.jfree.data.Range.getUpperBound()",
+    "snippet": "    public double getUpperBound() {\n        return this.upper;\n    }",
+    "comment": " Returns the upper bound for the range.  @return The upper bound. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

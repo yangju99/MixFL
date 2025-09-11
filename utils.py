@@ -32,13 +32,28 @@ def get_device(gpu):
     logging.info("Using CPU...")
     return torch.device("cpu")
 
-
 def collate(data):
-    graphs, fault_gts = map(list, zip(*data))
-    batched_graph = dgl.batch(graphs)
-    node_counts = [g.num_nodes() for g in graphs]
+    """
+    data: [ (graph_dict, fault_gts), ... ]
+    return:
+      per_model_graphs: { model_name: batched_dgl_graph }
+      fault_gts: list
+      node_counts: List[int]  
+    """
+    graph_dicts, fault_gts = map(list, zip(*data))
 
-    return batched_graph, fault_gts, node_counts  
+
+    model_names = list(graph_dicts[0].keys())
+
+    per_model_graphs = {}
+    for m in model_names:
+        graphs = [gd[m] for gd in graph_dicts]
+        per_model_graphs[m] = dgl.batch(graphs)
+
+
+    node_counts = [gd[model_names[0]].num_nodes() for gd in graph_dicts]
+
+    return per_model_graphs, fault_gts, node_counts
 
 
 def save_logits_as_dict(logits, keys, filename):
@@ -60,9 +75,6 @@ import hashlib
 def dump_params(params):
     hash_id = hashlib.md5(str(sorted([(k, v) for k, v in params.items()])).encode("utf-8")).hexdigest()[0:8]
 
-    basename = os.path.basename(params['data_path']) 
-    name = os.path.splitext(basename)[0]
-    hash_id = name + "_" + hash_id
 
     result_dir = os.path.join(params["model_save_dir"], hash_id)
     os.makedirs(result_dir, exist_ok=True)
@@ -70,22 +82,36 @@ def dump_params(params):
     json_pretty_dump(params, os.path.join(result_dir, "params.json"))
 
     log_file = os.path.join(result_dir, "running.log")
+
+
     for handler in logging.root.handlers[:]:
         logging.root.removeHandler(handler)
 
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s P%(process)d %(levelname)s %(message)s",
-        handlers=[logging.FileHandler(log_file), logging.StreamHandler()],
+        handlers=[logging.FileHandler(log_file)],
     )
     return hash_id
 
 from datetime import datetime, timedelta
-def dump_scores(result_dir, hash_id, total_top_n):
+def dump_scores(result_dir, hash_id, total_top_n, top_1_set):
+
     with open(os.path.join(result_dir, 'experiments.txt'), 'a+') as fw:
-        fw.write(hash_id+': '+(datetime.now()+timedelta(hours=8)).strftime("%Y/%m/%d-%H:%M:%S")+'\n')
+        fw.write(hash_id + ': ' + (datetime.now() + timedelta(hours=8)).strftime("%Y/%m/%d-%H:%M:%S") + '\n')
         fw.write("* Test result -- " + str(total_top_n))
-        fw.write('{}{}'.format('='*40, '\n'))
+        fw.write('{}{}'.format('=' * 40, '\n'))
+
+
+    top_1_path = os.path.join(result_dir, "top_1_set.pkl")
+    total_top_n_path = os.path.join(result_dir, "top_n.pkl")
+
+    with open(top_1_path, "wb") as f:
+        pickle.dump(top_1_set, f)
+
+    with open(total_top_n_path, "wb") as f:
+        pickle.dump(total_top_n, f)
+
 
 
 def json_pretty_dump(obj, filename):
@@ -93,3 +119,5 @@ def json_pretty_dump(obj, filename):
         json.dump(obj,fw, sort_keys=True, indent=4, separators=(",", ": "), ensure_ascii=False)
 
 
+def graphs_to_device(per_model_graphs, device):
+    return {m: g.to(device) for m, g in per_model_graphs.items()}

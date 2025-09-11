@@ -1,0 +1,622 @@
+[
+  {
+    "name": "FunctionUtils.toDifferentiableMultivariateVectorFunction",
+    "class_name": "org.apache.commons.math3.analysis.FunctionUtils",
+    "signature": "org.apache.commons.math3.analysis.FunctionUtils.toDifferentiableMultivariateVectorFunction(MultivariateDifferentiableVectorFunction)",
+    "snippet": "    @Deprecated\n    public static DifferentiableMultivariateVectorFunction toDifferentiableMultivariateVectorFunction(final MultivariateDifferentiableVectorFunction f) {\n        return new DifferentiableMultivariateVectorFunction() {\n\n            /** {@inheritDoc} */\n            public double[] value(final double[] x) {\n                return f.value(x);\n            }\n\n            public MultivariateMatrixFunction jacobian() {\n                return new MultivariateMatrixFunction() {\n                    /** {@inheritDoc} */\n                    public double[][] value(final double[] x) {\n\n                        final int n = x.length;\n\n                        // delegate computation to underlying function\n                        final DerivativeStructure[] dsX = new DerivativeStructure[n];\n                        for (int i = 0; i < n; ++i) {\n                            dsX[i] = new DerivativeStructure(n, 1, i, x[i]);\n                        }\n                        final DerivativeStructure[] y = f.value(dsX);\n\n                        // extract Jacobian\n                        final double[][] jacobian = new double[y.length][n];\n                        final int[] orders = new int[n];\n                        for (int i = 0; i < y.length; ++i) {\n                            for (int j = 0; j < n; ++j) {\n                                orders[j]      = 1;\n                                jacobian[i][j] = y[i].getPartialDerivative(orders);\n                                orders[j]      = 0;\n                            }\n                        }\n\n                        return jacobian;\n\n                    }\n                };\n            }\n\n        };\n    }",
+    "comment": "Convert a {@link MultivariateDifferentiableVectorFunction} into a {@link DifferentiableMultivariateVectorFunction}. @param f function to convert @return converted function @deprecated this conversion method is temporary in version 3.1, as the {@link DifferentiableMultivariateVectorFunction} interface itself is deprecated ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FunctionUtils.toMultivariateDifferentiableVectorFunction",
+    "class_name": "org.apache.commons.math3.analysis.FunctionUtils",
+    "signature": "org.apache.commons.math3.analysis.FunctionUtils.toMultivariateDifferentiableVectorFunction(DifferentiableMultivariateVectorFunction)",
+    "snippet": "    @Deprecated\n    public static MultivariateDifferentiableVectorFunction toMultivariateDifferentiableVectorFunction(final DifferentiableMultivariateVectorFunction f) {\n        return new MultivariateDifferentiableVectorFunction() {\n\n            /** {@inheritDoc} */\n            public double[] value(final double[] x) {\n                return f.value(x);\n            }\n\n            /** {@inheritDoc}\n             * @exception DimensionMismatchException if number of parameters or derivation\n             * order are higher than 1\n             */\n            public DerivativeStructure[] value(final DerivativeStructure[] t)\n                throws DimensionMismatchException, NumberIsTooLargeException {\n\n                // check parameters and orders limits\n                final int parameters = t[0].getFreeParameters();\n                final int order      = t[0].getOrder();\n                final int n          = t.length;\n                if (order > 1) {\n                    throw new NumberIsTooLargeException(order, 1, true);\n                }\n\n                // check all elements in the array are consistent\n                for (int i = 0; i < n; ++i) {\n                    if (t[i].getFreeParameters() != parameters) {\n                        throw new DimensionMismatchException(t[i].getFreeParameters(), parameters);\n                    }\n\n                    if (t[i].getOrder() != order) {\n                        throw new DimensionMismatchException(t[i].getOrder(), order);\n                    }\n                }\n\n                // delegate computation to underlying function\n                final double[] point = new double[n];\n                for (int i = 0; i < n; ++i) {\n                    point[i] = t[i].getValue();\n                }\n                final double[] value      = f.value(point);\n                final double[][] jacobian = f.jacobian().value(point);\n\n                // merge value and Jacobian into a DerivativeStructure array\n                final DerivativeStructure[] merged = new DerivativeStructure[value.length];\n                for (int k = 0; k < merged.length; ++k) {\n                    final double[] derivatives = new double[parameters + 1];\n                    derivatives[0] = value[k];\n                    final int[] orders = new int[parameters];\n                    for (int i = 0; i < parameters; ++i) {\n                        orders[i] = 1;\n                        for (int j = 0; j < n; ++j) {\n                            derivatives[i + 1] += jacobian[k][j] * t[j].getPartialDerivative(orders);\n                        }\n                        orders[i] = 0;\n                    }\n                    merged[k] = new DerivativeStructure(parameters, order, derivatives);\n                }\n\n                return merged;\n\n            }\n\n        };\n    }",
+    "comment": "Convert a {@link DifferentiableMultivariateVectorFunction} into a {@link MultivariateDifferentiableVectorFunction}. <p> Note that the converted function is able to handle {@link DerivativeStructure} elements that all have the same number of free parameters and order, and with order at most 1. If the function is called with inconsistent numbers of free parameters or higher order, a {@link DimensionMismatchException} or a {@link NumberIsTooLargeException} will be thrown. </p> @param f function to convert @return converted function @deprecated this conversion method is temporary in version 3.1, as the {@link DifferentiableMultivariateFunction} interface itself is deprecated ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "PolynomialFunction.PolynomialFunction",
+    "class_name": "org.apache.commons.math3.analysis.polynomials.PolynomialFunction",
+    "signature": "org.apache.commons.math3.analysis.polynomials.PolynomialFunction.PolynomialFunction(double[])",
+    "snippet": "    public PolynomialFunction(double c[])\n        throws NullArgumentException, NoDataException {\n        super();\n        MathUtils.checkNotNull(c);\n        int n = c.length;\n        if (n == 0) {\n            throw new NoDataException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);\n        }\n        while ((n > 1) && (c[n - 1] == 0)) {\n            --n;\n        }\n        this.coefficients = new double[n];\n        System.arraycopy(c, 0, this.coefficients, 0, n);\n    }",
+    "comment": " Construct a polynomial with the given coefficients.  The first element of the coefficients array is the constant term.  Higher degree coefficients follow in sequence.  The degree of the resulting polynomial is the index of the last non-null element of the array, or 0 if all elements are null. <p> The constructor makes a copy of the input array and assigns the copy to the coefficients property.</p>  @param c Polynomial coefficients. @throws NullArgumentException if {@code c} is {@code null}. @throws NoDataException if {@code c} is empty. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "PolynomialFunction.evaluate",
+    "class_name": "org.apache.commons.math3.analysis.polynomials.PolynomialFunction",
+    "signature": "org.apache.commons.math3.analysis.polynomials.PolynomialFunction.evaluate(double[],double)",
+    "snippet": "    protected static double evaluate(double[] coefficients, double argument)\n        throws NullArgumentException, NoDataException {\n        MathUtils.checkNotNull(coefficients);\n        int n = coefficients.length;\n        if (n == 0) {\n            throw new NoDataException(LocalizedFormats.EMPTY_POLYNOMIALS_COEFFICIENTS_ARRAY);\n        }\n        double result = coefficients[n - 1];\n        for (int j = n - 2; j >= 0; j--) {\n            result = argument * result + coefficients[j];\n        }\n        return result;\n    }",
+    "comment": " Uses Horner's Method to evaluate the polynomial with the given coefficients at the argument.  @param coefficients Coefficients of the polynomial to evaluate. @param argument Input value. @return the value of the polynomial. @throws NoDataException if {@code coefficients} is empty. @throws NullArgumentException if {@code coefficients} is {@code null}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "PolynomialFunction.value",
+    "class_name": "org.apache.commons.math3.analysis.polynomials.PolynomialFunction",
+    "signature": "org.apache.commons.math3.analysis.polynomials.PolynomialFunction.value(double)",
+    "snippet": "    public double value(double x) {\n       return evaluate(coefficients, x);\n    }",
+    "comment": " Compute the value of the function for the given argument. <p> The value returned is <br/> <code>coefficients[n] * x^n + ... + coefficients[1] * x  + coefficients[0]</code> </p>  @param x Argument for which the function value should be computed. @return the value of the polynomial at the given point. @see UnivariateFunction#value(double) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractRealMatrix.AbstractRealMatrix",
+    "class_name": "org.apache.commons.math3.linear.AbstractRealMatrix",
+    "signature": "org.apache.commons.math3.linear.AbstractRealMatrix.AbstractRealMatrix()",
+    "snippet": "    protected AbstractRealMatrix() {}",
+    "comment": " Creates a matrix with no data ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractRealMatrix.isSquare",
+    "class_name": "org.apache.commons.math3.linear.AbstractRealMatrix",
+    "signature": "org.apache.commons.math3.linear.AbstractRealMatrix.isSquare()",
+    "snippet": "    public boolean isSquare() {\n        return getColumnDimension() == getRowDimension();\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagonalMatrix.DiagonalMatrix",
+    "class_name": "org.apache.commons.math3.linear.DiagonalMatrix",
+    "signature": "org.apache.commons.math3.linear.DiagonalMatrix.DiagonalMatrix(double[])",
+    "snippet": "    public DiagonalMatrix(final double[] d) {\n        data = d.clone();\n    }",
+    "comment": " Creates a matrix using the input array as the underlying data.  <br/> The input array is copied, not referenced.  @param d Data for the new matrix. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagonalMatrix.copy",
+    "class_name": "org.apache.commons.math3.linear.DiagonalMatrix",
+    "signature": "org.apache.commons.math3.linear.DiagonalMatrix.copy()",
+    "snippet": "    @Override\n    public RealMatrix copy() {\n        return new DiagonalMatrix(data);\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagonalMatrix.getColumnDimension",
+    "class_name": "org.apache.commons.math3.linear.DiagonalMatrix",
+    "signature": "org.apache.commons.math3.linear.DiagonalMatrix.getColumnDimension()",
+    "snippet": "    @Override\n    public int getColumnDimension() {\n        return getRowDimension();\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagonalMatrix.getData",
+    "class_name": "org.apache.commons.math3.linear.DiagonalMatrix",
+    "signature": "org.apache.commons.math3.linear.DiagonalMatrix.getData()",
+    "snippet": "    @Override\n    public double[][] getData() {\n        final int dim = getRowDimension();\n        final double[][] out = new double[dim][dim];\n\n        for (int i = 0; i < dim; i++) {\n            out[i][i] = data[i];\n        }\n\n        return out;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagonalMatrix.getEntry",
+    "class_name": "org.apache.commons.math3.linear.DiagonalMatrix",
+    "signature": "org.apache.commons.math3.linear.DiagonalMatrix.getEntry(int,int)",
+    "snippet": "    @Override\n    public double getEntry(final int row, final int column)\n        throws OutOfRangeException {\n        MatrixUtils.checkMatrixIndex(this, row, column);\n        return row == column ? data[row] : 0;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagonalMatrix.getRowDimension",
+    "class_name": "org.apache.commons.math3.linear.DiagonalMatrix",
+    "signature": "org.apache.commons.math3.linear.DiagonalMatrix.getRowDimension()",
+    "snippet": "    @Override\n    public int getRowDimension() {\n        return data == null ? 0 : data.length;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "EigenDecomposition.EigenDecomposition",
+    "class_name": "org.apache.commons.math3.linear.EigenDecomposition",
+    "signature": "org.apache.commons.math3.linear.EigenDecomposition.EigenDecomposition(RealMatrix)",
+    "snippet": "    public EigenDecomposition(final RealMatrix matrix)\n        throws MathArithmeticException {\n        final double symTol = 10 * matrix.getRowDimension() * matrix.getColumnDimension() * Precision.EPSILON;\n        isSymmetric = MatrixUtils.isSymmetric(matrix, symTol);\n        if (isSymmetric) {\n            transformToTridiagonal(matrix);\n            findEigenVectors(transformer.getQ().getData());\n        } else {\n            final SchurTransformer t = transformToSchur(matrix);\n            findEigenVectorsFromSchur(t);\n        }\n    }",
+    "comment": " Calculates the eigen decomposition of the given real matrix. <p> Supports decomposition of a general matrix since 3.1.  @param matrix Matrix to decompose. @throws MaxCountExceededException if the algorithm fails to converge. @throws MathArithmeticException if the decomposition of a general matrix results in a matrix with zero norm @since 3.1 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "EigenDecomposition.transformToTridiagonal",
+    "class_name": "org.apache.commons.math3.linear.EigenDecomposition",
+    "signature": "org.apache.commons.math3.linear.EigenDecomposition.transformToTridiagonal(RealMatrix)",
+    "snippet": "    private void transformToTridiagonal(final RealMatrix matrix) {\n        // transform the matrix to tridiagonal\n        transformer = new TriDiagonalTransformer(matrix);\n        main = transformer.getMainDiagonalRef();\n        secondary = transformer.getSecondaryDiagonalRef();\n    }",
+    "comment": " Transforms the matrix to tridiagonal form.  @param matrix Matrix to transform. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MatrixUtils.checkColumnIndex",
+    "class_name": "org.apache.commons.math3.linear.MatrixUtils",
+    "signature": "org.apache.commons.math3.linear.MatrixUtils.checkColumnIndex(AnyMatrix,int)",
+    "snippet": "    public static void checkColumnIndex(final AnyMatrix m, final int column)\n        throws OutOfRangeException {\n        if (column < 0 || column >= m.getColumnDimension()) {\n            throw new OutOfRangeException(LocalizedFormats.COLUMN_INDEX,\n                                           column, 0, m.getColumnDimension() - 1);\n        }\n    }",
+    "comment": " Check if a column index is valid.  @param m Matrix. @param column Column index to check. @throws OutOfRangeException if {@code column} is not a valid index. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MatrixUtils.checkMatrixIndex",
+    "class_name": "org.apache.commons.math3.linear.MatrixUtils",
+    "signature": "org.apache.commons.math3.linear.MatrixUtils.checkMatrixIndex(AnyMatrix,int,int)",
+    "snippet": "    public static void checkMatrixIndex(final AnyMatrix m,\n                                        final int row, final int column)\n        throws OutOfRangeException {\n        checkRowIndex(m, row);\n        checkColumnIndex(m, column);\n    }",
+    "comment": " Check if matrix indices are valid.  @param m Matrix. @param row Row index to check. @param column Column index to check. @throws OutOfRangeException if {@code row} or {@code column} is not a valid index. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MatrixUtils.checkRowIndex",
+    "class_name": "org.apache.commons.math3.linear.MatrixUtils",
+    "signature": "org.apache.commons.math3.linear.MatrixUtils.checkRowIndex(AnyMatrix,int)",
+    "snippet": "    public static void checkRowIndex(final AnyMatrix m, final int row)\n        throws OutOfRangeException {\n        if (row < 0 ||\n            row >= m.getRowDimension()) {\n            throw new OutOfRangeException(LocalizedFormats.ROW_INDEX,\n                                          row, 0, m.getRowDimension() - 1);\n        }\n    }",
+    "comment": " Check if a row index is valid.  @param m Matrix. @param row Row index to check. @throws OutOfRangeException if {@code row} is not a valid index. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MatrixUtils.isSymmetric",
+    "class_name": "org.apache.commons.math3.linear.MatrixUtils",
+    "signature": "org.apache.commons.math3.linear.MatrixUtils.isSymmetric(RealMatrix,double)",
+    "snippet": "    public static boolean isSymmetric(RealMatrix matrix,\n                                      double eps) {\n        return isSymmetricInternal(matrix, eps, false);\n    }",
+    "comment": " Checks whether a matrix is symmetric.  @param matrix Matrix to check. @param eps Relative tolerance. @return {@code true} if {@code matrix} is symmetric. @since 3.1 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MatrixUtils.isSymmetricInternal",
+    "class_name": "org.apache.commons.math3.linear.MatrixUtils",
+    "signature": "org.apache.commons.math3.linear.MatrixUtils.isSymmetricInternal(RealMatrix,double,boolean)",
+    "snippet": "    private static boolean isSymmetricInternal(RealMatrix matrix,\n                                               double relativeTolerance,\n                                               boolean raiseException) {\n        final int rows = matrix.getRowDimension();\n        if (rows != matrix.getColumnDimension()) {\n            if (raiseException) {\n                throw new NonSquareMatrixException(rows, matrix.getColumnDimension());\n            } else {\n                return false;\n            }\n        }\n        for (int i = 0; i < rows; i++) {\n            for (int j = i + 1; j < rows; j++) {\n                final double mij = matrix.getEntry(i, j);\n                final double mji = matrix.getEntry(j, i);\n                if (FastMath.abs(mij - mji) >\n                    FastMath.max(FastMath.abs(mij), FastMath.abs(mji)) * relativeTolerance) {\n                    if (raiseException) {\n                        throw new NonSymmetricMatrixException(i, j, relativeTolerance);\n                    } else {\n                        return false;\n                    }\n                }\n            }\n        }\n        return true;\n    }",
+    "comment": " Checks whether a matrix is symmetric, within a given relative tolerance.  @param matrix Matrix to check. @param relativeTolerance Tolerance of the symmetry check. @param raiseException If {@code true}, an exception will be raised if the matrix is not symmetric. @return {@code true} if {@code matrix} is symmetric. @throws NonSquareMatrixException if the matrix is not square. @throws NonSymmetricMatrixException if the matrix is not symmetric. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealMatrixFormat.RealMatrixFormat",
+    "class_name": "org.apache.commons.math3.linear.RealMatrixFormat",
+    "signature": "org.apache.commons.math3.linear.RealMatrixFormat.RealMatrixFormat(NumberFormat)",
+    "snippet": "    public RealMatrixFormat(final NumberFormat format) {\n        this(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ROW_PREFIX, DEFAULT_ROW_SUFFIX,\n                DEFAULT_ROW_SEPARATOR, DEFAULT_COLUMN_SEPARATOR, format);\n    }",
+    "comment": " Create an instance with a custom number format for components. @param format the custom format for components. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealMatrixFormat.RealMatrixFormat",
+    "class_name": "org.apache.commons.math3.linear.RealMatrixFormat",
+    "signature": "org.apache.commons.math3.linear.RealMatrixFormat.RealMatrixFormat(String,String,String,String,String,String)",
+    "snippet": "    public RealMatrixFormat(final String prefix, final String suffix,\n                            final String rowPrefix, final String rowSuffix,\n                            final String rowSeparator, final String columnSeparator) {\n        this(prefix, suffix, rowPrefix, rowSuffix, rowSeparator, columnSeparator,\n                CompositeFormat.getDefaultNumberFormat());\n    }",
+    "comment": " Create an instance with custom prefix, suffix and separator. @param prefix prefix to use instead of the default \"{\" @param suffix suffix to use instead of the default \"}\" @param rowPrefix row prefix to use instead of the default \"{\" @param rowSuffix row suffix to use instead of the default \"}\" @param rowSeparator tow separator to use instead of the default \";\" @param columnSeparator column separator to use instead of the default \", \" ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealMatrixFormat.RealMatrixFormat",
+    "class_name": "org.apache.commons.math3.linear.RealMatrixFormat",
+    "signature": "org.apache.commons.math3.linear.RealMatrixFormat.RealMatrixFormat(String,String,String,String,String,String,NumberFormat)",
+    "snippet": "    public RealMatrixFormat(final String prefix, final String suffix,\n                            final String rowPrefix, final String rowSuffix,\n                            final String rowSeparator, final String columnSeparator,\n                            final NumberFormat format) {\n        this.prefix            = prefix;\n        this.suffix            = suffix;\n        this.rowPrefix         = rowPrefix;\n        this.rowSuffix         = rowSuffix;\n        this.rowSeparator      = rowSeparator;\n        this.columnSeparator   = columnSeparator;\n        this.format            = format;\n        // disable grouping to prevent parsing problems\n        this.format.setGroupingUsed(false);\n    }",
+    "comment": " Create an instance with custom prefix, suffix, separator and format for components. @param prefix prefix to use instead of the default \"{\" @param suffix suffix to use instead of the default \"}\" @param rowPrefix row prefix to use instead of the default \"{\" @param rowSuffix row suffix to use instead of the default \"}\" @param rowSeparator tow separator to use instead of the default \";\" @param columnSeparator column separator to use instead of the default \", \" @param format the custom format for components. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealMatrixFormat.getFormat",
+    "class_name": "org.apache.commons.math3.linear.RealMatrixFormat",
+    "signature": "org.apache.commons.math3.linear.RealMatrixFormat.getFormat()",
+    "snippet": "    public NumberFormat getFormat() {\n        return format;\n    }",
+    "comment": " Get the components format. @return components format. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealMatrixFormat.getInstance",
+    "class_name": "org.apache.commons.math3.linear.RealMatrixFormat",
+    "signature": "org.apache.commons.math3.linear.RealMatrixFormat.getInstance()",
+    "snippet": "    public static RealMatrixFormat getInstance() {\n        return getInstance(Locale.getDefault());\n    }",
+    "comment": " Returns the default real vector format for the current locale. @return the default real vector format. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealMatrixFormat.getInstance",
+    "class_name": "org.apache.commons.math3.linear.RealMatrixFormat",
+    "signature": "org.apache.commons.math3.linear.RealMatrixFormat.getInstance(Locale)",
+    "snippet": "    public static RealMatrixFormat getInstance(final Locale locale) {\n        return new RealMatrixFormat(CompositeFormat.getDefaultNumberFormat(locale));\n    }",
+    "comment": " Returns the default real vector format for the given locale. @param locale the specific locale used by the format. @return the real vector format specific to the given locale. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TriDiagonalTransformer.TriDiagonalTransformer",
+    "class_name": "org.apache.commons.math3.linear.TriDiagonalTransformer",
+    "signature": "org.apache.commons.math3.linear.TriDiagonalTransformer.TriDiagonalTransformer(RealMatrix)",
+    "snippet": "    public TriDiagonalTransformer(RealMatrix matrix) {\n        if (!matrix.isSquare()) {\n            throw new NonSquareMatrixException(matrix.getRowDimension(),\n                                               matrix.getColumnDimension());\n        }\n\n        final int m = matrix.getRowDimension();\n        householderVectors = matrix.getData();\n        main      = new double[m];\n        secondary = new double[m - 1];\n        cachedQ   = null;\n        cachedQt  = null;\n        cachedT   = null;\n\n        // transform matrix\n        transform();\n    }",
+    "comment": " Build the transformation to tridiagonal shape of a symmetrical matrix. <p>The specified matrix is assumed to be symmetrical without any check. Only the upper triangular part of the matrix is used.</p>  @param matrix Symmetrical matrix to transform. @throws NonSquareMatrixException if the matrix is not square. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "InitialGuess.InitialGuess",
+    "class_name": "org.apache.commons.math3.optimization.InitialGuess",
+    "signature": "org.apache.commons.math3.optimization.InitialGuess.InitialGuess(double[])",
+    "snippet": "    public InitialGuess(double[] startPoint) {\n        init = startPoint.clone();\n    }",
+    "comment": " @param startPoint Initial guess. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "InitialGuess.getInitialGuess",
+    "class_name": "org.apache.commons.math3.optimization.InitialGuess",
+    "signature": "org.apache.commons.math3.optimization.InitialGuess.getInitialGuess()",
+    "snippet": "    public double[] getInitialGuess() {\n        return init.clone();\n    }",
+    "comment": " Gets the initial guess.  @return the initial guess. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Target.Target",
+    "class_name": "org.apache.commons.math3.optimization.Target",
+    "signature": "org.apache.commons.math3.optimization.Target.Target(double[])",
+    "snippet": "    public Target(double[] observations) {\n        target = observations.clone();\n    }",
+    "comment": " @param observations Target values. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Target.getTarget",
+    "class_name": "org.apache.commons.math3.optimization.Target",
+    "signature": "org.apache.commons.math3.optimization.Target.getTarget()",
+    "snippet": "    public double[] getTarget() {\n        return target.clone();\n    }",
+    "comment": " Gets the initial guess.  @return the initial guess. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Weight.Weight",
+    "class_name": "org.apache.commons.math3.optimization.Weight",
+    "signature": "org.apache.commons.math3.optimization.Weight.Weight(double[])",
+    "snippet": "    public Weight(double[] weight) {\n        weightMatrix = new DiagonalMatrix(weight);\n    }",
+    "comment": " Creates a diagonal weight matrix.  @param weight List of the values of the diagonal. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Weight.getWeight",
+    "class_name": "org.apache.commons.math3.optimization.Weight",
+    "signature": "org.apache.commons.math3.optimization.Weight.getWeight()",
+    "snippet": "    public RealMatrix getWeight() {\n        return weightMatrix.copy();\n    }",
+    "comment": " Gets the initial guess.  @return the initial guess. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractMultivariateVectorOptimizer.BaseAbstractMultivariateVectorOptimizer",
+    "class_name": "org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateVectorOptimizer",
+    "signature": "org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateVectorOptimizer.BaseAbstractMultivariateVectorOptimizer(ConvergenceChecker)",
+    "snippet": "    protected BaseAbstractMultivariateVectorOptimizer(ConvergenceChecker<PointVectorValuePair> checker) {\n        this.checker = checker;\n    }",
+    "comment": " @param checker Convergence checker. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractMultivariateVectorOptimizer.checkParameters",
+    "class_name": "org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateVectorOptimizer",
+    "signature": "org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateVectorOptimizer.checkParameters()",
+    "snippet": "    private void checkParameters() {\n        if (target.length != weightMatrix.getColumnDimension()) {\n            throw new DimensionMismatchException(target.length,\n                                                 weightMatrix.getColumnDimension());\n        }\n    }",
+    "comment": " Check parameters consistency.  @throws DimensionMismatchException if {@link #target} and {@link #weightMatrix} have inconsistent dimensions. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractMultivariateVectorOptimizer.getWeight",
+    "class_name": "org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateVectorOptimizer",
+    "signature": "org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateVectorOptimizer.getWeight()",
+    "snippet": "    public RealMatrix getWeight() {\n        return weightMatrix.copy();\n    }",
+    "comment": " Gets the weight matrix of the observations.  @return the weight matrix. @since 3.1 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractMultivariateVectorOptimizer.parseOptimizationData",
+    "class_name": "org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateVectorOptimizer",
+    "signature": "org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateVectorOptimizer.parseOptimizationData(OptimizationData[])",
+    "snippet": "    private void parseOptimizationData(OptimizationData... optData) {\n        // The existing values (as set by the previous call) are reused if\n        // not provided in the argument list.\n        for (OptimizationData data : optData) {\n            if (data instanceof Target) {\n                target = ((Target) data).getTarget();\n                continue;\n            }\n            if (data instanceof Weight) {\n                weightMatrix = ((Weight) data).getWeight();\n                continue;\n            }\n            if (data instanceof InitialGuess) {\n                start = ((InitialGuess) data).getInitialGuess();\n                continue;\n            }\n        }\n    }",
+    "comment": " Scans the list of (required and optional) optimization data that characterize the problem.  @param optData Optimization data. The following data will be looked for: <ul> <li>{@link Target}</li> <li>{@link Weight}</li> <li>{@link InitialGuess}</li> </ul> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractMultivariateVectorOptimizer.setUp",
+    "class_name": "org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateVectorOptimizer",
+    "signature": "org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateVectorOptimizer.setUp()",
+    "snippet": "    protected void setUp() {\n        // XXX Temporary code until the new internal data is used everywhere.\n        final int dim = target.length;\n        weight = new double[dim];\n        for (int i = 0; i < dim; i++) {\n            weight[i] = weightMatrix.getEntry(i, i);\n        }\n    }",
+    "comment": " Method which a subclass <em>must</em> override whenever its internal state depend on the {@link OptimizationData input} parsed by this base class. It will be called after the parsing step performed in the {@link #optimize(int,MultivariateVectorFunction,OptimizationData[]) optimize} method and just before {@link #doOptimize()}.  @since 3.1 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CurveFitter.CurveFitter",
+    "class_name": "org.apache.commons.math3.optimization.fitting.CurveFitter",
+    "signature": "org.apache.commons.math3.optimization.fitting.CurveFitter.CurveFitter(DifferentiableMultivariateVectorOptimizer)",
+    "snippet": "    public CurveFitter(final DifferentiableMultivariateVectorOptimizer optimizer) {\n        this.oldOptimizer = optimizer;\n        this.optimizer    = null;\n        observations      = new ArrayList<WeightedObservedPoint>();\n    }",
+    "comment": "Simple constructor. @param optimizer optimizer to use for the fitting @deprecated as of 3.1 replaced by {@link #CurveFitter(MultivariateDifferentiableVectorOptimizer)} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CurveFitter.addObservedPoint",
+    "class_name": "org.apache.commons.math3.optimization.fitting.CurveFitter",
+    "signature": "org.apache.commons.math3.optimization.fitting.CurveFitter.addObservedPoint(double,double,double)",
+    "snippet": "    public void addObservedPoint(double weight, double x, double y) {\n        observations.add(new WeightedObservedPoint(weight, x, y));\n    }",
+    "comment": "Add an observed weighted (x,y) point to the sample. @param weight weight of the observed point in the fit @param x abscissa of the point @param y observed value of the point at x, after fitting we should have f(x) as close as possible to this value @see #addObservedPoint(double, double) @see #addObservedPoint(WeightedObservedPoint) @see #getObservations() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "PolynomialFitter.PolynomialFitter",
+    "class_name": "org.apache.commons.math3.optimization.fitting.PolynomialFitter",
+    "signature": "org.apache.commons.math3.optimization.fitting.PolynomialFitter.PolynomialFitter(DifferentiableMultivariateVectorOptimizer)",
+    "snippet": "    public PolynomialFitter(DifferentiableMultivariateVectorOptimizer optimizer) {\n        super(optimizer);\n        degree = -1; // To avoid compilation error until the instance variable is removed.\n    }",
+    "comment": " Simple constructor.  @param optimizer Optimizer to use for the fitting. @since 3.1 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "PolynomialFitter.fit",
+    "class_name": "org.apache.commons.math3.optimization.fitting.PolynomialFitter",
+    "signature": "org.apache.commons.math3.optimization.fitting.PolynomialFitter.fit(double[])",
+    "snippet": "    public double[] fit(double[] guess) {\n        return fit(new PolynomialFunction.Parametric(), guess);\n    }",
+    "comment": " Get the coefficients of the polynomial fitting the weighted data points. The degree of the fitting polynomial is {@code guess.length - 1}.  @param guess First guess for the coefficients. They must be sorted in increasing order of the polynomial's degree. @return the coefficients of the polynomial that best fits the observed points. @throws org.apache.commons.math3.exception.ConvergenceException if the algorithm failed to converge. @since 3.1 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "WeightedObservedPoint.WeightedObservedPoint",
+    "class_name": "org.apache.commons.math3.optimization.fitting.WeightedObservedPoint",
+    "signature": "org.apache.commons.math3.optimization.fitting.WeightedObservedPoint.WeightedObservedPoint(double,double,double)",
+    "snippet": "    public WeightedObservedPoint(final double weight, final double x, final double y) {\n        this.weight = weight;\n        this.x      = x;\n        this.y      = y;\n    }",
+    "comment": "Simple constructor. @param weight weight of the measurement in the fitting process @param x abscissa of the measurement @param y ordinate of the measurement ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "WeightedObservedPoint.getWeight",
+    "class_name": "org.apache.commons.math3.optimization.fitting.WeightedObservedPoint",
+    "signature": "org.apache.commons.math3.optimization.fitting.WeightedObservedPoint.getWeight()",
+    "snippet": "    public double getWeight() {\n        return weight;\n    }",
+    "comment": "Get the weight of the measurement in the fitting process. @return weight of the measurement in the fitting process ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "WeightedObservedPoint.getY",
+    "class_name": "org.apache.commons.math3.optimization.fitting.WeightedObservedPoint",
+    "signature": "org.apache.commons.math3.optimization.fitting.WeightedObservedPoint.getY()",
+    "snippet": "    public double getY() {\n        return y;\n    }",
+    "comment": "Get the observed value of the function at x. @return observed value of the function at x ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractLeastSquaresOptimizer.AbstractLeastSquaresOptimizer",
+    "class_name": "org.apache.commons.math3.optimization.general.AbstractLeastSquaresOptimizer",
+    "signature": "org.apache.commons.math3.optimization.general.AbstractLeastSquaresOptimizer.AbstractLeastSquaresOptimizer(ConvergenceChecker)",
+    "snippet": "    protected AbstractLeastSquaresOptimizer(ConvergenceChecker<PointVectorValuePair> checker) {\n        super(checker);\n    }",
+    "comment": " @param checker Convergence checker. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractLeastSquaresOptimizer.optimize",
+    "class_name": "org.apache.commons.math3.optimization.general.AbstractLeastSquaresOptimizer",
+    "signature": "org.apache.commons.math3.optimization.general.AbstractLeastSquaresOptimizer.optimize(int,DifferentiableMultivariateVectorFunction,double[],double[],double[])",
+    "snippet": "    @Override\n    @Deprecated\n    public PointVectorValuePair optimize(int maxEval,\n                                         final DifferentiableMultivariateVectorFunction f,\n                                         final double[] target, final double[] weights,\n                                         final double[] startPoint) {\n        return optimizeInternal(maxEval,\n                                FunctionUtils.toMultivariateDifferentiableVectorFunction(f),\n                                new Target(target),\n                                new Weight(weights),\n                                new InitialGuess(startPoint));\n    }",
+    "comment": "{@inheritDoc} @deprecated As of 3.1. Please use {@link BaseAbstractMultivariateVectorOptimizer#optimize(int,MultivariateVectorFunction,OptimizationData[]) optimize(int,MultivariateDifferentiableVectorFunction,OptimizationData...)} instead. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractLeastSquaresOptimizer.optimizeInternal",
+    "class_name": "org.apache.commons.math3.optimization.general.AbstractLeastSquaresOptimizer",
+    "signature": "org.apache.commons.math3.optimization.general.AbstractLeastSquaresOptimizer.optimizeInternal(int,MultivariateDifferentiableVectorFunction,OptimizationData[])",
+    "snippet": "    @Deprecated\n    protected PointVectorValuePair optimizeInternal(final int maxEval,\n                                                    final MultivariateDifferentiableVectorFunction f,\n                                                    OptimizationData... optData) {\n        // XXX Conversion will be removed when the generic argument of the\n        // base class becomes \"MultivariateDifferentiableVectorFunction\".\n        return super.optimizeInternal(maxEval, FunctionUtils.toDifferentiableMultivariateVectorFunction(f), optData);\n    }",
+    "comment": " Optimize an objective function. Optimization is considered to be a weighted least-squares minimization. The cost function to be minimized is <code>&sum;weight<sub>i</sub>(objective<sub>i</sub> - target<sub>i</sub>)<sup>2</sup></code>  @param maxEval Allowed number of evaluations of the objective function. @param f Objective function. @param optData Optimization data. The following data will be looked for: <ul> <li>{@link Target}</li> <li>{@link Weight}</li> <li>{@link InitialGuess}</li> </ul> @return the point/value pair giving the optimal value of the objective function. @throws org.apache.commons.math3.exception.TooManyEvaluationsException if the maximal number of evaluations is exceeded. @throws DimensionMismatchException if the target, and weight arguments have inconsistent dimensions. @see BaseAbstractMultivariateVectorOptimizer#optimizeInternal(int,MultivariateVectorFunction,OptimizationData[]) @since 3.1 @deprecated As of 3.1. Override is necessary only until this class's generic argument is changed to {@code MultivariateDifferentiableVectorFunction}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractLeastSquaresOptimizer.setUp",
+    "class_name": "org.apache.commons.math3.optimization.general.AbstractLeastSquaresOptimizer",
+    "signature": "org.apache.commons.math3.optimization.general.AbstractLeastSquaresOptimizer.setUp()",
+    "snippet": "    @Override\n    protected void setUp() {\n        super.setUp();\n\n        // Reset counter.\n        jacobianEvaluations = 0;\n\n        // Square-root of the weight matrix.\n        weightMatrixSqrt = squareRoot(getWeight());\n\n        // Store least squares problem characteristics.\n        // XXX The conversion won't be necessary when the generic argument of\n        // the base class becomes \"MultivariateDifferentiableVectorFunction\".\n        // XXX \"jF\" is not strictly necessary anymore but is currently more\n        // efficient than converting the value returned from \"getObjectiveFunction()\"\n        // every time it is used.\n        jF = FunctionUtils.toMultivariateDifferentiableVectorFunction((DifferentiableMultivariateVectorFunction) getObjectiveFunction());\n\n        // Arrays shared with \"private\" and \"protected\" methods.\n        point = getStartPoint();\n        rows = getTarget().length;\n        cols = point.length;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractLeastSquaresOptimizer.squareRoot",
+    "class_name": "org.apache.commons.math3.optimization.general.AbstractLeastSquaresOptimizer",
+    "signature": "org.apache.commons.math3.optimization.general.AbstractLeastSquaresOptimizer.squareRoot(RealMatrix)",
+    "snippet": "    private RealMatrix squareRoot(RealMatrix m) {\n            final EigenDecomposition dec = new EigenDecomposition(m);\n            return dec.getSquareRoot();\n    }",
+    "comment": " Computes the square-root of the weight matrix.  @param m Symmetric, positive-definite (weight) matrix. @return the square-root of the weight matrix. ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LevenbergMarquardtOptimizer.LevenbergMarquardtOptimizer",
+    "class_name": "org.apache.commons.math3.optimization.general.LevenbergMarquardtOptimizer",
+    "signature": "org.apache.commons.math3.optimization.general.LevenbergMarquardtOptimizer.LevenbergMarquardtOptimizer()",
+    "snippet": "    public LevenbergMarquardtOptimizer() {\n        this(100, 1e-10, 1e-10, 1e-10, Precision.SAFE_MIN);\n    }",
+    "comment": " Build an optimizer for least squares problems with default values for all the tuning parameters (see the {@link #LevenbergMarquardtOptimizer(double,double,double,double,double) other contructor}. The default values for the algorithm settings are: <ul> <li>Initial step bound factor: 100</li> <li>Cost relative tolerance: 1e-10</li> <li>Parameters relative tolerance: 1e-10</li> <li>Orthogonality tolerance: 1e-10</li> <li>QR ranking threshold: {@link Precision#SAFE_MIN}</li> </ul> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LevenbergMarquardtOptimizer.LevenbergMarquardtOptimizer",
+    "class_name": "org.apache.commons.math3.optimization.general.LevenbergMarquardtOptimizer",
+    "signature": "org.apache.commons.math3.optimization.general.LevenbergMarquardtOptimizer.LevenbergMarquardtOptimizer(double,double,double,double,double)",
+    "snippet": "    public LevenbergMarquardtOptimizer(double initialStepBoundFactor,\n                                       double costRelativeTolerance,\n                                       double parRelativeTolerance,\n                                       double orthoTolerance,\n                                       double threshold) {\n        super(null); // No custom convergence criterion.\n        this.initialStepBoundFactor = initialStepBoundFactor;\n        this.costRelativeTolerance = costRelativeTolerance;\n        this.parRelativeTolerance = parRelativeTolerance;\n        this.orthoTolerance = orthoTolerance;\n        this.qrRankingThreshold = threshold;\n    }",
+    "comment": " The arguments control the behaviour of the default convergence checking procedure. Additional criteria can defined through the setting of a {@link ConvergenceChecker}.  @param initialStepBoundFactor Positive input variable used in determining the initial step bound. This bound is set to the product of initialStepBoundFactor and the euclidean norm of {@code diag * x} if non-zero, or else to {@code initialStepBoundFactor} itself. In most cases factor should lie in the interval {@code (0.1, 100.0)}. {@code 100} is a generally recommended value. @param costRelativeTolerance Desired relative error in the sum of squares. @param parRelativeTolerance Desired relative error in the approximate solution parameters. @param orthoTolerance Desired max cosine on the orthogonality between the function vector and the columns of the Jacobian. @param threshold Desired threshold for QR ranking. If the squared norm of a column vector is smaller or equal to this threshold during QR decomposition, it is considered to be a zero vector and hence the rank of the matrix is reduced. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompositeFormat.getDefaultNumberFormat",
+    "class_name": "org.apache.commons.math3.util.CompositeFormat",
+    "signature": "org.apache.commons.math3.util.CompositeFormat.getDefaultNumberFormat()",
+    "snippet": "    public static NumberFormat getDefaultNumberFormat() {\n        return getDefaultNumberFormat(Locale.getDefault());\n    }",
+    "comment": " Create a default number format.  The default number format is based on {@link NumberFormat#getInstance()} with the only customizing that the maximum number of fraction digits is set to 10. @return the default number format. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompositeFormat.getDefaultNumberFormat",
+    "class_name": "org.apache.commons.math3.util.CompositeFormat",
+    "signature": "org.apache.commons.math3.util.CompositeFormat.getDefaultNumberFormat(Locale)",
+    "snippet": "    public static NumberFormat getDefaultNumberFormat(final Locale locale) {\n        final NumberFormat nf = NumberFormat.getInstance(locale);\n        nf.setMaximumFractionDigits(10);\n        return nf;\n    }",
+    "comment": " Create a default number format.  The default number format is based on {@link NumberFormat#getInstance(java.util.Locale)} with the only customizing that the maximum number of fraction digits is set to 10. @param locale the specific locale used by the format. @return the default number format specific to the given locale. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.abs",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.abs(double)",
+    "snippet": "    public static double abs(double x) {\n        return (x < 0.0) ? -x : (x == 0.0) ? 0.0 : x; // -0.0 => +0.0\n    }",
+    "comment": " Absolute value. @param x number from which absolute value is requested @return abs(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.max",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.max(double,double)",
+    "snippet": "    public static double max(final double a, final double b) {\n        if (a > b) {\n            return a;\n        }\n        if (a < b) {\n            return b;\n        }\n        /* if either arg is NaN, return NaN */\n        if (a != b) {\n            return Double.NaN;\n        }\n        /* min(+0.0,-0.0) == -0.0 */\n        /* 0x8000000000000000L == Double.doubleToRawLongBits(-0.0d) */\n        long bits = Double.doubleToRawLongBits(a);\n        if (bits == 0x8000000000000000L) {\n            return b;\n        }\n        return a;\n    }",
+    "comment": "Compute the maximum of two values @param a first value @param b second value @return b if a is lesser or equal to b, a otherwise ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.Incrementor",
+    "class_name": "org.apache.commons.math3.util.Incrementor",
+    "signature": "org.apache.commons.math3.util.Incrementor.Incrementor()",
+    "snippet": "    public Incrementor() {\n        this(0);\n    }",
+    "comment": " Default constructor. For the new instance to be useful, the maximal count must be set by calling {@link #setMaximalCount(int) setMaximalCount}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.Incrementor",
+    "class_name": "org.apache.commons.math3.util.Incrementor",
+    "signature": "org.apache.commons.math3.util.Incrementor.Incrementor(int)",
+    "snippet": "    public Incrementor(int max) {\n        this(max,\n             new MaxCountExceededCallback() {\n                 /** {@inheritDoc} */\n                 public void trigger(int max) {\n                     throw new MaxCountExceededException(max);\n                 }\n             });\n    }",
+    "comment": " Defines a maximal count.  @param max Maximal count. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.Incrementor",
+    "class_name": "org.apache.commons.math3.util.Incrementor",
+    "signature": "org.apache.commons.math3.util.Incrementor.Incrementor(int,MaxCountExceededCallback)",
+    "snippet": "    public Incrementor(int max,\n                       MaxCountExceededCallback cb) {\n        if (cb == null){\n            throw new NullArgumentException();\n        }\n        maximalCount = max;\n        maxCountCallback = cb;\n    }",
+    "comment": " Defines a maximal count and a callback method to be triggered at counter exhaustion.  @param max Maximal count. @param cb Function to be called when the maximal count has been reached. @throws NullArgumentException if {@code cb} is {@code null} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.resetCount",
+    "class_name": "org.apache.commons.math3.util.Incrementor",
+    "signature": "org.apache.commons.math3.util.Incrementor.resetCount()",
+    "snippet": "    public void resetCount() {\n        count = 0;\n    }",
+    "comment": " Resets the counter to 0. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.setMaximalCount",
+    "class_name": "org.apache.commons.math3.util.Incrementor",
+    "signature": "org.apache.commons.math3.util.Incrementor.setMaximalCount(int)",
+    "snippet": "    public void setMaximalCount(int max) {\n        maximalCount = max;\n    }",
+    "comment": " Sets the upper limit for the counter. This does not automatically reset the current count to zero (see {@link #resetCount()}).  @param max Upper limit of the counter. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathUtils.checkNotNull",
+    "class_name": "org.apache.commons.math3.util.MathUtils",
+    "signature": "org.apache.commons.math3.util.MathUtils.checkNotNull(Object)",
+    "snippet": "    public static void checkNotNull(Object o)\n        throws NullArgumentException {\n        if (o == null) {\n            throw new NullArgumentException();\n        }\n    }",
+    "comment": " Checks that an object is not null.  @param o Object to be checked. @throws NullArgumentException if {@code o} is {@code null}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

@@ -1,0 +1,452 @@
+[
+  {
+    "name": "AbstractUnivariateRealSolver.AbstractUnivariateRealSolver",
+    "class_name": "org.apache.commons.math.analysis.solvers.AbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.AbstractUnivariateRealSolver.AbstractUnivariateRealSolver(double,double,double)",
+    "snippet": "    protected AbstractUnivariateRealSolver(final double relativeAccuracy,\n                                           final double absoluteAccuracy,\n                                           final double functionValueAccuracy) {\n        super(relativeAccuracy, absoluteAccuracy, functionValueAccuracy);\n    }",
+    "comment": " Construct a solver with given accuracies.  @param relativeAccuracy Maximum relative error. @param absoluteAccuracy Maximum absolute error. @param functionValueAccuracy Maximum function value error. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateRealSolver.BaseAbstractUnivariateRealSolver",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver.BaseAbstractUnivariateRealSolver(double,double,double)",
+    "snippet": "    protected BaseAbstractUnivariateRealSolver(final double relativeAccuracy,\n                                               final double absoluteAccuracy,\n                                               final double functionValueAccuracy) {\n        this.absoluteAccuracy = absoluteAccuracy;\n        this.relativeAccuracy = relativeAccuracy;\n        this.functionValueAccuracy = functionValueAccuracy;\n    }",
+    "comment": " Construct a solver with given accuracies.  @param relativeAccuracy Maximum relative error. @param absoluteAccuracy Maximum absolute error. @param functionValueAccuracy Maximum function value error. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateRealSolver.computeObjectiveValue",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver.computeObjectiveValue(double)",
+    "snippet": "    protected double computeObjectiveValue(double point)\n        throws TooManyEvaluationsException {\n        incrementEvaluationCount();\n        return function.value(point);\n    }",
+    "comment": " Compute the objective function value.  @param point Point at which the objective function must be evaluated. @return the objective function value at specified point. @throws TooManyEvaluationsException if the maximal number of evaluations is exceeded. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateRealSolver.getAbsoluteAccuracy",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver.getAbsoluteAccuracy()",
+    "snippet": "    public double getAbsoluteAccuracy() {\n        return absoluteAccuracy;\n    }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateRealSolver.getFunctionValueAccuracy",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver.getFunctionValueAccuracy()",
+    "snippet": "    public double getFunctionValueAccuracy() {\n        return functionValueAccuracy;\n    }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateRealSolver.getMax",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver.getMax()",
+    "snippet": "    public double getMax() {\n        return searchMax;\n    }",
+    "comment": " @return the higher end of the search interval. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateRealSolver.getMin",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver.getMin()",
+    "snippet": "    public double getMin() {\n        return searchMin;\n    }",
+    "comment": " @return the lower end of the search interval. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateRealSolver.getRelativeAccuracy",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver.getRelativeAccuracy()",
+    "snippet": "    public double getRelativeAccuracy() {\n        return relativeAccuracy;\n    }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateRealSolver.getStartValue",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver.getStartValue()",
+    "snippet": "    public double getStartValue() {\n        return searchStart;\n    }",
+    "comment": " @return the initial guess. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateRealSolver.incrementEvaluationCount",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver.incrementEvaluationCount()",
+    "snippet": "    protected void incrementEvaluationCount() {\n        try {\n            evaluations.incrementCount();\n        } catch (MaxCountExceededException e) {\n            throw new TooManyEvaluationsException(e.getMax());\n        }\n    }",
+    "comment": " Increment the evaluation count by one. Method {@link #computeObjectiveValue(double)} calls this method internally. It is provided for subclasses that do not exclusively use {@code computeObjectiveValue} to solve the function. See e.g. {@link AbstractDifferentiableUnivariateRealSolver}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateRealSolver.verifySequence",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver.verifySequence(double,double,double)",
+    "snippet": "    protected void verifySequence(final double lower,\n                                  final double initial,\n                                  final double upper) {\n        UnivariateRealSolverUtils.verifySequence(lower, initial, upper);\n    }",
+    "comment": " Check that {@code lower < initial < upper}.  @param lower Lower endpoint. @param initial Initial value. @param upper Upper endpoint. @throws org.apache.commons.math.exception.NumberIsTooLargeException if {@code lower >= initial} or {@code initial >= upper}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BracketingNthOrderBrentSolver.BracketingNthOrderBrentSolver",
+    "class_name": "org.apache.commons.math.analysis.solvers.BracketingNthOrderBrentSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BracketingNthOrderBrentSolver.BracketingNthOrderBrentSolver(double,double,double,int)",
+    "snippet": "    public BracketingNthOrderBrentSolver(final double relativeAccuracy,\n                                         final double absoluteAccuracy,\n                                         final double functionValueAccuracy,\n                                         final int maximalOrder)\n        throws NumberIsTooSmallException {\n        super(relativeAccuracy, absoluteAccuracy, functionValueAccuracy);\n        if (maximalOrder < 2) {\n            throw new NumberIsTooSmallException(maximalOrder, 2, true);\n        }\n        this.maximalOrder = maximalOrder;\n        this.allowed = AllowedSolution.ANY_SIDE;\n    }",
+    "comment": " Construct a solver.  @param relativeAccuracy Relative accuracy. @param absoluteAccuracy Absolute accuracy. @param functionValueAccuracy Function value accuracy. @param maximalOrder maximal order. @exception NumberIsTooSmallException if maximal order is lower than 2 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BracketingNthOrderBrentSolver.doSolve",
+    "class_name": "org.apache.commons.math.analysis.solvers.BracketingNthOrderBrentSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BracketingNthOrderBrentSolver.doSolve()",
+    "snippet": "    @Override\n    protected double doSolve() {\n\n        // prepare arrays with the first points\n        final double[] x = new double[maximalOrder + 1];\n        final double[] y = new double[maximalOrder + 1];\n        x[0] = getMin();\n        x[1] = getStartValue();\n        x[2] = getMax();\n        verifySequence(x[0], x[1], x[2]);\n\n        // evaluate initial guess\n        y[1] = computeObjectiveValue(x[1]);\n        if (Precision.equals(y[1], 0.0, 1)) {\n            // return the initial guess if it is a perfect root.\n            return x[1];\n        }\n\n        // evaluate first  endpoint\n        y[0] = computeObjectiveValue(x[0]);\n        if (Precision.equals(y[0], 0.0, 1)) {\n            // return the first endpoint if it is a perfect root.\n            return x[0];\n        }\n\n        int nbPoints;\n        int signChangeIndex;\n        if (y[0] * y[1] < 0) {\n\n            // reduce interval if it brackets the root\n            nbPoints        = 2;\n            signChangeIndex = 1;\n\n        } else {\n\n            // evaluate second endpoint\n            y[2] = computeObjectiveValue(x[2]);\n            if (Precision.equals(y[2], 0.0, 1)) {\n                // return the second endpoint if it is a perfect root.\n                return x[2];\n            }\n\n            if (y[1] * y[2] < 0) {\n                // use all computed point as a start sampling array for solving\n                nbPoints        = 3;\n                signChangeIndex = 2;\n            } else {\n                throw new NoBracketingException(x[0], x[2], y[0], y[2]);\n            }\n\n        }\n\n        // prepare a work array for inverse polynomial interpolation\n        final double[] tmpX = new double[x.length];\n\n        // current tightest bracketing of the root\n        double xA    = x[signChangeIndex - 1];\n        double yA    = y[signChangeIndex - 1];\n        double absYA = FastMath.abs(yA);\n        int agingA   = 0;\n        double xB    = x[signChangeIndex];\n        double yB    = y[signChangeIndex];\n        double absYB = FastMath.abs(yB);\n        int agingB   = 0;\n\n        // search loop\n        while (true) {\n\n            // check convergence of bracketing interval\n            final double xTol = getAbsoluteAccuracy() +\n                                getRelativeAccuracy() * FastMath.max(FastMath.abs(xA), FastMath.abs(xB));\n            if (((xB - xA) <= xTol) || (FastMath.max(absYA, absYB) < getFunctionValueAccuracy())) {\n                switch (allowed) {\n                case ANY_SIDE :\n                    return absYA < absYB ? xA : xB;\n                case LEFT_SIDE :\n                    return xA;\n                case RIGHT_SIDE :\n                    return xB;\n                case BELOW_SIDE :\n                    return (yA <= 0) ? xA : xB;\n                case ABOVE_SIDE :\n                    return (yA <  0) ? xB : xA;\n                default :\n                    // this should never happen\n                    throw new MathInternalError(null);\n                }\n            }\n\n            // target for the next evaluation point\n            double targetY;\n            if (agingA >= MAXIMAL_AGING) {\n                // we keep updating the high bracket, try to compensate this\n                targetY = -REDUCTION_FACTOR * yB;\n            } else if (agingB >= MAXIMAL_AGING) {\n                // we keep updating the low bracket, try to compensate this\n                targetY = -REDUCTION_FACTOR * yA;\n            } else {\n                // bracketing is balanced, try to find the root itself\n                targetY = 0;\n            }\n\n            // make a few attempts to guess a root,\n            double nextX;\n            int start = 0;\n            int end   = nbPoints;\n            do {\n\n                // guess a value for current target, using inverse polynomial interpolation\n                System.arraycopy(x, start, tmpX, start, end - start);\n                nextX = guessX(targetY, tmpX, y, start, end);\n\n                if (!((nextX > xA) && (nextX < xB))) {\n                    // the guessed root is not strictly inside of the tightest bracketing interval\n\n                    // the guessed root is either not strictly inside the interval or it\n                    // is a NaN (which occurs when some sampling points share the same y)\n                    // we try again with a lower interpolation order\n                    if (signChangeIndex - start >= end - signChangeIndex) {\n                        // we have more points before the sign change, drop the lowest point\n                        ++start;\n                    } else {\n                        // we have more points after sign change, drop the highest point\n                        --end;\n                    }\n\n                    // we need to do one more attempt\n                    nextX = Double.NaN;\n\n                }\n\n            } while (Double.isNaN(nextX) && (end - start > 1));\n\n            if (Double.isNaN(nextX)) {\n                // fall back to bisection\n                nextX = xA + 0.5 * (xB - xA);\n                start = signChangeIndex - 1;\n                end   = signChangeIndex;\n            }\n\n            // evaluate the function at the guessed root\n            final double nextY = computeObjectiveValue(nextX);\n            if (Precision.equals(nextY, 0.0, 1)) {\n                // we have found an exact root, since it is not an approximation\n                // we don't need to bother about the allowed solutions setting\n                return nextX;\n            }\n\n            if ((nbPoints > 2) && (end - start != nbPoints)) {\n\n                // we have been forced to ignore some points to keep bracketing,\n                // they are probably too far from the root, drop them from now on\n                nbPoints = end - start;\n                System.arraycopy(x, start, x, 0, nbPoints);\n                System.arraycopy(y, start, y, 0, nbPoints);\n                signChangeIndex -= start;\n\n            } else  if (nbPoints == x.length) {\n\n                // we have to drop one point in order to insert the new one\n                nbPoints--;\n\n                // keep the tightest bracketing interval as centered as possible\n                if (signChangeIndex >= (x.length + 1) / 2) {\n                    // we drop the lowest point, we have to shift the arrays and the index\n                    System.arraycopy(x, 1, x, 0, nbPoints);\n                    System.arraycopy(y, 1, y, 0, nbPoints);\n                    --signChangeIndex;\n                }\n\n            }\n\n            // insert the last computed point\n            //(by construction, we know it lies inside the tightest bracketing interval)\n            System.arraycopy(x, signChangeIndex, x, signChangeIndex + 1, nbPoints - signChangeIndex);\n            x[signChangeIndex] = nextX;\n            System.arraycopy(y, signChangeIndex, y, signChangeIndex + 1, nbPoints - signChangeIndex);\n            y[signChangeIndex] = nextY;\n            ++nbPoints;\n\n            // update the bracketing interval\n            if (nextY * yA <= 0) {\n                // the sign change occurs before the inserted point\n                xB = nextX;\n                yB = nextY;\n                absYB = FastMath.abs(yB);\n                ++agingA;\n                agingB = 0;\n            } else {\n                // the sign change occurs after the inserted point\n                xA = nextX;\n                yA = nextY;\n                absYA = FastMath.abs(yA);\n                agingA = 0;\n                ++agingB;\n\n                // update the sign change index\n                signChangeIndex++;\n\n            }\n\n        }\n\n    }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BracketingNthOrderBrentSolver.guessX",
+    "class_name": "org.apache.commons.math.analysis.solvers.BracketingNthOrderBrentSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BracketingNthOrderBrentSolver.guessX(double,double[],double[],int,int)",
+    "snippet": "    private double guessX(final double targetY, final double[] x, final double[] y,\n                          final int start, final int end) {\n\n        // compute Q Newton coefficients by divided differences\n        for (int i = start; i < end - 1; ++i) {\n            final int delta = i + 1 - start;\n            for (int j = end - 1; j > i; --j) {\n                x[j] = (x[j] - x[j-1]) / (y[j] - y[j - delta]);\n            }\n        }\n\n        // evaluate Q(targetY)\n        double x0 = 0;\n        for (int j = end - 1; j >= start; --j) {\n            x0 = x[j] + x0 * (targetY - y[j]);\n        }\n\n        return x0;\n\n    }",
+    "comment": "Guess an x value by n<sup>th</sup> order inverse polynomial interpolation. <p> The x value is guessed by evaluating polynomial Q(y) at y = targetY, where Q is built such that for all considered points (x<sub>i</sub>, y<sub>i</sub>), Q(y<sub>i</sub>) = x<sub>i</sub>. </p> @param targetY target value for y @param x reference points abscissas for interpolation, note that this array <em>is</em> modified during computation @param y reference points ordinates for interpolation @param start start index of the points to consider (inclusive) @param end end index of the points to consider (exclusive) @return guessed root (will be a NaN if two points share the same y) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BracketingNthOrderBrentSolver.solve",
+    "class_name": "org.apache.commons.math.analysis.solvers.BracketingNthOrderBrentSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BracketingNthOrderBrentSolver.solve(int,UnivariateFunction,double,double,double,AllowedSolution)",
+    "snippet": "    public double solve(int maxEval, UnivariateFunction f, double min,\n                        double max, double startValue,\n                        AllowedSolution allowedSolution) {\n        this.allowed = allowedSolution;\n        return super.solve(maxEval, f, min, max, startValue);\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "UnivariateRealSolverUtils.verifyInterval",
+    "class_name": "org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils",
+    "signature": "org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils.verifyInterval(double,double)",
+    "snippet": "    public static void verifyInterval(final double lower,\n                                      final double upper) {\n        if (lower >= upper) {\n            throw new NumberIsTooLargeException(LocalizedFormats.ENDPOINTS_NOT_AN_INTERVAL,\n                                                lower, upper, false);\n        }\n    }",
+    "comment": " Check that the endpoints specify an interval.  @param lower Lower endpoint. @param upper Upper endpoint. @throws NumberIsTooLargeException if {@code lower >= upper}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "UnivariateRealSolverUtils.verifySequence",
+    "class_name": "org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils",
+    "signature": "org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils.verifySequence(double,double,double)",
+    "snippet": "    public static void verifySequence(final double lower,\n                                      final double initial,\n                                      final double upper) {\n        verifyInterval(lower, initial);\n        verifyInterval(initial, upper);\n    }",
+    "comment": " Check that {@code lower < initial < upper}.  @param lower Lower endpoint. @param initial Initial value. @param upper Upper endpoint. @throws NumberIsTooLargeException if {@code lower >= initial} or {@code initial >= upper}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathIllegalStateException.MathIllegalStateException",
+    "class_name": "org.apache.commons.math.exception.MathIllegalStateException",
+    "signature": "org.apache.commons.math.exception.MathIllegalStateException.MathIllegalStateException()",
+    "snippet": "    public MathIllegalStateException() {\n        this(LocalizedFormats.ILLEGAL_STATE);\n    }",
+    "comment": " Default constructor. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathIllegalStateException.MathIllegalStateException",
+    "class_name": "org.apache.commons.math.exception.MathIllegalStateException",
+    "signature": "org.apache.commons.math.exception.MathIllegalStateException.MathIllegalStateException(Localizable,Object[])",
+    "snippet": "    public MathIllegalStateException(Localizable pattern,\n                                     Object ... args) {\n        context = new ExceptionContext(this);\n        context.addMessage(pattern, args);\n    }",
+    "comment": " Simple constructor.  @param pattern Message pattern explaining the cause of the error. @param args Arguments. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathIllegalStateException.getContext",
+    "class_name": "org.apache.commons.math.exception.MathIllegalStateException",
+    "signature": "org.apache.commons.math.exception.MathIllegalStateException.getContext()",
+    "snippet": "    public ExceptionContext getContext() {\n        return context;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathIllegalStateException.getLocalizedMessage",
+    "class_name": "org.apache.commons.math.exception.MathIllegalStateException",
+    "signature": "org.apache.commons.math.exception.MathIllegalStateException.getLocalizedMessage()",
+    "snippet": "    @Override\n    public String getLocalizedMessage() {\n        return context.getLocalizedMessage();\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathIllegalStateException.getMessage",
+    "class_name": "org.apache.commons.math.exception.MathIllegalStateException",
+    "signature": "org.apache.commons.math.exception.MathIllegalStateException.getMessage()",
+    "snippet": "    @Override\n    public String getMessage() {\n        return context.getMessage();\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MaxCountExceededException.MaxCountExceededException",
+    "class_name": "org.apache.commons.math.exception.MaxCountExceededException",
+    "signature": "org.apache.commons.math.exception.MaxCountExceededException.MaxCountExceededException(Localizable,Number,Object[])",
+    "snippet": "    public MaxCountExceededException(Localizable specific,\n                                     Number max,\n                                     Object ... args) {\n        getContext().addMessage(specific, max, args);\n        this.max = max;\n    }",
+    "comment": " Construct the exception with a specific context.  @param specific Specific context pattern. @param max Maximum. @param args Additional arguments. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MaxCountExceededException.MaxCountExceededException",
+    "class_name": "org.apache.commons.math.exception.MaxCountExceededException",
+    "signature": "org.apache.commons.math.exception.MaxCountExceededException.MaxCountExceededException(Number)",
+    "snippet": "    public MaxCountExceededException(Number max) {\n        this(LocalizedFormats.MAX_COUNT_EXCEEDED, max);\n    }",
+    "comment": " Construct the exception.  @param max Maximum. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MaxCountExceededException.getMax",
+    "class_name": "org.apache.commons.math.exception.MaxCountExceededException",
+    "signature": "org.apache.commons.math.exception.MaxCountExceededException.getMax()",
+    "snippet": "    public Number getMax() {\n        return max;\n    }",
+    "comment": " @return the maximum number of evaluations. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TooManyEvaluationsException.TooManyEvaluationsException",
+    "class_name": "org.apache.commons.math.exception.TooManyEvaluationsException",
+    "signature": "org.apache.commons.math.exception.TooManyEvaluationsException.TooManyEvaluationsException(Number)",
+    "snippet": "    public TooManyEvaluationsException(Number max) {\n        super(max);\n        getContext().addMessage(LocalizedFormats.EVALUATIONS);\n    }",
+    "comment": " Construct the exception.  @param max Maximum number of evaluations. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ArgUtils.flatten",
+    "class_name": "org.apache.commons.math.exception.util.ArgUtils",
+    "signature": "org.apache.commons.math.exception.util.ArgUtils.flatten(Object[])",
+    "snippet": "    public static Object[] flatten(Object[] array) {\n        final List<Object> list = new ArrayList<Object>();\n        if (array != null) {\n            for (Object o : array) {\n                if (o instanceof Object[]) {\n                    for (Object oR : flatten((Object[]) o)) {\n                        list.add(oR);\n                    }\n                } else {\n                    list.add(o);\n                }\n            }\n        }\n        return list.toArray();\n    }",
+    "comment": " Transform a multidimensional array into a one-dimensional list.  @param array Array (possibly multidimensional). @return a list of all the {@code Object} instances contained in {@code array}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExceptionContext.ExceptionContext",
+    "class_name": "org.apache.commons.math.exception.util.ExceptionContext",
+    "signature": "org.apache.commons.math.exception.util.ExceptionContext.ExceptionContext(Throwable)",
+    "snippet": "    public ExceptionContext(final Throwable throwable) {\n        this.throwable = throwable;\n        msgPatterns    = new ArrayList<Localizable>();\n        msgArguments   = new ArrayList<Object[]>();\n        context        = new HashMap<String, Object>();\n    }",
+    "comment": "Simple constructor. @param throwable the exception this context refers too ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExceptionContext.addMessage",
+    "class_name": "org.apache.commons.math.exception.util.ExceptionContext",
+    "signature": "org.apache.commons.math.exception.util.ExceptionContext.addMessage(Localizable,Object[])",
+    "snippet": "    public void addMessage(Localizable pattern,\n                           Object ... arguments) {\n        msgPatterns.add(pattern);\n        msgArguments.add(ArgUtils.flatten(arguments));\n    }",
+    "comment": " Adds a message.  @param pattern Message pattern. @param arguments Values for replacing the placeholders in the message pattern. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExceptionContext.buildMessage",
+    "class_name": "org.apache.commons.math.exception.util.ExceptionContext",
+    "signature": "org.apache.commons.math.exception.util.ExceptionContext.buildMessage(Locale,String)",
+    "snippet": "    private String buildMessage(Locale locale,\n                                String separator) {\n        final StringBuilder sb = new StringBuilder();\n        int count = 0;\n        final int len = msgPatterns.size();\n        for (int i = 0; i < len; i++) {\n            final Localizable pat = msgPatterns.get(i);\n            final Object[] args = msgArguments.get(i);\n            final MessageFormat fmt = new MessageFormat(pat.getLocalizedString(locale),\n                                                        locale);\n            sb.append(fmt.format(args));\n            if (++count < len) {\n                // Add a separator if there are other messages.\n                sb.append(separator);\n            }\n        }\n\n        return sb.toString();\n    }",
+    "comment": " Builds a message string.  @param locale Locale in which the message should be translated. @param separator Message separator. @return a localized message string. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExceptionContext.getLocalizedMessage",
+    "class_name": "org.apache.commons.math.exception.util.ExceptionContext",
+    "signature": "org.apache.commons.math.exception.util.ExceptionContext.getLocalizedMessage()",
+    "snippet": "    public String getLocalizedMessage() {\n        return getMessage(Locale.getDefault());\n    }",
+    "comment": " Gets the message in the default locale.  @return the localized message. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExceptionContext.getMessage",
+    "class_name": "org.apache.commons.math.exception.util.ExceptionContext",
+    "signature": "org.apache.commons.math.exception.util.ExceptionContext.getMessage()",
+    "snippet": "    public String getMessage() {\n        return getMessage(Locale.US);\n    }",
+    "comment": " Gets the default message.  @return the message. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExceptionContext.getMessage",
+    "class_name": "org.apache.commons.math.exception.util.ExceptionContext",
+    "signature": "org.apache.commons.math.exception.util.ExceptionContext.getMessage(Locale)",
+    "snippet": "    public String getMessage(final Locale locale) {\n        return buildMessage(locale, \": \");\n    }",
+    "comment": " Gets the message in a specified locale.  @param locale Locale in which the message should be translated. @return the localized message. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LocalizedFormats.getLocalizedString",
+    "class_name": "org.apache.commons.math.exception.util.LocalizedFormats",
+    "signature": "org.apache.commons.math.exception.util.LocalizedFormats.getLocalizedString(Locale)",
+    "snippet": "    public String getLocalizedString(final Locale locale) {\n        try {\n            ResourceBundle bundle =\n                    ResourceBundle.getBundle(\"META-INF/localization/LocalizedFormats\", locale);\n            if (bundle.getLocale().getLanguage().equals(locale.getLanguage())) {\n                // the value of the resource is the translated format\n                return bundle.getString(toString());\n            }\n\n        } catch (MissingResourceException mre) {\n            // do nothing here\n        }\n\n        // either the locale is not supported or the resource is unknown\n        // don't translate and fall back to using the source format\n        return sourceFormat;\n\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.abs",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.abs(double)",
+    "snippet": "    public static double abs(double x) {\n        return (x < 0.0) ? -x : (x == 0.0) ? 0.0 : x; // -0.0 => +0.0\n    }",
+    "comment": " Absolute value. @param x number from which absolute value is requested @return abs(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.abs",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.abs(long)",
+    "snippet": "    public static long abs(final long x) {\n        return (x < 0l) ? -x : x;\n    }",
+    "comment": " Absolute value. @param x number from which absolute value is requested @return abs(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.max",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.max(double,double)",
+    "snippet": "    public static double max(final double a, final double b) {\n        if (a > b) {\n            return a;\n        }\n        if (a < b) {\n            return b;\n        }\n        /* if either arg is NaN, return NaN */\n        if (a != b) {\n            return Double.NaN;\n        }\n        /* min(+0.0,-0.0) == -0.0 */\n        /* 0x8000000000000000L == Double.doubleToRawLongBits(-0.0d) */\n        long bits = Double.doubleToRawLongBits(a);\n        if (bits == 0x8000000000000000L) {\n            return b;\n        }\n        return a;\n    }",
+    "comment": "Compute the maximum of two values @param a first value @param b second value @return b if a is lesser or equal to b, a otherwise ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.Incrementor",
+    "class_name": "org.apache.commons.math.util.Incrementor",
+    "signature": "org.apache.commons.math.util.Incrementor.Incrementor()",
+    "snippet": "    public Incrementor() {\n        this(0);\n    }",
+    "comment": " Default constructor. For the new instance to be useful, the maximal count must be set by calling {@link #setMaximalCount(int) setMaximalCount}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.Incrementor",
+    "class_name": "org.apache.commons.math.util.Incrementor",
+    "signature": "org.apache.commons.math.util.Incrementor.Incrementor(int)",
+    "snippet": "    public Incrementor(int max) {\n        this(max,\n             new MaxCountExceededCallback() {\n                 /** {@inheritDoc} */\n                 public void trigger(int max) {\n                     throw new MaxCountExceededException(max);\n                 }\n             });\n    }",
+    "comment": " Defines a maximal count.  @param max Maximal count. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.Incrementor",
+    "class_name": "org.apache.commons.math.util.Incrementor",
+    "signature": "org.apache.commons.math.util.Incrementor.Incrementor(int,MaxCountExceededCallback)",
+    "snippet": "    public Incrementor(int max,\n                       MaxCountExceededCallback cb) {\n        maximalCount = max;\n        maxCountCallback = cb;\n    }",
+    "comment": " Defines a maximal count and a callback method to be triggered at counter exhaustion.  @param max Maximal count. @param cb Function to be called when the maximal count has been reached. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.incrementCount",
+    "class_name": "org.apache.commons.math.util.Incrementor",
+    "signature": "org.apache.commons.math.util.Incrementor.incrementCount()",
+    "snippet": "    public void incrementCount() {\n        if (++count > maximalCount) {\n            maxCountCallback.trigger(maximalCount);\n        }\n    }",
+    "comment": " Adds one to the current iteration count. At counter exhaustion, this method will call the {@link MaxCountExceededCallback#trigger(int) trigger} method of the callback object passed to the {@link #Incrementor(int,MaxCountExceededCallback) constructor}. If not explictly set, a default callback is used that will throw a {@code MaxCountExceededException}.  @throws MaxCountExceededException at counter exhaustion, unless a custom {@link MaxCountExceededCallback callback} has been set at construction. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.resetCount",
+    "class_name": "org.apache.commons.math.util.Incrementor",
+    "signature": "org.apache.commons.math.util.Incrementor.resetCount()",
+    "snippet": "    public void resetCount() {\n        count = 0;\n    }",
+    "comment": " Resets the counter to 0. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.setMaximalCount",
+    "class_name": "org.apache.commons.math.util.Incrementor",
+    "signature": "org.apache.commons.math.util.Incrementor.setMaximalCount(int)",
+    "snippet": "    public void setMaximalCount(int max) {\n        maximalCount = max;\n    }",
+    "comment": " Sets the upper limit for the counter. This does not automatically reset the current count to zero (see {@link #resetCount()}).  @param max Upper limit of the counter. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathUtils.checkNotNull",
+    "class_name": "org.apache.commons.math.util.MathUtils",
+    "signature": "org.apache.commons.math.util.MathUtils.checkNotNull(Object)",
+    "snippet": "    public static void checkNotNull(Object o)\n        throws NullArgumentException {\n        if (o == null) {\n            throw new NullArgumentException();\n        }\n    }",
+    "comment": " Checks that an object is not null.  @param o Object to be checked. @throws NullArgumentException if {@code o} is {@code null}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Precision.equals",
+    "class_name": "org.apache.commons.math.util.Precision",
+    "signature": "org.apache.commons.math.util.Precision.equals(double,double,int)",
+    "snippet": "    public static boolean equals(double x, double y, int maxUlps) {\n        long xInt = Double.doubleToLongBits(x);\n        long yInt = Double.doubleToLongBits(y);\n\n        // Make lexicographically ordered as a two's-complement integer.\n        if (xInt < 0) {\n            xInt = SGN_MASK - xInt;\n        }\n        if (yInt < 0) {\n            yInt = SGN_MASK - yInt;\n        }\n\n        final boolean isEqual = FastMath.abs(xInt - yInt) <= maxUlps;\n\n        return isEqual && !Double.isNaN(x) && !Double.isNaN(y);\n    }",
+    "comment": " Returns true if both arguments are equal or within the range of allowed error (inclusive). Two float numbers are considered equal if there are {@code (maxUlps - 1)} (or fewer) floating point numbers between them, i.e. two adjacent floating point numbers are considered equal. Adapted from <a href=\"http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm\"> Bruce Dawson</a>  @param x first value @param y second value @param maxUlps {@code (maxUlps - 1)} is the number of floating point values between {@code x} and {@code y}. @return {@code true} if there are fewer than {@code maxUlps} floating point values between {@code x} and {@code y}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

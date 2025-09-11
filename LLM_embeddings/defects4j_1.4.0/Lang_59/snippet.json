@@ -1,0 +1,32 @@
+[
+  {
+    "name": "StrBuilder.StrBuilder",
+    "class_name": "org.apache.commons.lang.text.StrBuilder",
+    "signature": "org.apache.commons.lang.text.StrBuilder.StrBuilder(int)",
+    "snippet": "    public StrBuilder(int initialCapacity) {\n        super();\n        if (initialCapacity <= 0) {\n            initialCapacity = CAPACITY;\n        }\n        buffer = new char[initialCapacity];\n    }",
+    "comment": " Constructor that creates an empty builder the specified initial capacity.  @param initialCapacity  the initial capacity, zero or less will be converted to 32 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StrBuilder.appendFixedWidthPadRight",
+    "class_name": "org.apache.commons.lang.text.StrBuilder",
+    "signature": "org.apache.commons.lang.text.StrBuilder.appendFixedWidthPadRight(Object,int,char)",
+    "snippet": "    public StrBuilder appendFixedWidthPadRight(Object obj, int width, char padChar) {\n        if (width > 0) {\n            ensureCapacity(size + width);\n            String str = (obj == null ? getNullText() : obj.toString());\n            int strLen = str.length();\n            if (strLen >= width) {\n                str.getChars(0, strLen, buffer, size);\n            } else {\n                int padLen = width - strLen;\n                str.getChars(0, strLen, buffer, size);\n                for (int i = 0; i < padLen; i++) {\n                    buffer[size + strLen + i] = padChar;\n                }\n            }\n            size += width;\n        }\n        return this;\n    }",
+    "comment": " Appends an object to the builder padding on the right to a fixed length. The <code>toString</code> of the object is used. If the object is larger than the length, the right hand side is lost. If the object is null, null text value is used.  @param obj  the object to append, null uses null text @param width  the fixed field width, zero or negative has no effect @param padChar  the pad character to use @return this, to enable chaining ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StrBuilder.ensureCapacity",
+    "class_name": "org.apache.commons.lang.text.StrBuilder",
+    "signature": "org.apache.commons.lang.text.StrBuilder.ensureCapacity(int)",
+    "snippet": "    public StrBuilder ensureCapacity(int capacity) {\n        if (capacity > buffer.length) {\n            char[] old = buffer;\n            buffer = new char[capacity];\n            System.arraycopy(old, 0, buffer, 0, size);\n        }\n        return this;\n    }",
+    "comment": " Checks the capacity and ensures that it is at least the size specified.  @param capacity  the capacity to ensure @return this, to enable chaining ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

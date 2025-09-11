@@ -1,0 +1,162 @@
+[
+  {
+    "name": "ArrayUtils.contains",
+    "class_name": "org.apache.commons.lang3.ArrayUtils",
+    "signature": "org.apache.commons.lang3.ArrayUtils.contains(Object[],Object)",
+    "snippet": "    public static boolean contains(Object[] array, Object objectToFind) {\n        return indexOf(array, objectToFind) != INDEX_NOT_FOUND;\n    }",
+    "comment": " <p>Checks if the object is in the given array.</p>  <p>The method returns <code>false</code> if a <code>null</code> array is passed in.</p>  @param array  the array to search through @param objectToFind  the object to find @return <code>true</code> if the array contains the object ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 3
+  },
+  {
+    "name": "ArrayUtils.indexOf",
+    "class_name": "org.apache.commons.lang3.ArrayUtils",
+    "signature": "org.apache.commons.lang3.ArrayUtils.indexOf(Object[],Object)",
+    "snippet": "    public static int indexOf(Object[] array, Object objectToFind) {\n        return indexOf(array, objectToFind, 0);\n    }",
+    "comment": " <p>Finds the index of the given object in the array.</p>  <p>This method returns {@link #INDEX_NOT_FOUND} (<code>-1</code>) for a <code>null</code> input array.</p>  @param array  the array to search through for the object, may be <code>null</code> @param objectToFind  the object to find, may be <code>null</code> @return the index of the object within the array, {@link #INDEX_NOT_FOUND} (<code>-1</code>) if not found or <code>null</code> array input ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 3
+  },
+  {
+    "name": "ArrayUtils.indexOf",
+    "class_name": "org.apache.commons.lang3.ArrayUtils",
+    "signature": "org.apache.commons.lang3.ArrayUtils.indexOf(Object[],Object,int)",
+    "snippet": "    public static int indexOf(Object[] array, Object objectToFind, int startIndex) {\n        if (array == null) {\n            return INDEX_NOT_FOUND;\n        }\n        if (startIndex < 0) {\n            startIndex = 0;\n        }\n        if (objectToFind == null) {\n            for (int i = startIndex; i < array.length; i++) {\n                if (array[i] == null) {\n                    return i;\n                }\n            }\n        } else if (array.getClass().getComponentType().isInstance(objectToFind)) {\n            for (int i = startIndex; i < array.length; i++) {\n                if (objectToFind.equals(array[i])) {\n                    return i;\n                }\n            }\n        }\n        return INDEX_NOT_FOUND;\n    }",
+    "comment": " <p>Finds the index of the given object in the array starting at the given index.</p>  <p>This method returns {@link #INDEX_NOT_FOUND} (<code>-1</code>) for a <code>null</code> input array.</p>  <p>A negative startIndex is treated as zero. A startIndex larger than the array length will return {@link #INDEX_NOT_FOUND} (<code>-1</code>).</p>  @param array  the array to search through for the object, may be <code>null</code> @param objectToFind  the object to find, may be <code>null</code> @param startIndex  the index to start searching at @return the index of the object within the array starting at the index, {@link #INDEX_NOT_FOUND} (<code>-1</code>) if not found or <code>null</code> array input ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 3
+  },
+  {
+    "name": "HashCodeBuilder.HashCodeBuilder",
+    "class_name": "org.apache.commons.lang3.builder.HashCodeBuilder",
+    "signature": "org.apache.commons.lang3.builder.HashCodeBuilder.HashCodeBuilder(int,int)",
+    "snippet": "    public HashCodeBuilder(int initialNonZeroOddNumber, int multiplierNonZeroOddNumber) {\n        if (initialNonZeroOddNumber == 0) {\n            throw new IllegalArgumentException(\"HashCodeBuilder requires a non zero initial value\");\n        }\n        if (initialNonZeroOddNumber % 2 == 0) {\n            throw new IllegalArgumentException(\"HashCodeBuilder requires an odd initial value\");\n        }\n        if (multiplierNonZeroOddNumber == 0) {\n            throw new IllegalArgumentException(\"HashCodeBuilder requires a non zero multiplier\");\n        }\n        if (multiplierNonZeroOddNumber % 2 == 0) {\n            throw new IllegalArgumentException(\"HashCodeBuilder requires an odd multiplier\");\n        }\n        iConstant = multiplierNonZeroOddNumber;\n        iTotal = initialNonZeroOddNumber;\n    }",
+    "comment": " <p> Two randomly chosen, non-zero, odd numbers must be passed in. Ideally these should be different for each class, however this is not vital. </p>  <p> Prime numbers are preferred, especially for the multiplier. </p>  @param initialNonZeroOddNumber a non-zero, odd number used as the initial value @param multiplierNonZeroOddNumber a non-zero, odd number used as the multiplier @throws IllegalArgumentException if the number is zero or even ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 3
+  },
+  {
+    "name": "HashCodeBuilder.append",
+    "class_name": "org.apache.commons.lang3.builder.HashCodeBuilder",
+    "signature": "org.apache.commons.lang3.builder.HashCodeBuilder.append(Object)",
+    "snippet": "    public HashCodeBuilder append(Object object) {\n        if (object == null) {\n            iTotal = iTotal * iConstant;\n\n        } else {\n            if(object.getClass().isArray()) {\n                // 'Switch' on type of array, to dispatch to the correct handler\n                // This handles multi dimensional arrays\n                if (object instanceof long[]) {\n                    append((long[]) object);\n                } else if (object instanceof int[]) {\n                    append((int[]) object);\n                } else if (object instanceof short[]) {\n                    append((short[]) object);\n                } else if (object instanceof char[]) {\n                    append((char[]) object);\n                } else if (object instanceof byte[]) {\n                    append((byte[]) object);\n                } else if (object instanceof double[]) {\n                    append((double[]) object);\n                } else if (object instanceof float[]) {\n                    append((float[]) object);\n                } else if (object instanceof boolean[]) {\n                    append((boolean[]) object);\n                } else {\n                    // Not an array of primitives\n                    append((Object[]) object);\n                }\n            } else {\n                iTotal = iTotal * iConstant + object.hashCode();\n            }\n        }\n        return this;\n    }",
+    "comment": " <p> Append a <code>hashCode</code> for an <code>Object</code>. </p>  @param object the Object to add to the <code>hashCode</code> @return this ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 3
+  },
+  {
+    "name": "HashCodeBuilder.getRegistry",
+    "class_name": "org.apache.commons.lang3.builder.HashCodeBuilder",
+    "signature": "org.apache.commons.lang3.builder.HashCodeBuilder.getRegistry()",
+    "snippet": "    static Set<IDKey> getRegistry() {\n        return REGISTRY.get();\n    }",
+    "comment": " <p> Returns the registry of objects being traversed by the reflection methods in the current thread. </p>  @return Set the registry of objects being traversed @since 2.3 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 3
+  },
+  {
+    "name": "HashCodeBuilder.isRegistered",
+    "class_name": "org.apache.commons.lang3.builder.HashCodeBuilder",
+    "signature": "org.apache.commons.lang3.builder.HashCodeBuilder.isRegistered(Object)",
+    "snippet": "    static boolean isRegistered(Object value) {\n        return getRegistry().contains(new IDKey(value));\n    }",
+    "comment": " <p> Returns <code>true</code> if the registry contains the given object. Used by the reflection methods to avoid infinite loops. </p>  @param value The object to lookup in the registry. @return boolean <code>true</code> if the registry contains the given object. @since 2.3 ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 3
+  },
+  {
+    "name": "HashCodeBuilder.reflectionAppend",
+    "class_name": "org.apache.commons.lang3.builder.HashCodeBuilder",
+    "signature": "org.apache.commons.lang3.builder.HashCodeBuilder.reflectionAppend(Object,Class,HashCodeBuilder,boolean,String[])",
+    "snippet": "    private static void reflectionAppend(Object object, Class<?> clazz, HashCodeBuilder builder, boolean useTransients,\n            String[] excludeFields) {\n        if (isRegistered(object)) {\n            return;\n        }\n        try {\n            register(object);\n            Field[] fields = clazz.getDeclaredFields();\n            AccessibleObject.setAccessible(fields, true);\n            for (Field field : fields) {\n                if (!ArrayUtils.contains(excludeFields, field.getName())\n                    && (field.getName().indexOf('$') == -1)\n                    && (useTransients || !Modifier.isTransient(field.getModifiers()))\n                    && (!Modifier.isStatic(field.getModifiers()))) {\n                    try {\n                        Object fieldValue = field.get(object);\n                        builder.append(fieldValue);\n                    } catch (IllegalAccessException e) {\n                        // this can't happen. Would get a Security exception instead\n                        // throw a runtime exception in case the impossible happens.\n                        throw new InternalError(\"Unexpected IllegalAccessException\");\n                    }\n                }\n            }\n        } finally {\n            unregister(object);\n        }\n    }",
+    "comment": " <p> Appends the fields and values defined by the given object of the given <code>Class</code>. </p>  @param object the object to append details of @param clazz the class to append details of @param builder the builder to append to @param useTransients whether to use transient fields @param excludeFields Collection of String field names to exclude from use in calculation of hash code ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 3
+  },
+  {
+    "name": "HashCodeBuilder.reflectionHashCode",
+    "class_name": "org.apache.commons.lang3.builder.HashCodeBuilder",
+    "signature": "org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode(Object)",
+    "snippet": "    public static int reflectionHashCode(Object object) {\n        return reflectionHashCode(17, 37, object, false, null, null);\n    }",
+    "comment": " <p> This method uses reflection to build a valid hash code. </p>  <p> This constructor uses two hard coded choices for the constants needed to build a hash code. </p>  <p> It uses <code>AccessibleObject.setAccessible</code> to gain access to private fields. This means that it will throw a security exception if run under a security manager, if the permissions are not set up correctly. It is also not as efficient as testing explicitly. </p>  <p> Transient members will be not be used, as they are likely derived fields, and not part of the value of the <code>Object</code>. </p>  <p> Static fields will not be tested. Superclass fields will be included. </p>  @param object the Object to create a <code>hashCode</code> for @return int hash code @throws IllegalArgumentException if the object is <code>null</code> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 3
+  },
+  {
+    "name": "HashCodeBuilder.reflectionHashCode",
+    "class_name": "org.apache.commons.lang3.builder.HashCodeBuilder",
+    "signature": "org.apache.commons.lang3.builder.HashCodeBuilder.reflectionHashCode(int,int,T,boolean,Class,String[])",
+    "snippet": "    public static <T> int reflectionHashCode(int initialNonZeroOddNumber, int multiplierNonZeroOddNumber, T object,\n            boolean testTransients, Class<? super T> reflectUpToClass, String[] excludeFields) {\n\n        if (object == null) {\n            throw new IllegalArgumentException(\"The object to build a hash code for must not be null\");\n        }\n        HashCodeBuilder builder = new HashCodeBuilder(initialNonZeroOddNumber, multiplierNonZeroOddNumber);\n        Class<?> clazz = object.getClass();\n        reflectionAppend(object, clazz, builder, testTransients, excludeFields);\n        while (clazz.getSuperclass() != null && clazz != reflectUpToClass) {\n            clazz = clazz.getSuperclass();\n            reflectionAppend(object, clazz, builder, testTransients, excludeFields);\n        }\n        return builder.toHashCode();\n    }",
+    "comment": " <p> This method uses reflection to build a valid hash code. </p>  <p> It uses <code>AccessibleObject.setAccessible</code> to gain access to private fields. This means that it will throw a security exception if run under a security manager, if the permissions are not set up correctly. It is also not as efficient as testing explicitly. </p>  <p> If the TestTransients parameter is set to <code>true</code>, transient members will be tested, otherwise they are ignored, as they are likely derived fields, and not part of the value of the <code>Object</code>. </p>  <p> Static fields will not be included. Superclass fields will be included up to and including the specified superclass. A null superclass is treated as java.lang.Object. </p>  <p> Two randomly chosen, non-zero, odd numbers must be passed in. Ideally these should be different for each class, however this is not vital. Prime numbers are preferred, especially for the multiplier. </p>  @param initialNonZeroOddNumber a non-zero, odd number used as the initial value @param multiplierNonZeroOddNumber a non-zero, odd number used as the multiplier @param object the Object to create a <code>hashCode</code> for @param testTransients whether to include transient fields @param reflectUpToClass the superclass to reflect up to (inclusive), may be <code>null</code> @param excludeFields array of field names to exclude from use in calculation of hash code @return int hash code @throws IllegalArgumentException if the Object is <code>null</code> @throws IllegalArgumentException if the number is zero or even @since 2.0 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 3
+  },
+  {
+    "name": "HashCodeBuilder.register",
+    "class_name": "org.apache.commons.lang3.builder.HashCodeBuilder",
+    "signature": "org.apache.commons.lang3.builder.HashCodeBuilder.register(Object)",
+    "snippet": "    static void register(Object value) {\n        getRegistry().add(new IDKey(value));\n    }",
+    "comment": " <p> Registers the given object. Used by the reflection methods to avoid infinite loops. </p>  @param value The object to register. ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 3
+  },
+  {
+    "name": "HashCodeBuilder.toHashCode",
+    "class_name": "org.apache.commons.lang3.builder.HashCodeBuilder",
+    "signature": "org.apache.commons.lang3.builder.HashCodeBuilder.toHashCode()",
+    "snippet": "    public int toHashCode() {\n        return iTotal;\n    }",
+    "comment": " <p> Return the computed <code>hashCode</code>. </p>  @return <code>hashCode</code> based on the fields appended ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 3
+  },
+  {
+    "name": "HashCodeBuilder.unregister",
+    "class_name": "org.apache.commons.lang3.builder.HashCodeBuilder",
+    "signature": "org.apache.commons.lang3.builder.HashCodeBuilder.unregister(Object)",
+    "snippet": "    static void unregister(Object value) {\n        getRegistry().remove(new IDKey(value));\n    }",
+    "comment": " <p> Unregisters the given object. </p>  <p> Used by the reflection methods to avoid infinite loops.  @param value The object to unregister. @since 2.3 ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 3
+  },
+  {
+    "name": "IDKey.IDKey",
+    "class_name": "org.apache.commons.lang3.builder.IDKey",
+    "signature": "org.apache.commons.lang3.builder.IDKey.IDKey(Object)",
+    "snippet": "        public IDKey(Object _value) {\n            // This is the Object hashcode \n            id = System.identityHashCode(_value);  \n            // There have been some cases (LANG-459) that return the \n            // same identity hash code for different objects.  So \n            // the value is also added to disambiguate these cases.\n            value = _value;\n        }",
+    "comment": " Constructor for IDKey @param _value ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 3
+  },
+  {
+    "name": "IDKey.equals",
+    "class_name": "org.apache.commons.lang3.builder.IDKey",
+    "signature": "org.apache.commons.lang3.builder.IDKey.equals(Object)",
+    "snippet": "        @Override\n        public boolean equals(Object other) {\n            if (!(other instanceof IDKey)) {\n                return false;\n            }\n            IDKey idKey = (IDKey) other;\n            if (id != idKey.id) {\n                return false;\n            }\n            // Note that identity equals is used.\n            return value == idKey.value;\n         }",
+    "comment": " checks if instances are equal @param other @return if the instances are for the same object ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 3
+  },
+  {
+    "name": "IDKey.hashCode",
+    "class_name": "org.apache.commons.lang3.builder.IDKey",
+    "signature": "org.apache.commons.lang3.builder.IDKey.hashCode()",
+    "snippet": "        @Override\n        public int hashCode() {\n           return id;\n        }",
+    "comment": " returns hashcode - i.e. the system identity hashcode. @return the hashcode ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 3
+  }
+]

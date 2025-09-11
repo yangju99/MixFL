@@ -1,0 +1,132 @@
+[
+  {
+    "name": "AbstractMessageFormatter.AbstractMessageFormatter",
+    "class_name": "com.google.javascript.jscomp.AbstractMessageFormatter",
+    "signature": "com.google.javascript.jscomp.AbstractMessageFormatter.AbstractMessageFormatter(SourceExcerptProvider)",
+    "snippet": "  public AbstractMessageFormatter(SourceExcerptProvider source) {\n    this.source = source;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractMessageFormatter.getLevelName",
+    "class_name": "com.google.javascript.jscomp.AbstractMessageFormatter",
+    "signature": "com.google.javascript.jscomp.AbstractMessageFormatter.getLevelName(CheckLevel)",
+    "snippet": "  String getLevelName(CheckLevel level) {\n    switch (level) {\n      case ERROR: return maybeColorize(\"ERROR\", Color.ERROR);\n      case WARNING: return maybeColorize(\"WARNING\", Color.WARNING);\n      default: return level.toString();\n    }\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractMessageFormatter.getSource",
+    "class_name": "com.google.javascript.jscomp.AbstractMessageFormatter",
+    "signature": "com.google.javascript.jscomp.AbstractMessageFormatter.getSource()",
+    "snippet": "  protected final SourceExcerptProvider getSource() {\n    return source;\n  }",
+    "comment": " Get the source excerpt provider. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractMessageFormatter.maybeColorize",
+    "class_name": "com.google.javascript.jscomp.AbstractMessageFormatter",
+    "signature": "com.google.javascript.jscomp.AbstractMessageFormatter.maybeColorize(String,Color)",
+    "snippet": "  private String maybeColorize(String text, Color color) {\n    if (!colorize) return text;\n\n    return color.getControlCharacter() +\n        text + Color.RESET.getControlCharacter();\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticType.error",
+    "class_name": "com.google.javascript.jscomp.DiagnosticType",
+    "signature": "com.google.javascript.jscomp.DiagnosticType.error(String,String)",
+    "snippet": "  public static DiagnosticType error(String name, String descriptionFormat) {\n    return make(name, CheckLevel.ERROR, descriptionFormat);\n  }",
+    "comment": " Create a DiagnosticType at level CheckLevel.ERROR  @param name An identifier @param descriptionFormat A format string @return A new DiagnosticType ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticType.make",
+    "class_name": "com.google.javascript.jscomp.DiagnosticType",
+    "signature": "com.google.javascript.jscomp.DiagnosticType.make(String,CheckLevel,String)",
+    "snippet": "  public static DiagnosticType make(String name, CheckLevel level,\n                                    String descriptionFormat) {\n    return\n        new DiagnosticType(name, level, new MessageFormat(descriptionFormat));\n  }",
+    "comment": " Create a DiagnosticType at a given CheckLevel.  @param name An identifier @param level Either CheckLevel.ERROR or CheckLevel.WARNING @param descriptionFormat A format string @return A new DiagnosticType ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JSError.getCharno",
+    "class_name": "com.google.javascript.jscomp.JSError",
+    "signature": "com.google.javascript.jscomp.JSError.getCharno()",
+    "snippet": "  public int getCharno() {\n    return charno;\n  }",
+    "comment": " Get the character number. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JSError.make",
+    "class_name": "com.google.javascript.jscomp.JSError",
+    "signature": "com.google.javascript.jscomp.JSError.make(String,int,int,DiagnosticType,String[])",
+    "snippet": "  public static JSError make(String sourceName, int lineno, int charno,\n                             DiagnosticType type, String... arguments) {\n    return new JSError(sourceName, null, lineno, charno, type, null, arguments);\n  }",
+    "comment": " Creates a JSError at a given source location  @param sourceName The source file name @param lineno Line number with source file, or -1 if unknown @param charno Column number within line, or -1 for whole line. @param type The DiagnosticType @param arguments Arguments to be incorporated into the message ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LightweightMessageFormatter.LightweightMessageFormatter",
+    "class_name": "com.google.javascript.jscomp.LightweightMessageFormatter",
+    "signature": "com.google.javascript.jscomp.LightweightMessageFormatter.LightweightMessageFormatter(SourceExcerptProvider)",
+    "snippet": "  public LightweightMessageFormatter(SourceExcerptProvider source) {\n    this(source, LINE);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LightweightMessageFormatter.LightweightMessageFormatter",
+    "class_name": "com.google.javascript.jscomp.LightweightMessageFormatter",
+    "signature": "com.google.javascript.jscomp.LightweightMessageFormatter.LightweightMessageFormatter(SourceExcerptProvider,SourceExcerpt)",
+    "snippet": "  public LightweightMessageFormatter(SourceExcerptProvider source,\n      SourceExcerpt excerpt) {\n    super(source);\n    Preconditions.checkNotNull(source);\n    this.excerpt = excerpt;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LightweightMessageFormatter.format",
+    "class_name": "com.google.javascript.jscomp.LightweightMessageFormatter",
+    "signature": "com.google.javascript.jscomp.LightweightMessageFormatter.format(JSError,boolean)",
+    "snippet": "  private String format(JSError error, boolean warning) {\n    // extract source excerpt\n    SourceExcerptProvider source = getSource();\n    String sourceExcerpt = source == null ? null :\n        excerpt.get(\n            source, error.sourceName, error.lineNumber, excerptFormatter);\n\n    // formatting the message\n    StringBuilder b = new StringBuilder();\n    if (error.sourceName != null) {\n      b.append(error.sourceName);\n      if (error.lineNumber > 0) {\n        b.append(':');\n        b.append(error.lineNumber);\n      }\n      b.append(\": \");\n    }\n\n    b.append(getLevelName(warning ? CheckLevel.WARNING : CheckLevel.ERROR));\n    b.append(\" - \");\n\n    b.append(error.description);\n    b.append('\\n');\n    if (sourceExcerpt != null) {\n      b.append(sourceExcerpt);\n      b.append('\\n');\n      int charno = error.getCharno();\n\n      // padding equal to the excerpt and arrow at the end\n      // charno == sourceExpert.length() means something is missing\n      // at the end of the line\n      if (excerpt.equals(LINE)\n          && 0 <= charno && charno < sourceExcerpt.length()) {\n        for (int i = 0; i < charno; i++) {\n          char c = sourceExcerpt.charAt(i);\n          if (Character.isWhitespace(c)) {\n            b.append(c);\n          } else {\n            b.append(' ');\n          }\n        }\n        b.append(\"^\\n\");\n      }\n    }\n    return b.toString();\n  }",
+    "comment": "",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LightweightMessageFormatter.formatError",
+    "class_name": "com.google.javascript.jscomp.LightweightMessageFormatter",
+    "signature": "com.google.javascript.jscomp.LightweightMessageFormatter.formatError(JSError)",
+    "snippet": "  public String formatError(JSError error) {\n    return format(error, false);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LineNumberingFormatter.formatLine",
+    "class_name": "com.google.javascript.jscomp.LightweightMessageFormatter$LineNumberingFormatter",
+    "signature": "com.google.javascript.jscomp.LightweightMessageFormatter$LineNumberingFormatter.formatLine(String,int)",
+    "snippet": "    public String formatLine(String line, int lineNumber) {\n      return line;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  }
+]

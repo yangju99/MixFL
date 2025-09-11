@@ -1,0 +1,272 @@
+[
+  {
+    "name": "KeyedObject.KeyedObject",
+    "class_name": "org.jfree.data.KeyedObject",
+    "signature": "org.jfree.data.KeyedObject.KeyedObject(Comparable,Object)",
+    "snippet": "    public KeyedObject(Comparable key, Object object) {\n        this.key = key;\n        this.object = object;\n    }",
+    "comment": " Creates a new (key, object) pair.  @param key  the key. @param object  the object (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObject.getKey",
+    "class_name": "org.jfree.data.KeyedObject",
+    "signature": "org.jfree.data.KeyedObject.getKey()",
+    "snippet": "    public Comparable getKey() {\n        return this.key;\n    }",
+    "comment": " Returns the key.  @return The key. ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObject.getObject",
+    "class_name": "org.jfree.data.KeyedObject",
+    "signature": "org.jfree.data.KeyedObject.getObject()",
+    "snippet": "    public Object getObject() {\n        return this.object;\n    }",
+    "comment": " Returns the object.  @return The object (possibly <code>null</code>). ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObject.setObject",
+    "class_name": "org.jfree.data.KeyedObject",
+    "signature": "org.jfree.data.KeyedObject.setObject(Object)",
+    "snippet": "    public void setObject(Object object) {\n        this.object = object;\n    }",
+    "comment": " Sets the object.  @param object  the object (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects.KeyedObjects",
+    "class_name": "org.jfree.data.KeyedObjects",
+    "signature": "org.jfree.data.KeyedObjects.KeyedObjects()",
+    "snippet": "    public KeyedObjects() {\n        this.data = new java.util.ArrayList();\n    }",
+    "comment": " Creates a new collection (initially empty). ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects.getIndex",
+    "class_name": "org.jfree.data.KeyedObjects",
+    "signature": "org.jfree.data.KeyedObjects.getIndex(Comparable)",
+    "snippet": "    public int getIndex(Comparable key) {\n        if (key == null) {\n            throw new IllegalArgumentException(\"Null 'key' argument.\");\n        }\n        int i = 0;\n        Iterator iterator = this.data.iterator();\n        while (iterator.hasNext()) {\n            KeyedObject ko = (KeyedObject) iterator.next();\n            if (ko.getKey().equals(key)) {\n                return i;\n            }\n            i++;\n        }\n        return -1;\n    }",
+    "comment": " Returns the index for a given key, or <code>-1</code>.  @param key  the key (<code>null</code> not permitted).  @return The index, or <code>-1</code> if the key is unrecognised.  @see #getKey(int) ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects.getItemCount",
+    "class_name": "org.jfree.data.KeyedObjects",
+    "signature": "org.jfree.data.KeyedObjects.getItemCount()",
+    "snippet": "    public int getItemCount() {\n        return this.data.size();\n    }",
+    "comment": " Returns the number of items (values) in the collection.  @return The item count. ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects.getObject",
+    "class_name": "org.jfree.data.KeyedObjects",
+    "signature": "org.jfree.data.KeyedObjects.getObject(Comparable)",
+    "snippet": "    public Object getObject(Comparable key) {\n        int index = getIndex(key);\n        if (index < 0) {\n            throw new UnknownKeyException(\"The key (\" + key \n                    + \") is not recognised.\");\n        }\n        return getObject(index);\n    }",
+    "comment": " Returns the object for a given key. If the key is not recognised, the  method should return <code>null</code>.  @param key  the key.  @return The object (possibly <code>null</code>).  @see #addObject(Comparable, Object) ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects.getObject",
+    "class_name": "org.jfree.data.KeyedObjects",
+    "signature": "org.jfree.data.KeyedObjects.getObject(int)",
+    "snippet": "    public Object getObject(int item) {\n        Object result = null;\n        KeyedObject kobj = (KeyedObject) this.data.get(item);\n        if (kobj != null) {\n            result = kobj.getObject();\n        }\n        return result;\n    }",
+    "comment": " Returns an object from the list.  @param item  the item index (zero-based).  @return The object (possibly <code>null</code>).  @throws IndexOutOfBoundsException if <code>item</code> is out of bounds. ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects.removeValue",
+    "class_name": "org.jfree.data.KeyedObjects",
+    "signature": "org.jfree.data.KeyedObjects.removeValue(Comparable)",
+    "snippet": "    public void removeValue(Comparable key) {\n        // defer argument checking \n        int index = getIndex(key);\n        if (index < 0) {\n            throw new UnknownKeyException(\"The key (\" + key.toString() \n                    + \") is not recognised.\");\n        }\n        removeValue(index);\n    }",
+    "comment": " Removes a value from the collection.  @param key  the key (<code>null</code> not permitted).  @see #removeValue(int)  @throws UnknownKeyException if the key is not recognised. ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects.removeValue",
+    "class_name": "org.jfree.data.KeyedObjects",
+    "signature": "org.jfree.data.KeyedObjects.removeValue(int)",
+    "snippet": "    public void removeValue(int index) {\n        this.data.remove(index);\n    }",
+    "comment": " Removes a value from the collection.  @param index  the index of the item to remove.  @see #removeValue(Comparable) ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects.setObject",
+    "class_name": "org.jfree.data.KeyedObjects",
+    "signature": "org.jfree.data.KeyedObjects.setObject(Comparable,Object)",
+    "snippet": "    public void setObject(Comparable key, Object object) {\n        int keyIndex = getIndex(key);\n        if (keyIndex >= 0) {\n            KeyedObject ko = (KeyedObject) this.data.get(keyIndex);\n            ko.setObject(object);\n        }\n        else {\n            KeyedObject ko = new KeyedObject(key, object);\n            this.data.add(ko);\n        }\n    }",
+    "comment": " Replaces an existing object, or adds a new object to the collection. This is the same as the {@link #addObject(Comparable, Object)}  method.  @param key  the key (<code>null</code> not permitted). @param object  the object.  @see #getObject(Comparable) ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects2D.KeyedObjects2D",
+    "class_name": "org.jfree.data.KeyedObjects2D",
+    "signature": "org.jfree.data.KeyedObjects2D.KeyedObjects2D()",
+    "snippet": "    public KeyedObjects2D() {\n        this.rowKeys = new java.util.ArrayList();\n        this.columnKeys = new java.util.ArrayList();\n        this.rows = new java.util.ArrayList();\n    }",
+    "comment": " Creates a new instance (initially empty). ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects2D.addObject",
+    "class_name": "org.jfree.data.KeyedObjects2D",
+    "signature": "org.jfree.data.KeyedObjects2D.addObject(Object,Comparable,Comparable)",
+    "snippet": "    public void addObject(Object object, Comparable rowKey, \n            Comparable columnKey) {\n        setObject(object, rowKey, columnKey);\n    }",
+    "comment": " Adds an object to the table.  Performs the same function as setObject().  @param object  the object. @param rowKey  the row key (<code>null</code> not permitted). @param columnKey  the column key (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects2D.getColumnCount",
+    "class_name": "org.jfree.data.KeyedObjects2D",
+    "signature": "org.jfree.data.KeyedObjects2D.getColumnCount()",
+    "snippet": "    public int getColumnCount() {\n        return this.columnKeys.size();\n    }",
+    "comment": " Returns the column count.  @return The column count.  @see #getRowCount() ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects2D.getColumnIndex",
+    "class_name": "org.jfree.data.KeyedObjects2D",
+    "signature": "org.jfree.data.KeyedObjects2D.getColumnIndex(Comparable)",
+    "snippet": "    public int getColumnIndex(Comparable key) {\n        return this.columnKeys.indexOf(key);\n    }",
+    "comment": " Returns the column index for a given key.  @param key  the key.  @return The column index.  @see #getColumnKey(int) ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects2D.getColumnKey",
+    "class_name": "org.jfree.data.KeyedObjects2D",
+    "signature": "org.jfree.data.KeyedObjects2D.getColumnKey(int)",
+    "snippet": "    public Comparable getColumnKey(int column) {\n        return (Comparable) this.columnKeys.get(column);\n    }",
+    "comment": " Returns the key for a given column.  @param column  the column.  @return The key.  @see #getColumnIndex(Comparable) ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects2D.getObject",
+    "class_name": "org.jfree.data.KeyedObjects2D",
+    "signature": "org.jfree.data.KeyedObjects2D.getObject(Comparable,Comparable)",
+    "snippet": "    public Object getObject(Comparable rowKey, Comparable columnKey) {\n        if (rowKey == null) {\n            throw new IllegalArgumentException(\"Null 'rowKey' argument.\");\n        }\n        if (columnKey == null) {\n            throw new IllegalArgumentException(\"Null 'columnKey' argument.\");\n        }\n        int row = this.rowKeys.indexOf(rowKey);\n        if (row < 0) {\n            throw new UnknownKeyException(\"Row key (\" + rowKey \n                    + \") not recognised.\");\n        }\n        int column = this.columnKeys.indexOf(columnKey);\n        if (column < 0) {\n            throw new UnknownKeyException(\"Column key (\" + columnKey \n                    + \") not recognised.\");\n        }\n        if (row >= 0) {\n        KeyedObjects rowData = (KeyedObjects) this.rows.get(row);\n            return rowData.getObject(columnKey);\n        }\n        else {\n            return null;\n        }\n    }",
+    "comment": " Returns the object for the given row and column keys.  @param rowKey  the row key (<code>null</code> not permitted). @param columnKey  the column key (<code>null</code> not permitted).  @return The object (possibly <code>null</code>).  @throws IllegalArgumentException if <code>rowKey<code> or  <code>columnKey</code> is <code>null</code>. @throws UnknownKeyException if <code>rowKey</code> or  <code>columnKey</code> is not recognised. ",
+    "is_bug": true,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects2D.getObject",
+    "class_name": "org.jfree.data.KeyedObjects2D",
+    "signature": "org.jfree.data.KeyedObjects2D.getObject(int,int)",
+    "snippet": "    public Object getObject(int row, int column) {\n        Object result = null;\n        KeyedObjects rowData = (KeyedObjects) this.rows.get(row);\n        if (rowData != null) {\n            Comparable columnKey = (Comparable) this.columnKeys.get(column);\n            if (columnKey != null) {\n                int index = rowData.getIndex(columnKey);\n                if (index >= 0) {\n                    result = rowData.getObject(columnKey);\n                }\n            }\n        }\n        return result;\n    }",
+    "comment": " Returns the object for a given row and column.  @param row  the row index (in the range 0 to getRowCount() - 1). @param column  the column index (in the range 0 to getColumnCount() - 1).  @return The object (possibly <code>null</code>).  @see #getObject(Comparable, Comparable) ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects2D.getRowCount",
+    "class_name": "org.jfree.data.KeyedObjects2D",
+    "signature": "org.jfree.data.KeyedObjects2D.getRowCount()",
+    "snippet": "    public int getRowCount() {\n        return this.rowKeys.size();\n    }",
+    "comment": " Returns the row count.  @return The row count.  @see #getColumnCount() ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects2D.getRowIndex",
+    "class_name": "org.jfree.data.KeyedObjects2D",
+    "signature": "org.jfree.data.KeyedObjects2D.getRowIndex(Comparable)",
+    "snippet": "    public int getRowIndex(Comparable key) {\n        return this.rowKeys.indexOf(key);\n    }",
+    "comment": " Returns the row index for a given key.  @param key  the key.  @return The row index.  @see #getRowKey(int) ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects2D.removeColumn",
+    "class_name": "org.jfree.data.KeyedObjects2D",
+    "signature": "org.jfree.data.KeyedObjects2D.removeColumn(Comparable)",
+    "snippet": "    public void removeColumn(Comparable columnKey) {\n        int index = getColumnIndex(columnKey);\n        if (index < 0) {\n            throw new UnknownKeyException(\"Column key (\" + columnKey \n                    + \") not recognised.\");\n        }\n        Iterator iterator = this.rows.iterator();\n        while (iterator.hasNext()) {\n            KeyedObjects rowData = (KeyedObjects) iterator.next();\n                rowData.removeValue(columnKey);\n        }\n        this.columnKeys.remove(columnKey);\n    }",
+    "comment": " Removes an entire column from the table.  @param columnKey  the column key (<code>null</code> not permitted).  @throws UnknownKeyException if <code>rowKey</code> is not recognised.  @see #removeRow(Comparable) ",
+    "is_bug": true,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects2D.removeColumn",
+    "class_name": "org.jfree.data.KeyedObjects2D",
+    "signature": "org.jfree.data.KeyedObjects2D.removeColumn(int)",
+    "snippet": "    public void removeColumn(int columnIndex) {\n        Comparable columnKey = getColumnKey(columnIndex);\n        removeColumn(columnKey);\n    }",
+    "comment": " Removes an entire column from the table.  @param columnIndex  the column index.  @see #removeRow(int) ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects2D.removeObject",
+    "class_name": "org.jfree.data.KeyedObjects2D",
+    "signature": "org.jfree.data.KeyedObjects2D.removeObject(Comparable,Comparable)",
+    "snippet": "    public void removeObject(Comparable rowKey, Comparable columnKey) {\n        setObject(null, rowKey, columnKey);\n        \n        // 1. check whether the row is now empty.\n        boolean allNull = true;\n        int rowIndex = getRowIndex(rowKey);\n        KeyedObjects row = (KeyedObjects) this.rows.get(rowIndex);\n\n        for (int item = 0, itemCount = row.getItemCount(); item < itemCount; \n             item++) {\n            if (row.getObject(item) != null) {\n                allNull = false;\n                break;\n            }\n        }\n        \n        if (allNull) {\n            this.rowKeys.remove(rowIndex);\n            this.rows.remove(rowIndex);\n        }\n        \n        // 2. check whether the column is now empty.\n        \n        \n    }",
+    "comment": " Removes an object from the table by setting it to <code>null</code>.  If all the objects in the specified row and/or column are now  <code>null</code>, the row and/or column is removed from the table.  @param rowKey  the row key (<code>null</code> not permitted). @param columnKey  the column key (<code>null</code> not permitted).  @see #addObject(Object, Comparable, Comparable) ",
+    "is_bug": true,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects2D.removeRow",
+    "class_name": "org.jfree.data.KeyedObjects2D",
+    "signature": "org.jfree.data.KeyedObjects2D.removeRow(Comparable)",
+    "snippet": "    public void removeRow(Comparable rowKey) {\n        int index = getRowIndex(rowKey);\n        removeRow(index);\n    }",
+    "comment": " Removes an entire row from the table.  @param rowKey  the row key (<code>null</code> not permitted).  @throws UnknownKeyException if <code>rowKey</code> is not recognised.  @see #removeColumn(Comparable) ",
+    "is_bug": true,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects2D.removeRow",
+    "class_name": "org.jfree.data.KeyedObjects2D",
+    "signature": "org.jfree.data.KeyedObjects2D.removeRow(int)",
+    "snippet": "    public void removeRow(int rowIndex) {\n        this.rowKeys.remove(rowIndex);\n        this.rows.remove(rowIndex);\n    }",
+    "comment": " Removes an entire row from the table.  @param rowIndex  the row index.  @see #removeColumn(int) ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  },
+  {
+    "name": "KeyedObjects2D.setObject",
+    "class_name": "org.jfree.data.KeyedObjects2D",
+    "signature": "org.jfree.data.KeyedObjects2D.setObject(Object,Comparable,Comparable)",
+    "snippet": "    public void setObject(Object object, Comparable rowKey, \n            Comparable columnKey) {\n\n        if (rowKey == null) {\n            throw new IllegalArgumentException(\"Null 'rowKey' argument.\");\n        }\n        if (columnKey == null) {\n            throw new IllegalArgumentException(\"Null 'columnKey' argument.\");\n        }\n        KeyedObjects row;\n        int rowIndex = this.rowKeys.indexOf(rowKey);\n        if (rowIndex >= 0) {\n            row = (KeyedObjects) this.rows.get(rowIndex);\n        }\n        else {\n            this.rowKeys.add(rowKey);\n            row = new KeyedObjects();\n            this.rows.add(row);\n        }\n        row.setObject(columnKey, object);\n        int columnIndex = this.columnKeys.indexOf(columnKey);\n        if (columnIndex < 0) {\n            this.columnKeys.add(columnKey);\n        }\n\n    }",
+    "comment": " Adds or updates an object.  @param object  the object. @param rowKey  the row key (<code>null</code> not permitted). @param columnKey  the column key (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 6,
+    "buggy_methods": 4
+  }
+]

@@ -1,0 +1,162 @@
+[
+  {
+    "name": "Complex.Complex",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.Complex(double,double)",
+    "snippet": "    public Complex(double real, double imaginary) {\n        this.real = real;\n        this.imaginary = imaginary;\n\n        isNaN = Double.isNaN(real) || Double.isNaN(imaginary);\n        isInfinite = !isNaN &&\n            (Double.isInfinite(real) || Double.isInfinite(imaginary));\n        isZero = real == 0 && imaginary == 0;\n    }",
+    "comment": " Create a complex number given the real and imaginary parts.  @param real Real part. @param imaginary Imaginary part. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Complex.abs",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.abs()",
+    "snippet": "    public double abs() {\n        if (isNaN) {\n            return Double.NaN;\n        }\n        if (isInfinite()) {\n            return Double.POSITIVE_INFINITY;\n        }\n        if (FastMath.abs(real) < FastMath.abs(imaginary)) {\n            if (imaginary == 0.0) {\n                return FastMath.abs(real);\n            }\n            double q = real / imaginary;\n            return FastMath.abs(imaginary) * FastMath.sqrt(1 + q * q);\n        } else {\n            if (real == 0.0) {\n                return FastMath.abs(imaginary);\n            }\n            double q = imaginary / real;\n            return FastMath.abs(real) * FastMath.sqrt(1 + q * q);\n        }\n    }",
+    "comment": " Return the absolute value of this complex number. Returns {@code NaN} if either real or imaginary part is {@code NaN} and {@code Double.POSITIVE_INFINITY} if neither part is {@code NaN}, but at least one part is infinite.  @return the absolute value. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Complex.add",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.add(Complex)",
+    "snippet": "    public Complex add(Complex addend) throws NullArgumentException {\n        MathUtils.checkNotNull(addend);\n        if (isNaN || addend.isNaN) {\n            return NaN;\n        }\n\n        return createComplex(real + addend.getReal(),\n                             imaginary + addend.getImaginary());\n    }",
+    "comment": " Returns a {@code Complex} whose value is {@code (this + addend)}. Uses the definitional formula <pre> <code> (a + bi) + (c + di) = (a+c) + (b+d)i </code> </pre> <br/> If either {@code this} or {@code addend} has a {@code NaN} value in either part, {@link #NaN} is returned; otherwise {@code Infinite} and {@code NaN} values are returned in the parts of the result according to the rules for {@link java.lang.Double} arithmetic.  @param  addend Value to be added to this {@code Complex}. @return {@code this + addend}. @throws NullArgumentException if {@code addend} is {@code null}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Complex.atan",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.atan()",
+    "snippet": "    public Complex atan() {\n        if (isNaN) {\n            return NaN;\n        }\n\n        return this.add(I).divide(I.subtract(this)).log()\n            .multiply(I.divide(createComplex(2.0, 0.0)));\n    }",
+    "comment": " Compute the <a href=\"http://mathworld.wolfram.com/InverseTangent.html\" TARGET=\"_top\"> inverse tangent</a> of this complex number. Implements the formula: <pre> <code> atan(z) = (i/2) log((i + z)/(i - z)) </code> </pre> Returns {@link Complex#NaN} if either real or imaginary part of the input argument is {@code NaN} or infinite.  @return the inverse tangent of this complex number @since 1.2 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Complex.createComplex",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.createComplex(double,double)",
+    "snippet": "    protected Complex createComplex(double realPart,\n                                    double imaginaryPart) {\n        return new Complex(realPart, imaginaryPart);\n    }",
+    "comment": " Create a complex number given the real and imaginary parts.  @param realPart Real part. @param imaginaryPart Imaginary part. @return a new complex number instance. @since 1.2 @see #valueOf(double, double) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Complex.divide",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.divide(Complex)",
+    "snippet": "    public Complex divide(Complex divisor)\n        throws NullArgumentException {\n        MathUtils.checkNotNull(divisor);\n        if (isNaN || divisor.isNaN) {\n            return NaN;\n        }\n\n        if (divisor.isZero) {\n            // return isZero ? NaN : INF; // See MATH-657\n            return isZero ? NaN : INF;\n        }\n\n        if (divisor.isInfinite() && !isInfinite()) {\n            return ZERO;\n        }\n\n        final double c = divisor.getReal();\n        final double d = divisor.getImaginary();\n\n        if (FastMath.abs(c) < FastMath.abs(d)) {\n            double q = c / d;\n            double denominator = c * q + d;\n            return createComplex((real * q + imaginary) / denominator,\n                (imaginary * q - real) / denominator);\n        } else {\n            double q = d / c;\n            double denominator = d * q + c;\n            return createComplex((imaginary * q + real) / denominator,\n                (imaginary - real * q) / denominator);\n        }\n    }",
+    "comment": " Returns a {@code Complex} whose value is {@code (this / divisor)}. Implements the definitional formula <pre> <code> a + bi          ac + bd + (bc - ad)i ----------- = ------------------------- c + di         c<sup>2</sup> + d<sup>2</sup> </code> </pre> but uses <a href=\"http://doi.acm.org/10.1145/1039813.1039814\"> prescaling of operands</a> to limit the effects of overflows and underflows in the computation. <br/> {@code Infinite} and {@code NaN} values are handled according to the following rules, applied in the order presented: <ul> <li>If either {@code this} or {@code divisor} has a {@code NaN} value in either part, {@link #NaN} is returned. </li> <li>If {@code this} and {@code divisor} are both {@link #ZERO}, {@link #NaN} is returned. </li> <li>If {@code divisor} equals {@link #ZERO}, {@link #INF} is returned. </li> <li>If {@code this} and {@code divisor} are both infinite, {@link #NaN} is returned. </li> <li>If {@code this} is finite (i.e., has no {@code Infinite} or {@code NaN} parts) and {@code divisor} is infinite (one or both parts infinite), {@link #ZERO} is returned. </li> <li>If {@code this} is infinite and {@code divisor} is finite, {@code NaN} values are returned in the parts of the result if the {@link java.lang.Double} rules applied to the definitional formula force {@code NaN} results. </li> </ul>  @param divisor Value by which this {@code Complex} is to be divided. @return {@code this / divisor}. @throws NullArgumentException if {@code divisor} is {@code null}. ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Complex.equals",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.equals(Object)",
+    "snippet": "    @Override\n    public boolean equals(Object other) {\n        if (this == other) {\n            return true;\n        }\n        if (other instanceof Complex){\n            Complex c = (Complex)other;\n            if (c.isNaN) {\n                return isNaN;\n            } else {\n                return (real == c.real) && (imaginary == c.imaginary);\n            }\n        }\n        return false;\n    }",
+    "comment": " Test for the equality of two Complex objects. If both the real and imaginary parts of two complex numbers are exactly the same, and neither is {@code Double.NaN}, the two Complex objects are considered to be equal. All {@code NaN} values are considered to be equal - i.e, if either (or both) real and imaginary parts of the complex number are equal to {@code Double.NaN}, the complex number is equal to {@code NaN}.  @param other Object to test for equality to this @return true if two Complex objects are equal, false if object is {@code null}, not an instance of Complex, or not equal to this Complex instance. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Complex.getImaginary",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.getImaginary()",
+    "snippet": "    public double getImaginary() {\n        return imaginary;\n    }",
+    "comment": " Access the imaginary part.  @return the imaginary part. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Complex.getReal",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.getReal()",
+    "snippet": "    public double getReal() {\n        return real;\n    }",
+    "comment": " Access the real part.  @return the real part. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Complex.isInfinite",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.isInfinite()",
+    "snippet": "    public boolean isInfinite() {\n        return isInfinite;\n    }",
+    "comment": " Checks whether either the real or imaginary part of this complex number takes an infinite value (either {@code Double.POSITIVE_INFINITY} or {@code Double.NEGATIVE_INFINITY}) and neither part is {@code NaN}.  @return true if one or both parts of this complex number are infinite and neither part is {@code NaN}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Complex.isNaN",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.isNaN()",
+    "snippet": "    public boolean isNaN() {\n        return isNaN;\n    }",
+    "comment": " Checks whether either or both parts of this complex number is {@code NaN}.  @return true if either or both parts of this complex number is {@code NaN}; false otherwise. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Complex.log",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.log()",
+    "snippet": "    public Complex log() {\n        if (isNaN) {\n            return NaN;\n        }\n\n        return createComplex(FastMath.log(abs()),\n                             FastMath.atan2(imaginary, real));\n    }",
+    "comment": " Compute the <a href=\"http://mathworld.wolfram.com/NaturalLogarithm.html\" TARGET=\"_top\"> natural logarithm</a> of this complex number. Implements the formula: <pre> <code> log(a + bi) = ln(|a + bi|) + arg(a + bi)i </code> </pre> where ln on the right hand side is {@link java.lang.Math#log}, {@code |a + bi|} is the modulus, {@link Complex#abs},  and {@code arg(a + bi) = }{@link java.lang.Math#atan2}(b, a). <br/> Returns {@link Complex#NaN} if either real or imaginary part of the input argument is {@code NaN}. <br/> Infinite (or critical) values in real or imaginary parts of the input may result in infinite or NaN values returned in parts of the result. <pre> Examples: <code> log(1 &plusmn; INFINITY i) = INFINITY &plusmn; (&pi;/2)i log(INFINITY + i) = INFINITY + 0i log(-INFINITY + i) = INFINITY + &pi;i log(INFINITY &plusmn; INFINITY i) = INFINITY &plusmn; (&pi;/4)i log(-INFINITY &plusmn; INFINITY i) = INFINITY &plusmn; (3&pi;/4)i log(0 + 0i) = -INFINITY + 0i </code> </pre>  @return the value <code>ln &nbsp; this</code>, the natural logarithm of {@code this}. @since 1.2 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Complex.multiply",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.multiply(Complex)",
+    "snippet": "    public Complex multiply(Complex factor)\n        throws NullArgumentException {\n        MathUtils.checkNotNull(factor);\n        if (isNaN || factor.isNaN) {\n            return NaN;\n        }\n        if (Double.isInfinite(real) ||\n            Double.isInfinite(imaginary) ||\n            Double.isInfinite(factor.real) ||\n            Double.isInfinite(factor.imaginary)) {\n            // we don't use isInfinite() to avoid testing for NaN again\n            return INF;\n        }\n        return createComplex(real * factor.real - imaginary * factor.imaginary,\n                             real * factor.imaginary + imaginary * factor.real);\n    }",
+    "comment": " Returns a {@code Complex} whose value is {@code this * factor}. Implements preliminary checks for {@code NaN} and infinity followed by the definitional formula: <pre> <code> (a + bi)(c + di) = (ac - bd) + (ad + bc)i </code> </pre> Returns {@link #NaN} if either {@code this} or {@code factor} has one or more {@code NaN} parts. <br/> Returns {@link #INF} if neither {@code this} nor {@code factor} has one or more {@code NaN} parts and if either {@code this} or {@code factor} has one or more infinite parts (same result is returned regardless of the sign of the components). <br/> Returns finite values in components of the result per the definitional formula in all remaining cases.  @param  factor value to be multiplied by this {@code Complex}. @return {@code this * factor}. @throws NullArgumentException if {@code factor} is {@code null}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Complex.subtract",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.subtract(Complex)",
+    "snippet": "    public Complex subtract(Complex subtrahend)\n        throws NullArgumentException {\n        MathUtils.checkNotNull(subtrahend);\n        if (isNaN || subtrahend.isNaN) {\n            return NaN;\n        }\n\n        return createComplex(real - subtrahend.getReal(),\n                             imaginary - subtrahend.getImaginary());\n    }",
+    "comment": " Returns a {@code Complex} whose value is {@code (this - subtrahend)}. Uses the definitional formula <pre> <code> (a + bi) - (c + di) = (a-c) + (b-d)i </code> </pre> If either {@code this} or {@code subtrahend} has a {@code NaN]} value in either part, {@link #NaN} is returned; otherwise infinite and {@code NaN} values are returned in the parts of the result according to the rules for {@link java.lang.Double} arithmetic.  @param  subtrahend value to be subtracted from this {@code Complex}. @return {@code this - subtrahend}. @throws NullArgumentException if {@code subtrahend} is {@code null}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Complex.toString",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.toString()",
+    "snippet": "    @Override\n    public String toString() {\n        return \"(\" + real + \", \" + imaginary + \")\";\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "MathUtils.checkNotNull",
+    "class_name": "org.apache.commons.math.util.MathUtils",
+    "signature": "org.apache.commons.math.util.MathUtils.checkNotNull(Object)",
+    "snippet": "    public static void checkNotNull(Object o)\n        throws NullArgumentException {\n        if (o == null) {\n            throw new NullArgumentException();\n        }\n    }",
+    "comment": " Checks that an object is not null.  @param o Object to be checked. @throws NullArgumentException if {@code o} is {@code null}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  }
+]

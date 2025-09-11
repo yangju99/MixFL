@@ -1,0 +1,142 @@
+[
+  {
+    "name": "SystemUtils.getJavaVersionAsFloat",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.getJavaVersionAsFloat()",
+    "snippet": "    private static float getJavaVersionAsFloat() {\n        return toVersionFloat(toJavaVersionIntArray(SystemUtils.JAVA_VERSION, JAVA_VERSION_TRIM_SIZE));\n    }",
+    "comment": " <p> Gets the Java version number as a <code>float</code>. </p>  <p> Example return values: </p> <ul> <li><code>1.2f</code> for Java 1.2</li> <li><code>1.31f</code> for Java 1.3.1</li> <li><code>1.6f</code> for Java 1.6.0_20</li> </ul>  <p> Patch releases are not reported. </p>  @return the version, for example 1.31f for Java 1.3.1 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SystemUtils.getJavaVersionAsInt",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.getJavaVersionAsInt()",
+    "snippet": "    private static int getJavaVersionAsInt() {\n        return toVersionInt(toJavaVersionIntArray(SystemUtils.JAVA_VERSION, JAVA_VERSION_TRIM_SIZE));\n    }",
+    "comment": " <p> Gets the Java version number as an <code>int</code>. </p>  <p> Example return values: </p> <ul> <li><code>120</code> for Java 1.2</li> <li><code>131</code> for Java 1.3.1</li> <li><code>160</code> for Java 1.6.0_20</li> </ul>  <p> Patch releases are not reported. </p>  @return the version, for example 131 for Java 1.3.1 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SystemUtils.getJavaVersionMatches",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.getJavaVersionMatches(String)",
+    "snippet": "    private static boolean getJavaVersionMatches(String versionPrefix) {\n        return isJavaVersionMatch(JAVA_VERSION_TRIMMED, versionPrefix);\n    }",
+    "comment": " <p> Decides if the Java version matches. </p>  @param versionPrefix the prefix for the java version @return true if matches, or false if not or can't determine ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SystemUtils.getJavaVersionTrimmed",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.getJavaVersionTrimmed()",
+    "snippet": "    private static String getJavaVersionTrimmed() {\n        if (JAVA_VERSION != null) {\n            for (int i = 0; i < JAVA_VERSION.length(); i++) {\n                char ch = JAVA_VERSION.charAt(i);\n                if (ch >= '0' && ch <= '9') {\n                    return JAVA_VERSION.substring(i);\n                }\n            }\n        }\n        return null;\n    }",
+    "comment": " Trims the text of the java version to start with numbers.  @return the trimmed java version ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SystemUtils.getOSMatches",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.getOSMatches(String,String)",
+    "snippet": "    private static boolean getOSMatches(String osNamePrefix, String osVersionPrefix) {\n        return isOSMatch(OS_NAME, OS_VERSION, osNamePrefix, osVersionPrefix);\n    }",
+    "comment": " Decides if the operating system matches.  @param osNamePrefix the prefix for the os name @param osVersionPrefix the prefix for the version @return true if matches, or false if not or can't determine ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SystemUtils.getOSMatchesName",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.getOSMatchesName(String)",
+    "snippet": "    private static boolean getOSMatchesName(String osNamePrefix) {\n        return isOSNameMatch(OS_NAME, osNamePrefix);\n    }",
+    "comment": " Decides if the operating system matches.  @param osNamePrefix the prefix for the os name @return true if matches, or false if not or can't determine ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SystemUtils.getSystemProperty",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.getSystemProperty(String)",
+    "snippet": "    private static String getSystemProperty(String property) {\n        try {\n            return System.getProperty(property);\n        } catch (SecurityException ex) {\n            // we are not allowed to look at this property\n            System.err.println(\"Caught a SecurityException reading the system property '\" + property\n                    + \"'; the SystemUtils property value will default to null.\");\n            return null;\n        }\n    }",
+    "comment": " <p> Gets a System property, defaulting to <code>null</code> if the property cannot be read. </p>  <p> If a <code>SecurityException</code> is caught, the return value is <code>null</code> and a message is written to <code>System.err</code>. </p>  @param property the system property name @return the system property value or <code>null</code> if a security problem occurs ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SystemUtils.isJavaVersionMatch",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.isJavaVersionMatch(String,String)",
+    "snippet": "    static boolean isJavaVersionMatch(String version, String versionPrefix) {\n        if (version == null) {\n            return false;\n        }\n        return version.startsWith(versionPrefix);\n    }",
+    "comment": " <p> Decides if the Java version matches. </p> <p> This method is package private instead of private to support unit test invocation. </p>  @param version the actual Java version @param versionPrefix the prefix for the expected Java version @return true if matches, or false if not or can't determine ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SystemUtils.isOSMatch",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.isOSMatch(String,String,String,String)",
+    "snippet": "    static boolean isOSMatch(String osName, String osVersion, String osNamePrefix, String osVersionPrefix) {\n        if (osName == null || osVersion == null) {\n            return false;\n        }\n        return osName.startsWith(osNamePrefix) && osVersion.startsWith(osVersionPrefix);\n    }",
+    "comment": " Decides if the operating system matches. <p> This method is package private instead of private to support unit test invocation. </p>  @param osName the actual OS name @param osVersion the actual OS version @param osNamePrefix the prefix for the expected OS name @param osVersionPrefix the prefix for the expected OS version @return true if matches, or false if not or can't determine ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SystemUtils.isOSNameMatch",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.isOSNameMatch(String,String)",
+    "snippet": "    static boolean isOSNameMatch(String osName, String osNamePrefix) {\n        if (osName == null) {\n            return false;\n        }\n        return osName.startsWith(osNamePrefix);\n    }",
+    "comment": " Decides if the operating system matches. <p> This method is package private instead of private to support unit test invocation. </p>  @param osName the actual OS name @param osNamePrefix the prefix for the expected OS name @return true if matches, or false if not or can't determine ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SystemUtils.toJavaVersionInt",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.toJavaVersionInt(String)",
+    "snippet": "    static float toJavaVersionInt(String version) {\n        return toVersionInt(toJavaVersionIntArray(version, JAVA_VERSION_TRIM_SIZE));\n    }",
+    "comment": " <p> Converts the given Java version string to an <code>int</code>. </p>  <p> Example return values: </p> <ul> <li><code>120</code> for Java 1.2</li> <li><code>131</code> for Java 1.3.1</li> <li><code>160</code> for Java 1.6.0_20</li> </ul>  <p> Patch releases are not reported. </p> <p> This method is package private instead of private to support unit test invocation. </p>  @return the version, for example 131 for Java 1.3.1 ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SystemUtils.toJavaVersionIntArray",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.toJavaVersionIntArray(String,int)",
+    "snippet": "    private static int[] toJavaVersionIntArray(String version, int limit) {\n        if (version == null) {\n            return ArrayUtils.EMPTY_INT_ARRAY;\n        }\n        String[] strings = Pattern.compile(\"[^\\\\d]\").split(version);\n        int[] ints = new int[Math.min(limit, strings.length)];\n        int j = 0;\n        for (int i = 0; i < strings.length && j < limit; i++) {\n            String s = strings[i];\n            if (s.length() > 0) {\n                ints[j++] = Integer.parseInt(s);\n            }\n        }\n        return ints;\n    }",
+    "comment": " <p> Converts the given Java version string to an <code>int[]</code> of maximum size <code>limit</code>. </p>  <p> Example return values: </p> <ul> <li><code>[1, 2, 0]</code> for Java 1.2</li> <li><code>[1, 3, 1]</code> for Java 1.3.1</li> <li><code>[1, 5, 0, 21]</code> for Java 1.5.0_21</li> </ul>  @return the version, for example [1, 5, 0, 21] for Java 1.5.0_21 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SystemUtils.toVersionFloat",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.toVersionFloat(int[])",
+    "snippet": "    private static float toVersionFloat(int[] javaVersions) {\n        if (javaVersions == null || javaVersions.length == 0) {\n            return 0f;\n        }\n        if (javaVersions.length == 1) {\n            return javaVersions[0];\n        }\n        StringBuilder builder = new StringBuilder();\n        builder.append(javaVersions[0]);\n        builder.append('.');\n        for (int i = 1; i < javaVersions.length; i++) {\n            builder.append(javaVersions[i]);\n        }\n        try {\n            return Float.parseFloat(builder.toString());\n        } catch (Exception ex) {\n            return 0f;\n        }\n    }",
+    "comment": " <p> Converts given the Java version array to a <code>float</code>. </p>  <p> Example return values: </p> <ul> <li><code>1.2f</code> for Java 1.2</li> <li><code>1.31f</code> for Java 1.3.1</li> <li><code>1.6f</code> for Java 1.6.0_20</li> </ul>  <p> Patch releases are not reported. </p>  @return the version, for example 1.31f for Java 1.3.1 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SystemUtils.toVersionInt",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.toVersionInt(int[])",
+    "snippet": "    private static int toVersionInt(int[] javaVersions) {\n        if (javaVersions == null) {\n            return 0;\n        }\n        int intVersion = 0;\n        int len = javaVersions.length;\n        if (len >= 1) {\n            intVersion = javaVersions[0] * 100;\n        }\n        if (len >= 2) {\n            intVersion += javaVersions[1] * 10;\n        }\n        if (len >= 3) {\n            intVersion += javaVersions[2];\n        }\n        return intVersion;\n    }",
+    "comment": " <p> Converts given the Java version array to an <code>int</code>. </p>  <p> Example return values: </p> <ul> <li><code>120</code> for Java 1.2</li> <li><code>131</code> for Java 1.3.1</li> <li><code>160</code> for Java 1.6.0_20</li> </ul>  <p> Patch releases are not reported. </p>  @return the version, for example 1.31f for Java 1.3.1 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

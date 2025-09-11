@@ -1,0 +1,912 @@
+[
+  {
+    "name": "ChartColor.createDefaultPaintArray",
+    "class_name": "org.jfree.chart.ChartColor",
+    "signature": "org.jfree.chart.ChartColor.createDefaultPaintArray()",
+    "snippet": "    public static Paint[] createDefaultPaintArray() {\n\n        return new Paint[] {\n            new Color(0xFF, 0x55, 0x55),\n            new Color(0x55, 0x55, 0xFF),\n            new Color(0x55, 0xFF, 0x55),\n            new Color(0xFF, 0xFF, 0x55),\n            new Color(0xFF, 0x55, 0xFF),\n            new Color(0x55, 0xFF, 0xFF),\n            Color.pink,\n            Color.gray,\n            ChartColor.DARK_RED,\n            ChartColor.DARK_BLUE,\n            ChartColor.DARK_GREEN,\n            ChartColor.DARK_YELLOW,\n            ChartColor.DARK_MAGENTA,\n            ChartColor.DARK_CYAN,\n            Color.darkGray,\n            ChartColor.LIGHT_RED,\n            ChartColor.LIGHT_BLUE,\n            ChartColor.LIGHT_GREEN,\n            ChartColor.LIGHT_YELLOW,\n            ChartColor.LIGHT_MAGENTA,\n            ChartColor.LIGHT_CYAN,\n            Color.lightGray,\n            ChartColor.VERY_DARK_RED,\n            ChartColor.VERY_DARK_BLUE,\n            ChartColor.VERY_DARK_GREEN,\n            ChartColor.VERY_DARK_YELLOW,\n            ChartColor.VERY_DARK_MAGENTA,\n            ChartColor.VERY_DARK_CYAN,\n            ChartColor.VERY_LIGHT_RED,\n            ChartColor.VERY_LIGHT_BLUE,\n            ChartColor.VERY_LIGHT_GREEN,\n            ChartColor.VERY_LIGHT_YELLOW,\n            ChartColor.VERY_LIGHT_MAGENTA,\n            ChartColor.VERY_LIGHT_CYAN\n        };\n    }",
+    "comment": " Convenience method to return an array of <code>Paint</code> objects that represent the pre-defined colors in the <code>Color<code> and  <code>ChartColor</code> objects.  @return An array of objects with the <code>Paint</code> interface. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Axis.Axis",
+    "class_name": "org.jfree.chart.axis.Axis",
+    "signature": "org.jfree.chart.axis.Axis.Axis(String)",
+    "snippet": "    protected Axis(String label) {\n\n        this.label = label;\n        this.visible = DEFAULT_AXIS_VISIBLE;\n        this.labelFont = DEFAULT_AXIS_LABEL_FONT;\n        this.labelPaint = DEFAULT_AXIS_LABEL_PAINT;\n        this.labelInsets = DEFAULT_AXIS_LABEL_INSETS;\n        this.labelAngle = 0.0;\n        this.labelToolTip = null;\n        this.labelURL = null;\n        \n        this.axisLineVisible = true;\n        this.axisLinePaint = DEFAULT_AXIS_LINE_PAINT;\n        this.axisLineStroke = DEFAULT_AXIS_LINE_STROKE;\n        \n        this.tickLabelsVisible = DEFAULT_TICK_LABELS_VISIBLE;\n        this.tickLabelFont = DEFAULT_TICK_LABEL_FONT;\n        this.tickLabelPaint = DEFAULT_TICK_LABEL_PAINT;\n        this.tickLabelInsets = DEFAULT_TICK_LABEL_INSETS;\n        \n        this.tickMarksVisible = DEFAULT_TICK_MARKS_VISIBLE;\n        this.tickMarkStroke = DEFAULT_TICK_MARK_STROKE;\n        this.tickMarkPaint = DEFAULT_TICK_MARK_PAINT;\n        this.tickMarkInsideLength = DEFAULT_TICK_MARK_INSIDE_LENGTH;\n        this.tickMarkOutsideLength = DEFAULT_TICK_MARK_OUTSIDE_LENGTH;\n\n        this.plot = null;\n\n        this.listenerList = new EventListenerList();\n\n    }",
+    "comment": " Constructs an axis, using default values where necessary.  @param label  the axis label (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Axis.addChangeListener",
+    "class_name": "org.jfree.chart.axis.Axis",
+    "signature": "org.jfree.chart.axis.Axis.addChangeListener(AxisChangeListener)",
+    "snippet": "    public void addChangeListener(AxisChangeListener listener) {\n        this.listenerList.add(AxisChangeListener.class, listener);\n    }",
+    "comment": " Registers an object for notification of changes to the axis.  @param listener  the object that is being registered.  @see #removeChangeListener(AxisChangeListener) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Axis.getPlot",
+    "class_name": "org.jfree.chart.axis.Axis",
+    "signature": "org.jfree.chart.axis.Axis.getPlot()",
+    "snippet": "    public Plot getPlot() {\n        return this.plot;\n    }",
+    "comment": " Returns the plot that the axis is assigned to.  This method will return  <code>null</code> if the axis is not currently assigned to a plot.  @return The plot that the axis is assigned to (possibly  <code>null</code>).  @see #setPlot(Plot) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Axis.notifyListeners",
+    "class_name": "org.jfree.chart.axis.Axis",
+    "signature": "org.jfree.chart.axis.Axis.notifyListeners(AxisChangeEvent)",
+    "snippet": "    protected void notifyListeners(AxisChangeEvent event) {\n\n        Object[] listeners = this.listenerList.getListenerList();\n        for (int i = listeners.length - 2; i >= 0; i -= 2) {\n            if (listeners[i] == AxisChangeListener.class) {\n                ((AxisChangeListener) listeners[i + 1]).axisChanged(event);\n            }\n        }\n\n    }",
+    "comment": " Notifies all registered listeners that the axis has changed. The AxisChangeEvent provides information about the change.  @param event  information about the change to the axis. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Axis.setPlot",
+    "class_name": "org.jfree.chart.axis.Axis",
+    "signature": "org.jfree.chart.axis.Axis.setPlot(Plot)",
+    "snippet": "    public void setPlot(Plot plot) {\n        this.plot = plot;\n        configure();\n    }",
+    "comment": " Sets a reference to the plot that the axis is assigned to. <P> This method is used internally, you shouldn't need to call it yourself.  @param plot  the plot.  @see #getPlot() ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Axis.setTickMarksVisible",
+    "class_name": "org.jfree.chart.axis.Axis",
+    "signature": "org.jfree.chart.axis.Axis.setTickMarksVisible(boolean)",
+    "snippet": "    public void setTickMarksVisible(boolean flag) {\n        if (flag != this.tickMarksVisible) {\n            this.tickMarksVisible = flag;\n            notifyListeners(new AxisChangeEvent(this));\n        }\n    }",
+    "comment": " Sets the flag that indicates whether or not the tick marks are showing and sends an {@link AxisChangeEvent} to all registered listeners.  @param flag  the flag.  @see #isTickMarksVisible() ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryAxis.CategoryAxis",
+    "class_name": "org.jfree.chart.axis.CategoryAxis",
+    "signature": "org.jfree.chart.axis.CategoryAxis.CategoryAxis(String)",
+    "snippet": "    public CategoryAxis(String label) {\n\n        super(label);\n\n        this.lowerMargin = DEFAULT_AXIS_MARGIN;\n        this.upperMargin = DEFAULT_AXIS_MARGIN;\n        this.categoryMargin = DEFAULT_CATEGORY_MARGIN;\n        this.maximumCategoryLabelLines = 1;\n        this.maximumCategoryLabelWidthRatio = 0.0f;\n        \n        setTickMarksVisible(false);  // not supported by this axis type yet\n        \n        this.categoryLabelPositionOffset = 4;\n        this.categoryLabelPositions = CategoryLabelPositions.STANDARD;\n        this.tickLabelFontMap = new HashMap();\n        this.tickLabelPaintMap = new HashMap();\n        this.categoryLabelToolTips = new HashMap();\n        \n    }",
+    "comment": " Constructs a category axis, using default values where necessary.  @param label  the axis label (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryAxis.configure",
+    "class_name": "org.jfree.chart.axis.CategoryAxis",
+    "signature": "org.jfree.chart.axis.CategoryAxis.configure()",
+    "snippet": "    public void configure() {\n        // nothing required\n    }",
+    "comment": " Configures the axis against the current plot. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryLabelPosition.CategoryLabelPosition",
+    "class_name": "org.jfree.chart.axis.CategoryLabelPosition",
+    "signature": "org.jfree.chart.axis.CategoryLabelPosition.CategoryLabelPosition(RectangleAnchor,TextBlockAnchor)",
+    "snippet": "    public CategoryLabelPosition(RectangleAnchor categoryAnchor, \n                                 TextBlockAnchor labelAnchor) {\n        // argument checking delegated...\n        this(categoryAnchor, labelAnchor, TextAnchor.CENTER, 0.0, \n                CategoryLabelWidthType.CATEGORY, 0.95f);\n    }",
+    "comment": " Creates a new category label position record.  @param categoryAnchor  the category anchor (<code>null</code> not  permitted). @param labelAnchor  the label anchor (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryLabelPosition.CategoryLabelPosition",
+    "class_name": "org.jfree.chart.axis.CategoryLabelPosition",
+    "signature": "org.jfree.chart.axis.CategoryLabelPosition.CategoryLabelPosition(RectangleAnchor,TextBlockAnchor,CategoryLabelWidthType,float)",
+    "snippet": "    public CategoryLabelPosition(RectangleAnchor categoryAnchor, \n                                 TextBlockAnchor labelAnchor,\n                                 CategoryLabelWidthType widthType,\n                                 float widthRatio) {\n        // argument checking delegated...\n        this(categoryAnchor, labelAnchor, TextAnchor.CENTER, 0.0, widthType, \n                widthRatio);\n    }",
+    "comment": " Creates a new category label position record.  @param categoryAnchor  the category anchor (<code>null</code> not  permitted). @param labelAnchor  the label anchor (<code>null</code> not permitted). @param widthType  the width type (<code>null</code> not permitted). @param widthRatio  the maximum label width as a percentage (of the  category space or the range space). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryLabelPosition.CategoryLabelPosition",
+    "class_name": "org.jfree.chart.axis.CategoryLabelPosition",
+    "signature": "org.jfree.chart.axis.CategoryLabelPosition.CategoryLabelPosition(RectangleAnchor,TextBlockAnchor,TextAnchor,double,CategoryLabelWidthType,float)",
+    "snippet": "    public CategoryLabelPosition(RectangleAnchor categoryAnchor, \n                                 TextBlockAnchor labelAnchor,\n                                 TextAnchor rotationAnchor,\n                                 double angle,\n                                 CategoryLabelWidthType widthType,\n                                 float widthRatio) {\n        \n        if (categoryAnchor == null) {\n            throw new IllegalArgumentException(\n                    \"Null 'categoryAnchor' argument.\");\n        }\n        if (labelAnchor == null) {\n            throw new IllegalArgumentException(\n                    \"Null 'labelAnchor' argument.\");\n        }\n        if (rotationAnchor == null) {\n            throw new IllegalArgumentException(\n                    \"Null 'rotationAnchor' argument.\");\n        }\n        if (widthType == null) {\n            throw new IllegalArgumentException(\"Null 'widthType' argument.\");   \n        }\n        \n        this.categoryAnchor = categoryAnchor;\n        this.labelAnchor = labelAnchor;\n        this.rotationAnchor = rotationAnchor;\n        this.angle = angle;\n        this.widthType = widthType;\n        this.widthRatio = widthRatio;\n    \n    }",
+    "comment": " Creates a new position record.  The item label anchor is a point  relative to the data item (dot, bar or other visual item) on a chart.   The item label is aligned by aligning the text anchor with the item  label anchor.  @param categoryAnchor  the category anchor (<code>null</code> not  permitted). @param labelAnchor  the label anchor (<code>null</code> not permitted). @param rotationAnchor  the rotation anchor (<code>null</code> not  permitted). @param angle  the rotation angle (<code>null</code> not permitted). @param widthType  the width type (<code>null</code> not permitted). @param widthRatio  the maximum label width as a percentage (of the  category space or the range space). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryLabelPositions.CategoryLabelPositions",
+    "class_name": "org.jfree.chart.axis.CategoryLabelPositions",
+    "signature": "org.jfree.chart.axis.CategoryLabelPositions.CategoryLabelPositions(CategoryLabelPosition,CategoryLabelPosition,CategoryLabelPosition,CategoryLabelPosition)",
+    "snippet": "    public CategoryLabelPositions(CategoryLabelPosition top,\n                                  CategoryLabelPosition bottom,\n                                  CategoryLabelPosition left,\n                                  CategoryLabelPosition right) {\n        \n        if (top == null) {\n            throw new IllegalArgumentException(\"Null 'top' argument.\");\n        }\n        if (bottom == null) {\n            throw new IllegalArgumentException(\"Null 'bottom' argument.\");\n        }\n        if (left == null) {\n            throw new IllegalArgumentException(\"Null 'left' argument.\");\n        }\n        if (right == null) {\n            throw new IllegalArgumentException(\"Null 'right' argument.\");\n        }\n        \n        this.positionForAxisAtTop = top;\n        this.positionForAxisAtBottom = bottom;\n        this.positionForAxisAtLeft = left;\n        this.positionForAxisAtRight = right;\n    \n    }",
+    "comment": " Creates a new position specification.  @param top  the label position info used when an axis is at the top  (<code>null</code> not permitted). @param bottom  the label position info used when an axis is at the  bottom (<code>null</code> not permitted). @param left  the label position info used when an axis is at the left  (<code>null</code> not permitted). @param right  the label position info used when an axis is at the right  (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryLabelPositions.createDownRotationLabelPositions",
+    "class_name": "org.jfree.chart.axis.CategoryLabelPositions",
+    "signature": "org.jfree.chart.axis.CategoryLabelPositions.createDownRotationLabelPositions(double)",
+    "snippet": "    public static CategoryLabelPositions createDownRotationLabelPositions(\n            double angle) {\n        return new CategoryLabelPositions(\n            new CategoryLabelPosition(\n                RectangleAnchor.BOTTOM, TextBlockAnchor.BOTTOM_RIGHT, \n                TextAnchor.BOTTOM_RIGHT, angle,\n                CategoryLabelWidthType.RANGE, 0.50f\n            ), // TOP\n            new CategoryLabelPosition(\n                RectangleAnchor.TOP, TextBlockAnchor.TOP_LEFT, \n                TextAnchor.TOP_LEFT, angle,\n                CategoryLabelWidthType.RANGE, 0.50f\n            ), // BOTTOM\n            new CategoryLabelPosition(\n                RectangleAnchor.RIGHT, TextBlockAnchor.TOP_RIGHT, \n                TextAnchor.TOP_RIGHT, angle,\n                CategoryLabelWidthType.RANGE, 0.50f\n            ), // LEFT\n            new CategoryLabelPosition(\n                RectangleAnchor.LEFT, TextBlockAnchor.BOTTOM_LEFT, \n                TextAnchor.BOTTOM_LEFT, angle,\n                CategoryLabelWidthType.RANGE, 0.50f\n            ) // RIGHT\n        );\n    }",
+    "comment": " Creates a new instance where the category labels angled downwards by the specified amount.  @param angle  the rotation angle (should be < Math.PI / 2.0).  @return A category label position specification. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryLabelPositions.createUpRotationLabelPositions",
+    "class_name": "org.jfree.chart.axis.CategoryLabelPositions",
+    "signature": "org.jfree.chart.axis.CategoryLabelPositions.createUpRotationLabelPositions(double)",
+    "snippet": "    public static CategoryLabelPositions createUpRotationLabelPositions(\n            double angle) {\n        return new CategoryLabelPositions(\n            new CategoryLabelPosition(\n                RectangleAnchor.BOTTOM, TextBlockAnchor.BOTTOM_LEFT, \n                TextAnchor.BOTTOM_LEFT, -angle,\n                CategoryLabelWidthType.RANGE, 0.50f\n            ), // TOP\n            new CategoryLabelPosition(\n                RectangleAnchor.TOP, TextBlockAnchor.TOP_RIGHT, \n                TextAnchor.TOP_RIGHT, -angle,\n                CategoryLabelWidthType.RANGE, 0.50f\n            ), // BOTTOM\n            new CategoryLabelPosition(\n                RectangleAnchor.RIGHT, TextBlockAnchor.BOTTOM_RIGHT, \n                TextAnchor.BOTTOM_RIGHT, -angle,\n                CategoryLabelWidthType.RANGE, 0.50f\n            ), // LEFT\n            new CategoryLabelPosition(\n                RectangleAnchor.LEFT, TextBlockAnchor.TOP_LEFT, \n                TextAnchor.TOP_LEFT, -angle,\n                CategoryLabelWidthType.RANGE, 0.50f\n            ) // RIGHT\n        );\n    }",
+    "comment": " Creates a new instance where the category labels angled upwards by the  specified amount.  @param angle  the rotation angle (should be < Math.PI / 2.0).  @return A category label position specification. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "NumberAxis.NumberAxis",
+    "class_name": "org.jfree.chart.axis.NumberAxis",
+    "signature": "org.jfree.chart.axis.NumberAxis.NumberAxis(String)",
+    "snippet": "    public NumberAxis(String label) {\n        super(label, NumberAxis.createStandardTickUnits());\n        this.rangeType = RangeType.FULL;\n        this.autoRangeIncludesZero = DEFAULT_AUTO_RANGE_INCLUDES_ZERO;\n        this.autoRangeStickyZero = DEFAULT_AUTO_RANGE_STICKY_ZERO;\n        this.tickUnit = DEFAULT_TICK_UNIT;\n        this.numberFormatOverride = null;\n        this.markerBand = null;\n    }",
+    "comment": " Constructs a number axis, using default values where necessary.  @param label  the axis label (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "NumberAxis.autoAdjustRange",
+    "class_name": "org.jfree.chart.axis.NumberAxis",
+    "signature": "org.jfree.chart.axis.NumberAxis.autoAdjustRange()",
+    "snippet": "    protected void autoAdjustRange() {\n\n        Plot plot = getPlot();\n        if (plot == null) {\n            return;  // no plot, no data\n        }\n\n        if (plot instanceof ValueAxisPlot) {\n            ValueAxisPlot vap = (ValueAxisPlot) plot;\n\n            Range r = vap.getDataRange(this);\n            if (r == null) {\n                r = getDefaultAutoRange();\n            }\n            \n            double upper = r.getUpperBound();\n            double lower = r.getLowerBound();\n            if (this.rangeType == RangeType.POSITIVE) {\n                lower = Math.max(0.0, lower);\n                upper = Math.max(0.0, upper);\n            }\n            else if (this.rangeType == RangeType.NEGATIVE) {\n                lower = Math.min(0.0, lower);\n                upper = Math.min(0.0, upper);                   \n            }\n            \n            if (getAutoRangeIncludesZero()) {\n                lower = Math.min(lower, 0.0);\n                upper = Math.max(upper, 0.0);\n            }\n            double range = upper - lower;\n\n            // if fixed auto range, then derive lower bound...\n            double fixedAutoRange = getFixedAutoRange();\n            if (fixedAutoRange > 0.0) {\n                lower = upper - fixedAutoRange;\n            }\n            else {\n                // ensure the autorange is at least <minRange> in size...\n                double minRange = getAutoRangeMinimumSize();\n                if (range < minRange) {\n                    double expand = (minRange - range) / 2;\n                    upper = upper + expand;\n                    lower = lower - expand;\n                    if (lower == upper) { // see bug report 1549218\n                        double adjust = Math.abs(lower) / 10.0;\n                        lower = lower - adjust;\n                        upper = upper + adjust;\n                    }\n                    if (this.rangeType == RangeType.POSITIVE) {\n                        if (lower < 0.0) {\n                            upper = upper - lower;\n                            lower = 0.0;\n                        }\n                    }\n                    else if (this.rangeType == RangeType.NEGATIVE) {\n                        if (upper > 0.0) {\n                            lower = lower - upper;\n                            upper = 0.0;\n                        }\n                    }\n                }\n\n                if (getAutoRangeStickyZero()) {\n                    if (upper <= 0.0) {\n                        upper = Math.min(0.0, upper + getUpperMargin() * range);\n                    }\n                    else {\n                        upper = upper + getUpperMargin() * range;\n                    }\n                    if (lower >= 0.0) {\n                        lower = Math.max(0.0, lower - getLowerMargin() * range);\n                    }\n                    else {\n                        lower = lower - getLowerMargin() * range;\n                    }\n                }\n                else {\n                    upper = upper + getUpperMargin() * range;\n                    lower = lower - getLowerMargin() * range;\n                }\n            }\n\n            setRange(new Range(lower, upper), false, false);\n        }\n\n    }",
+    "comment": " Rescales the axis to ensure that all data is visible. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "NumberAxis.configure",
+    "class_name": "org.jfree.chart.axis.NumberAxis",
+    "signature": "org.jfree.chart.axis.NumberAxis.configure()",
+    "snippet": "    public void configure() {\n        if (isAutoRange()) {\n            autoAdjustRange();\n        }\n    }",
+    "comment": " Configures the axis to work with the specified plot.  If the axis has auto-scaling, then sets the maximum and minimum values. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "NumberAxis.createStandardTickUnits",
+    "class_name": "org.jfree.chart.axis.NumberAxis",
+    "signature": "org.jfree.chart.axis.NumberAxis.createStandardTickUnits()",
+    "snippet": "    public static TickUnitSource createStandardTickUnits() {\n\n        TickUnits units = new TickUnits();\n        DecimalFormat df0 = new DecimalFormat(\"0.00000000\");\n        DecimalFormat df1 = new DecimalFormat(\"0.0000000\");\n        DecimalFormat df2 = new DecimalFormat(\"0.000000\");\n        DecimalFormat df3 = new DecimalFormat(\"0.00000\");\n        DecimalFormat df4 = new DecimalFormat(\"0.0000\");\n        DecimalFormat df5 = new DecimalFormat(\"0.000\");\n        DecimalFormat df6 = new DecimalFormat(\"0.00\");\n        DecimalFormat df7 = new DecimalFormat(\"0.0\");\n        DecimalFormat df8 = new DecimalFormat(\"#,##0\");\n        DecimalFormat df9 = new DecimalFormat(\"#,###,##0\");\n        DecimalFormat df10 = new DecimalFormat(\"#,###,###,##0\");\n        \n        // we can add the units in any order, the TickUnits collection will \n        // sort them...\n        units.add(new NumberTickUnit(0.0000001, df1));\n        units.add(new NumberTickUnit(0.000001, df2));\n        units.add(new NumberTickUnit(0.00001, df3));\n        units.add(new NumberTickUnit(0.0001, df4));\n        units.add(new NumberTickUnit(0.001, df5));\n        units.add(new NumberTickUnit(0.01, df6));\n        units.add(new NumberTickUnit(0.1, df7));\n        units.add(new NumberTickUnit(1, df8));\n        units.add(new NumberTickUnit(10, df8));\n        units.add(new NumberTickUnit(100, df8));\n        units.add(new NumberTickUnit(1000, df8));\n        units.add(new NumberTickUnit(10000, df8));\n        units.add(new NumberTickUnit(100000, df8));\n        units.add(new NumberTickUnit(1000000, df9));\n        units.add(new NumberTickUnit(10000000, df9));\n        units.add(new NumberTickUnit(100000000, df9));\n        units.add(new NumberTickUnit(1000000000, df10));\n        units.add(new NumberTickUnit(10000000000.0, df10));\n        units.add(new NumberTickUnit(100000000000.0, df10));\n        \n        units.add(new NumberTickUnit(0.00000025, df0));\n        units.add(new NumberTickUnit(0.0000025, df1));\n        units.add(new NumberTickUnit(0.000025, df2));\n        units.add(new NumberTickUnit(0.00025, df3));\n        units.add(new NumberTickUnit(0.0025, df4));\n        units.add(new NumberTickUnit(0.025, df5));\n        units.add(new NumberTickUnit(0.25, df6));\n        units.add(new NumberTickUnit(2.5, df7));\n        units.add(new NumberTickUnit(25, df8));\n        units.add(new NumberTickUnit(250, df8));\n        units.add(new NumberTickUnit(2500, df8));\n        units.add(new NumberTickUnit(25000, df8));\n        units.add(new NumberTickUnit(250000, df8));\n        units.add(new NumberTickUnit(2500000, df9));\n        units.add(new NumberTickUnit(25000000, df9));\n        units.add(new NumberTickUnit(250000000, df9));\n        units.add(new NumberTickUnit(2500000000.0, df10));\n        units.add(new NumberTickUnit(25000000000.0, df10));\n        units.add(new NumberTickUnit(250000000000.0, df10));\n\n        units.add(new NumberTickUnit(0.0000005, df1));\n        units.add(new NumberTickUnit(0.000005, df2));\n        units.add(new NumberTickUnit(0.00005, df3));\n        units.add(new NumberTickUnit(0.0005, df4));\n        units.add(new NumberTickUnit(0.005, df5));\n        units.add(new NumberTickUnit(0.05, df6));\n        units.add(new NumberTickUnit(0.5, df7));\n        units.add(new NumberTickUnit(5L, df8));\n        units.add(new NumberTickUnit(50L, df8));\n        units.add(new NumberTickUnit(500L, df8));\n        units.add(new NumberTickUnit(5000L, df8));\n        units.add(new NumberTickUnit(50000L, df8));\n        units.add(new NumberTickUnit(500000L, df8));\n        units.add(new NumberTickUnit(5000000L, df9));\n        units.add(new NumberTickUnit(50000000L, df9));\n        units.add(new NumberTickUnit(500000000L, df9));\n        units.add(new NumberTickUnit(5000000000L, df10));\n        units.add(new NumberTickUnit(50000000000L, df10));\n        units.add(new NumberTickUnit(500000000000L, df10));\n\n        return units;\n\n    }",
+    "comment": " Creates the standard tick units. <P> If you don't like these defaults, create your own instance of TickUnits and then pass it to the setStandardTickUnits() method in the NumberAxis class.  @return The standard tick units.  @see #setStandardTickUnits(TickUnitSource) @see #createIntegerTickUnits() ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "NumberAxis.getAutoRangeIncludesZero",
+    "class_name": "org.jfree.chart.axis.NumberAxis",
+    "signature": "org.jfree.chart.axis.NumberAxis.getAutoRangeIncludesZero()",
+    "snippet": "    public boolean getAutoRangeIncludesZero() {\n        return this.autoRangeIncludesZero;\n    }",
+    "comment": " Returns the flag that indicates whether or not the automatic axis range (if indeed it is determined automatically) is forced to include zero.  @return The flag. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "NumberAxis.getAutoRangeStickyZero",
+    "class_name": "org.jfree.chart.axis.NumberAxis",
+    "signature": "org.jfree.chart.axis.NumberAxis.getAutoRangeStickyZero()",
+    "snippet": "    public boolean getAutoRangeStickyZero() {\n        return this.autoRangeStickyZero;\n    }",
+    "comment": " Returns a flag that affects the auto-range when zero falls outside the data range but inside the margins defined for the axis.  @return The flag.  @see #setAutoRangeStickyZero(boolean) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "NumberTickUnit.NumberTickUnit",
+    "class_name": "org.jfree.chart.axis.NumberTickUnit",
+    "signature": "org.jfree.chart.axis.NumberTickUnit.NumberTickUnit(double,NumberFormat)",
+    "snippet": "    public NumberTickUnit(double size, NumberFormat formatter) {\n        super(size);\n        if (formatter == null) {\n            throw new IllegalArgumentException(\"Null 'formatter' argument.\");\n        }\n        this.formatter = formatter;\n    }",
+    "comment": " Creates a new number tick unit.  @param size  the size of the tick unit. @param formatter  a number formatter for the tick unit (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TickUnit.TickUnit",
+    "class_name": "org.jfree.chart.axis.TickUnit",
+    "signature": "org.jfree.chart.axis.TickUnit.TickUnit(double)",
+    "snippet": "    public TickUnit(double size) {\n        this.size = size;\n    }",
+    "comment": " Constructs a new tick unit.  @param size  the tick unit size. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TickUnit.compareTo",
+    "class_name": "org.jfree.chart.axis.TickUnit",
+    "signature": "org.jfree.chart.axis.TickUnit.compareTo(Object)",
+    "snippet": "    public int compareTo(Object object) {\n\n        if (object instanceof TickUnit) {\n            TickUnit other = (TickUnit) object;\n            if (this.size > other.getSize()) {\n                return 1;\n            }\n            else if (this.size < other.getSize()) {\n                return -1;\n            }\n            else {\n                return 0;\n            }\n        }\n        else {\n            return -1;\n        }\n\n    }",
+    "comment": " Compares this tick unit to an arbitrary object.  @param object  the object to compare against.  @return <code>1</code> if the size of the other object is less than this, <code>0</code> if both have the same size and <code>-1</code> this size is less than the others. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TickUnit.getSize",
+    "class_name": "org.jfree.chart.axis.TickUnit",
+    "signature": "org.jfree.chart.axis.TickUnit.getSize()",
+    "snippet": "    public double getSize() {\n        return this.size;\n    }",
+    "comment": " Returns the size of the tick unit.  @return The size of the tick unit. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TickUnits.TickUnits",
+    "class_name": "org.jfree.chart.axis.TickUnits",
+    "signature": "org.jfree.chart.axis.TickUnits.TickUnits()",
+    "snippet": "    public TickUnits() {\n        this.tickUnits = new ArrayList();\n    }",
+    "comment": " Constructs a new collection of tick units. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TickUnits.add",
+    "class_name": "org.jfree.chart.axis.TickUnits",
+    "signature": "org.jfree.chart.axis.TickUnits.add(TickUnit)",
+    "snippet": "    public void add(TickUnit unit) {\n        if (unit == null) {\n            throw new NullPointerException(\"Null 'unit' argument.\");\n        }\n        this.tickUnits.add(unit);\n        Collections.sort(this.tickUnits);\n    }",
+    "comment": " Adds a tick unit to the collection.  The tick units are maintained in  ascending order.  @param unit  the tick unit to add (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ValueAxis.ValueAxis",
+    "class_name": "org.jfree.chart.axis.ValueAxis",
+    "signature": "org.jfree.chart.axis.ValueAxis.ValueAxis(String,TickUnitSource)",
+    "snippet": "    protected ValueAxis(String label, TickUnitSource standardTickUnits) {\n\n        super(label);\n\n        this.positiveArrowVisible = false;\n        this.negativeArrowVisible = false;\n\n        this.range = DEFAULT_RANGE;\n        this.autoRange = DEFAULT_AUTO_RANGE;\n        this.defaultAutoRange = DEFAULT_RANGE;\n\n        this.inverted = DEFAULT_INVERTED;\n        this.autoRangeMinimumSize = DEFAULT_AUTO_RANGE_MINIMUM_SIZE;\n\n        this.lowerMargin = DEFAULT_LOWER_MARGIN;\n        this.upperMargin = DEFAULT_UPPER_MARGIN;\n\n        this.fixedAutoRange = 0.0;\n\n        this.autoTickUnitSelection = DEFAULT_AUTO_TICK_UNIT_SELECTION;\n        this.standardTickUnits = standardTickUnits;\n        \n        Polygon p1 = new Polygon();\n        p1.addPoint(0, 0);\n        p1.addPoint(-2, 2);\n        p1.addPoint(2, 2);\n        \n        this.upArrow = p1;\n\n        Polygon p2 = new Polygon();\n        p2.addPoint(0, 0);\n        p2.addPoint(-2, -2);\n        p2.addPoint(2, -2);\n\n        this.downArrow = p2;\n\n        Polygon p3 = new Polygon();\n        p3.addPoint(0, 0);\n        p3.addPoint(-2, -2);\n        p3.addPoint(-2, 2);\n        \n        this.rightArrow = p3;\n\n        Polygon p4 = new Polygon();\n        p4.addPoint(0, 0);\n        p4.addPoint(2, -2);\n        p4.addPoint(2, 2);\n\n        this.leftArrow = p4;\n        \n        this.verticalTickLabels = false;\n        \n    }",
+    "comment": " Constructs a value axis.  @param label  the axis label (<code>null</code> permitted). @param standardTickUnits  the source for standard tick units  (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ValueAxis.getAutoRangeMinimumSize",
+    "class_name": "org.jfree.chart.axis.ValueAxis",
+    "signature": "org.jfree.chart.axis.ValueAxis.getAutoRangeMinimumSize()",
+    "snippet": "    public double getAutoRangeMinimumSize() {\n        return this.autoRangeMinimumSize;\n    }",
+    "comment": " Returns the minimum size allowed for the axis range when it is  automatically calculated.  @return The minimum range.  @see #setAutoRangeMinimumSize(double) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ValueAxis.getDefaultAutoRange",
+    "class_name": "org.jfree.chart.axis.ValueAxis",
+    "signature": "org.jfree.chart.axis.ValueAxis.getDefaultAutoRange()",
+    "snippet": "    public Range getDefaultAutoRange() {\n        return this.defaultAutoRange;\n    }",
+    "comment": " Returns the default auto range.  @return The default auto range (never <code>null</code>).  @see #setDefaultAutoRange(Range)  @since 1.0.5 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ValueAxis.getFixedAutoRange",
+    "class_name": "org.jfree.chart.axis.ValueAxis",
+    "signature": "org.jfree.chart.axis.ValueAxis.getFixedAutoRange()",
+    "snippet": "    public double getFixedAutoRange() {\n        return this.fixedAutoRange;\n    }",
+    "comment": " Returns the fixed auto range.  @return The length.  @see #setFixedAutoRange(double) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ValueAxis.getLowerMargin",
+    "class_name": "org.jfree.chart.axis.ValueAxis",
+    "signature": "org.jfree.chart.axis.ValueAxis.getLowerMargin()",
+    "snippet": "    public double getLowerMargin() {\n        return this.lowerMargin;\n    }",
+    "comment": " Returns the lower margin for the axis, expressed as a percentage of the  axis range.  This controls the space added to the lower end of the axis  when the axis range is automatically calculated (it is ignored when the  axis range is set explicitly). The default value is 0.05 (five percent).  @return The lower margin.  @see #setLowerMargin(double) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ValueAxis.getUpperMargin",
+    "class_name": "org.jfree.chart.axis.ValueAxis",
+    "signature": "org.jfree.chart.axis.ValueAxis.getUpperMargin()",
+    "snippet": "    public double getUpperMargin() {\n        return this.upperMargin;\n    }",
+    "comment": " Returns the upper margin for the axis, expressed as a percentage of the  axis range.  This controls the space added to the lower end of the axis  when the axis range is automatically calculated (it is ignored when the  axis range is set explicitly). The default value is 0.05 (five percent).  @return The upper margin.  @see #setUpperMargin(double) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ValueAxis.isAutoRange",
+    "class_name": "org.jfree.chart.axis.ValueAxis",
+    "signature": "org.jfree.chart.axis.ValueAxis.isAutoRange()",
+    "snippet": "    public boolean isAutoRange() {\n        return this.autoRange;\n    }",
+    "comment": " Returns the flag that controls whether or not the axis range is  automatically adjusted to fit the data values.  @return The flag.  @see #setAutoRange(boolean) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ValueAxis.setRange",
+    "class_name": "org.jfree.chart.axis.ValueAxis",
+    "signature": "org.jfree.chart.axis.ValueAxis.setRange(Range,boolean,boolean)",
+    "snippet": "    public void setRange(Range range, boolean turnOffAutoRange, \n                         boolean notify) {\n        if (range == null) {\n            throw new IllegalArgumentException(\"Null 'range' argument.\");\n        }\n        if (turnOffAutoRange) {\n            this.autoRange = false;\n        }\n        this.range = range;\n        if (notify) {\n            notifyListeners(new AxisChangeEvent(this));\n        }\n    }",
+    "comment": " Sets the range for the axis, if requested, sends an  {@link AxisChangeEvent} to all registered listeners.  As a side-effect,  the auto-range flag is set to <code>false</code> (optional).  @param range  the range (<code>null</code> not permitted). @param turnOffAutoRange  a flag that controls whether or not the auto  range is turned off.          @param notify  a flag that controls whether or not listeners are  notified.  @see #getRange() ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "AxisChangeEvent.AxisChangeEvent",
+    "class_name": "org.jfree.chart.event.AxisChangeEvent",
+    "signature": "org.jfree.chart.event.AxisChangeEvent.AxisChangeEvent(Axis)",
+    "snippet": "    public AxisChangeEvent(Axis axis) {\n        super(axis);\n        this.axis = axis;\n    }",
+    "comment": " Creates a new AxisChangeEvent.  @param axis  the axis that generated the event. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ChartChangeEvent.ChartChangeEvent",
+    "class_name": "org.jfree.chart.event.ChartChangeEvent",
+    "signature": "org.jfree.chart.event.ChartChangeEvent.ChartChangeEvent(Object)",
+    "snippet": "    public ChartChangeEvent(Object source) {\n        this(source, null, ChartChangeEventType.GENERAL);\n    }",
+    "comment": " Creates a new chart change event.  @param source  the source of the event (could be the chart, a title,  an axis etc.) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ChartChangeEvent.ChartChangeEvent",
+    "class_name": "org.jfree.chart.event.ChartChangeEvent",
+    "signature": "org.jfree.chart.event.ChartChangeEvent.ChartChangeEvent(Object,JFreeChart,ChartChangeEventType)",
+    "snippet": "    public ChartChangeEvent(Object source, JFreeChart chart, \n                            ChartChangeEventType type) {\n        super(source);\n        this.chart = chart;\n        this.type = type;\n    }",
+    "comment": " Creates a new chart change event.  @param source  the source of the event (could be the chart, a title, an axis etc.) @param chart  the chart that generated the event. @param type  the type of event. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ChartChangeEvent.setType",
+    "class_name": "org.jfree.chart.event.ChartChangeEvent",
+    "signature": "org.jfree.chart.event.ChartChangeEvent.setType(ChartChangeEventType)",
+    "snippet": "    public void setType(ChartChangeEventType type) {\n        this.type = type;\n    }",
+    "comment": " Sets the event type.  @param type  the event type. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "PlotChangeEvent.PlotChangeEvent",
+    "class_name": "org.jfree.chart.event.PlotChangeEvent",
+    "signature": "org.jfree.chart.event.PlotChangeEvent.PlotChangeEvent(Plot)",
+    "snippet": "    public PlotChangeEvent(Plot plot) {\n        super(plot);\n        this.plot = plot;\n    }",
+    "comment": " Creates a new PlotChangeEvent.  @param plot  the plot that generated the event. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.CategoryPlot",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.CategoryPlot(CategoryDataset,CategoryAxis,ValueAxis,CategoryItemRenderer)",
+    "snippet": "    public CategoryPlot(CategoryDataset dataset,\n                        CategoryAxis domainAxis,\n                        ValueAxis rangeAxis,\n                        CategoryItemRenderer renderer) {\n\n        super();\n\n        this.orientation = PlotOrientation.VERTICAL;\n\n        // allocate storage for dataset, axes and renderers\n        this.domainAxes = new ObjectList();\n        this.domainAxisLocations = new ObjectList();\n        this.rangeAxes = new ObjectList();\n        this.rangeAxisLocations = new ObjectList();\n        \n        this.datasetToDomainAxisMap = new ObjectList();\n        this.datasetToRangeAxisMap = new ObjectList();\n\n        this.renderers = new ObjectList();\n\n        this.datasets = new ObjectList();\n        this.datasets.set(0, dataset);\n        if (dataset != null) {\n            dataset.addChangeListener(this);\n        }\n\n        this.axisOffset = new RectangleInsets(4.0, 4.0, 4.0, 4.0);\n\n        setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT, false);\n        setRangeAxisLocation(AxisLocation.TOP_OR_LEFT, false);\n\n        this.renderers.set(0, renderer);\n        if (renderer != null) {\n            renderer.setPlot(this);\n            renderer.addChangeListener(this);\n        }\n\n        this.domainAxes.set(0, domainAxis);\n        this.mapDatasetToDomainAxis(0, 0);\n        if (domainAxis != null) {\n            domainAxis.setPlot(this);\n            domainAxis.addChangeListener(this);\n        }\n        this.drawSharedDomainAxis = false;\n\n        this.rangeAxes.set(0, rangeAxis);\n        this.mapDatasetToRangeAxis(0, 0);\n        if (rangeAxis != null) {\n            rangeAxis.setPlot(this);\n            rangeAxis.addChangeListener(this);\n        }\n        \n        configureDomainAxes();\n        configureRangeAxes();\n\n        this.domainGridlinesVisible = DEFAULT_DOMAIN_GRIDLINES_VISIBLE;\n        this.domainGridlinePosition = CategoryAnchor.MIDDLE;\n        this.domainGridlineStroke = DEFAULT_GRIDLINE_STROKE;\n        this.domainGridlinePaint = DEFAULT_GRIDLINE_PAINT;\n\n        this.rangeGridlinesVisible = DEFAULT_RANGE_GRIDLINES_VISIBLE;\n        this.rangeGridlineStroke = DEFAULT_GRIDLINE_STROKE;\n        this.rangeGridlinePaint = DEFAULT_GRIDLINE_PAINT;\n\n        this.foregroundDomainMarkers = new HashMap();\n        this.backgroundDomainMarkers = new HashMap();\n        this.foregroundRangeMarkers = new HashMap();\n        this.backgroundRangeMarkers = new HashMap();\n\n        Marker baseline = new ValueMarker(0.0, new Color(0.8f, 0.8f, 0.8f, \n                0.5f), new BasicStroke(1.0f), new Color(0.85f, 0.85f, 0.95f, \n                0.5f), new BasicStroke(1.0f), 0.6f);\n        addRangeMarker(baseline, Layer.BACKGROUND);\n\n        this.anchorValue = 0.0;\n\n        this.rangeCrosshairVisible = DEFAULT_CROSSHAIR_VISIBLE;\n        this.rangeCrosshairValue = 0.0;\n        this.rangeCrosshairStroke = DEFAULT_CROSSHAIR_STROKE;\n        this.rangeCrosshairPaint = DEFAULT_CROSSHAIR_PAINT;\n        \n        this.annotations = new java.util.ArrayList();\n\n    }",
+    "comment": " Creates a new plot.  @param dataset  the dataset (<code>null</code> permitted). @param domainAxis  the domain axis (<code>null</code> permitted). @param rangeAxis  the range axis (<code>null</code> permitted). @param renderer  the item renderer (<code>null</code> permitted).  ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.addRangeMarker",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.addRangeMarker(Marker,Layer)",
+    "snippet": "    public void addRangeMarker(Marker marker, Layer layer) {\n        addRangeMarker(0, marker, layer);\n    }",
+    "comment": " Adds a marker for display against the range axis and sends a  {@link PlotChangeEvent} to all registered listeners.  Typically a marker  will be drawn by the renderer as a line perpendicular to the range axis,  however this is entirely up to the renderer.  @param marker  the marker (<code>null</code> not permitted). @param layer  the layer (foreground or background) (<code>null</code>  not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.addRangeMarker",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.addRangeMarker(int,Marker,Layer)",
+    "snippet": "    public void addRangeMarker(int index, Marker marker, Layer layer) {\n        Collection markers;\n        if (layer == Layer.FOREGROUND) {\n            markers = (Collection) this.foregroundRangeMarkers.get(\n                    new Integer(index));\n            if (markers == null) {\n                markers = new java.util.ArrayList();\n                this.foregroundRangeMarkers.put(new Integer(index), markers);\n            }\n            markers.add(marker);\n        }\n        else if (layer == Layer.BACKGROUND) {\n            markers = (Collection) this.backgroundRangeMarkers.get(\n                    new Integer(index));\n            if (markers == null) {\n                markers = new java.util.ArrayList();\n                this.backgroundRangeMarkers.put(new Integer(index), markers);\n            }\n            markers.add(marker);            \n        }\n        marker.addChangeListener(this);\n        notifyListeners(new PlotChangeEvent(this));\n    }",
+    "comment": " Adds a marker for display by a particular renderer. <P> Typically a marker will be drawn by the renderer as a line perpendicular to a range axis, however this is entirely up to the renderer.  @param index  the renderer index. @param marker  the marker. @param layer  the layer. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.configureDomainAxes",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.configureDomainAxes()",
+    "snippet": "    public void configureDomainAxes() {\n        for (int i = 0; i < this.domainAxes.size(); i++) {\n            CategoryAxis axis = (CategoryAxis) this.domainAxes.get(i);\n            if (axis != null) {\n                axis.configure();\n            }\n        }\n    }",
+    "comment": " Configures the domain axes. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.configureRangeAxes",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.configureRangeAxes()",
+    "snippet": "    public void configureRangeAxes() {\n        for (int i = 0; i < this.rangeAxes.size(); i++) {\n            ValueAxis axis = (ValueAxis) this.rangeAxes.get(i);\n            if (axis != null) {\n                axis.configure();\n            }\n        }\n    }",
+    "comment": " Configures the range axes. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.datasetChanged",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.datasetChanged(DatasetChangeEvent)",
+    "snippet": "    public void datasetChanged(DatasetChangeEvent event) {\n\n        int count = this.rangeAxes.size();\n        for (int axisIndex = 0; axisIndex < count; axisIndex++) {\n            ValueAxis yAxis = getRangeAxis(axisIndex);\n            if (yAxis != null) {\n                yAxis.configure();\n            }\n        }\n        if (getParent() != null) {\n            getParent().datasetChanged(event);\n        }\n        else {\n            PlotChangeEvent e = new PlotChangeEvent(this);\n            e.setType(ChartChangeEventType.DATASET_UPDATED);\n            notifyListeners(e);\n        }\n\n    }",
+    "comment": " Receives notification of a change to the plot's dataset. <P> The range axis bounds will be recalculated if necessary.  @param event  information about the event (not used here). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.datasetsMappedToRangeAxis",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.datasetsMappedToRangeAxis(int)",
+    "snippet": "    private List datasetsMappedToRangeAxis(int index) {\n        List result = new ArrayList();\n        for (int i = 0; i < this.datasets.size(); i++) {\n            Object dataset = this.datasets.get(i);\n            if (dataset != null) {\n                Integer m = (Integer) this.datasetToRangeAxisMap.get(i);\n                if (m == null) {  // a dataset with no mapping is assigned to \n                                  // axis 0\n                    if (index == 0) { \n                        result.add(dataset);\n                    }\n                }\n                else {\n                    if (m.intValue() == index) {\n                        result.add(dataset);\n                    }\n                }\n            }\n        }\n        return result;    \n    }",
+    "comment": " A utility method that returns a list of datasets that are mapped to a  given range axis.  @param index  the axis index.  @return A list of datasets. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.getDataRange",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.getDataRange(ValueAxis)",
+    "snippet": "    public Range getDataRange(ValueAxis axis) {\n\n        Range result = null;\n        List mappedDatasets = new ArrayList();\n        \n        int rangeIndex = this.rangeAxes.indexOf(axis);\n        if (rangeIndex >= 0) {\n            mappedDatasets.addAll(datasetsMappedToRangeAxis(rangeIndex));\n        }\n        else if (axis == getRangeAxis()) {\n            mappedDatasets.addAll(datasetsMappedToRangeAxis(0));\n        }\n\n        // iterate through the datasets that map to the axis and get the union \n        // of the ranges.\n        Iterator iterator = mappedDatasets.iterator();\n        while (iterator.hasNext()) {\n            CategoryDataset d = (CategoryDataset) iterator.next();\n            CategoryItemRenderer r = getRendererForDataset(d);\n            if (r != null) {\n                result = Range.combine(result, r.findRangeBounds(d));\n            }\n        }\n        return result;\n\n    }",
+    "comment": " Returns the range of data values that will be plotted against the range  axis.  If the dataset is <code>null</code>, this method returns  <code>null</code>.  @param axis  the axis.  @return The data range. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.getDataset",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.getDataset(int)",
+    "snippet": "    public CategoryDataset getDataset(int index) {\n        CategoryDataset result = null;\n        if (this.datasets.size() > index) {\n            result = (CategoryDataset) this.datasets.get(index);\n        }\n        return result;\n    }",
+    "comment": " Returns the dataset at the given index.  @param index  the dataset index.  @return The dataset (possibly <code>null</code>).  @see #setDataset(int, CategoryDataset) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.getDomainAxisIndex",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.getDomainAxisIndex(CategoryAxis)",
+    "snippet": "    public int getDomainAxisIndex(CategoryAxis axis) {\n        return this.domainAxes.indexOf(axis);\n    }",
+    "comment": " Returns the index of the specified axis, or <code>-1</code> if the axis is not assigned to the plot.  @param axis  the axis (<code>null</code> not permitted).  @return The axis index.  @see #getDomainAxis(int) @see #getRangeAxisIndex(ValueAxis)  @since 1.0.3 ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.getRangeAxis",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.getRangeAxis()",
+    "snippet": "    public ValueAxis getRangeAxis() {\n        return getRangeAxis(0);\n    }",
+    "comment": " Returns the range axis for the plot.  If the range axis for this plot is null, then the method will return the parent plot's range axis (if there is a parent plot).  @return The range axis (possibly <code>null</code>). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.getRangeAxis",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.getRangeAxis(int)",
+    "snippet": "    public ValueAxis getRangeAxis(int index) {\n        ValueAxis result = null;\n        if (index < this.rangeAxes.size()) {\n            result = (ValueAxis) this.rangeAxes.get(index);\n        }\n        if (result == null) {\n            Plot parent = getParent();\n            if (parent instanceof CategoryPlot) {\n                CategoryPlot cp = (CategoryPlot) parent;\n                result = cp.getRangeAxis(index);\n            }\n        }\n        return result;\n    }",
+    "comment": " Returns a range axis.  @param index  the axis index.  @return The axis (<code>null</code> possible). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.getRangeAxisIndex",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.getRangeAxisIndex(ValueAxis)",
+    "snippet": "    public int getRangeAxisIndex(ValueAxis axis) {\n        int result = this.rangeAxes.indexOf(axis);\n        if (result < 0) { // try the parent plot\n            Plot parent = getParent();\n            if (parent instanceof CategoryPlot) {\n                CategoryPlot p = (CategoryPlot) parent;\n                result = p.getRangeAxisIndex(axis);\n            }\n        }\n        return result;\n    }",
+    "comment": " Returns the index of the specified axis, or <code>-1</code> if the axis is not assigned to the plot.  @param axis  the axis (<code>null</code> not permitted).  @return The axis index.  @see #getRangeAxis(int) @see #getDomainAxisIndex(CategoryAxis)  @since 1.0.7 ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.mapDatasetToDomainAxis",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.mapDatasetToDomainAxis(int,int)",
+    "snippet": "    public void mapDatasetToDomainAxis(int index, int axisIndex) {\n        this.datasetToDomainAxisMap.set(index, new Integer(axisIndex));  \n        // fake a dataset change event to update axes...\n        datasetChanged(new DatasetChangeEvent(this, getDataset(index)));  \n    }",
+    "comment": " Maps a dataset to a particular domain axis.  @param index  the dataset index (zero-based). @param axisIndex  the axis index (zero-based).  @see #getDomainAxisForDataset(int) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.mapDatasetToRangeAxis",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.mapDatasetToRangeAxis(int,int)",
+    "snippet": "    public void mapDatasetToRangeAxis(int index, int axisIndex) {\n        this.datasetToRangeAxisMap.set(index, new Integer(axisIndex));\n        // fake a dataset change event to update axes...\n        datasetChanged(new DatasetChangeEvent(this, getDataset(index)));  \n    }",
+    "comment": " Maps a dataset to a particular range axis.  @param index  the dataset index (zero-based). @param axisIndex  the axis index (zero-based).  @see #getRangeAxisForDataset(int) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.setDomainAxis",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.setDomainAxis(int,CategoryAxis)",
+    "snippet": "    public void setDomainAxis(int index, CategoryAxis axis) {\n        setDomainAxis(index, axis, true);\n    }",
+    "comment": " Sets a domain axis and sends a {@link PlotChangeEvent} to all  registered listeners.  @param index  the axis index. @param axis  the axis (<code>null</code> permitted).  @see #getDomainAxis(int) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.setDomainAxis",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.setDomainAxis(int,CategoryAxis,boolean)",
+    "snippet": "    public void setDomainAxis(int index, CategoryAxis axis, boolean notify) {\n        CategoryAxis existing = (CategoryAxis) this.domainAxes.get(index);\n        if (existing != null) {\n            existing.removeChangeListener(this);\n        }\n        if (axis != null) {\n            axis.setPlot(this);\n        }\n        this.domainAxes.set(index, axis);\n        if (axis != null) {\n            axis.configure();\n            axis.addChangeListener(this);\n        }\n        if (notify) {\n            notifyListeners(new PlotChangeEvent(this));\n        }\n    }",
+    "comment": " Sets a domain axis and, if requested, sends a {@link PlotChangeEvent} to  all registered listeners.  @param index  the axis index. @param axis  the axis (<code>null</code> permitted). @param notify  notify listeners? ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.setDomainAxisLocation",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.setDomainAxisLocation(AxisLocation,boolean)",
+    "snippet": "    public void setDomainAxisLocation(AxisLocation location, boolean notify) {\n        // delegate...\n        setDomainAxisLocation(0, location, notify);\n    }",
+    "comment": " Sets the location of the domain axis and, if requested, sends a  {@link PlotChangeEvent} to all registered listeners.  @param location  the axis location (<code>null</code> not permitted). @param notify  a flag that controls whether listeners are notified. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.setDomainAxisLocation",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.setDomainAxisLocation(int,AxisLocation,boolean)",
+    "snippet": "    public void setDomainAxisLocation(int index, AxisLocation location, \n            boolean notify) {\n        if (index == 0 && location == null) {\n            throw new IllegalArgumentException(\n                    \"Null 'location' for index 0 not permitted.\");\n        }\n        this.domainAxisLocations.set(index, location);\n        if (notify) {\n            notifyListeners(new PlotChangeEvent(this));\n        }\n    }",
+    "comment": " Sets the location for a domain axis and sends a {@link PlotChangeEvent}  to all registered listeners.  @param index  the axis index. @param location  the location. @param notify  notify listeners?  @since 1.0.5  @see #getDomainAxisLocation(int) @see #setRangeAxisLocation(int, AxisLocation, boolean) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.setRangeAxis",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.setRangeAxis(int,ValueAxis)",
+    "snippet": "    public void setRangeAxis(int index, ValueAxis axis) {\n        setRangeAxis(index, axis, true);\n    }",
+    "comment": " Sets a range axis and sends a {@link PlotChangeEvent} to all registered listeners.  @param index  the axis index. @param axis  the axis. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.setRangeAxis",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.setRangeAxis(int,ValueAxis,boolean)",
+    "snippet": "    public void setRangeAxis(int index, ValueAxis axis, boolean notify) {\n        ValueAxis existing = (ValueAxis) this.rangeAxes.get(index);\n        if (existing != null) {\n            existing.removeChangeListener(this);\n        }\n        if (axis != null) {\n            axis.setPlot(this);\n        }\n        this.rangeAxes.set(index, axis);\n        if (axis != null) {\n            axis.configure();\n            axis.addChangeListener(this);\n        }\n        if (notify) {\n            notifyListeners(new PlotChangeEvent(this));\n        }\n    }",
+    "comment": " Sets a range axis and, if requested, sends a {@link PlotChangeEvent} to  all registered listeners.  @param index  the axis index. @param axis  the axis. @param notify  notify listeners? ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.setRangeAxisLocation",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.setRangeAxisLocation(AxisLocation,boolean)",
+    "snippet": "    public void setRangeAxisLocation(AxisLocation location, boolean notify) {\n        setRangeAxisLocation(0, location, notify);\n    }",
+    "comment": " Sets the location of the range axis and, if requested, sends a  {@link PlotChangeEvent} to all registered listeners.  @param location  the location (<code>null</code> not permitted). @param notify  notify listeners?  @see #setDomainAxisLocation(AxisLocation, boolean) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CategoryPlot.setRangeAxisLocation",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.setRangeAxisLocation(int,AxisLocation,boolean)",
+    "snippet": "    public void setRangeAxisLocation(int index, AxisLocation location, \n                                     boolean notify) {\n        if (index == 0 && location == null) {\n            throw new IllegalArgumentException(\n                    \"Null 'location' for index 0 not permitted.\");\n        }\n        this.rangeAxisLocations.set(index, location);\n        if (notify) {\n            notifyListeners(new PlotChangeEvent(this));\n        }\n    }",
+    "comment": " Sets the location for a range axis and sends a {@link PlotChangeEvent}  to all registered listeners.  @param index  the axis index. @param location  the location. @param notify  notify listeners?  @see #getRangeAxisLocation(int) @see #setDomainAxisLocation(int, AxisLocation, boolean) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DefaultDrawingSupplier.DefaultDrawingSupplier",
+    "class_name": "org.jfree.chart.plot.DefaultDrawingSupplier",
+    "signature": "org.jfree.chart.plot.DefaultDrawingSupplier.DefaultDrawingSupplier()",
+    "snippet": "    public DefaultDrawingSupplier() {\n\n        this(DEFAULT_PAINT_SEQUENCE, DEFAULT_FILL_PAINT_SEQUENCE,\n             DEFAULT_OUTLINE_PAINT_SEQUENCE,\n             DEFAULT_STROKE_SEQUENCE,\n             DEFAULT_OUTLINE_STROKE_SEQUENCE,\n             DEFAULT_SHAPE_SEQUENCE);\n\n    }",
+    "comment": " Creates a new supplier, with default sequences for fill paint, outline  paint, stroke and shapes. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DefaultDrawingSupplier.DefaultDrawingSupplier",
+    "class_name": "org.jfree.chart.plot.DefaultDrawingSupplier",
+    "signature": "org.jfree.chart.plot.DefaultDrawingSupplier.DefaultDrawingSupplier(Paint[],Paint[],Paint[],Stroke[],Stroke[],Shape[])",
+    "snippet": "    public DefaultDrawingSupplier(Paint[] paintSequence, \n            Paint[] fillPaintSequence, Paint[] outlinePaintSequence,\n            Stroke[] strokeSequence, Stroke[] outlineStrokeSequence,\n            Shape[] shapeSequence) {\n\n        this.paintSequence = paintSequence;\n        this.fillPaintSequence = fillPaintSequence;\n        this.outlinePaintSequence = outlinePaintSequence;\n        this.strokeSequence = strokeSequence;\n        this.outlineStrokeSequence = outlineStrokeSequence;\n        this.shapeSequence = shapeSequence;\n    }",
+    "comment": " Creates a new supplier.  @param paintSequence  the paint sequence. @param fillPaintSequence  the fill paint sequence. @param outlinePaintSequence  the outline paint sequence. @param strokeSequence  the stroke sequence. @param outlineStrokeSequence  the outline stroke sequence. @param shapeSequence  the shape sequence.  @since 1.0.6 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DefaultDrawingSupplier.createStandardSeriesShapes",
+    "class_name": "org.jfree.chart.plot.DefaultDrawingSupplier",
+    "signature": "org.jfree.chart.plot.DefaultDrawingSupplier.createStandardSeriesShapes()",
+    "snippet": "    public static Shape[] createStandardSeriesShapes() {\n\n        Shape[] result = new Shape[10];\n\n        double size = 6.0;\n        double delta = size / 2.0;\n        int[] xpoints = null;\n        int[] ypoints = null;\n\n        // square\n        result[0] = new Rectangle2D.Double(-delta, -delta, size, size);\n        // circle\n        result[1] = new Ellipse2D.Double(-delta, -delta, size, size);\n\n        // up-pointing triangle\n        xpoints = intArray(0.0, delta, -delta);\n        ypoints = intArray(-delta, delta, delta);\n        result[2] = new Polygon(xpoints, ypoints, 3);\n\n        // diamond\n        xpoints = intArray(0.0, delta, 0.0, -delta);\n        ypoints = intArray(-delta, 0.0, delta, 0.0);\n        result[3] = new Polygon(xpoints, ypoints, 4);\n\n        // horizontal rectangle\n        result[4] = new Rectangle2D.Double(-delta, -delta / 2, size, size / 2);\n\n        // down-pointing triangle\n        xpoints = intArray(-delta, +delta, 0.0);\n        ypoints = intArray(-delta, -delta, delta);\n        result[5] = new Polygon(xpoints, ypoints, 3);\n\n        // horizontal ellipse\n        result[6] = new Ellipse2D.Double(-delta, -delta / 2, size, size / 2);\n\n        // right-pointing triangle\n        xpoints = intArray(-delta, delta, -delta);\n        ypoints = intArray(-delta, 0.0, delta);\n        result[7] = new Polygon(xpoints, ypoints, 3);\n\n        // vertical rectangle\n        result[8] = new Rectangle2D.Double(-delta / 2, -delta, size / 2, size);\n\n        // left-pointing triangle\n        xpoints = intArray(-delta, delta, delta);\n        ypoints = intArray(0.0, -delta, +delta);\n        result[9] = new Polygon(xpoints, ypoints, 3);\n\n        return result;\n\n    }",
+    "comment": " Creates an array of standard shapes to display for the items in series  on charts.  @return The array of shapes. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DefaultDrawingSupplier.intArray",
+    "class_name": "org.jfree.chart.plot.DefaultDrawingSupplier",
+    "signature": "org.jfree.chart.plot.DefaultDrawingSupplier.intArray(double,double,double)",
+    "snippet": "    private static int[] intArray(double a, double b, double c) {\n        return new int[] {(int) a, (int) b, (int) c};\n    }",
+    "comment": " Helper method to avoid lots of explicit casts in getShape().  Returns an array containing the provided doubles cast to ints.  @param a  x @param b  y @param c  z  @return int[3] with converted params. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DefaultDrawingSupplier.intArray",
+    "class_name": "org.jfree.chart.plot.DefaultDrawingSupplier",
+    "signature": "org.jfree.chart.plot.DefaultDrawingSupplier.intArray(double,double,double,double)",
+    "snippet": "    private static int[] intArray(double a, double b, double c, double d) {\n        return new int[] {(int) a, (int) b, (int) c, (int) d};\n    }",
+    "comment": " Helper method to avoid lots of explicit casts in getShape().  Returns an array containing the provided doubles cast to ints.  @param a  x @param b  y @param c  z @param d  t  @return int[4] with converted params. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Marker.Marker",
+    "class_name": "org.jfree.chart.plot.Marker",
+    "signature": "org.jfree.chart.plot.Marker.Marker(Paint,Stroke,Paint,Stroke,float)",
+    "snippet": "    protected Marker(Paint paint, Stroke stroke, \n                     Paint outlinePaint, Stroke outlineStroke, \n                     float alpha) {\n\n        if (paint == null) {\n            throw new IllegalArgumentException(\"Null 'paint' argument.\");\n        }\n        if (stroke == null) {\n            throw new IllegalArgumentException(\"Null 'stroke' argument.\");\n        }\n        if (alpha < 0.0f || alpha > 1.0f)\n            throw new IllegalArgumentException(\n                    \"The 'alpha' value must be in the range 0.0f to 1.0f\");\n        \n        this.paint = paint;\n        this.stroke = stroke;\n        this.outlinePaint = outlinePaint;\n        this.outlineStroke = outlineStroke;\n        this.alpha = alpha;\n        \n        this.labelFont = new Font(\"SansSerif\", Font.PLAIN, 9);\n        this.labelPaint = Color.black;\n        this.labelAnchor = RectangleAnchor.TOP_LEFT;\n        this.labelOffset = new RectangleInsets(3.0, 3.0, 3.0, 3.0);\n        this.labelOffsetType = LengthAdjustmentType.CONTRACT;\n        this.labelTextAnchor = TextAnchor.CENTER;\n        \n        this.listenerList = new EventListenerList();\n    }",
+    "comment": " Constructs a new marker.  @param paint  the paint (<code>null</code> not permitted). @param stroke  the stroke (<code>null</code> not permitted). @param outlinePaint  the outline paint (<code>null</code> permitted). @param outlineStroke  the outline stroke (<code>null</code> permitted). @param alpha  the alpha transparency (must be in the range 0.0f to  1.0f).  @throws IllegalArgumentException if <code>paint</code> or  <code>stroke</code> is <code>null</code>, or <code>alpha</code> is  not in the specified range. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Marker.addChangeListener",
+    "class_name": "org.jfree.chart.plot.Marker",
+    "signature": "org.jfree.chart.plot.Marker.addChangeListener(MarkerChangeListener)",
+    "snippet": "    public void addChangeListener(MarkerChangeListener listener) {\n        this.listenerList.add(MarkerChangeListener.class, listener);\n    }",
+    "comment": " Registers an object for notification of changes to the marker.  @param listener  the object to be registered.  @see #removeChangeListener(MarkerChangeListener)  @since 1.0.3 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Plot.Plot",
+    "class_name": "org.jfree.chart.plot.Plot",
+    "signature": "org.jfree.chart.plot.Plot.Plot()",
+    "snippet": "    protected Plot() {\n\n        this.parent = null;\n        this.insets = DEFAULT_INSETS;\n        this.backgroundPaint = DEFAULT_BACKGROUND_PAINT;\n        this.backgroundAlpha = DEFAULT_BACKGROUND_ALPHA;\n        this.backgroundImage = null;\n        this.outlineVisible = true;\n        this.outlineStroke = DEFAULT_OUTLINE_STROKE;\n        this.outlinePaint = DEFAULT_OUTLINE_PAINT;\n        this.foregroundAlpha = DEFAULT_FOREGROUND_ALPHA;\n\n        this.noDataMessage = null;\n        this.noDataMessageFont = new Font(\"SansSerif\", Font.PLAIN, 12);\n        this.noDataMessagePaint = Color.black;\n\n        this.drawingSupplier = new DefaultDrawingSupplier();\n\n        this.listenerList = new EventListenerList();\n\n    }",
+    "comment": " Creates a new plot. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Plot.getParent",
+    "class_name": "org.jfree.chart.plot.Plot",
+    "signature": "org.jfree.chart.plot.Plot.getParent()",
+    "snippet": "    public Plot getParent() {\n        return this.parent;\n    }",
+    "comment": " Returns the parent plot (or <code>null</code> if this plot is not part  of a combined plot).  @return The parent plot.  @see #setParent(Plot) @see #getRootPlot() ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Plot.notifyListeners",
+    "class_name": "org.jfree.chart.plot.Plot",
+    "signature": "org.jfree.chart.plot.Plot.notifyListeners(PlotChangeEvent)",
+    "snippet": "    public void notifyListeners(PlotChangeEvent event) {\n        Object[] listeners = this.listenerList.getListenerList();\n        for (int i = listeners.length - 2; i >= 0; i -= 2) {\n            if (listeners[i] == PlotChangeListener.class) {\n                ((PlotChangeListener) listeners[i + 1]).plotChanged(event);\n            }\n        }\n    }",
+    "comment": " Notifies all registered listeners that the plot has been modified.  @param event  information about the change event. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ValueMarker.ValueMarker",
+    "class_name": "org.jfree.chart.plot.ValueMarker",
+    "signature": "org.jfree.chart.plot.ValueMarker.ValueMarker(double,Paint,Stroke,Paint,Stroke,float)",
+    "snippet": "    public ValueMarker(double value, Paint paint, Stroke stroke, \n                       Paint outlinePaint, Stroke outlineStroke, float alpha) {\n        super(paint, stroke, outlinePaint, outlineStroke, alpha);\n        this.value = value;\n    }",
+    "comment": " Creates a new value marker.  @param value  the value. @param paint  the paint (<code>null</code> not permitted). @param stroke  the stroke (<code>null</code> not permitted). @param outlinePaint  the outline paint (<code>null</code> permitted). @param outlineStroke  the outline stroke (<code>null</code> permitted). @param alpha  the alpha transparency (in the range 0.0f to 1.0f). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "AbstractObjectList.AbstractObjectList",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.AbstractObjectList()",
+    "snippet": "    protected AbstractObjectList() {\n        this(DEFAULT_INITIAL_CAPACITY);\n    }",
+    "comment": " Creates a new list with the default initial capacity. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "AbstractObjectList.AbstractObjectList",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.AbstractObjectList(int)",
+    "snippet": "    protected AbstractObjectList(int initialCapacity) {\n        this (initialCapacity, initialCapacity);\n    }",
+    "comment": " Creates a new list.  @param initialCapacity  the initial capacity. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "AbstractObjectList.AbstractObjectList",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.AbstractObjectList(int,int)",
+    "snippet": "    protected AbstractObjectList(int initialCapacity, int increment) {\n        this.objects = new Object[initialCapacity];\n        this.increment = increment;\n    }",
+    "comment": " Creates a new list.  @param initialCapacity  the initial capacity. @param increment  the increment. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "AbstractObjectList.get",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.get(int)",
+    "snippet": "    protected Object get(int index) {\n        Object result = null;\n        if (index >= 0 && index < this.size) {\n            result = this.objects[index];\n        }\n        return result;\n    }",
+    "comment": " Returns the object at the specified index, if there is one, or  <code>null</code>.  @param index  the object index.  @return The object or <code>null</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "AbstractObjectList.indexOf",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.indexOf(Object)",
+    "snippet": "    protected int indexOf(Object object) {\n        for (int index = 0; index < this.size; index++) {\n            if (this.objects[index] == object) {\n                return (index);\n            }\n        }\n        return -1;\n    }",
+    "comment": " Returns the index of the specified object, or -1 if the object is not in the list.  @param object  the object.  @return The index or -1. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "AbstractObjectList.set",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.set(int,Object)",
+    "snippet": "    protected void set(int index, Object object) {\n        if (index < 0) {\n            throw new IllegalArgumentException(\"Requires index >= 0.\");\n        }\n        if (index >= this.objects.length) {\n            Object[] enlarged = new Object[index + this.increment];\n            System.arraycopy(this.objects, 0, enlarged, 0, this.objects.length);\n            this.objects = enlarged;\n        }\n        this.objects[index] = object;\n        this.size = Math.max(this.size, index + 1);\n    }",
+    "comment": " Sets an object reference (overwriting any existing object).  @param index  the object index. @param object  the object (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "AbstractObjectList.size",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.size()",
+    "snippet": "    public int size() {\n        return this.size;\n    }",
+    "comment": " Returns the size of the list.  @return The size of the list. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ObjectList.ObjectList",
+    "class_name": "org.jfree.chart.util.ObjectList",
+    "signature": "org.jfree.chart.util.ObjectList.ObjectList()",
+    "snippet": "    public ObjectList() {\n    }",
+    "comment": " Default constructor. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ObjectList.get",
+    "class_name": "org.jfree.chart.util.ObjectList",
+    "signature": "org.jfree.chart.util.ObjectList.get(int)",
+    "snippet": "    public Object get(int index) {         \n        return super.get(index);         \n    }    ",
+    "comment": " Returns the object at the specified index, if there is one, or  <code>null</code>.           @param index  the object index.     @return The object or <code>null</code>.           ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ObjectList.indexOf",
+    "class_name": "org.jfree.chart.util.ObjectList",
+    "signature": "org.jfree.chart.util.ObjectList.indexOf(Object)",
+    "snippet": "    public int indexOf(Object object) {    \n        return super.indexOf(object);    \n    }    ",
+    "comment": " Returns the index of the specified object, or -1 if the object is not  in the list.          @param object  the object.          @return The index or -1.           ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ObjectList.set",
+    "class_name": "org.jfree.chart.util.ObjectList",
+    "signature": "org.jfree.chart.util.ObjectList.set(int,Object)",
+    "snippet": "    public void set(int index, Object object) {      \n        super.set(index, object);        \n    }    ",
+    "comment": " Sets an object reference (overwriting any existing object).         @param index  the object index.    @param object  the object (<code>null</code> permitted).           ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "RectangleInsets.RectangleInsets",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.RectangleInsets(UnitType,double,double,double,double)",
+    "snippet": "    public RectangleInsets(UnitType unitType, double top, double left, \n                           double bottom, double right) {\n        if (unitType == null) {\n            throw new IllegalArgumentException(\"Null 'unitType' argument.\");\n        }\n        this.unitType = unitType;\n        this.top = top;\n        this.bottom = bottom;\n        this.left = left;\n        this.right = right;\n    }",
+    "comment": " Creates a new instance.  @param unitType  absolute or relative units (<code>null</code> not  permitted). @param top  the top insets. @param left  the left insets. @param bottom  the bottom insets. @param right  the right insets. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "RectangleInsets.RectangleInsets",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.RectangleInsets(double,double,double,double)",
+    "snippet": "    public RectangleInsets(double top, double left, double bottom, \n            double right) {\n        this(UnitType.ABSOLUTE, top, left, bottom, right);   \n    }",
+    "comment": " Creates a new instance with the specified insets (as 'absolute' units).  @param top  the top insets. @param left  the left insets. @param bottom  the bottom insets. @param right  the right insets. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Range.Range",
+    "class_name": "org.jfree.data.Range",
+    "signature": "org.jfree.data.Range.Range(double,double)",
+    "snippet": "    public Range(double lower, double upper) {\n        if (lower > upper) {\n            String msg = \"Range(double, double): require lower (\" + lower \n                + \") <= upper (\" + upper + \").\";\n            throw new IllegalArgumentException(msg);\n        }\n        this.lower = lower;\n        this.upper = upper;\n    }",
+    "comment": " Creates a new range.  @param lower  the lower bound (must be <= upper bound). @param upper  the upper bound (must be >= lower bound). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Range.getLowerBound",
+    "class_name": "org.jfree.data.Range",
+    "signature": "org.jfree.data.Range.getLowerBound()",
+    "snippet": "    public double getLowerBound() {\n        return this.lower;\n    }",
+    "comment": " Returns the lower bound for the range.  @return The lower bound. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Range.getUpperBound",
+    "class_name": "org.jfree.data.Range",
+    "signature": "org.jfree.data.Range.getUpperBound()",
+    "snippet": "    public double getUpperBound() {\n        return this.upper;\n    }",
+    "comment": " Returns the upper bound for the range.  @return The upper bound. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DatasetChangeEvent.DatasetChangeEvent",
+    "class_name": "org.jfree.data.general.DatasetChangeEvent",
+    "signature": "org.jfree.data.general.DatasetChangeEvent.DatasetChangeEvent(Object,Dataset)",
+    "snippet": "    public DatasetChangeEvent(Object source, Dataset dataset) {\n        super(source);\n        this.dataset = dataset;\n    }",
+    "comment": " Constructs a new event.  The source is either the dataset or the  {@link org.jfree.chart.plot.Plot} class.  The dataset can be  <code>null</code> (in this case the source will be the  {@link org.jfree.chart.plot.Plot} class).  @param source  the source of the event. @param dataset  the dataset that generated the event (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  }
+]

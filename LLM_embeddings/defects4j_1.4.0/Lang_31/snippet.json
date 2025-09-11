@@ -1,0 +1,42 @@
+[
+  {
+    "name": "ArrayUtils.isEmpty",
+    "class_name": "org.apache.commons.lang3.ArrayUtils",
+    "signature": "org.apache.commons.lang3.ArrayUtils.isEmpty(char[])",
+    "snippet": "    public static boolean isEmpty(char[] array) {\n        if (array == null || array.length == 0) {\n            return true;\n        }\n        return false;\n    }",
+    "comment": " <p>Checks if an array of primitive chars is empty or <code>null</code>.</p>  @param array  the array to test @return <code>true</code> if the array is empty or <code>null</code> @since 2.1 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StringUtils.containsAny",
+    "class_name": "org.apache.commons.lang3.StringUtils",
+    "signature": "org.apache.commons.lang3.StringUtils.containsAny(CharSequence,String)",
+    "snippet": "    public static boolean containsAny(CharSequence cs, String searchChars) {\n        if (searchChars == null) {\n            return false;\n        }\n        return containsAny(cs, searchChars.toCharArray());\n    }",
+    "comment": " <p> Checks if the CharSequence contains any character in the given set of characters. </p>  <p> A <code>null</code> CharSequence will return <code>false</code>. A <code>null</code> search CharSequence will return <code>false</code>. </p>  <pre> StringUtils.containsAny(null, *)            = false StringUtils.containsAny(\"\", *)              = false StringUtils.containsAny(*, null)            = false StringUtils.containsAny(*, \"\")              = false StringUtils.containsAny(\"zzabyycdxx\", \"za\") = true StringUtils.containsAny(\"zzabyycdxx\", \"by\") = true StringUtils.containsAny(\"aba\",\"z\")          = false </pre>  @param cs the CharSequence to check, may be null @param searchChars the chars to search for, may be null @return the <code>true</code> if any of the chars are found, <code>false</code> if no match or null input @since 2.4 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StringUtils.containsAny",
+    "class_name": "org.apache.commons.lang3.StringUtils",
+    "signature": "org.apache.commons.lang3.StringUtils.containsAny(CharSequence,char[])",
+    "snippet": "\tpublic static boolean containsAny(CharSequence cs, char[] searchChars) {\n\t\tif (isEmpty(cs) || ArrayUtils.isEmpty(searchChars)) {\n\t\t\treturn false;\n\t\t}\n\t\tint csLength = cs.length();\n\t\tint searchLength = searchChars.length;\n\t\tfor (int i = 0; i < csLength; i++) {\n\t\t\tchar ch = cs.charAt(i);\n\t\t\tfor (int j = 0; j < searchLength; j++) {\n\t\t\t\tif (searchChars[j] == ch) {\n\t\t\t\t\t\t// ch is a supplementary character\n\t\t\t\t\t\t// ch is in the Basic Multilingual Plane\n\t\t\t\t\t\treturn true;\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\treturn false;\n\t}",
+    "comment": " <p>Checks if the CharSequence contains any character in the given set of characters.</p>  <p>A <code>null</code> CharSequence will return <code>false</code>. A <code>null</code> or zero length search array will return <code>false</code>.</p>  <pre> StringUtils.containsAny(null, *)                = false StringUtils.containsAny(\"\", *)                  = false StringUtils.containsAny(*, null)                = false StringUtils.containsAny(*, [])                  = false StringUtils.containsAny(\"zzabyycdxx\",['z','a']) = true StringUtils.containsAny(\"zzabyycdxx\",['b','y']) = true StringUtils.containsAny(\"aba\", ['z'])           = false </pre>  @param cs  the CharSequence to check, may be null @param searchChars  the chars to search for, may be null @return the <code>true</code> if any of the chars are found, <code>false</code> if no match or null input @since 2.4 ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StringUtils.isEmpty",
+    "class_name": "org.apache.commons.lang3.StringUtils",
+    "signature": "org.apache.commons.lang3.StringUtils.isEmpty(CharSequence)",
+    "snippet": "    public static boolean isEmpty(CharSequence cs) {\n        return cs == null || cs.length() == 0;\n    }",
+    "comment": " <p>Checks if a CharSequence is empty (\"\") or null.</p>  <pre> StringUtils.isEmpty(null)      = true StringUtils.isEmpty(\"\")        = true StringUtils.isEmpty(\" \")       = false StringUtils.isEmpty(\"bob\")     = false StringUtils.isEmpty(\"  bob  \") = false </pre>  <p>NOTE: This method changed in Lang version 2.0. It no longer trims the CharSequence. That functionality is available in isBlank().</p>  @param cs  the CharSequence to check, may be null @return <code>true</code> if the CharSequence is empty or null ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  }
+]

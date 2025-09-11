@@ -1,0 +1,922 @@
+[
+  {
+    "name": "AbstractUnivariateSolver.AbstractUnivariateSolver",
+    "class_name": "org.apache.commons.math3.analysis.solvers.AbstractUnivariateSolver",
+    "signature": "org.apache.commons.math3.analysis.solvers.AbstractUnivariateSolver.AbstractUnivariateSolver(double)",
+    "snippet": "    protected AbstractUnivariateSolver(final double absoluteAccuracy) {\n        super(absoluteAccuracy);\n    }",
+    "comment": " Construct a solver with given absolute accuracy.  @param absoluteAccuracy Maximum absolute error. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateSolver.BaseAbstractUnivariateSolver",
+    "class_name": "org.apache.commons.math3.analysis.solvers.BaseAbstractUnivariateSolver",
+    "signature": "org.apache.commons.math3.analysis.solvers.BaseAbstractUnivariateSolver.BaseAbstractUnivariateSolver(double)",
+    "snippet": "    protected BaseAbstractUnivariateSolver(final double absoluteAccuracy) {\n        this(DEFAULT_RELATIVE_ACCURACY,\n             absoluteAccuracy,\n             DEFAULT_FUNCTION_VALUE_ACCURACY);\n    }",
+    "comment": " Construct a solver with given absolute accuracy.  @param absoluteAccuracy Maximum absolute error. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateSolver.BaseAbstractUnivariateSolver",
+    "class_name": "org.apache.commons.math3.analysis.solvers.BaseAbstractUnivariateSolver",
+    "signature": "org.apache.commons.math3.analysis.solvers.BaseAbstractUnivariateSolver.BaseAbstractUnivariateSolver(double,double,double)",
+    "snippet": "    protected BaseAbstractUnivariateSolver(final double relativeAccuracy,\n                                               final double absoluteAccuracy,\n                                               final double functionValueAccuracy) {\n        this.absoluteAccuracy = absoluteAccuracy;\n        this.relativeAccuracy = relativeAccuracy;\n        this.functionValueAccuracy = functionValueAccuracy;\n    }",
+    "comment": " Construct a solver with given accuracies.  @param relativeAccuracy Maximum relative error. @param absoluteAccuracy Maximum absolute error. @param functionValueAccuracy Maximum function value error. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateSolver.computeObjectiveValue",
+    "class_name": "org.apache.commons.math3.analysis.solvers.BaseAbstractUnivariateSolver",
+    "signature": "org.apache.commons.math3.analysis.solvers.BaseAbstractUnivariateSolver.computeObjectiveValue(double)",
+    "snippet": "    protected double computeObjectiveValue(double point)\n        throws TooManyEvaluationsException {\n        incrementEvaluationCount();\n        return function.value(point);\n    }",
+    "comment": " Compute the objective function value.  @param point Point at which the objective function must be evaluated. @return the objective function value at specified point. @throws TooManyEvaluationsException if the maximal number of evaluations is exceeded. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateSolver.getFunctionValueAccuracy",
+    "class_name": "org.apache.commons.math3.analysis.solvers.BaseAbstractUnivariateSolver",
+    "signature": "org.apache.commons.math3.analysis.solvers.BaseAbstractUnivariateSolver.getFunctionValueAccuracy()",
+    "snippet": "    public double getFunctionValueAccuracy() {\n        return functionValueAccuracy;\n    }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateSolver.getMax",
+    "class_name": "org.apache.commons.math3.analysis.solvers.BaseAbstractUnivariateSolver",
+    "signature": "org.apache.commons.math3.analysis.solvers.BaseAbstractUnivariateSolver.getMax()",
+    "snippet": "    public double getMax() {\n        return searchMax;\n    }",
+    "comment": " @return the higher end of the search interval. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateSolver.getMin",
+    "class_name": "org.apache.commons.math3.analysis.solvers.BaseAbstractUnivariateSolver",
+    "signature": "org.apache.commons.math3.analysis.solvers.BaseAbstractUnivariateSolver.getMin()",
+    "snippet": "    public double getMin() {\n        return searchMin;\n    }",
+    "comment": " @return the lower end of the search interval. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateSolver.getStartValue",
+    "class_name": "org.apache.commons.math3.analysis.solvers.BaseAbstractUnivariateSolver",
+    "signature": "org.apache.commons.math3.analysis.solvers.BaseAbstractUnivariateSolver.getStartValue()",
+    "snippet": "    public double getStartValue() {\n        return searchStart;\n    }",
+    "comment": " @return the initial guess. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateSolver.incrementEvaluationCount",
+    "class_name": "org.apache.commons.math3.analysis.solvers.BaseAbstractUnivariateSolver",
+    "signature": "org.apache.commons.math3.analysis.solvers.BaseAbstractUnivariateSolver.incrementEvaluationCount()",
+    "snippet": "    protected void incrementEvaluationCount() {\n        try {\n            evaluations.incrementCount();\n        } catch (MaxCountExceededException e) {\n            throw new TooManyEvaluationsException(e.getMax());\n        }\n    }",
+    "comment": " Increment the evaluation count by one. Method {@link #computeObjectiveValue(double)} calls this method internally. It is provided for subclasses that do not exclusively use {@code computeObjectiveValue} to solve the function. See e.g. {@link AbstractDifferentiableUnivariateSolver}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateSolver.verifySequence",
+    "class_name": "org.apache.commons.math3.analysis.solvers.BaseAbstractUnivariateSolver",
+    "signature": "org.apache.commons.math3.analysis.solvers.BaseAbstractUnivariateSolver.verifySequence(double,double,double)",
+    "snippet": "    protected void verifySequence(final double lower,\n                                  final double initial,\n                                  final double upper) {\n        UnivariateSolverUtils.verifySequence(lower, initial, upper);\n    }",
+    "comment": " Check that {@code lower < initial < upper}.  @param lower Lower endpoint. @param initial Initial value. @param upper Upper endpoint. @throws org.apache.commons.math3.exception.NumberIsTooLargeException if {@code lower >= initial} or {@code initial >= upper}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BrentSolver.BrentSolver",
+    "class_name": "org.apache.commons.math3.analysis.solvers.BrentSolver",
+    "signature": "org.apache.commons.math3.analysis.solvers.BrentSolver.BrentSolver(double)",
+    "snippet": "    public BrentSolver(double absoluteAccuracy) {\n        super(absoluteAccuracy);\n    }",
+    "comment": " Construct a solver.  @param absoluteAccuracy Absolute accuracy. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BrentSolver.doSolve",
+    "class_name": "org.apache.commons.math3.analysis.solvers.BrentSolver",
+    "signature": "org.apache.commons.math3.analysis.solvers.BrentSolver.doSolve()",
+    "snippet": "    @Override\n    protected double doSolve() {\n        double min = getMin();\n        double max = getMax();\n        final double initial = getStartValue();\n        final double functionValueAccuracy = getFunctionValueAccuracy();\n\n        verifySequence(min, initial, max);\n\n        // Return the initial guess if it is good enough.\n        double yInitial = computeObjectiveValue(initial);\n        if (FastMath.abs(yInitial) <= functionValueAccuracy) {\n            return initial;\n        }\n\n        // Return the first endpoint if it is good enough.\n        double yMin = computeObjectiveValue(min);\n        if (FastMath.abs(yMin) <= functionValueAccuracy) {\n            return min;\n        }\n\n        // Reduce interval if min and initial bracket the root.\n        if (yInitial * yMin < 0) {\n            return brent(min, initial, yMin, yInitial);\n        }\n\n        // Return the second endpoint if it is good enough.\n        double yMax = computeObjectiveValue(max);\n        if (FastMath.abs(yMax) <= functionValueAccuracy) {\n            return max;\n        }\n\n        // Reduce interval if initial and max bracket the root.\n        if (yInitial * yMax < 0) {\n            return brent(initial, max, yInitial, yMax);\n        }\n\n        throw new NoBracketingException(min, max, yMin, yMax);\n    }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "UnivariateSolverUtils.solve",
+    "class_name": "org.apache.commons.math3.analysis.solvers.UnivariateSolverUtils",
+    "signature": "org.apache.commons.math3.analysis.solvers.UnivariateSolverUtils.solve(UnivariateFunction,double,double,double)",
+    "snippet": "    public static double solve(UnivariateFunction function,\n                               double x0, double x1,\n                               double absoluteAccuracy) {\n        if (function == null) {\n            throw new NullArgumentException(LocalizedFormats.FUNCTION);\n        }\n        final UnivariateSolver solver = new BrentSolver(absoluteAccuracy);\n        return solver.solve(Integer.MAX_VALUE, function, x0, x1);\n    }",
+    "comment": " Convenience method to find a zero of a univariate real function.  A default solver is used.  @param function Function. @param x0 Lower bound for the interval. @param x1 Upper bound for the interval. @param absoluteAccuracy Accuracy to be used by the solver. @return a value where the function is zero. @throws IllegalArgumentException if {@code function} is {@code null}, the endpoints do not specify a valid interval, or the absolute accuracy is not valid for the default solver. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "UnivariateSolverUtils.verifyInterval",
+    "class_name": "org.apache.commons.math3.analysis.solvers.UnivariateSolverUtils",
+    "signature": "org.apache.commons.math3.analysis.solvers.UnivariateSolverUtils.verifyInterval(double,double)",
+    "snippet": "    public static void verifyInterval(final double lower,\n                                      final double upper) {\n        if (lower >= upper) {\n            throw new NumberIsTooLargeException(LocalizedFormats.ENDPOINTS_NOT_AN_INTERVAL,\n                                                lower, upper, false);\n        }\n    }",
+    "comment": " Check that the endpoints specify an interval.  @param lower Lower endpoint. @param upper Upper endpoint. @throws NumberIsTooLargeException if {@code lower >= upper}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "UnivariateSolverUtils.verifySequence",
+    "class_name": "org.apache.commons.math3.analysis.solvers.UnivariateSolverUtils",
+    "signature": "org.apache.commons.math3.analysis.solvers.UnivariateSolverUtils.verifySequence(double,double,double)",
+    "snippet": "    public static void verifySequence(final double lower,\n                                      final double initial,\n                                      final double upper) {\n        verifyInterval(lower, initial);\n        verifyInterval(initial, upper);\n    }",
+    "comment": " Check that {@code lower < initial < upper}.  @param lower Lower endpoint. @param initial Initial value. @param upper Upper endpoint. @throws NumberIsTooLargeException if {@code lower >= initial} or {@code initial >= upper}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractIntegerDistribution.AbstractIntegerDistribution",
+    "class_name": "org.apache.commons.math3.distribution.AbstractIntegerDistribution",
+    "signature": "org.apache.commons.math3.distribution.AbstractIntegerDistribution.AbstractIntegerDistribution()",
+    "snippet": "    protected AbstractIntegerDistribution() { }",
+    "comment": "Default constructor. */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractIntegerDistribution.checkedCumulativeProbability",
+    "class_name": "org.apache.commons.math3.distribution.AbstractIntegerDistribution",
+    "signature": "org.apache.commons.math3.distribution.AbstractIntegerDistribution.checkedCumulativeProbability(int)",
+    "snippet": "    private double checkedCumulativeProbability(int argument)\n        throws MathInternalError {\n        double result = Double.NaN;\n        result = cumulativeProbability(argument);\n        if (Double.isNaN(result)) {\n            throw new MathInternalError(LocalizedFormats\n                    .DISCRETE_CUMULATIVE_PROBABILITY_RETURNED_NAN, argument);\n        }\n        return result;\n    }",
+    "comment": " Computes the cumulative probability function and checks for {@code NaN} values returned. Throws {@code MathInternalError} if the value is {@code NaN}. Rethrows any exception encountered evaluating the cumulative probability function. Throws {@code MathInternalError} if the cumulative probability function returns {@code NaN}.  @param argument input value @return the cumulative probability @throws MathInternalError if the cumulative probability is {@code NaN} ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractIntegerDistribution.inverseCumulativeProbability",
+    "class_name": "org.apache.commons.math3.distribution.AbstractIntegerDistribution",
+    "signature": "org.apache.commons.math3.distribution.AbstractIntegerDistribution.inverseCumulativeProbability(double)",
+    "snippet": "    public int inverseCumulativeProbability(final double p) throws OutOfRangeException {\n        if (p < 0.0 || p > 1.0) {\n            throw new OutOfRangeException(p, 0, 1);\n        }\n\n        int lower = getSupportLowerBound();\n        if (p == 0.0) {\n            return lower;\n        }\n        if (lower == Integer.MIN_VALUE) {\n            if (checkedCumulativeProbability(lower) >= p) {\n                return lower;\n            }\n        } else {\n            lower -= 1; // this ensures cumulativeProbability(lower) < p, which\n                        // is important for the solving step\n        }\n\n        int upper = getSupportUpperBound();\n        if (p == 1.0) {\n            return upper;\n        }\n\n        // use the one-sided Chebyshev inequality to narrow the bracket\n        // cf. AbstractRealDistribution.inverseCumulativeProbability(double)\n        final double mu = getNumericalMean();\n        final double sigma = FastMath.sqrt(getNumericalVariance());\n        final boolean chebyshevApplies = !(Double.isInfinite(mu) || Double.isNaN(mu) ||\n                Double.isInfinite(sigma) || Double.isNaN(sigma) || sigma == 0.0);\n        if (chebyshevApplies) {\n            double k = FastMath.sqrt((1.0 - p) / p);\n            double tmp = mu - k * sigma;\n            if (tmp > lower) {\n                lower = ((int) Math.ceil(tmp)) - 1;\n            }\n            k = 1.0 / k;\n            tmp = mu + k * sigma;\n            if (tmp < upper) {\n                upper = ((int) Math.ceil(tmp)) - 1;\n            }\n        }\n\n        return solveInverseCumulativeProbability(p, lower, upper);\n    }",
+    "comment": " {@inheritDoc}  The default implementation returns <ul> <li>{@link #getSupportLowerBound()} for {@code p = 0},</li> <li>{@link #getSupportUpperBound()} for {@code p = 1}, and</li> <li>{@link #solveInverseCumulativeProbability(double, int, int)} for {@code 0 < p < 1}.</li> </ul> ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractIntegerDistribution.solveInverseCumulativeProbability",
+    "class_name": "org.apache.commons.math3.distribution.AbstractIntegerDistribution",
+    "signature": "org.apache.commons.math3.distribution.AbstractIntegerDistribution.solveInverseCumulativeProbability(double,int,int)",
+    "snippet": "    protected int solveInverseCumulativeProbability(final double p, int lower, int upper) {\n        while (lower + 1 < upper) {\n            int xm = (lower + upper) / 2;\n            if (xm < lower || xm > upper) {\n                /*\n                 * Overflow.\n                 * There will never be an overflow in both calculation methods\n                 * for xm at the same time\n                 */\n                xm = lower + (upper - lower) / 2;\n            }\n\n            double pm = checkedCumulativeProbability(xm);\n            if (pm >= p) {\n                upper = xm;\n            } else {\n                lower = xm;\n            }\n        }\n        return upper;\n    }",
+    "comment": " This is a utility function used by {@link #inverseCumulativeProbability(double)}. It assumes {@code 0 < p < 1} and that the inverse cumulative probability lies in the bracket {@code (lower, upper]}. The implementation does simple bisection to find the smallest {@code p}-quantile <code>inf{x in Z | P(X<=x) >= p}</code>.  @param p the cumulative probability @param lower a value satisfying {@code cumulativeProbability(lower) < p} @param upper a value satisfying {@code p <= cumulativeProbability(upper)} @return the smallest {@code p}-quantile of this distribution ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractRealDistribution.AbstractRealDistribution",
+    "class_name": "org.apache.commons.math3.distribution.AbstractRealDistribution",
+    "signature": "org.apache.commons.math3.distribution.AbstractRealDistribution.AbstractRealDistribution()",
+    "snippet": "    protected AbstractRealDistribution() { }",
+    "comment": "Default constructor. */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractRealDistribution.inverseCumulativeProbability",
+    "class_name": "org.apache.commons.math3.distribution.AbstractRealDistribution",
+    "signature": "org.apache.commons.math3.distribution.AbstractRealDistribution.inverseCumulativeProbability(double)",
+    "snippet": "    public double inverseCumulativeProbability(final double p) throws OutOfRangeException {\n        /*\n         * IMPLEMENTATION NOTES\n         * --------------------\n         * Where applicable, use is made of the one-sided Chebyshev inequality\n         * to bracket the root. This inequality states that\n         * P(X - mu >= k * sig) <= 1 / (1 + k^2),\n         * mu: mean, sig: standard deviation. Equivalently\n         * 1 - P(X < mu + k * sig) <= 1 / (1 + k^2),\n         * F(mu + k * sig) >= k^2 / (1 + k^2).\n         *\n         * For k = sqrt(p / (1 - p)), we find\n         * F(mu + k * sig) >= p,\n         * and (mu + k * sig) is an upper-bound for the root.\n         *\n         * Then, introducing Y = -X, mean(Y) = -mu, sd(Y) = sig, and\n         * P(Y >= -mu + k * sig) <= 1 / (1 + k^2),\n         * P(-X >= -mu + k * sig) <= 1 / (1 + k^2),\n         * P(X <= mu - k * sig) <= 1 / (1 + k^2),\n         * F(mu - k * sig) <= 1 / (1 + k^2).\n         *\n         * For k = sqrt((1 - p) / p), we find\n         * F(mu - k * sig) <= p,\n         * and (mu - k * sig) is a lower-bound for the root.\n         *\n         * In cases where the Chebyshev inequality does not apply, geometric\n         * progressions 1, 2, 4, ... and -1, -2, -4, ... are used to bracket\n         * the root.\n         */\n        if (p < 0.0 || p > 1.0) {\n            throw new OutOfRangeException(p, 0, 1);\n        }\n\n        double lowerBound = getSupportLowerBound();\n        if (p == 0.0) {\n            return lowerBound;\n        }\n\n        double upperBound = getSupportUpperBound();\n        if (p == 1.0) {\n            return upperBound;\n        }\n\n        final double mu = getNumericalMean();\n        final double sig = FastMath.sqrt(getNumericalVariance());\n        final boolean chebyshevApplies;\n        chebyshevApplies = !(Double.isInfinite(mu) || Double.isNaN(mu) ||\n                             Double.isInfinite(sig) || Double.isNaN(sig));\n\n        if (lowerBound == Double.NEGATIVE_INFINITY) {\n            if (chebyshevApplies) {\n                lowerBound = mu - sig * FastMath.sqrt((1. - p) / p);\n            } else {\n                lowerBound = -1.0;\n                while (cumulativeProbability(lowerBound) >= p) {\n                    lowerBound *= 2.0;\n                }\n            }\n        }\n\n        if (upperBound == Double.POSITIVE_INFINITY) {\n            if (chebyshevApplies) {\n                upperBound = mu + sig * FastMath.sqrt(p / (1. - p));\n            } else {\n                upperBound = 1.0;\n                while (cumulativeProbability(upperBound) < p) {\n                    upperBound *= 2.0;\n                }\n            }\n        }\n\n        final UnivariateFunction toSolve = new UnivariateFunction() {\n\n            public double value(final double x) {\n                return cumulativeProbability(x) - p;\n            }\n        };\n\n        double x = UnivariateSolverUtils.solve(toSolve,\n                                                   lowerBound,\n                                                   upperBound,\n                                                   getSolverAbsoluteAccuracy());\n\n        if (!isSupportConnected()) {\n            /* Test for plateau. */\n            final double dx = getSolverAbsoluteAccuracy();\n            if (x - dx >= getSupportLowerBound()) {\n                double px = cumulativeProbability(x);\n                if (cumulativeProbability(x - dx) == px) {\n                    upperBound = x;\n                    while (upperBound - lowerBound > dx) {\n                        final double midPoint = 0.5 * (lowerBound + upperBound);\n                        if (cumulativeProbability(midPoint) < px) {\n                            lowerBound = midPoint;\n                        } else {\n                            upperBound = midPoint;\n                        }\n                    }\n                    return upperBound;\n                }\n            }\n        }\n        return x;\n    }",
+    "comment": " {@inheritDoc}  The default implementation returns <ul> <li>{@link #getSupportLowerBound()} for {@code p = 0},</li> <li>{@link #getSupportUpperBound()} for {@code p = 1}.</li> </ul> ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BinomialDistribution.BinomialDistribution",
+    "class_name": "org.apache.commons.math3.distribution.BinomialDistribution",
+    "signature": "org.apache.commons.math3.distribution.BinomialDistribution.BinomialDistribution(int,double)",
+    "snippet": "    public BinomialDistribution(int trials, double p) {\n        if (trials < 0) {\n            throw new NotPositiveException(LocalizedFormats.NUMBER_OF_TRIALS,\n                                           trials);\n        }\n        if (p < 0 || p > 1) {\n            throw new OutOfRangeException(p, 0, 1);\n        }\n\n        probabilityOfSuccess = p;\n        numberOfTrials = trials;\n    }",
+    "comment": " Create a binomial distribution with the given number of trials and probability of success.  @param trials Number of trials. @param p Probability of success. @throws NotPositiveException if {@code trials < 0}. @throws OutOfRangeException if {@code p < 0} or {@code p > 1}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BinomialDistribution.cumulativeProbability",
+    "class_name": "org.apache.commons.math3.distribution.BinomialDistribution",
+    "signature": "org.apache.commons.math3.distribution.BinomialDistribution.cumulativeProbability(int)",
+    "snippet": "    public double cumulativeProbability(int x) {\n        double ret;\n        if (x < 0) {\n            ret = 0.0;\n        } else if (x >= numberOfTrials) {\n            ret = 1.0;\n        } else {\n            ret = 1.0 - Beta.regularizedBeta(probabilityOfSuccess,\n                    x + 1.0, numberOfTrials - x);\n        }\n        return ret;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BinomialDistribution.getNumericalMean",
+    "class_name": "org.apache.commons.math3.distribution.BinomialDistribution",
+    "signature": "org.apache.commons.math3.distribution.BinomialDistribution.getNumericalMean()",
+    "snippet": "    public double getNumericalMean() {\n        return numberOfTrials * probabilityOfSuccess;\n    }",
+    "comment": " {@inheritDoc}  For {@code n} trials and probability parameter {@code p}, the mean is {@code n * p}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BinomialDistribution.getNumericalVariance",
+    "class_name": "org.apache.commons.math3.distribution.BinomialDistribution",
+    "signature": "org.apache.commons.math3.distribution.BinomialDistribution.getNumericalVariance()",
+    "snippet": "    public double getNumericalVariance() {\n        final double p = probabilityOfSuccess;\n        return numberOfTrials * p * (1 - p);\n    }",
+    "comment": " {@inheritDoc}  For {@code n} trials and probability parameter {@code p}, the variance is {@code n * p * (1 - p)}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BinomialDistribution.getSupportLowerBound",
+    "class_name": "org.apache.commons.math3.distribution.BinomialDistribution",
+    "signature": "org.apache.commons.math3.distribution.BinomialDistribution.getSupportLowerBound()",
+    "snippet": "    public int getSupportLowerBound() {\n        return probabilityOfSuccess < 1.0 ? 0 : numberOfTrials;\n    }",
+    "comment": " {@inheritDoc}  The lower bound of the support is always 0 except for the probability parameter {@code p = 1}.  @return lower bound of the support (0 or the number of trials) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BinomialDistribution.getSupportUpperBound",
+    "class_name": "org.apache.commons.math3.distribution.BinomialDistribution",
+    "signature": "org.apache.commons.math3.distribution.BinomialDistribution.getSupportUpperBound()",
+    "snippet": "    public int getSupportUpperBound() {\n        return probabilityOfSuccess > 0.0 ? numberOfTrials : 0;\n    }",
+    "comment": " {@inheritDoc}  The upper bound of the support is the number of trials except for the probability parameter {@code p = 0}.  @return upper bound of the support (number of trials or 0) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FDistribution.FDistribution",
+    "class_name": "org.apache.commons.math3.distribution.FDistribution",
+    "signature": "org.apache.commons.math3.distribution.FDistribution.FDistribution(double,double)",
+    "snippet": "    public FDistribution(double numeratorDegreesOfFreedom,\n                             double denominatorDegreesOfFreedom)\n        throws NotStrictlyPositiveException {\n        this(numeratorDegreesOfFreedom, denominatorDegreesOfFreedom,\n             DEFAULT_INVERSE_ABSOLUTE_ACCURACY);\n    }",
+    "comment": " Create a F distribution using the given degrees of freedom. @param numeratorDegreesOfFreedom Numerator degrees of freedom. @param denominatorDegreesOfFreedom Denominator degrees of freedom. @throws NotStrictlyPositiveException if {@code numeratorDegreesOfFreedom <= 0} or {@code denominatorDegreesOfFreedom <= 0}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FDistribution.FDistribution",
+    "class_name": "org.apache.commons.math3.distribution.FDistribution",
+    "signature": "org.apache.commons.math3.distribution.FDistribution.FDistribution(double,double,double)",
+    "snippet": "    public FDistribution(double numeratorDegreesOfFreedom,\n                             double denominatorDegreesOfFreedom,\n                             double inverseCumAccuracy)\n        throws NotStrictlyPositiveException {\n        if (numeratorDegreesOfFreedom <= 0) {\n            throw new NotStrictlyPositiveException(LocalizedFormats.DEGREES_OF_FREEDOM,\n                                                   numeratorDegreesOfFreedom);\n        }\n        if (denominatorDegreesOfFreedom <= 0) {\n            throw new NotStrictlyPositiveException(LocalizedFormats.DEGREES_OF_FREEDOM,\n                                                   denominatorDegreesOfFreedom);\n        }\n        this.numeratorDegreesOfFreedom = numeratorDegreesOfFreedom;\n        this.denominatorDegreesOfFreedom = denominatorDegreesOfFreedom;\n        solverAbsoluteAccuracy = inverseCumAccuracy;\n    }",
+    "comment": " Create an F distribution using the given degrees of freedom and inverse cumulative probability accuracy. @param numeratorDegreesOfFreedom Numerator degrees of freedom. @param denominatorDegreesOfFreedom Denominator degrees of freedom. @param inverseCumAccuracy the maximum absolute error in inverse cumulative probability estimates. (defaults to {@link #DEFAULT_INVERSE_ABSOLUTE_ACCURACY}) @throws NotStrictlyPositiveException if {@code numeratorDegreesOfFreedom <= 0} or {@code denominatorDegreesOfFreedom <= 0}. @since 2.1 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FDistribution.calculateNumericalVariance",
+    "class_name": "org.apache.commons.math3.distribution.FDistribution",
+    "signature": "org.apache.commons.math3.distribution.FDistribution.calculateNumericalVariance()",
+    "snippet": "    protected double calculateNumericalVariance() {\n        final double denominatorDF = getDenominatorDegreesOfFreedom();\n\n        if (denominatorDF > 4) {\n            final double numeratorDF = getNumeratorDegreesOfFreedom();\n            final double denomDFMinusTwo = denominatorDF - 2;\n\n            return ( 2 * (denominatorDF * denominatorDF) * (numeratorDF + denominatorDF - 2) ) /\n                   ( (numeratorDF * (denomDFMinusTwo * denomDFMinusTwo) * (denominatorDF - 4)) );\n        }\n\n        return Double.NaN;\n    }",
+    "comment": " used by {@link #getNumericalVariance()}  @return the variance of this distribution ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FDistribution.cumulativeProbability",
+    "class_name": "org.apache.commons.math3.distribution.FDistribution",
+    "signature": "org.apache.commons.math3.distribution.FDistribution.cumulativeProbability(double)",
+    "snippet": "    public double cumulativeProbability(double x)  {\n        double ret;\n        if (x <= 0) {\n            ret = 0;\n        } else {\n            double n = numeratorDegreesOfFreedom;\n            double m = denominatorDegreesOfFreedom;\n\n            ret = Beta.regularizedBeta((n * x) / (m + n * x),\n                0.5 * n,\n                0.5 * m);\n        }\n        return ret;\n    }",
+    "comment": " {@inheritDoc}  The implementation of this method is based on <ul> <li> <a href=\"http://mathworld.wolfram.com/F-Distribution.html\"> F-Distribution</a>, equation (4). </li> </ul> ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FDistribution.getDenominatorDegreesOfFreedom",
+    "class_name": "org.apache.commons.math3.distribution.FDistribution",
+    "signature": "org.apache.commons.math3.distribution.FDistribution.getDenominatorDegreesOfFreedom()",
+    "snippet": "    public double getDenominatorDegreesOfFreedom() {\n        return denominatorDegreesOfFreedom;\n    }",
+    "comment": " Access the denominator degrees of freedom.  @return the denominator degrees of freedom. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FDistribution.getNumeratorDegreesOfFreedom",
+    "class_name": "org.apache.commons.math3.distribution.FDistribution",
+    "signature": "org.apache.commons.math3.distribution.FDistribution.getNumeratorDegreesOfFreedom()",
+    "snippet": "    public double getNumeratorDegreesOfFreedom() {\n        return numeratorDegreesOfFreedom;\n    }",
+    "comment": " Access the numerator degrees of freedom.  @return the numerator degrees of freedom. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FDistribution.getNumericalMean",
+    "class_name": "org.apache.commons.math3.distribution.FDistribution",
+    "signature": "org.apache.commons.math3.distribution.FDistribution.getNumericalMean()",
+    "snippet": "    public double getNumericalMean() {\n        final double denominatorDF = getDenominatorDegreesOfFreedom();\n\n        if (denominatorDF > 2) {\n            return denominatorDF / (denominatorDF - 2);\n        }\n\n        return Double.NaN;\n    }",
+    "comment": " {@inheritDoc}  For denominator degrees of freedom parameter {@code b}, the mean is <ul> <li>if {@code b > 2} then {@code b / (b - 2)},</li> <li>else undefined ({@code Double.NaN}). </ul> ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FDistribution.getNumericalVariance",
+    "class_name": "org.apache.commons.math3.distribution.FDistribution",
+    "signature": "org.apache.commons.math3.distribution.FDistribution.getNumericalVariance()",
+    "snippet": "    public double getNumericalVariance() {\n        if (!numericalVarianceIsCalculated) {\n            numericalVariance = calculateNumericalVariance();\n            numericalVarianceIsCalculated = true;\n        }\n        return numericalVariance;\n    }",
+    "comment": " {@inheritDoc}  For numerator degrees of freedom parameter {@code a} and denominator degrees of freedom parameter {@code b}, the variance is <ul> <li> if {@code b > 4} then {@code [2 * b^2 * (a + b - 2)] / [a * (b - 2)^2 * (b - 4)]}, </li> <li>else undefined ({@code Double.NaN}). </ul> ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FDistribution.getSolverAbsoluteAccuracy",
+    "class_name": "org.apache.commons.math3.distribution.FDistribution",
+    "signature": "org.apache.commons.math3.distribution.FDistribution.getSolverAbsoluteAccuracy()",
+    "snippet": "    @Override\n    protected double getSolverAbsoluteAccuracy() {\n        return solverAbsoluteAccuracy;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FDistribution.getSupportLowerBound",
+    "class_name": "org.apache.commons.math3.distribution.FDistribution",
+    "signature": "org.apache.commons.math3.distribution.FDistribution.getSupportLowerBound()",
+    "snippet": "    public double getSupportLowerBound() {\n        return 0;\n    }",
+    "comment": " {@inheritDoc}  The lower bound of the support is always 0 no matter the parameters.  @return lower bound of the support (always 0) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FDistribution.getSupportUpperBound",
+    "class_name": "org.apache.commons.math3.distribution.FDistribution",
+    "signature": "org.apache.commons.math3.distribution.FDistribution.getSupportUpperBound()",
+    "snippet": "    public double getSupportUpperBound() {\n        return Double.POSITIVE_INFINITY;\n    }",
+    "comment": " {@inheritDoc}  The upper bound of the support is always positive infinity no matter the parameters.  @return upper bound of the support (always Double.POSITIVE_INFINITY) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ConvergenceException.ConvergenceException",
+    "class_name": "org.apache.commons.math3.exception.ConvergenceException",
+    "signature": "org.apache.commons.math3.exception.ConvergenceException.ConvergenceException(Localizable,Object[])",
+    "snippet": "    public ConvergenceException(Localizable pattern,\n                                Object ... args) {\n        getContext().addMessage(pattern, args);\n    }",
+    "comment": " Construct the exception with a specific context and arguments.  @param pattern Message pattern providing the specific context of the error. @param args Arguments. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathIllegalStateException.MathIllegalStateException",
+    "class_name": "org.apache.commons.math3.exception.MathIllegalStateException",
+    "signature": "org.apache.commons.math3.exception.MathIllegalStateException.MathIllegalStateException()",
+    "snippet": "    public MathIllegalStateException() {\n        this(LocalizedFormats.ILLEGAL_STATE);\n    }",
+    "comment": " Default constructor. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathIllegalStateException.MathIllegalStateException",
+    "class_name": "org.apache.commons.math3.exception.MathIllegalStateException",
+    "signature": "org.apache.commons.math3.exception.MathIllegalStateException.MathIllegalStateException(Localizable,Object[])",
+    "snippet": "    public MathIllegalStateException(Localizable pattern,\n                                     Object ... args) {\n        context = new ExceptionContext(this);\n        context.addMessage(pattern, args);\n    }",
+    "comment": " Simple constructor.  @param pattern Message pattern explaining the cause of the error. @param args Arguments. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathIllegalStateException.getContext",
+    "class_name": "org.apache.commons.math3.exception.MathIllegalStateException",
+    "signature": "org.apache.commons.math3.exception.MathIllegalStateException.getContext()",
+    "snippet": "    public ExceptionContext getContext() {\n        return context;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathIllegalStateException.getLocalizedMessage",
+    "class_name": "org.apache.commons.math3.exception.MathIllegalStateException",
+    "signature": "org.apache.commons.math3.exception.MathIllegalStateException.getLocalizedMessage()",
+    "snippet": "    @Override\n    public String getLocalizedMessage() {\n        return context.getLocalizedMessage();\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathIllegalStateException.getMessage",
+    "class_name": "org.apache.commons.math3.exception.MathIllegalStateException",
+    "signature": "org.apache.commons.math3.exception.MathIllegalStateException.getMessage()",
+    "snippet": "    @Override\n    public String getMessage() {\n        return context.getMessage();\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ArgUtils.flatten",
+    "class_name": "org.apache.commons.math3.exception.util.ArgUtils",
+    "signature": "org.apache.commons.math3.exception.util.ArgUtils.flatten(Object[])",
+    "snippet": "    public static Object[] flatten(Object[] array) {\n        final List<Object> list = new ArrayList<Object>();\n        if (array != null) {\n            for (Object o : array) {\n                if (o instanceof Object[]) {\n                    for (Object oR : flatten((Object[]) o)) {\n                        list.add(oR);\n                    }\n                } else {\n                    list.add(o);\n                }\n            }\n        }\n        return list.toArray();\n    }",
+    "comment": " Transform a multidimensional array into a one-dimensional list.  @param array Array (possibly multidimensional). @return a list of all the {@code Object} instances contained in {@code array}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExceptionContext.ExceptionContext",
+    "class_name": "org.apache.commons.math3.exception.util.ExceptionContext",
+    "signature": "org.apache.commons.math3.exception.util.ExceptionContext.ExceptionContext(Throwable)",
+    "snippet": "    public ExceptionContext(final Throwable throwable) {\n        this.throwable = throwable;\n        msgPatterns    = new ArrayList<Localizable>();\n        msgArguments   = new ArrayList<Object[]>();\n        context        = new HashMap<String, Object>();\n    }",
+    "comment": "Simple constructor. @param throwable the exception this context refers too ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExceptionContext.addMessage",
+    "class_name": "org.apache.commons.math3.exception.util.ExceptionContext",
+    "signature": "org.apache.commons.math3.exception.util.ExceptionContext.addMessage(Localizable,Object[])",
+    "snippet": "    public void addMessage(Localizable pattern,\n                           Object ... arguments) {\n        msgPatterns.add(pattern);\n        msgArguments.add(ArgUtils.flatten(arguments));\n    }",
+    "comment": " Adds a message.  @param pattern Message pattern. @param arguments Values for replacing the placeholders in the message pattern. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExceptionContext.buildMessage",
+    "class_name": "org.apache.commons.math3.exception.util.ExceptionContext",
+    "signature": "org.apache.commons.math3.exception.util.ExceptionContext.buildMessage(Locale,String)",
+    "snippet": "    private String buildMessage(Locale locale,\n                                String separator) {\n        final StringBuilder sb = new StringBuilder();\n        int count = 0;\n        final int len = msgPatterns.size();\n        for (int i = 0; i < len; i++) {\n            final Localizable pat = msgPatterns.get(i);\n            final Object[] args = msgArguments.get(i);\n            final MessageFormat fmt = new MessageFormat(pat.getLocalizedString(locale),\n                                                        locale);\n            sb.append(fmt.format(args));\n            if (++count < len) {\n                // Add a separator if there are other messages.\n                sb.append(separator);\n            }\n        }\n\n        return sb.toString();\n    }",
+    "comment": " Builds a message string.  @param locale Locale in which the message should be translated. @param separator Message separator. @return a localized message string. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExceptionContext.getLocalizedMessage",
+    "class_name": "org.apache.commons.math3.exception.util.ExceptionContext",
+    "signature": "org.apache.commons.math3.exception.util.ExceptionContext.getLocalizedMessage()",
+    "snippet": "    public String getLocalizedMessage() {\n        return getMessage(Locale.getDefault());\n    }",
+    "comment": " Gets the message in the default locale.  @return the localized message. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExceptionContext.getMessage",
+    "class_name": "org.apache.commons.math3.exception.util.ExceptionContext",
+    "signature": "org.apache.commons.math3.exception.util.ExceptionContext.getMessage()",
+    "snippet": "    public String getMessage() {\n        return getMessage(Locale.US);\n    }",
+    "comment": " Gets the default message.  @return the message. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExceptionContext.getMessage",
+    "class_name": "org.apache.commons.math3.exception.util.ExceptionContext",
+    "signature": "org.apache.commons.math3.exception.util.ExceptionContext.getMessage(Locale)",
+    "snippet": "    public String getMessage(final Locale locale) {\n        return buildMessage(locale, \": \");\n    }",
+    "comment": " Gets the message in a specified locale.  @param locale Locale in which the message should be translated. @return the localized message. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LocalizedFormats.getLocalizedString",
+    "class_name": "org.apache.commons.math3.exception.util.LocalizedFormats",
+    "signature": "org.apache.commons.math3.exception.util.LocalizedFormats.getLocalizedString(Locale)",
+    "snippet": "    public String getLocalizedString(final Locale locale) {\n        try {\n            final String path = LocalizedFormats.class.getName().replaceAll(\"\\\\.\", \"/\");\n            ResourceBundle bundle =\n                    ResourceBundle.getBundle(\"assets/\" + path, locale);\n            if (bundle.getLocale().getLanguage().equals(locale.getLanguage())) {\n                // the value of the resource is the translated format\n                return bundle.getString(toString());\n            }\n\n        } catch (MissingResourceException mre) {\n            // do nothing here\n        }\n\n        // either the locale is not supported or the resource is unknown\n        // don't translate and fall back to using the source format\n        return sourceFormat;\n\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RandomDataImpl.RandomDataImpl",
+    "class_name": "org.apache.commons.math3.random.RandomDataImpl",
+    "signature": "org.apache.commons.math3.random.RandomDataImpl.RandomDataImpl()",
+    "snippet": "    public RandomDataImpl() {\n    }",
+    "comment": " Construct a RandomDataImpl, using a default random generator as the source of randomness.  <p>The default generator is a {@link Well19937c} seeded with {@code System.currentTimeMillis() + System.identityHashCode(this))}. The generator is initialized and seeded on first use.</p> ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Beta.logBeta",
+    "class_name": "org.apache.commons.math3.special.Beta",
+    "signature": "org.apache.commons.math3.special.Beta.logBeta(double,double,double,int)",
+    "snippet": "    public static double logBeta(double a, double b,\n                                 double epsilon,\n                                 int maxIterations) {\n        double ret;\n\n        if (Double.isNaN(a) ||\n            Double.isNaN(b) ||\n            a <= 0.0 ||\n            b <= 0.0) {\n            ret = Double.NaN;\n        } else {\n            ret = Gamma.logGamma(a) + Gamma.logGamma(b) -\n                Gamma.logGamma(a + b);\n        }\n\n        return ret;\n    }",
+    "comment": " Returns the natural logarithm of the beta function B(a, b).  The implementation of this method is based on: <ul> <li><a href=\"http://mathworld.wolfram.com/BetaFunction.html\"> Beta Function</a>, equation (1).</li> </ul>  @param a Parameter {@code a}. @param b Parameter {@code b}. @param epsilon When the absolute value of the nth item in the series is less than epsilon the approximation ceases to calculate further elements in the series. @param maxIterations Maximum number of \"iterations\" to complete. @return log(B(a, b)). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Beta.regularizedBeta",
+    "class_name": "org.apache.commons.math3.special.Beta",
+    "signature": "org.apache.commons.math3.special.Beta.regularizedBeta(double,double,double)",
+    "snippet": "    public static double regularizedBeta(double x, double a, double b) {\n        return regularizedBeta(x, a, b, DEFAULT_EPSILON, Integer.MAX_VALUE);\n    }",
+    "comment": " Returns the <a href=\"http://mathworld.wolfram.com/RegularizedBetaFunction.html\"> regularized beta function</a> I(x, a, b).  @param x Value. @param a Parameter {@code a}. @param b Parameter {@code b}. @return the regularized beta function I(x, a, b). @throws org.apache.commons.math3.exception.MaxCountExceededException if the algorithm fails to converge. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Beta.regularizedBeta",
+    "class_name": "org.apache.commons.math3.special.Beta",
+    "signature": "org.apache.commons.math3.special.Beta.regularizedBeta(double,double,double,double,int)",
+    "snippet": "    public static double regularizedBeta(double x,\n                                         final double a, final double b,\n                                         double epsilon, int maxIterations) {\n        double ret;\n\n        if (Double.isNaN(x) ||\n            Double.isNaN(a) ||\n            Double.isNaN(b) ||\n            x < 0 ||\n            x > 1 ||\n            a <= 0.0 ||\n            b <= 0.0) {\n            ret = Double.NaN;\n        } else if (x > (a + 1.0) / (a + b + 2.0)) {\n            ret = 1.0 - regularizedBeta(1.0 - x, b, a, epsilon, maxIterations);\n        } else {\n            ContinuedFraction fraction = new ContinuedFraction() {\n\n                @Override\n                protected double getB(int n, double x) {\n                    double ret;\n                    double m;\n                    if (n % 2 == 0) { // even\n                        m = n / 2.0;\n                        ret = (m * (b - m) * x) /\n                            ((a + (2 * m) - 1) * (a + (2 * m)));\n                    } else {\n                        m = (n - 1.0) / 2.0;\n                        ret = -((a + m) * (a + b + m) * x) /\n                                ((a + (2 * m)) * (a + (2 * m) + 1.0));\n                    }\n                    return ret;\n                }\n\n                @Override\n                protected double getA(int n, double x) {\n                    return 1.0;\n                }\n            };\n            ret = FastMath.exp((a * FastMath.log(x)) + (b * FastMath.log(1.0 - x)) -\n                FastMath.log(a) - logBeta(a, b, epsilon, maxIterations)) *\n                1.0 / fraction.evaluate(x, epsilon, maxIterations);\n        }\n\n        return ret;\n    }",
+    "comment": " Returns the regularized beta function I(x, a, b).  The implementation of this method is based on: <ul> <li> <a href=\"http://mathworld.wolfram.com/RegularizedBetaFunction.html\"> Regularized Beta Function</a>.</li> <li> <a href=\"http://functions.wolfram.com/06.21.10.0001.01\"> Regularized Beta Function</a>.</li> </ul>  @param x the value. @param a Parameter {@code a}. @param b Parameter {@code b}. @param epsilon When the absolute value of the nth item in the series is less than epsilon the approximation ceases to calculate further elements in the series. @param maxIterations Maximum number of \"iterations\" to complete. @return the regularized beta function I(x, a, b) @throws org.apache.commons.math3.exception.MaxCountExceededException if the algorithm fails to converge. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Gamma.lanczos",
+    "class_name": "org.apache.commons.math3.special.Gamma",
+    "signature": "org.apache.commons.math3.special.Gamma.lanczos(double)",
+    "snippet": "    public static double lanczos(final double x) {\n        double sum = 0.0;\n        for (int i = LANCZOS.length - 1; i > 0; --i) {\n            sum = sum + (LANCZOS[i] / (x + i));\n        }\n        return sum + LANCZOS[0];\n    }",
+    "comment": " <p> Returns the Lanczos approximation used to compute the gamma function. The Lanczos approximation is related to the Gamma function by the following equation <center> {@code gamma(x) = sqrt(2 * pi) / x * (x + g + 0.5) ^ (x + 0.5) exp(-x - g - 0.5) * lanczos(x)}, </center> where {@code g} is a constant, returned by {@link #getLanczosG()}. </p>  @param x the argument @return the Lanczos approximation @see <a href=\"http://mathworld.wolfram.com/LanczosApproximation.html\">Lanczos Approximation</a>, equations (1) through (5), and Paul Godfrey's <a href=\"http://my.fit.edu/~gabdo/gamma.txt\">Note on the computation of the convergent Lanczos complex Gamma approximation</a> ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Gamma.logGamma",
+    "class_name": "org.apache.commons.math3.special.Gamma",
+    "signature": "org.apache.commons.math3.special.Gamma.logGamma(double)",
+    "snippet": "    public static double logGamma(double x) {\n        double ret;\n\n        if (Double.isNaN(x) || (x <= 0.0)) {\n            ret = Double.NaN;\n        } else {\n            double g = 607.0 / 128.0;\n            double sum = lanczos(x);\n            double tmp = x + g + .5;\n            ret = ((x + .5) * FastMath.log(tmp)) - tmp +\n                HALF_LOG_2_PI + FastMath.log(sum / x);\n        }\n\n        return ret;\n    }",
+    "comment": " Returns the natural logarithm of the gamma function &#915;(x).  The implementation of this method is based on: <ul> <li><a href=\"http://mathworld.wolfram.com/GammaFunction.html\"> Gamma Function</a>, equation (28).</li> <li><a href=\"http://mathworld.wolfram.com/LanczosApproximation.html\"> Lanczos Approximation</a>, equations (1) through (5).</li> <li><a href=\"http://my.fit.edu/~gabdo/gamma.txt\">Paul Godfrey, A note on the computation of the convergent Lanczos complex Gamma approximation </a></li> </ul>  @param x Value. @return log(&#915;(x)) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ArithmeticUtils.factorial",
+    "class_name": "org.apache.commons.math3.util.ArithmeticUtils",
+    "signature": "org.apache.commons.math3.util.ArithmeticUtils.factorial(int)",
+    "snippet": "    public static long factorial(final int n) {\n        if (n < 0) {\n            throw new NotPositiveException(LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER,\n                                           n);\n        }\n        if (n > 20) {\n            throw new MathArithmeticException();\n        }\n        return FACTORIALS[n];\n    }",
+    "comment": " Returns n!. Shorthand for {@code n} <a href=\"http://mathworld.wolfram.com/Factorial.html\"> Factorial</a>, the product of the numbers {@code 1,...,n}. <p> <Strong>Preconditions</strong>: <ul> <li> {@code n >= 0} (otherwise {@code IllegalArgumentException} is thrown)</li> <li> The result is small enough to fit into a {@code long}. The largest value of {@code n} for which {@code n!} < Long.MAX_VALUE} is 20. If the computed value exceeds {@code Long.MAX_VALUE} an {@code ArithMeticException } is thrown.</li> </ul> </p>  @param n argument @return {@code n!} @throws MathArithmeticException if the result is too large to be represented by a {@code long}. @throws NotPositiveException if {@code n < 0}. @throws MathArithmeticException if {@code n > 20}: The factorial value is too large to fit in a {@code long}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ContinuedFraction.ContinuedFraction",
+    "class_name": "org.apache.commons.math3.util.ContinuedFraction",
+    "signature": "org.apache.commons.math3.util.ContinuedFraction.ContinuedFraction()",
+    "snippet": "    protected ContinuedFraction() {\n        super();\n    }",
+    "comment": " Default constructor. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ContinuedFraction.evaluate",
+    "class_name": "org.apache.commons.math3.util.ContinuedFraction",
+    "signature": "org.apache.commons.math3.util.ContinuedFraction.evaluate(double,double,int)",
+    "snippet": "    public double evaluate(double x, double epsilon, int maxIterations) {\n        final double small = 1e-50;\n        double hPrev = getA(0, x);\n\n        // use the value of small as epsilon criteria for zero checks\n        if (Precision.equals(hPrev, 0.0, small)) {\n            hPrev = small;\n        }\n\n        int n = 1;\n        double dPrev = 0.0;\n        double p0 = 1.0;\n        double q1 = 1.0;\n        double cPrev = hPrev;\n        double hN = hPrev;\n\n        while (n < maxIterations) {\n            final double a = getA(n, x);\n            final double b = getB(n, x);\n\n            double cN = a * hPrev + b * p0;\n            double q2 = a * q1 + b * dPrev;\n            if (Double.isInfinite(cN) || Double.isInfinite(q2)) {\n                double scaleFactor = 1d;\n                double lastScaleFactor = 1d;\n                final int maxPower = 5;\n                final double scale = FastMath.max(a,b);\n                if (scale <= 0) {  // Can't scale\n                    throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_INFINITY_DIVERGENCE, x);\n                }\n                for (int i = 0; i < maxPower; i++) {\n                    lastScaleFactor = scaleFactor;\n                    scaleFactor *= scale;\n                    if (a != 0.0 && a > b) {\n                        cN = hPrev / lastScaleFactor + (b / scaleFactor * p0);\n                        q2 = q1 / lastScaleFactor + (b / scaleFactor * dPrev);\n                    } else if (b != 0) {\n                        cN = (a / scaleFactor * hPrev) + p0 / lastScaleFactor;\n                        q2 = (a / scaleFactor * q1) + dPrev / lastScaleFactor;\n                    }\n                    if (!(Double.isInfinite(cN) || Double.isInfinite(q2))) {\n                        break;\n                    }\n                }\n            }\n\n            final double deltaN = cN / q2 / cPrev;\n            hN = cPrev * deltaN;\n\n            if (Double.isInfinite(hN)) {\n                throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_INFINITY_DIVERGENCE,\n                                               x);\n            }\n            if (Double.isNaN(hN)) {\n                throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE,\n                                               x);\n            }\n\n            if (FastMath.abs(deltaN - 1.0) < epsilon) {\n                break;\n            }\n\n            dPrev = q1;\n            cPrev = cN / q2;\n            p0 = hPrev;\n            hPrev = cN;\n            q1 = q2;\n            n++;\n        }\n\n        if (n >= maxIterations) {\n            throw new MaxCountExceededException(LocalizedFormats.NON_CONVERGENT_CONTINUED_FRACTION,\n                                                maxIterations, x);\n        }\n\n        return hN;\n    }",
+    "comment": " <p> Evaluates the continued fraction at the value x. </p>  <p> The implementation of this method is based on the modified Lentz algorithm as described on page 18 ff. in: <ul> <li> I. J. Thompson,  A. R. Barnett. \"Coulomb and Bessel Functions of Complex Arguments and Order.\" <a target=\"_blank\" href=\"http://www.fresco.org.uk/papers/Thompson-JCP64p490.pdf\"> http://www.fresco.org.uk/papers/Thompson-JCP64p490.pdf</a> </li> </ul> Note: the implementation uses the terms a<sub>i</sub> and b<sub>i</sub> as defined in <a href=\"http://mathworld.wolfram.com/ContinuedFraction.html\">Continued Fraction / MathWorld</a>. </p>  @param x the evaluation point. @param epsilon maximum error allowed. @param maxIterations maximum number of convergents @return the value of the continued fraction evaluated at x. @throws ConvergenceException if the algorithm fails to converge. ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.abs",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.abs(double)",
+    "snippet": "    public static double abs(double x) {\n        return (x < 0.0) ? -x : (x == 0.0) ? 0.0 : x; // -0.0 => +0.0\n    }",
+    "comment": " Absolute value. @param x number from which absolute value is requested @return abs(x) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.abs",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.abs(long)",
+    "snippet": "    public static long abs(final long x) {\n        return (x < 0l) ? -x : x;\n    }",
+    "comment": " Absolute value. @param x number from which absolute value is requested @return abs(x) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.ceil",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.ceil(double)",
+    "snippet": "    public static double ceil(double x) {\n        double y;\n\n        if (x != x) { // NaN\n            return x;\n        }\n\n        y = floor(x);\n        if (y == x) {\n            return y;\n        }\n\n        y += 1.0;\n\n        if (y == 0) {\n            return x*y;\n        }\n\n        return y;\n    }",
+    "comment": "Get the smallest whole number larger than x. @param x number from which ceil is requested @return a double number c such that c is an integer c - 1.0 < x <= c ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.exp",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.exp(double)",
+    "snippet": "    public static double exp(double x) {\n        return exp(x, 0.0, null);\n    }",
+    "comment": " Exponential function.  Computes exp(x), function result is nearly rounded.   It will be correctly rounded to the theoretical value for 99.9% of input values, otherwise it will have a 1 UPL error.  Method: Lookup intVal = exp(int(x)) Lookup fracVal = exp(int(x-int(x) / 1024.0) * 1024.0 ); Compute z as the exponential of the remaining bits by a polynomial minus one exp(x) = intVal * fracVal * (1 + z)  Accuracy: Calculation is done with 63 bits of precision, so result should be correctly rounded for 99.9% of input values, with less than 1 ULP error otherwise.  @param x   a double @return double e<sup>x</sup> ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.exp",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.exp(double,double,double[])",
+    "snippet": "    private static double exp(double x, double extra, double[] hiPrec) {\n        double intPartA;\n        double intPartB;\n        int intVal;\n\n        /* Lookup exp(floor(x)).\n         * intPartA will have the upper 22 bits, intPartB will have the lower\n         * 52 bits.\n         */\n        if (x < 0.0) {\n            intVal = (int) -x;\n\n            if (intVal > 746) {\n                if (hiPrec != null) {\n                    hiPrec[0] = 0.0;\n                    hiPrec[1] = 0.0;\n                }\n                return 0.0;\n            }\n\n            if (intVal > 709) {\n                /* This will produce a subnormal output */\n                final double result = exp(x+40.19140625, extra, hiPrec) / 285040095144011776.0;\n                if (hiPrec != null) {\n                    hiPrec[0] /= 285040095144011776.0;\n                    hiPrec[1] /= 285040095144011776.0;\n                }\n                return result;\n            }\n\n            if (intVal == 709) {\n                /* exp(1.494140625) is nearly a machine number... */\n                final double result = exp(x+1.494140625, extra, hiPrec) / 4.455505956692756620;\n                if (hiPrec != null) {\n                    hiPrec[0] /= 4.455505956692756620;\n                    hiPrec[1] /= 4.455505956692756620;\n                }\n                return result;\n            }\n\n            intVal++;\n\n            intPartA = ExpIntTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX-intVal];\n            intPartB = ExpIntTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX-intVal];\n\n            intVal = -intVal;\n        } else {\n            intVal = (int) x;\n\n            if (intVal > 709) {\n                if (hiPrec != null) {\n                    hiPrec[0] = Double.POSITIVE_INFINITY;\n                    hiPrec[1] = 0.0;\n                }\n                return Double.POSITIVE_INFINITY;\n            }\n\n            intPartA = ExpIntTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX+intVal];\n            intPartB = ExpIntTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX+intVal];\n        }\n\n        /* Get the fractional part of x, find the greatest multiple of 2^-10 less than\n         * x and look up the exp function of it.\n         * fracPartA will have the upper 22 bits, fracPartB the lower 52 bits.\n         */\n        final int intFrac = (int) ((x - intVal) * 1024.0);\n        final double fracPartA = ExpFracTable.EXP_FRAC_TABLE_A[intFrac];\n        final double fracPartB = ExpFracTable.EXP_FRAC_TABLE_B[intFrac];\n\n        /* epsilon is the difference in x from the nearest multiple of 2^-10.  It\n         * has a value in the range 0 <= epsilon < 2^-10.\n         * Do the subtraction from x as the last step to avoid possible loss of percison.\n         */\n        final double epsilon = x - (intVal + intFrac / 1024.0);\n\n        /* Compute z = exp(epsilon) - 1.0 via a minimax polynomial.  z has\n       full double precision (52 bits).  Since z < 2^-10, we will have\n       62 bits of precision when combined with the contant 1.  This will be\n       used in the last addition below to get proper rounding. */\n\n        /* Remez generated polynomial.  Converges on the interval [0, 2^-10], error\n       is less than 0.5 ULP */\n        double z = 0.04168701738764507;\n        z = z * epsilon + 0.1666666505023083;\n        z = z * epsilon + 0.5000000000042687;\n        z = z * epsilon + 1.0;\n        z = z * epsilon + -3.940510424527919E-20;\n\n        /* Compute (intPartA+intPartB) * (fracPartA+fracPartB) by binomial\n       expansion.\n       tempA is exact since intPartA and intPartB only have 22 bits each.\n       tempB will have 52 bits of precision.\n         */\n        double tempA = intPartA * fracPartA;\n        double tempB = intPartA * fracPartB + intPartB * fracPartA + intPartB * fracPartB;\n\n        /* Compute the result.  (1+z)(tempA+tempB).  Order of operations is\n       important.  For accuracy add by increasing size.  tempA is exact and\n       much larger than the others.  If there are extra bits specified from the\n       pow() function, use them. */\n        final double tempC = tempB + tempA;\n        final double result;\n        if (extra != 0.0) {\n            result = tempC*extra*z + tempC*extra + tempC*z + tempB + tempA;\n        } else {\n            result = tempC*z + tempB + tempA;\n        }\n\n        if (hiPrec != null) {\n            // If requesting high precision\n            hiPrec[0] = tempA;\n            hiPrec[1] = tempC*extra*z + tempC*extra + tempC*z + tempB;\n        }\n\n        return result;\n    }",
+    "comment": " Internal helper method for exponential function. @param x original argument of the exponential function @param extra extra bits of precision on input (To Be Confirmed) @param hiPrec extra bits of precision on output (To Be Confirmed) @return exp(x) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.floor",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.floor(double)",
+    "snippet": "    public static double floor(double x) {\n        long y;\n\n        if (x != x) { // NaN\n            return x;\n        }\n\n        if (x >= TWO_POWER_52 || x <= -TWO_POWER_52) {\n            return x;\n        }\n\n        y = (long) x;\n        if (x < 0 && y != x) {\n            y--;\n        }\n\n        if (y == 0) {\n            return x*y;\n        }\n\n        return y;\n    }",
+    "comment": "Get the largest whole number smaller than x. @param x number from which floor is requested @return a double number f such that f is an integer f <= x < f + 1.0 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.log",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.log(double)",
+    "snippet": "    public static double log(final double x) {\n        return log(x, null);\n    }",
+    "comment": " Natural logarithm.  @param x   a double @return log(x) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.log",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.log(double,double[])",
+    "snippet": "    private static double log(final double x, final double[] hiPrec) {\n        if (x==0) { // Handle special case of +0/-0\n            return Double.NEGATIVE_INFINITY;\n        }\n        long bits = Double.doubleToLongBits(x);\n\n        /* Handle special cases of negative input, and NaN */\n        if ((bits & 0x8000000000000000L) != 0 || x != x) {\n            if (x != 0.0) {\n                if (hiPrec != null) {\n                    hiPrec[0] = Double.NaN;\n                }\n\n                return Double.NaN;\n            }\n        }\n\n        /* Handle special cases of Positive infinity. */\n        if (x == Double.POSITIVE_INFINITY) {\n            if (hiPrec != null) {\n                hiPrec[0] = Double.POSITIVE_INFINITY;\n            }\n\n            return Double.POSITIVE_INFINITY;\n        }\n\n        /* Extract the exponent */\n        int exp = (int)(bits >> 52)-1023;\n\n        if ((bits & 0x7ff0000000000000L) == 0) {\n            // Subnormal!\n            if (x == 0) {\n                // Zero\n                if (hiPrec != null) {\n                    hiPrec[0] = Double.NEGATIVE_INFINITY;\n                }\n\n                return Double.NEGATIVE_INFINITY;\n            }\n\n            /* Normalize the subnormal number. */\n            bits <<= 1;\n            while ( (bits & 0x0010000000000000L) == 0) {\n                exp--;\n                bits <<= 1;\n            }\n        }\n\n\n        if (exp == -1 || exp == 0) {\n            if (x < 1.01 && x > 0.99 && hiPrec == null) {\n                /* The normal method doesn't work well in the range [0.99, 1.01], so call do a straight\n           polynomial expansion in higer precision. */\n\n               /* Compute x - 1.0 and split it */\n                double xa = x - 1.0;\n                double xb = xa - x + 1.0;\n                double tmp = xa * HEX_40000000;\n                double aa = xa + tmp - tmp;\n                double ab = xa - aa;\n                xa = aa;\n                xb = ab;\n\n                double ya = LN_QUICK_COEF[LN_QUICK_COEF.length-1][0];\n                double yb = LN_QUICK_COEF[LN_QUICK_COEF.length-1][1];\n\n                for (int i = LN_QUICK_COEF.length - 2; i >= 0; i--) {\n                    /* Multiply a = y * x */\n                    aa = ya * xa;\n                    ab = ya * xb + yb * xa + yb * xb;\n                    /* split, so now y = a */\n                    tmp = aa * HEX_40000000;\n                    ya = aa + tmp - tmp;\n                    yb = aa - ya + ab;\n\n                    /* Add  a = y + lnQuickCoef */\n                    aa = ya + LN_QUICK_COEF[i][0];\n                    ab = yb + LN_QUICK_COEF[i][1];\n                    /* Split y = a */\n                    tmp = aa * HEX_40000000;\n                    ya = aa + tmp - tmp;\n                    yb = aa - ya + ab;\n                }\n\n                /* Multiply a = y * x */\n                aa = ya * xa;\n                ab = ya * xb + yb * xa + yb * xb;\n                /* split, so now y = a */\n                tmp = aa * HEX_40000000;\n                ya = aa + tmp - tmp;\n                yb = aa - ya + ab;\n\n                return ya + yb;\n            }\n        }\n\n        // lnm is a log of a number in the range of 1.0 - 2.0, so 0 <= lnm < ln(2)\n        double lnm[] = lnMant.LN_MANT[(int)((bits & 0x000ffc0000000000L) >> 42)];\n\n        /*\n    double epsilon = x / Double.longBitsToDouble(bits & 0xfffffc0000000000L);\n\n    epsilon -= 1.0;\n         */\n\n        // y is the most significant 10 bits of the mantissa\n        //double y = Double.longBitsToDouble(bits & 0xfffffc0000000000L);\n        //double epsilon = (x - y) / y;\n        double epsilon = (bits & 0x3ffffffffffL) / (TWO_POWER_52 + (bits & 0x000ffc0000000000L));\n\n        double lnza = 0.0;\n        double lnzb = 0.0;\n\n        if (hiPrec != null) {\n            /* split epsilon -> x */\n            double tmp = epsilon * HEX_40000000;\n            double aa = epsilon + tmp - tmp;\n            double ab = epsilon - aa;\n            double xa = aa;\n            double xb = ab;\n\n            /* Need a more accurate epsilon, so adjust the division. */\n            double numer = bits & 0x3ffffffffffL;\n            double denom = TWO_POWER_52 + (bits & 0x000ffc0000000000L);\n            aa = numer - xa*denom - xb * denom;\n            xb += aa / denom;\n\n            /* Remez polynomial evaluation */\n            double ya = LN_HI_PREC_COEF[LN_HI_PREC_COEF.length-1][0];\n            double yb = LN_HI_PREC_COEF[LN_HI_PREC_COEF.length-1][1];\n\n            for (int i = LN_HI_PREC_COEF.length - 2; i >= 0; i--) {\n                /* Multiply a = y * x */\n                aa = ya * xa;\n                ab = ya * xb + yb * xa + yb * xb;\n                /* split, so now y = a */\n                tmp = aa * HEX_40000000;\n                ya = aa + tmp - tmp;\n                yb = aa - ya + ab;\n\n                /* Add  a = y + lnHiPrecCoef */\n                aa = ya + LN_HI_PREC_COEF[i][0];\n                ab = yb + LN_HI_PREC_COEF[i][1];\n                /* Split y = a */\n                tmp = aa * HEX_40000000;\n                ya = aa + tmp - tmp;\n                yb = aa - ya + ab;\n            }\n\n            /* Multiply a = y * x */\n            aa = ya * xa;\n            ab = ya * xb + yb * xa + yb * xb;\n\n            /* split, so now lnz = a */\n            /*\n      tmp = aa * 1073741824.0;\n      lnza = aa + tmp - tmp;\n      lnzb = aa - lnza + ab;\n             */\n            lnza = aa + ab;\n            lnzb = -(lnza - aa - ab);\n        } else {\n            /* High precision not required.  Eval Remez polynomial\n         using standard double precision */\n            lnza = -0.16624882440418567;\n            lnza = lnza * epsilon + 0.19999954120254515;\n            lnza = lnza * epsilon + -0.2499999997677497;\n            lnza = lnza * epsilon + 0.3333333333332802;\n            lnza = lnza * epsilon + -0.5;\n            lnza = lnza * epsilon + 1.0;\n            lnza = lnza * epsilon;\n        }\n\n        /* Relative sizes:\n         * lnzb     [0, 2.33E-10]\n         * lnm[1]   [0, 1.17E-7]\n         * ln2B*exp [0, 1.12E-4]\n         * lnza      [0, 9.7E-4]\n         * lnm[0]   [0, 0.692]\n         * ln2A*exp [0, 709]\n         */\n\n        /* Compute the following sum:\n         * lnzb + lnm[1] + ln2B*exp + lnza + lnm[0] + ln2A*exp;\n         */\n\n        //return lnzb + lnm[1] + ln2B*exp + lnza + lnm[0] + ln2A*exp;\n        double a = LN_2_A*exp;\n        double b = 0.0;\n        double c = a+lnm[0];\n        double d = -(c-a-lnm[0]);\n        a = c;\n        b = b + d;\n\n        c = a + lnza;\n        d = -(c - a - lnza);\n        a = c;\n        b = b + d;\n\n        c = a + LN_2_B*exp;\n        d = -(c - a - LN_2_B*exp);\n        a = c;\n        b = b + d;\n\n        c = a + lnm[1];\n        d = -(c - a - lnm[1]);\n        a = c;\n        b = b + d;\n\n        c = a + lnzb;\n        d = -(c - a - lnzb);\n        a = c;\n        b = b + d;\n\n        if (hiPrec != null) {\n            hiPrec[0] = a;\n            hiPrec[1] = b;\n        }\n\n        return a + b;\n    }",
+    "comment": " Internal helper method for natural logarithm function. @param x original argument of the natural logarithm function @param hiPrec extra bits of precision on output (To Be Confirmed) @return log(x) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.pow",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.pow(double,double)",
+    "snippet": "    public static double pow(double x, double y) {\n        final double lns[] = new double[2];\n\n        if (y == 0.0) {\n            return 1.0;\n        }\n\n        if (x != x) { // X is NaN\n            return x;\n        }\n\n\n        if (x == 0) {\n            long bits = Double.doubleToLongBits(x);\n            if ((bits & 0x8000000000000000L) != 0) {\n                // -zero\n                long yi = (long) y;\n\n                if (y < 0 && y == yi && (yi & 1) == 1) {\n                    return Double.NEGATIVE_INFINITY;\n                }\n\n                if (y > 0 && y == yi && (yi & 1) == 1) {\n                    return -0.0;\n                }\n            }\n\n            if (y < 0) {\n                return Double.POSITIVE_INFINITY;\n            }\n            if (y > 0) {\n                return 0.0;\n            }\n\n            return Double.NaN;\n        }\n\n        if (x == Double.POSITIVE_INFINITY) {\n            if (y != y) { // y is NaN\n                return y;\n            }\n            if (y < 0.0) {\n                return 0.0;\n            } else {\n                return Double.POSITIVE_INFINITY;\n            }\n        }\n\n        if (y == Double.POSITIVE_INFINITY) {\n            if (x * x == 1.0) {\n                return Double.NaN;\n            }\n\n            if (x * x > 1.0) {\n                return Double.POSITIVE_INFINITY;\n            } else {\n                return 0.0;\n            }\n        }\n\n        if (x == Double.NEGATIVE_INFINITY) {\n            if (y != y) { // y is NaN\n                return y;\n            }\n\n            if (y < 0) {\n                long yi = (long) y;\n                if (y == yi && (yi & 1) == 1) {\n                    return -0.0;\n                }\n\n                return 0.0;\n            }\n\n            if (y > 0)  {\n                long yi = (long) y;\n                if (y == yi && (yi & 1) == 1) {\n                    return Double.NEGATIVE_INFINITY;\n                }\n\n                return Double.POSITIVE_INFINITY;\n            }\n        }\n\n        if (y == Double.NEGATIVE_INFINITY) {\n\n            if (x * x == 1.0) {\n                return Double.NaN;\n            }\n\n            if (x * x < 1.0) {\n                return Double.POSITIVE_INFINITY;\n            } else {\n                return 0.0;\n            }\n        }\n\n        /* Handle special case x<0 */\n        if (x < 0) {\n            // y is an even integer in this case\n            if (y >= TWO_POWER_52 || y <= -TWO_POWER_52) {\n                return pow(-x, y);\n            }\n\n            if (y == (long) y) {\n                // If y is an integer\n                return ((long)y & 1) == 0 ? pow(-x, y) : -pow(-x, y);\n            } else {\n                return Double.NaN;\n            }\n        }\n\n        /* Split y into ya and yb such that y = ya+yb */\n        double ya;\n        double yb;\n        if (y < 8e298 && y > -8e298) {\n            double tmp1 = y * HEX_40000000;\n            ya = y + tmp1 - tmp1;\n            yb = y - ya;\n        } else {\n            double tmp1 = y * 9.31322574615478515625E-10;\n            double tmp2 = tmp1 * 9.31322574615478515625E-10;\n            ya = (tmp1 + tmp2 - tmp1) * HEX_40000000 * HEX_40000000;\n            yb = y - ya;\n        }\n\n        /* Compute ln(x) */\n        final double lores = log(x, lns);\n        if (Double.isInfinite(lores)){ // don't allow this to be converted to NaN\n            return lores;\n        }\n\n        double lna = lns[0];\n        double lnb = lns[1];\n\n        /* resplit lns */\n        double tmp1 = lna * HEX_40000000;\n        double tmp2 = lna + tmp1 - tmp1;\n        lnb += lna - tmp2;\n        lna = tmp2;\n\n        // y*ln(x) = (aa+ab)\n        final double aa = lna * ya;\n        final double ab = lna * yb + lnb * ya + lnb * yb;\n\n        lna = aa+ab;\n        lnb = -(lna - aa - ab);\n\n        double z = 1.0 / 120.0;\n        z = z * lnb + (1.0 / 24.0);\n        z = z * lnb + (1.0 / 6.0);\n        z = z * lnb + 0.5;\n        z = z * lnb + 1.0;\n        z = z * lnb;\n\n        final double result = exp(lna, z, null);\n        //result = result + result * z;\n        return result;\n    }",
+    "comment": " Power function.  Compute x^y.  @param x   a double @param y   a double @return double ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.sqrt",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.sqrt(double)",
+    "snippet": "    public static double sqrt(final double a) {\n        return Math.sqrt(a);\n    }",
+    "comment": "Compute the square root of a number. <p><b>Note:</b> this implementation currently delegates to {@link Math#sqrt} @param a number on which evaluation is done @return square root of a ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMathLiteralArrays.loadExpFracA",
+    "class_name": "org.apache.commons.math3.util.FastMathLiteralArrays",
+    "signature": "org.apache.commons.math3.util.FastMathLiteralArrays.loadExpFracA()",
+    "snippet": "    static double[] loadExpFracA() {\n        return EXP_FRAC_A.clone();\n    }",
+    "comment": " Load \"EXP_FRAC_A\".  @return a clone of the data array. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMathLiteralArrays.loadExpFracB",
+    "class_name": "org.apache.commons.math3.util.FastMathLiteralArrays",
+    "signature": "org.apache.commons.math3.util.FastMathLiteralArrays.loadExpFracB()",
+    "snippet": "    static double[] loadExpFracB() {\n        return EXP_FRAC_B.clone();\n    }",
+    "comment": " Load \"EXP_FRAC_B\".  @return a clone of the data array. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMathLiteralArrays.loadExpIntA",
+    "class_name": "org.apache.commons.math3.util.FastMathLiteralArrays",
+    "signature": "org.apache.commons.math3.util.FastMathLiteralArrays.loadExpIntA()",
+    "snippet": "    static double[] loadExpIntA() {\n        return EXP_INT_A.clone();\n    }",
+    "comment": " Load \"EXP_INT_A\".  @return a clone of the data array. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMathLiteralArrays.loadExpIntB",
+    "class_name": "org.apache.commons.math3.util.FastMathLiteralArrays",
+    "signature": "org.apache.commons.math3.util.FastMathLiteralArrays.loadExpIntB()",
+    "snippet": "    static double[] loadExpIntB() {\n        return EXP_INT_B.clone();\n    }",
+    "comment": " Load \"EXP_INT_B\".  @return a clone of the data array. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMathLiteralArrays.loadLnMant",
+    "class_name": "org.apache.commons.math3.util.FastMathLiteralArrays",
+    "signature": "org.apache.commons.math3.util.FastMathLiteralArrays.loadLnMant()",
+    "snippet": "    static double[][] loadLnMant() {\n        return LN_MANT.clone();\n    }",
+    "comment": " Load \"LN_MANT\".  @return a clone of the data array. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.Incrementor",
+    "class_name": "org.apache.commons.math3.util.Incrementor",
+    "signature": "org.apache.commons.math3.util.Incrementor.Incrementor()",
+    "snippet": "    public Incrementor() {\n        this(0);\n    }",
+    "comment": " Default constructor. For the new instance to be useful, the maximal count must be set by calling {@link #setMaximalCount(int) setMaximalCount}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.Incrementor",
+    "class_name": "org.apache.commons.math3.util.Incrementor",
+    "signature": "org.apache.commons.math3.util.Incrementor.Incrementor(int)",
+    "snippet": "    public Incrementor(int max) {\n        this(max,\n             new MaxCountExceededCallback() {\n                 /** {@inheritDoc} */\n                 public void trigger(int max) {\n                     throw new MaxCountExceededException(max);\n                 }\n             });\n    }",
+    "comment": " Defines a maximal count.  @param max Maximal count. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.Incrementor",
+    "class_name": "org.apache.commons.math3.util.Incrementor",
+    "signature": "org.apache.commons.math3.util.Incrementor.Incrementor(int,MaxCountExceededCallback)",
+    "snippet": "    public Incrementor(int max,\n                       MaxCountExceededCallback cb) {\n        maximalCount = max;\n        maxCountCallback = cb;\n    }",
+    "comment": " Defines a maximal count and a callback method to be triggered at counter exhaustion.  @param max Maximal count. @param cb Function to be called when the maximal count has been reached. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.incrementCount",
+    "class_name": "org.apache.commons.math3.util.Incrementor",
+    "signature": "org.apache.commons.math3.util.Incrementor.incrementCount()",
+    "snippet": "    public void incrementCount() {\n        if (++count > maximalCount) {\n            maxCountCallback.trigger(maximalCount);\n        }\n    }",
+    "comment": " Adds one to the current iteration count. At counter exhaustion, this method will call the {@link MaxCountExceededCallback#trigger(int) trigger} method of the callback object passed to the {@link #Incrementor(int,MaxCountExceededCallback) constructor}. If not explictly set, a default callback is used that will throw a {@code MaxCountExceededException}.  @throws MaxCountExceededException at counter exhaustion, unless a custom {@link MaxCountExceededCallback callback} has been set at construction. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.resetCount",
+    "class_name": "org.apache.commons.math3.util.Incrementor",
+    "signature": "org.apache.commons.math3.util.Incrementor.resetCount()",
+    "snippet": "    public void resetCount() {\n        count = 0;\n    }",
+    "comment": " Resets the counter to 0. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.setMaximalCount",
+    "class_name": "org.apache.commons.math3.util.Incrementor",
+    "signature": "org.apache.commons.math3.util.Incrementor.setMaximalCount(int)",
+    "snippet": "    public void setMaximalCount(int max) {\n        maximalCount = max;\n    }",
+    "comment": " Sets the upper limit for the counter. This does not automatically reset the current count to zero (see {@link #resetCount()}).  @param max Upper limit of the counter. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathUtils.checkNotNull",
+    "class_name": "org.apache.commons.math3.util.MathUtils",
+    "signature": "org.apache.commons.math3.util.MathUtils.checkNotNull(Object)",
+    "snippet": "    public static void checkNotNull(Object o)\n        throws NullArgumentException {\n        if (o == null) {\n            throw new NullArgumentException();\n        }\n    }",
+    "comment": " Checks that an object is not null.  @param o Object to be checked. @throws NullArgumentException if {@code o} is {@code null}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Precision.equals",
+    "class_name": "org.apache.commons.math3.util.Precision",
+    "signature": "org.apache.commons.math3.util.Precision.equals(double,double,double)",
+    "snippet": "    public static boolean equals(double x, double y, double eps) {\n        return equals(x, y, 1) || FastMath.abs(y - x) <= eps;\n    }",
+    "comment": " Returns {@code true} if there is no double value strictly between the arguments or the difference between them is within the range of allowed error (inclusive).  @param x First value. @param y Second value. @param eps Amount of allowed absolute error. @return {@code true} if the values are two adjacent floating point numbers or they are within range of each other. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Precision.equals",
+    "class_name": "org.apache.commons.math3.util.Precision",
+    "signature": "org.apache.commons.math3.util.Precision.equals(double,double,int)",
+    "snippet": "    public static boolean equals(double x, double y, int maxUlps) {\n        long xInt = Double.doubleToLongBits(x);\n        long yInt = Double.doubleToLongBits(y);\n\n        // Make lexicographically ordered as a two's-complement integer.\n        if (xInt < 0) {\n            xInt = SGN_MASK - xInt;\n        }\n        if (yInt < 0) {\n            yInt = SGN_MASK - yInt;\n        }\n\n        final boolean isEqual = FastMath.abs(xInt - yInt) <= maxUlps;\n\n        return isEqual && !Double.isNaN(x) && !Double.isNaN(y);\n    }",
+    "comment": " Returns true if both arguments are equal or within the range of allowed error (inclusive). Two float numbers are considered equal if there are {@code (maxUlps - 1)} (or fewer) floating point numbers between them, i.e. two adjacent floating point numbers are considered equal. Adapted from <a href=\"http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm\"> Bruce Dawson</a>  @param x first value @param y second value @param maxUlps {@code (maxUlps - 1)} is the number of floating point values between {@code x} and {@code y}. @return {@code true} if there are fewer than {@code maxUlps} floating point values between {@code x} and {@code y}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ResizableDoubleArray.ResizableDoubleArray",
+    "class_name": "org.apache.commons.math3.util.ResizableDoubleArray",
+    "signature": "org.apache.commons.math3.util.ResizableDoubleArray.ResizableDoubleArray(int)",
+    "snippet": "    public ResizableDoubleArray(int initialCapacity) {\n        setInitialCapacity(initialCapacity);\n        internalArray = new double[this.initialCapacity];\n    }",
+    "comment": " Create a ResizableArray with the specified initial capacity.  Other properties take default values: <ul> <li><code>expansionMode = MULTIPLICATIVE_MODE</code></li> <li><code>expansionFactor = 2.5</code></li> <li><code>contractionFactor = 2.0</code></li> </ul> @param initialCapacity The initial size of the internal storage array @throws IllegalArgumentException if initialCapacity is not > 0 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ResizableDoubleArray.addElement",
+    "class_name": "org.apache.commons.math3.util.ResizableDoubleArray",
+    "signature": "org.apache.commons.math3.util.ResizableDoubleArray.addElement(double)",
+    "snippet": "    public synchronized void addElement(double value) {\n        numElements++;\n        if ((startIndex + numElements) > internalArray.length) {\n            expand();\n        }\n        internalArray[startIndex + (numElements - 1)] = value;\n        if (shouldContract()) {\n            contract();\n        }\n    }",
+    "comment": " Adds an element to the end of this expandable array.  @param value to be added to end of array ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ResizableDoubleArray.contract",
+    "class_name": "org.apache.commons.math3.util.ResizableDoubleArray",
+    "signature": "org.apache.commons.math3.util.ResizableDoubleArray.contract()",
+    "snippet": "    public synchronized void contract() {\n        double[] tempArray = new double[numElements + 1];\n\n        // Copy and swap - copy only the element array from the src array.\n        System.arraycopy(internalArray, startIndex, tempArray, 0, numElements);\n        internalArray = tempArray;\n\n        // Reset the start index to zero\n        startIndex = 0;\n    }",
+    "comment": " Contracts the storage array to the (size of the element set) + 1 - to avoid a zero length array. This function also resets the startIndex to zero. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ResizableDoubleArray.expand",
+    "class_name": "org.apache.commons.math3.util.ResizableDoubleArray",
+    "signature": "org.apache.commons.math3.util.ResizableDoubleArray.expand()",
+    "snippet": "    protected synchronized void expand() {\n\n        // notice the use of FastMath.ceil(), this guarantees that we will always\n        // have an array of at least currentSize + 1.   Assume that the\n        // current initial capacity is 1 and the expansion factor\n        // is 1.000000000000000001.  The newly calculated size will be\n        // rounded up to 2 after the multiplication is performed.\n        int newSize = 0;\n        if (expansionMode == MULTIPLICATIVE_MODE) {\n            newSize = (int) FastMath.ceil(internalArray.length * expansionFactor);\n        } else {\n            newSize = internalArray.length + FastMath.round(expansionFactor);\n        }\n        double[] tempArray = new double[newSize];\n\n        // Copy and swap\n        System.arraycopy(internalArray, 0, tempArray, 0, internalArray.length);\n        internalArray = tempArray;\n    }",
+    "comment": " Expands the internal storage array using the expansion factor. <p> if <code>expansionMode</code> is set to MULTIPLICATIVE_MODE, the new array size will be <code>internalArray.length * expansionFactor.</code> If <code>expansionMode</code> is set to ADDITIVE_MODE,  the length after expansion will be <code>internalArray.length + expansionFactor</code> </p> ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ResizableDoubleArray.getElements",
+    "class_name": "org.apache.commons.math3.util.ResizableDoubleArray",
+    "signature": "org.apache.commons.math3.util.ResizableDoubleArray.getElements()",
+    "snippet": "    public synchronized double[] getElements() {\n        double[] elementArray = new double[numElements];\n        System.arraycopy( internalArray, startIndex, elementArray, 0,\n                numElements);\n        return elementArray;\n    }",
+    "comment": " Returns a double array containing the elements of this <code>ResizableArray</code>.  This method returns a copy, not a reference to the underlying array, so that changes made to the returned array have no effect on this <code>ResizableArray.</code> @return the double array. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ResizableDoubleArray.setInitialCapacity",
+    "class_name": "org.apache.commons.math3.util.ResizableDoubleArray",
+    "signature": "org.apache.commons.math3.util.ResizableDoubleArray.setInitialCapacity(int)",
+    "snippet": "    protected void setInitialCapacity(int initialCapacity) {\n        if (initialCapacity > 0) {\n            synchronized(this) {\n                this.initialCapacity = initialCapacity;\n            }\n        } else {\n            throw new MathIllegalArgumentException(\n                    LocalizedFormats.INITIAL_CAPACITY_NOT_POSITIVE,\n                    initialCapacity);\n        }\n    }",
+    "comment": " Sets the initial capacity.  Should only be invoked by constructors.  @param initialCapacity of the array @throws IllegalArgumentException if <code>initialCapacity</code> is not positive. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ResizableDoubleArray.shouldContract",
+    "class_name": "org.apache.commons.math3.util.ResizableDoubleArray",
+    "signature": "org.apache.commons.math3.util.ResizableDoubleArray.shouldContract()",
+    "snippet": "    private synchronized boolean shouldContract() {\n        if (expansionMode == MULTIPLICATIVE_MODE) {\n            return (internalArray.length / ((float) numElements)) > contractionCriteria;\n        } else {\n            return (internalArray.length - numElements) > contractionCriteria;\n        }\n    }",
+    "comment": " Returns true if the internal storage array has too many unused storage positions.  @return true if array satisfies the contraction criteria ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  }
+]

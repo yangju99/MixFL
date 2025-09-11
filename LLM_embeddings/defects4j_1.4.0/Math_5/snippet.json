@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Complex.Complex",
+    "class_name": "org.apache.commons.math3.complex.Complex",
+    "signature": "org.apache.commons.math3.complex.Complex.Complex(double,double)",
+    "snippet": "    public Complex(double real, double imaginary) {\n        this.real = real;\n        this.imaginary = imaginary;\n\n        isNaN = Double.isNaN(real) || Double.isNaN(imaginary);\n        isInfinite = !isNaN &&\n            (Double.isInfinite(real) || Double.isInfinite(imaginary));\n    }",
+    "comment": " Create a complex number given the real and imaginary parts.  @param real Real part. @param imaginary Imaginary part. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Complex.equals",
+    "class_name": "org.apache.commons.math3.complex.Complex",
+    "signature": "org.apache.commons.math3.complex.Complex.equals(Object)",
+    "snippet": "    @Override\n    public boolean equals(Object other) {\n        if (this == other) {\n            return true;\n        }\n        if (other instanceof Complex){\n            Complex c = (Complex)other;\n            if (c.isNaN) {\n                return isNaN;\n            } else {\n                return (real == c.real) && (imaginary == c.imaginary);\n            }\n        }\n        return false;\n    }",
+    "comment": " Test for the equality of two Complex objects. If both the real and imaginary parts of two complex numbers are exactly the same, and neither is {@code Double.NaN}, the two Complex objects are considered to be equal. All {@code NaN} values are considered to be equal - i.e, if either (or both) real and imaginary parts of the complex number are equal to {@code Double.NaN}, the complex number is equal to {@code NaN}.  @param other Object to test for equality to this @return true if two Complex objects are equal, false if object is {@code null}, not an instance of Complex, or not equal to this Complex instance. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Complex.reciprocal",
+    "class_name": "org.apache.commons.math3.complex.Complex",
+    "signature": "org.apache.commons.math3.complex.Complex.reciprocal()",
+    "snippet": "    public Complex reciprocal() {\n        if (isNaN) {\n            return NaN;\n        }\n\n        if (real == 0.0 && imaginary == 0.0) {\n            return NaN;\n        }\n\n        if (isInfinite) {\n            return ZERO;\n        }\n\n        if (FastMath.abs(real) < FastMath.abs(imaginary)) {\n            double q = real / imaginary;\n            double scale = 1. / (real * q + imaginary);\n            return createComplex(scale * q, -scale);\n        } else {\n            double q = imaginary / real;\n            double scale = 1. / (imaginary * q + real);\n            return createComplex(scale, -scale * q);\n        }\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Complex.toString",
+    "class_name": "org.apache.commons.math3.complex.Complex",
+    "signature": "org.apache.commons.math3.complex.Complex.toString()",
+    "snippet": "    @Override\n    public String toString() {\n        return \"(\" + real + \", \" + imaginary + \")\";\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

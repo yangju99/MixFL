@@ -1,0 +1,1452 @@
+[
+  {
+    "name": "AbstractMessageFormatter.AbstractMessageFormatter",
+    "class_name": "com.google.javascript.jscomp.AbstractMessageFormatter",
+    "signature": "com.google.javascript.jscomp.AbstractMessageFormatter.AbstractMessageFormatter(SourceExcerptProvider)",
+    "snippet": "  public AbstractMessageFormatter(SourceExcerptProvider source) {\n    this.source = source;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractMessageFormatter.setColorize",
+    "class_name": "com.google.javascript.jscomp.AbstractMessageFormatter",
+    "signature": "com.google.javascript.jscomp.AbstractMessageFormatter.setColorize(boolean)",
+    "snippet": "  public void setColorize(boolean colorize) {\n    this.colorize = colorize;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CheckLevel.isOn",
+    "class_name": "com.google.javascript.jscomp.CheckLevel",
+    "signature": "com.google.javascript.jscomp.CheckLevel.isOn()",
+    "snippet": "  boolean isOn() {\n    return this != OFF;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Compiler.Compiler",
+    "class_name": "com.google.javascript.jscomp.Compiler",
+    "signature": "com.google.javascript.jscomp.Compiler.Compiler()",
+    "snippet": "  public Compiler() {\n    this((PrintStream) null);\n  }",
+    "comment": " Creates a Compiler that reports errors and warnings to its logger. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Compiler.Compiler",
+    "class_name": "com.google.javascript.jscomp.Compiler",
+    "signature": "com.google.javascript.jscomp.Compiler.Compiler(PrintStream)",
+    "snippet": "  public Compiler(PrintStream stream) {\n    addChangeHandler(recentChange);\n    outStream = stream;\n  }",
+    "comment": " Creates n Compiler that reports errors and warnings to an output stream. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Compiler.addChangeHandler",
+    "class_name": "com.google.javascript.jscomp.Compiler",
+    "signature": "com.google.javascript.jscomp.Compiler.addChangeHandler(CodeChangeHandler)",
+    "snippet": "  @Override\n  void addChangeHandler(CodeChangeHandler handler) {\n    codeChangeHandlers.add(handler);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Compiler.checkFirstModule",
+    "class_name": "com.google.javascript.jscomp.Compiler",
+    "signature": "com.google.javascript.jscomp.Compiler.checkFirstModule(List)",
+    "snippet": "  private void checkFirstModule(List<JSModule> modules) {\n    if (modules.isEmpty()) {\n      report(JSError.make(EMPTY_MODULE_LIST_ERROR));\n    } else if (modules.get(0).getInputs().isEmpty() && modules.size() > 1) {\n      // The root module may only be empty if there is exactly 1 module.\n      report(JSError.make(EMPTY_ROOT_MODULE_ERROR,\n          modules.get(0).getName()));\n    }\n  }",
+    "comment": " Verifies that at least one module has been provided and that the first one has at least one source code input. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Compiler.createMessageFormatter",
+    "class_name": "com.google.javascript.jscomp.Compiler",
+    "signature": "com.google.javascript.jscomp.Compiler.createMessageFormatter()",
+    "snippet": "  private MessageFormatter createMessageFormatter() {\n    boolean colorize = options.shouldColorizeErrorOutput();\n    return options.errorFormat.toFormatter(this, colorize);\n  }",
+    "comment": " Creates a message formatter instance corresponding to the value of {@link CompilerOptions}. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Compiler.fillEmptyModules",
+    "class_name": "com.google.javascript.jscomp.Compiler",
+    "signature": "com.google.javascript.jscomp.Compiler.fillEmptyModules(List)",
+    "snippet": "  private static void fillEmptyModules(List<JSModule> modules) {\n    for (JSModule module : modules) {\n      if (module.getInputs().isEmpty()) {\n        module.add(JSSourceFile.fromCode(\"[\" + module.getName() + \"]\", \"\"));\n      }\n    }\n  }",
+    "comment": " Fill any empty modules with a place holder file. It makes any cross module motion easier. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Compiler.getAllInputsFromModules",
+    "class_name": "com.google.javascript.jscomp.Compiler",
+    "signature": "com.google.javascript.jscomp.Compiler.getAllInputsFromModules(List)",
+    "snippet": "  private static List<CompilerInput> getAllInputsFromModules(\n      List<JSModule> modules) {\n    List<CompilerInput> inputs = Lists.newArrayList();\n    Map<String, JSModule> inputMap = Maps.newHashMap();\n    for (JSModule module : modules) {\n      for (CompilerInput input : module.getInputs()) {\n        String inputName = input.getName();\n\n        // NOTE(nicksantos): If an input is in more than one module,\n        // it will show up twice in the inputs list, and then we\n        // will get an error down the line.\n        inputs.add(input);\n        inputMap.put(inputName, module);\n      }\n    }\n    return inputs;\n  }",
+    "comment": " Builds a single list of all module inputs. Verifies that it contains no duplicates. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Compiler.getDiagnosticGroups",
+    "class_name": "com.google.javascript.jscomp.Compiler",
+    "signature": "com.google.javascript.jscomp.Compiler.getDiagnosticGroups()",
+    "snippet": "  protected DiagnosticGroups getDiagnosticGroups() {\n    return new DiagnosticGroups();\n  }",
+    "comment": " The warning classes that are available from the command-line, and are suppressable by the {@code @suppress} annotation. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Compiler.getSourceFileByName",
+    "class_name": "com.google.javascript.jscomp.Compiler",
+    "signature": "com.google.javascript.jscomp.Compiler.getSourceFileByName(String)",
+    "snippet": "  private SourceFile getSourceFileByName(String sourceName) {\n    // Here we assume that the source name is the input name, this\n    // is try of javascript parsed from source.\n    if (sourceName != null) {\n      CompilerInput input = inputsById.get(new InputId(sourceName));\n      if (input != null) {\n        return input.getSourceFile();\n      }\n    }\n    return null;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Compiler.getSourceLine",
+    "class_name": "com.google.javascript.jscomp.Compiler",
+    "signature": "com.google.javascript.jscomp.Compiler.getSourceLine(String,int)",
+    "snippet": "  @Override\n  public String getSourceLine(String sourceName, int lineNumber) {\n    if (lineNumber < 1) {\n      return null;\n    }\n    SourceFile input = getSourceFileByName(sourceName);\n    if (input != null) {\n      return input.getLine(lineNumber);\n    }\n    return null;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Compiler.init",
+    "class_name": "com.google.javascript.jscomp.Compiler",
+    "signature": "com.google.javascript.jscomp.Compiler.init(JSSourceFile[],JSSourceFile[],CompilerOptions)",
+    "snippet": "  public void init(JSSourceFile[] externs, JSSourceFile[] inputs,\n      CompilerOptions options) {\n    init(Lists.<JSSourceFile>newArrayList(externs),\n        Lists.<JSSourceFile>newArrayList(inputs), options);\n  }",
+    "comment": " Initializes the instance state needed for a compile job. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Compiler.init",
+    "class_name": "com.google.javascript.jscomp.Compiler",
+    "signature": "com.google.javascript.jscomp.Compiler.init(List,List,CompilerOptions)",
+    "snippet": "  public void init(List<JSSourceFile> externs, List<JSSourceFile> inputs,\n      CompilerOptions options) {\n    JSModule module = new JSModule(\"[singleton]\");\n    for (JSSourceFile input : inputs) {\n      module.add(input);\n    }\n\n    initModules(externs, Lists.newArrayList(module), options);\n  }",
+    "comment": " Initializes the instance state needed for a compile job. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Compiler.initBasedOnOptions",
+    "class_name": "com.google.javascript.jscomp.Compiler",
+    "signature": "com.google.javascript.jscomp.Compiler.initBasedOnOptions()",
+    "snippet": "  private void initBasedOnOptions() {\n    // Create the source map if necessary.\n    if (options.sourceMapOutputPath != null) {\n      sourceMap = options.sourceMapFormat.getInstance();\n      sourceMap.setPrefixMappings(options.sourceMapLocationMappings);\n    }\n  }",
+    "comment": " Do any initialization that is dependent on the compiler options. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Compiler.initInputsByIdMap",
+    "class_name": "com.google.javascript.jscomp.Compiler",
+    "signature": "com.google.javascript.jscomp.Compiler.initInputsByIdMap()",
+    "snippet": "  void initInputsByIdMap() {\n    inputsById = new HashMap<InputId, CompilerInput>();\n    for (CompilerInput input : externs) {\n      InputId id = input.getInputId();\n      CompilerInput previous = inputsById.put(id, input);\n      if (previous != null) {\n        report(JSError.make(DUPLICATE_EXTERN_INPUT, input.getName()));\n      }\n    }\n    for (CompilerInput input : inputs) {\n      InputId id = input.getInputId();\n      CompilerInput previous = inputsById.put(id, input);\n      if (previous != null) {\n        report(JSError.make(DUPLICATE_INPUT, input.getName()));\n      }\n    }\n  }",
+    "comment": " Creates a map to make looking up an input by name fast. Also checks for duplicate inputs. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Compiler.initModules",
+    "class_name": "com.google.javascript.jscomp.Compiler",
+    "signature": "com.google.javascript.jscomp.Compiler.initModules(List,List,CompilerOptions)",
+    "snippet": "  public void initModules(\n      List<JSSourceFile> externs, List<JSModule> modules,\n      CompilerOptions options) {\n    initOptions(options);\n\n    checkFirstModule(modules);\n    fillEmptyModules(modules);\n\n    this.externs = makeCompilerInput(externs, true);\n\n    // Generate the module graph, and report any errors in the module\n    // specification as errors.\n    this.modules = modules;\n    if (modules.size() > 1) {\n      try {\n        this.moduleGraph = new JSModuleGraph(modules);\n      } catch (JSModuleGraph.ModuleDependenceException e) {\n        // problems with the module format.  Report as an error.  The\n        // message gives all details.\n        report(JSError.make(MODULE_DEPENDENCY_ERROR,\n                e.getModule().getName(), e.getDependentModule().getName()));\n        return;\n      }\n    } else {\n      this.moduleGraph = null;\n    }\n\n    this.inputs = getAllInputsFromModules(modules);\n    initBasedOnOptions();\n\n    initInputsByIdMap();\n  }",
+    "comment": " Initializes the instance state needed for a compile job if the sources are in modules. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Compiler.initOptions",
+    "class_name": "com.google.javascript.jscomp.Compiler",
+    "signature": "com.google.javascript.jscomp.Compiler.initOptions(CompilerOptions)",
+    "snippet": "  public void initOptions(CompilerOptions options) {\n    this.options = options;\n    if (errorManager == null) {\n      if (outStream == null) {\n        setErrorManager(\n            new LoggerErrorManager(createMessageFormatter(), logger));\n      } else {\n        PrintStreamErrorManager printer =\n            new PrintStreamErrorManager(createMessageFormatter(), outStream);\n        printer.setSummaryDetailLevel(options.summaryDetailLevel);\n        setErrorManager(printer);\n      }\n    }\n\n    // DiagnosticGroups override the plain checkTypes option.\n    if (options.enables(DiagnosticGroups.CHECK_TYPES)) {\n      options.checkTypes = true;\n    } else if (options.disables(DiagnosticGroups.CHECK_TYPES)) {\n      options.checkTypes = false;\n    } else if (!options.checkTypes) {\n      // If DiagnosticGroups did not override the plain checkTypes\n      // option, and checkTypes is enabled, then turn off the\n      // parser type warnings.\n      options.setWarningLevel(\n          DiagnosticGroup.forType(\n              RhinoErrorReporter.TYPE_PARSE_ERROR),\n          CheckLevel.OFF);\n    }\n\n    if (options.checkGlobalThisLevel.isOn() &&\n        !options.disables(DiagnosticGroups.GLOBAL_THIS)) {\n      options.setWarningLevel(\n          DiagnosticGroups.GLOBAL_THIS,\n          options.checkGlobalThisLevel);\n    }\n\n    if (options.getLanguageIn() == LanguageMode.ECMASCRIPT5_STRICT) {\n      options.setWarningLevel(\n          DiagnosticGroups.ES5_STRICT,\n          CheckLevel.ERROR);\n    }\n\n    // Initialize the warnings guard.\n    List<WarningsGuard> guards = Lists.newArrayList();\n    guards.add(\n        new SuppressDocWarningsGuard(\n            getDiagnosticGroups().getRegisteredGroups()));\n    guards.add(options.getWarningsGuard());\n\n    ComposeWarningsGuard composedGuards = new ComposeWarningsGuard(guards);\n\n    // All passes must run the variable check. This synthesizes\n    // variables later so that the compiler doesn't crash. It also\n    // checks the externs file for validity. If you don't want to warn\n    // about missing variable declarations, we shut that specific\n    // error off.\n    if (!options.checkSymbols &&\n        !composedGuards.enables(DiagnosticGroups.CHECK_VARIABLES)) {\n      composedGuards.addGuard(new DiagnosticGroupWarningsGuard(\n          DiagnosticGroups.CHECK_VARIABLES, CheckLevel.OFF));\n    }\n\n    this.warningsGuard = composedGuards;\n  }",
+    "comment": " Initialize the compiler options. Only necessary if you're not doing a normal compile() job. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Compiler.makeCompilerInput",
+    "class_name": "com.google.javascript.jscomp.Compiler",
+    "signature": "com.google.javascript.jscomp.Compiler.makeCompilerInput(List,boolean)",
+    "snippet": "  private List<CompilerInput> makeCompilerInput(\n      List<JSSourceFile> files, boolean isExtern) {\n    List<CompilerInput> inputs = Lists.newArrayList();\n    for (JSSourceFile file : files) {\n      inputs.add(new CompilerInput(file, isExtern));\n    }\n    return inputs;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Compiler.setErrorManager",
+    "class_name": "com.google.javascript.jscomp.Compiler",
+    "signature": "com.google.javascript.jscomp.Compiler.setErrorManager(ErrorManager)",
+    "snippet": "  public void setErrorManager(ErrorManager errorManager) {\n    Preconditions.checkNotNull(\n        errorManager, \"the error manager cannot be null\");\n    this.errorManager = errorManager;\n  }",
+    "comment": " Sets the error manager.  @param errorManager the error manager, it cannot be {@code null} ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompilerInput.CompilerInput",
+    "class_name": "com.google.javascript.jscomp.CompilerInput",
+    "signature": "com.google.javascript.jscomp.CompilerInput.CompilerInput(JSSourceFile)",
+    "snippet": "  public CompilerInput(JSSourceFile file) {\n    this(file, false);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompilerInput.CompilerInput",
+    "class_name": "com.google.javascript.jscomp.CompilerInput",
+    "signature": "com.google.javascript.jscomp.CompilerInput.CompilerInput(JSSourceFile,boolean)",
+    "snippet": "  public CompilerInput(JSSourceFile file, boolean isExtern) {\n    this(new JsAst(file), isExtern);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompilerInput.CompilerInput",
+    "class_name": "com.google.javascript.jscomp.CompilerInput",
+    "signature": "com.google.javascript.jscomp.CompilerInput.CompilerInput(SourceAst,InputId,boolean)",
+    "snippet": "  public CompilerInput(SourceAst ast, InputId inputId, boolean isExtern) {\n    this.ast = ast;\n    this.id = inputId;\n\n    // TODO(nicksantos): Add a precondition check here. People are passing\n    // in null, but they should not be.\n    if (ast != null && ast.getSourceFile() != null) {\n      ast.getSourceFile().setIsExtern(isExtern);\n    }\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompilerInput.CompilerInput",
+    "class_name": "com.google.javascript.jscomp.CompilerInput",
+    "signature": "com.google.javascript.jscomp.CompilerInput.CompilerInput(SourceAst,boolean)",
+    "snippet": "  public CompilerInput(SourceAst ast, boolean isExtern) {\n    this(ast, ast.getInputId(), isExtern);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompilerInput.getInputId",
+    "class_name": "com.google.javascript.jscomp.CompilerInput",
+    "signature": "com.google.javascript.jscomp.CompilerInput.getInputId()",
+    "snippet": "  @Override\n  public InputId getInputId() {\n    return id;\n  }",
+    "comment": "Returns a name for this input. Must be unique across all inputs. */",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompilerInput.getName",
+    "class_name": "com.google.javascript.jscomp.CompilerInput",
+    "signature": "com.google.javascript.jscomp.CompilerInput.getName()",
+    "snippet": "  @Override\n  public String getName() {\n    return id.getIdName();\n  }",
+    "comment": "Returns a name for this input. Must be unique across all inputs. */",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompilerInput.getSourceFile",
+    "class_name": "com.google.javascript.jscomp.CompilerInput",
+    "signature": "com.google.javascript.jscomp.CompilerInput.getSourceFile()",
+    "snippet": "  @Override\n  public SourceFile getSourceFile() {\n    return ast.getSourceFile();\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompilerInput.setModule",
+    "class_name": "com.google.javascript.jscomp.CompilerInput",
+    "signature": "com.google.javascript.jscomp.CompilerInput.setModule(JSModule)",
+    "snippet": "  public void setModule(JSModule module) {\n    // An input may only belong to one module.\n    Preconditions.checkArgument(\n        module == null || this.module == null || this.module == module);\n    this.module = module;\n  }",
+    "comment": "Sets the module to which the input belongs. */",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompilerOptions.CompilerOptions",
+    "class_name": "com.google.javascript.jscomp.CompilerOptions",
+    "signature": "com.google.javascript.jscomp.CompilerOptions.CompilerOptions()",
+    "snippet": "  public CompilerOptions() {\n    // Accepted language\n    languageIn = LanguageMode.ECMASCRIPT3;\n\n    // Language variation\n    acceptConstKeyword = false;\n\n    // Checks\n    skipAllPasses = false;\n    nameAnonymousFunctionsOnly = false;\n    devMode = DevMode.OFF;\n    checkSymbols = false;\n    checkShadowVars = CheckLevel.OFF;\n    aggressiveVarCheck = CheckLevel.OFF;\n    checkFunctions = CheckLevel.OFF;\n    checkMethods = CheckLevel.OFF;\n    checkDuplicateMessages = false;\n    allowLegacyJsMessages = false;\n    strictMessageReplacement = false;\n    checkSuspiciousCode = false;\n    checkControlStructures = false;\n    checkTypes = false;\n    tightenTypes = false;\n    inferTypesInGlobalScope = false;\n    checkTypedPropertyCalls = false;\n    reportMissingOverride = CheckLevel.OFF;\n    reportUnknownTypes = CheckLevel.OFF;\n    checkRequires = CheckLevel.OFF;\n    checkProvides = CheckLevel.OFF;\n    checkGlobalNamesLevel = CheckLevel.OFF;\n    brokenClosureRequiresLevel = CheckLevel.ERROR;\n    checkGlobalThisLevel = CheckLevel.OFF;\n    checkUnreachableCode = CheckLevel.OFF;\n    checkMissingReturn = CheckLevel.OFF;\n    checkMissingGetCssNameLevel = CheckLevel.OFF;\n    checkMissingGetCssNameBlacklist = null;\n    checkCaja = false;\n    computeFunctionSideEffects = false;\n    chainCalls = false;\n    extraAnnotationNames = null;\n\n    // Optimizations\n    foldConstants = false;\n    coalesceVariableNames = false;\n    deadAssignmentElimination = false;\n    inlineConstantVars = false;\n    inlineFunctions = false;\n    inlineLocalFunctions = false;\n    assumeStrictThis = false;\n    crossModuleCodeMotion = false;\n    crossModuleMethodMotion = false;\n    inlineGetters = false;\n    inlineVariables = false;\n    inlineLocalVariables = false;\n    smartNameRemoval = false;\n    removeDeadCode = false;\n    extractPrototypeMemberDeclarations = false;\n    removeUnusedPrototypeProperties = false;\n    removeUnusedPrototypePropertiesInExterns = false;\n    removeUnusedVars = false;\n    removeUnusedLocalVars = false;\n    aliasExternals = false;\n    collapseVariableDeclarations = false;\n    groupVariableDeclarations = false;\n    collapseAnonymousFunctions = false;\n    aliasableStrings = Collections.emptySet();\n    aliasStringsBlacklist = \"\";\n    aliasAllStrings = false;\n    outputJsStringUsage = false;\n    convertToDottedProperties = false;\n    rewriteFunctionExpressions = false;\n    optimizeParameters = false;\n    optimizeReturns = false;\n\n    // Renaming\n    variableRenaming = VariableRenamingPolicy.OFF;\n    propertyRenaming = PropertyRenamingPolicy.OFF;\n    propertyAffinity = false;\n    labelRenaming = false;\n    generatePseudoNames = false;\n    shadowVariables = false;\n    renamePrefix = null;\n    aliasKeywords = false;\n    collapseProperties = false;\n    collapsePropertiesOnExternTypes = false;\n    collapseObjectLiterals = false;\n    devirtualizePrototypeMethods = false;\n    disambiguateProperties = false;\n    ambiguateProperties = false;\n    anonymousFunctionNaming = AnonymousFunctionNamingPolicy.OFF;\n    exportTestFunctions = false;\n\n    // Alterations\n    runtimeTypeCheck = false;\n    runtimeTypeCheckLogFunction = null;\n    instrumentForCoverage = false;\n    instrumentForCoverageOnly = false;\n    ignoreCajaProperties = false;\n    syntheticBlockStartMarker = null;\n    syntheticBlockEndMarker = null;\n    locale = null;\n    markAsCompiled = false;\n    removeTryCatchFinally = false;\n    closurePass = false;\n    rewriteNewDateGoogNow = true;\n    removeAbstractMethods = true;\n    removeClosureAsserts = false;\n    stripTypes = Collections.emptySet();\n    stripNameSuffixes = Collections.emptySet();\n    stripNamePrefixes = Collections.emptySet();\n    stripTypePrefixes = Collections.emptySet();\n    customPasses = null;\n    markNoSideEffectCalls = false;\n    defineReplacements = Maps.newHashMap();\n    tweakProcessing = TweakProcessing.OFF;\n    tweakReplacements = Maps.newHashMap();\n    moveFunctionDeclarations = false;\n    instrumentationTemplate = null;\n    appNameStr = \"\";\n    recordFunctionInformation = false;\n    generateExports = false;\n    cssRenamingMap = null;\n    processObjectPropertyString = false;\n    idGenerators = Collections.emptySet();\n    replaceStringsFunctionDescriptions = Collections.emptyList();\n    replaceStringsPlaceholderToken = \"\";\n    replaceStringsReservedStrings = Collections.emptySet();\n\n    // Output\n    printInputDelimiter = false;\n    prettyPrint = false;\n    lineBreak = false;\n    reportPath = null;\n    tracer = TracerMode.OFF;\n    colorizeErrorOutput = false;\n    errorFormat = ErrorFormat.SINGLELINE;\n    debugFunctionSideEffectsPath = null;\n    jsOutputFile = \"\";\n    externExports = false;\n    nameReferenceReportPath = null;\n    nameReferenceGraphPath = null;\n\n    // Debugging\n    aliasHandler = NULL_ALIAS_TRANSFORMATION_HANDLER;\n\n    operaCompoundAssignFix = true;\n  }",
+    "comment": " Initializes compiler options. All options are disabled by default.  Command-line frontends to the compiler should set these properties like a builder. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompilerOptions.addWarningsGuard",
+    "class_name": "com.google.javascript.jscomp.CompilerOptions",
+    "signature": "com.google.javascript.jscomp.CompilerOptions.addWarningsGuard(WarningsGuard)",
+    "snippet": "  public void addWarningsGuard(WarningsGuard guard) {\n    warningsGuard.addGuard(guard);\n  }",
+    "comment": " Add a guard to the set of warnings guards. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompilerOptions.disables",
+    "class_name": "com.google.javascript.jscomp.CompilerOptions",
+    "signature": "com.google.javascript.jscomp.CompilerOptions.disables(DiagnosticGroup)",
+    "snippet": "  boolean disables(DiagnosticGroup type) {\n    return warningsGuard.disables(type);\n  }",
+    "comment": " Whether the warnings guard in this Options object disables the given group of warnings. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompilerOptions.enables",
+    "class_name": "com.google.javascript.jscomp.CompilerOptions",
+    "signature": "com.google.javascript.jscomp.CompilerOptions.enables(DiagnosticGroup)",
+    "snippet": "  boolean enables(DiagnosticGroup type) {\n    return warningsGuard.enables(type);\n  }",
+    "comment": " Whether the warnings guard in this Options object enables the given group of warnings. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompilerOptions.getLanguageIn",
+    "class_name": "com.google.javascript.jscomp.CompilerOptions",
+    "signature": "com.google.javascript.jscomp.CompilerOptions.getLanguageIn()",
+    "snippet": "  public LanguageMode getLanguageIn() {\n    return languageIn;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompilerOptions.getWarningsGuard",
+    "class_name": "com.google.javascript.jscomp.CompilerOptions",
+    "signature": "com.google.javascript.jscomp.CompilerOptions.getWarningsGuard()",
+    "snippet": "  WarningsGuard getWarningsGuard() {\n    return warningsGuard;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompilerOptions.setWarningLevel",
+    "class_name": "com.google.javascript.jscomp.CompilerOptions",
+    "signature": "com.google.javascript.jscomp.CompilerOptions.setWarningLevel(DiagnosticGroup,CheckLevel)",
+    "snippet": "  public void setWarningLevel(DiagnosticGroup type, CheckLevel level) {\n    addWarningsGuard(new DiagnosticGroupWarningsGuard(type, level));\n  }",
+    "comment": " Configure the given type of warning to the given level. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompilerOptions.shouldColorizeErrorOutput",
+    "class_name": "com.google.javascript.jscomp.CompilerOptions",
+    "signature": "com.google.javascript.jscomp.CompilerOptions.shouldColorizeErrorOutput()",
+    "snippet": "  public boolean shouldColorizeErrorOutput() {\n    return colorizeErrorOutput;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComposeWarningsGuard.ComposeWarningsGuard",
+    "class_name": "com.google.javascript.jscomp.ComposeWarningsGuard",
+    "signature": "com.google.javascript.jscomp.ComposeWarningsGuard.ComposeWarningsGuard(List)",
+    "snippet": "  public ComposeWarningsGuard(List<WarningsGuard> guards) {\n    addGuards(guards);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComposeWarningsGuard.ComposeWarningsGuard",
+    "class_name": "com.google.javascript.jscomp.ComposeWarningsGuard",
+    "signature": "com.google.javascript.jscomp.ComposeWarningsGuard.ComposeWarningsGuard(WarningsGuard[])",
+    "snippet": "  public ComposeWarningsGuard(WarningsGuard... guards) {\n    this(Lists.newArrayList(guards));\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComposeWarningsGuard.addGuard",
+    "class_name": "com.google.javascript.jscomp.ComposeWarningsGuard",
+    "signature": "com.google.javascript.jscomp.ComposeWarningsGuard.addGuard(WarningsGuard)",
+    "snippet": "  void addGuard(WarningsGuard guard) {\n    if (guard instanceof ComposeWarningsGuard) {\n      // Reverse the guards, so that they have the same order in the result.\n      addGuards(((ComposeWarningsGuard) guard).guards.descendingSet());\n    } else {\n      numberOfAdds++;\n      orderOfAddition.put(guard, numberOfAdds);\n      guards.remove(guard);\n      guards.add(guard);\n    }\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComposeWarningsGuard.addGuards",
+    "class_name": "com.google.javascript.jscomp.ComposeWarningsGuard",
+    "signature": "com.google.javascript.jscomp.ComposeWarningsGuard.addGuards(Iterable)",
+    "snippet": "  private void addGuards(Iterable<WarningsGuard> guards) {\n    for (WarningsGuard guard : guards) {\n      addGuard(guard);\n    }\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComposeWarningsGuard.disables",
+    "class_name": "com.google.javascript.jscomp.ComposeWarningsGuard",
+    "signature": "com.google.javascript.jscomp.ComposeWarningsGuard.disables(DiagnosticGroup)",
+    "snippet": "  @Override\n  public boolean disables(DiagnosticGroup group) {\n    nextSingleton:\n    for (DiagnosticType type : group.getTypes()) {\n      DiagnosticGroup singleton = DiagnosticGroup.forType(type);\n\n      for (WarningsGuard guard : guards) {\n        if (guard.disables(singleton)) {\n          continue nextSingleton;\n        } else if (guard.enables(singleton)) {\n          return false;\n        }\n      }\n\n      return false;\n    }\n\n    return true;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComposeWarningsGuard.enables",
+    "class_name": "com.google.javascript.jscomp.ComposeWarningsGuard",
+    "signature": "com.google.javascript.jscomp.ComposeWarningsGuard.enables(DiagnosticGroup)",
+    "snippet": "  @Override\n  public boolean enables(DiagnosticGroup group) {\n    for (WarningsGuard guard : guards) {\n      if (guard.enables(group)) {\n        return true;\n      } else if (guard.disables(group)) {\n        return false;\n      }\n    }\n\n    return false;\n  }",
+    "comment": " Determines whether this guard will \"elevate\" the status of any disabled diagnostic type in the group to a warning or an error. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "GuardComparator.compare",
+    "class_name": "com.google.javascript.jscomp.ComposeWarningsGuard$GuardComparator",
+    "signature": "com.google.javascript.jscomp.ComposeWarningsGuard$GuardComparator.compare(WarningsGuard,WarningsGuard)",
+    "snippet": "    @Override\n    public int compare(WarningsGuard a, WarningsGuard b) {\n      int priorityDiff = a.getPriority() - b.getPriority();\n      if (priorityDiff != 0) {\n        return priorityDiff;\n      }\n\n      // If the warnings guards have the same priority, the one that\n      // was added last wins.\n      return orderOfAddition.get(b).intValue() -\n          orderOfAddition.get(a).intValue();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticGroup.DiagnosticGroup",
+    "class_name": "com.google.javascript.jscomp.DiagnosticGroup",
+    "signature": "com.google.javascript.jscomp.DiagnosticGroup.DiagnosticGroup(DiagnosticType[])",
+    "snippet": "  public DiagnosticGroup(DiagnosticType ...types) {\n    this(null, types);\n  }",
+    "comment": " Create a group that matches all errors of the given types. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticGroup.DiagnosticGroup",
+    "class_name": "com.google.javascript.jscomp.DiagnosticGroup",
+    "signature": "com.google.javascript.jscomp.DiagnosticGroup.DiagnosticGroup(String,DiagnosticGroup[])",
+    "snippet": "  public DiagnosticGroup(String name, DiagnosticGroup ...groups) {\n    Set<DiagnosticType> set = Sets.newHashSet();\n\n    for (DiagnosticGroup group : groups) {\n      set.addAll(group.types);\n    }\n\n    this.name = name;\n    this.types = ImmutableSet.copyOf(set);\n  }",
+    "comment": " Create a composite group. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticGroup.DiagnosticGroup",
+    "class_name": "com.google.javascript.jscomp.DiagnosticGroup",
+    "signature": "com.google.javascript.jscomp.DiagnosticGroup.DiagnosticGroup(String,DiagnosticType[])",
+    "snippet": "  DiagnosticGroup(String name, DiagnosticType ...types) {\n    this.name = name;\n    this.types = ImmutableSet.copyOf(Arrays.asList(types));\n  }",
+    "comment": " Create a group that matches all errors of the given types. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticGroup.forType",
+    "class_name": "com.google.javascript.jscomp.DiagnosticGroup",
+    "signature": "com.google.javascript.jscomp.DiagnosticGroup.forType(DiagnosticType)",
+    "snippet": "  static DiagnosticGroup forType(DiagnosticType type) {\n    if (!singletons.containsKey(type)) {\n      singletons.put(type, new DiagnosticGroup(type));\n    }\n    return singletons.get(type);\n  }",
+    "comment": "Create a diagnostic group that matches only the given type. */",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticGroup.getTypes",
+    "class_name": "com.google.javascript.jscomp.DiagnosticGroup",
+    "signature": "com.google.javascript.jscomp.DiagnosticGroup.getTypes()",
+    "snippet": "  Collection<DiagnosticType> getTypes() {\n    return types;\n  }",
+    "comment": " Returns an iterator over all the types in this group. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticGroup.isSubGroup",
+    "class_name": "com.google.javascript.jscomp.DiagnosticGroup",
+    "signature": "com.google.javascript.jscomp.DiagnosticGroup.isSubGroup(DiagnosticGroup)",
+    "snippet": "  boolean isSubGroup(DiagnosticGroup group) {\n    for (DiagnosticType type : group.types) {\n      if (!matches(type)) {\n        return false;\n      }\n    }\n    return true;\n  }",
+    "comment": " Returns whether all of the types in the given group are in this group. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticGroup.matches",
+    "class_name": "com.google.javascript.jscomp.DiagnosticGroup",
+    "signature": "com.google.javascript.jscomp.DiagnosticGroup.matches(DiagnosticType)",
+    "snippet": "  public boolean matches(DiagnosticType type) {\n    return types.contains(type);\n  }",
+    "comment": " Returns whether the given type matches a type in this group. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticGroupWarningsGuard.DiagnosticGroupWarningsGuard",
+    "class_name": "com.google.javascript.jscomp.DiagnosticGroupWarningsGuard",
+    "signature": "com.google.javascript.jscomp.DiagnosticGroupWarningsGuard.DiagnosticGroupWarningsGuard(DiagnosticGroup,CheckLevel)",
+    "snippet": "  public DiagnosticGroupWarningsGuard(\n      DiagnosticGroup group, CheckLevel level) {\n    this.group = group;\n    this.level = level;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticGroupWarningsGuard.disables",
+    "class_name": "com.google.javascript.jscomp.DiagnosticGroupWarningsGuard",
+    "signature": "com.google.javascript.jscomp.DiagnosticGroupWarningsGuard.disables(DiagnosticGroup)",
+    "snippet": "  @Override\n  public boolean disables(DiagnosticGroup otherGroup) {\n    return !level.isOn() && group.isSubGroup(otherGroup);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticGroupWarningsGuard.enables",
+    "class_name": "com.google.javascript.jscomp.DiagnosticGroupWarningsGuard",
+    "signature": "com.google.javascript.jscomp.DiagnosticGroupWarningsGuard.enables(DiagnosticGroup)",
+    "snippet": "  @Override\n  public boolean enables(DiagnosticGroup otherGroup) {\n    if (level.isOn()) {\n      for (DiagnosticType type : otherGroup.getTypes()) {\n        if (group.matches(type)) {\n          return true;\n        }\n      }\n    }\n\n    return false;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticGroups.DiagnosticGroups",
+    "class_name": "com.google.javascript.jscomp.DiagnosticGroups",
+    "signature": "com.google.javascript.jscomp.DiagnosticGroups.DiagnosticGroups()",
+    "snippet": "  public DiagnosticGroups() {}",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticGroups.getRegisteredGroups",
+    "class_name": "com.google.javascript.jscomp.DiagnosticGroups",
+    "signature": "com.google.javascript.jscomp.DiagnosticGroups.getRegisteredGroups()",
+    "snippet": "  protected Map<String, DiagnosticGroup> getRegisteredGroups() {\n    return ImmutableMap.copyOf(groupsByName);\n  }",
+    "comment": "Get the registered diagnostic groups, indexed by name. */",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticGroups.registerGroup",
+    "class_name": "com.google.javascript.jscomp.DiagnosticGroups",
+    "signature": "com.google.javascript.jscomp.DiagnosticGroups.registerGroup(String,DiagnosticGroup[])",
+    "snippet": "  static DiagnosticGroup registerGroup(String name,\n      DiagnosticGroup ... groups) {\n    DiagnosticGroup group = new DiagnosticGroup(name, groups);\n    groupsByName.put(name, group);\n    return group;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticGroups.registerGroup",
+    "class_name": "com.google.javascript.jscomp.DiagnosticGroups",
+    "signature": "com.google.javascript.jscomp.DiagnosticGroups.registerGroup(String,DiagnosticType[])",
+    "snippet": "  static DiagnosticGroup registerGroup(String name,\n      DiagnosticType ... types) {\n    DiagnosticGroup group = new DiagnosticGroup(name, types);\n    groupsByName.put(name, group);\n    return group;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticType.disabled",
+    "class_name": "com.google.javascript.jscomp.DiagnosticType",
+    "signature": "com.google.javascript.jscomp.DiagnosticType.disabled(String,String)",
+    "snippet": "  public static DiagnosticType disabled(String name,\n      String descriptionFormat) {\n    return make(name, CheckLevel.OFF, descriptionFormat);\n  }",
+    "comment": " Create a DiagnosticType at level CheckLevel.OFF  @param name An identifier @param descriptionFormat A format string @return A new DiagnosticType ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticType.equals",
+    "class_name": "com.google.javascript.jscomp.DiagnosticType",
+    "signature": "com.google.javascript.jscomp.DiagnosticType.equals(Object)",
+    "snippet": "  @Override\n  public boolean equals(Object type) {\n    return type instanceof DiagnosticType &&\n        ((DiagnosticType) type).key.equals(key);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticType.error",
+    "class_name": "com.google.javascript.jscomp.DiagnosticType",
+    "signature": "com.google.javascript.jscomp.DiagnosticType.error(String,String)",
+    "snippet": "  public static DiagnosticType error(String name, String descriptionFormat) {\n    return make(name, CheckLevel.ERROR, descriptionFormat);\n  }",
+    "comment": " Create a DiagnosticType at level CheckLevel.ERROR  @param name An identifier @param descriptionFormat A format string @return A new DiagnosticType ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticType.hashCode",
+    "class_name": "com.google.javascript.jscomp.DiagnosticType",
+    "signature": "com.google.javascript.jscomp.DiagnosticType.hashCode()",
+    "snippet": "  @Override\n  public int hashCode() {\n    return key.hashCode();\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticType.make",
+    "class_name": "com.google.javascript.jscomp.DiagnosticType",
+    "signature": "com.google.javascript.jscomp.DiagnosticType.make(String,CheckLevel,String)",
+    "snippet": "  public static DiagnosticType make(String name, CheckLevel level,\n                                    String descriptionFormat) {\n    return\n        new DiagnosticType(name, level, new MessageFormat(descriptionFormat));\n  }",
+    "comment": " Create a DiagnosticType at a given CheckLevel.  @param name An identifier @param level Either CheckLevel.ERROR or CheckLevel.WARNING @param descriptionFormat A format string @return A new DiagnosticType ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiagnosticType.warning",
+    "class_name": "com.google.javascript.jscomp.DiagnosticType",
+    "signature": "com.google.javascript.jscomp.DiagnosticType.warning(String,String)",
+    "snippet": "  public static DiagnosticType warning(String name, String descriptionFormat) {\n    return make(name, CheckLevel.WARNING, descriptionFormat);\n  }",
+    "comment": " Create a DiagnosticType at level CheckLevel.WARNING  @param name An identifier @param descriptionFormat A format string @return A new DiagnosticType ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JSError.getCharno",
+    "class_name": "com.google.javascript.jscomp.JSError",
+    "signature": "com.google.javascript.jscomp.JSError.getCharno()",
+    "snippet": "  public int getCharno() {\n    return charno;\n  }",
+    "comment": " Get the character number. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JSError.getType",
+    "class_name": "com.google.javascript.jscomp.JSError",
+    "signature": "com.google.javascript.jscomp.JSError.getType()",
+    "snippet": "  public DiagnosticType getType() {\n    return type;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JSError.make",
+    "class_name": "com.google.javascript.jscomp.JSError",
+    "signature": "com.google.javascript.jscomp.JSError.make(String,int,int,CheckLevel,DiagnosticType,String[])",
+    "snippet": "  public static JSError make(String sourceName, int lineno, int charno,\n      CheckLevel level, DiagnosticType type, String... arguments) {\n    return new JSError(\n        sourceName, null, lineno, charno, type, level, arguments);\n  }",
+    "comment": " Creates a JSError at a given source location  @param sourceName The source file name @param lineno Line number with source file, or -1 if unknown @param charno Column number within line, or -1 for whole line. @param type The DiagnosticType @param arguments Arguments to be incorporated into the message ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JSModule.JSModule",
+    "class_name": "com.google.javascript.jscomp.JSModule",
+    "signature": "com.google.javascript.jscomp.JSModule.JSModule(String)",
+    "snippet": "  public JSModule(String name) {\n    this.name = name;\n    this.depth = -1;\n  }",
+    "comment": " Creates an instance.  @param name A unique name for the module ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JSModule.add",
+    "class_name": "com.google.javascript.jscomp.JSModule",
+    "signature": "com.google.javascript.jscomp.JSModule.add(CompilerInput)",
+    "snippet": "  public void add(CompilerInput input) {\n    inputs.add(input);\n    input.setModule(this);\n  }",
+    "comment": "Adds a source code input to this module. */",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JSModule.add",
+    "class_name": "com.google.javascript.jscomp.JSModule",
+    "signature": "com.google.javascript.jscomp.JSModule.add(JSSourceFile)",
+    "snippet": "  public void add(JSSourceFile file) {\n    add(new CompilerInput(file));\n  }",
+    "comment": "Adds a source file input to this module. */",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JSModule.getInputs",
+    "class_name": "com.google.javascript.jscomp.JSModule",
+    "signature": "com.google.javascript.jscomp.JSModule.getInputs()",
+    "snippet": "  public List<CompilerInput> getInputs() {\n    return inputs;\n  }",
+    "comment": " Gets this module's list of source code inputs.  @return A list that may be empty but not null ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JSSourceFile.fromCode",
+    "class_name": "com.google.javascript.jscomp.JSSourceFile",
+    "signature": "com.google.javascript.jscomp.JSSourceFile.fromCode(String,String)",
+    "snippet": "  public static JSSourceFile fromCode(String fileName, String code) {\n    return new JSSourceFile(SourceFile.fromCode(fileName, code));\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JSSourceFile.getCode",
+    "class_name": "com.google.javascript.jscomp.JSSourceFile",
+    "signature": "com.google.javascript.jscomp.JSSourceFile.getCode()",
+    "snippet": "  @Override\n  public String getCode() throws IOException {\n    return referenced.getCode();\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JsAst.JsAst",
+    "class_name": "com.google.javascript.jscomp.JsAst",
+    "signature": "com.google.javascript.jscomp.JsAst.JsAst(SourceFile)",
+    "snippet": "  public JsAst(SourceFile sourceFile) {\n    this.inputId = new InputId(sourceFile.getName());\n    this.sourceFile = sourceFile;\n    this.fileName = sourceFile.getName();\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JsAst.getInputId",
+    "class_name": "com.google.javascript.jscomp.JsAst",
+    "signature": "com.google.javascript.jscomp.JsAst.getInputId()",
+    "snippet": "  @Override\n  public InputId getInputId() {\n    return inputId;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JsAst.getSourceFile",
+    "class_name": "com.google.javascript.jscomp.JsAst",
+    "signature": "com.google.javascript.jscomp.JsAst.getSourceFile()",
+    "snippet": "  @Override\n  public SourceFile getSourceFile() {\n    return sourceFile;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JsMessageExtractor.JsMessageExtractor",
+    "class_name": "com.google.javascript.jscomp.JsMessageExtractor",
+    "signature": "com.google.javascript.jscomp.JsMessageExtractor.JsMessageExtractor(IdGenerator,Style)",
+    "snippet": "  public JsMessageExtractor(JsMessage.IdGenerator idGenerator,\n      JsMessage.Style style) {\n    this.idGenerator = idGenerator;\n    this.style = style;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JsMessageExtractor.extractMessages",
+    "class_name": "com.google.javascript.jscomp.JsMessageExtractor",
+    "signature": "com.google.javascript.jscomp.JsMessageExtractor.extractMessages(Iterable)",
+    "snippet": "  public Collection<JsMessage> extractMessages(\n      Iterable<JSSourceFile> inputs) throws IOException {\n\n    Compiler compiler = new Compiler();\n    compiler.init(\n        new JSSourceFile[] {},\n        Iterables.toArray(inputs, JSSourceFile.class),\n        new CompilerOptions());\n\n    ExtractMessagesVisitor extractCompilerPass =\n        new ExtractMessagesVisitor(compiler);\n    for (JSSourceFile input : inputs) {\n      // Parse the js files individually, to prevent out-of-memory\n      // problems.\n      Node root = new JsAst(input).getAstRoot(compiler);\n\n      // Traverse the returned nodes and extract messages.\n      extractCompilerPass.process(null, root);\n    }\n\n    JSError[] errors = compiler.getErrors();\n    // Check for errors.\n    if (errors.length > 0) {\n      StringBuilder msg = new StringBuilder(\"JSCompiler errors\\n\");\n      MessageFormatter formatter = new LightweightMessageFormatter(compiler);\n      for (JSError e : errors) {\n        msg.append(formatter.formatError(e));\n      }\n      throw new RuntimeException(msg.toString());\n    }\n\n    return extractCompilerPass.getMessages();\n  }",
+    "comment": " Extracts js messages from javascript code.  @param inputs  the javascript source code inputs @return the extracted messages collection @throws IOException if there is a problem reading the js code @throws RuntimeException if there are problems parsing the js code or the js messages, or if two messages have the same key ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JsMessageExtractor.extractMessages",
+    "class_name": "com.google.javascript.jscomp.JsMessageExtractor",
+    "signature": "com.google.javascript.jscomp.JsMessageExtractor.extractMessages(JSSourceFile[])",
+    "snippet": "  public Collection<JsMessage> extractMessages(JSSourceFile... inputs)\n      throws IOException {\n    return extractMessages(ImmutableList.copyOf(inputs));\n  }",
+    "comment": " Extracts js messages from javascript code. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JsMessageVisitor.JsMessageVisitor",
+    "class_name": "com.google.javascript.jscomp.JsMessageVisitor",
+    "signature": "com.google.javascript.jscomp.JsMessageVisitor.JsMessageVisitor(AbstractCompiler,boolean,Style,IdGenerator)",
+    "snippet": "  JsMessageVisitor(AbstractCompiler compiler,\n      boolean needToCheckDuplications,\n      JsMessage.Style style, JsMessage.IdGenerator idGenerator) {\n\n    this.compiler = compiler;\n    this.needToCheckDuplications = needToCheckDuplications;\n    this.style = style;\n    this.idGenerator = idGenerator;\n\n    checkLevel = (style == JsMessage.Style.CLOSURE)\n        ? CheckLevel.ERROR : CheckLevel.WARNING;\n\n    // TODO(anatol): add flag that decides whether to process UNNAMED messages.\n    // Some projects would not want such functionality (unnamed) as they dont\n    // use SOY templates.\n  }",
+    "comment": " Creates js message visitor.  @param compiler the compiler instance @param needToCheckDuplications whether to check duplicated messages in traversed @param style style that should be used during parsing @param idGenerator generator that used for creating unique ID for the message ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JsMessageVisitor.process",
+    "class_name": "com.google.javascript.jscomp.JsMessageVisitor",
+    "signature": "com.google.javascript.jscomp.JsMessageVisitor.process(Node,Node)",
+    "snippet": "  @Override\n  public void process(Node externs, Node root) {\n    NodeTraversal.traverse(compiler, root, this);\n\n    for (Map.Entry<Node, String> msgNode : googMsgNodes.entrySet()) {\n      compiler.report(JSError.make(msgNode.getValue(), msgNode.getKey(),\n          checkLevel, MESSAGE_NODE_IS_ORPHANED));\n    }\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JsMessageVisitor.visit",
+    "class_name": "com.google.javascript.jscomp.JsMessageVisitor",
+    "signature": "com.google.javascript.jscomp.JsMessageVisitor.visit(NodeTraversal,Node,Node)",
+    "snippet": "  @Override\n  public void visit(NodeTraversal traversal, Node node, Node parent) {\n    String messageKey;\n    boolean isVar;\n    Node msgNode, msgNodeParent;\n\n    switch (node.getType()) {\n      case Token.NAME:\n        // var MSG_HELLO = 'Message'\n        if ((parent != null) && (parent.getType() == Token.VAR)) {\n          messageKey = node.getString();\n          isVar = true;\n        } else {\n          return;\n        }\n\n        msgNode = node.getFirstChild();\n        msgNodeParent = node;\n        break;\n      case Token.ASSIGN:\n        // somenamespace.someclass.MSG_HELLO = 'Message'\n        isVar = false;\n\n        Node getProp = node.getFirstChild();\n        if (getProp.getType() != Token.GETPROP) {\n          return;\n        }\n\n        Node propNode = getProp.getLastChild();\n\n        messageKey = propNode.getString();\n        msgNode = node.getLastChild();\n        msgNodeParent = node;\n        break;\n      case Token.CALL:\n        // goog.getMsg()\n        if (MSG_FUNCTION_NAME.equals(node.getFirstChild().getQualifiedName())) {\n          googMsgNodes.put(node, traversal.getSourceName());\n        }\n        return;\n      default:\n        return;\n    }\n\n    // Is this a message name?\n    boolean isNewStyleMessage =\n        msgNode != null && msgNode.getType() == Token.CALL;\n    if (!isMessageName(messageKey, isNewStyleMessage)) {\n      return;\n    }\n\n    if (msgNode == null) {\n      compiler.report(\n          traversal.makeError(node, MESSAGE_HAS_NO_VALUE, messageKey));\n      return;\n    }\n\n    // Just report a warning if a qualified messageKey that looks like a message\n    // (e.g. \"a.b.MSG_X\") doesn't use goog.getMsg().\n    if (isNewStyleMessage) {\n      googMsgNodes.remove(msgNode);\n    } else if (style != JsMessage.Style.LEGACY) {\n      compiler.report(traversal.makeError(node, checkLevel,\n          MESSAGE_NOT_INITIALIZED_USING_NEW_SYNTAX));\n    }\n\n    boolean isUnnamedMsg = isUnnamedMessageName(messageKey);\n\n    Builder builder = new Builder(\n        isUnnamedMsg ? null : messageKey);\n    builder.setSourceName(traversal.getSourceName());\n\n    try {\n      if (isVar) {\n        extractMessageFromVariable(builder, node, parent, parent.getParent());\n      } else {\n        extractMessageFromProperty(builder, node.getFirstChild(), node);\n      }\n    } catch (MalformedException ex) {\n      compiler.report(traversal.makeError(ex.getNode(),\n          MESSAGE_TREE_MALFORMED, ex.getMessage()));\n      return;\n    }\n\n    JsMessage extractedMessage = builder.build(idGenerator);\n\n    // If asked to check named internal messages.\n    if (needToCheckDuplications\n        && !isUnnamedMsg\n        && !extractedMessage.isExternal()) {\n      checkIfMessageDuplicated(traversal.getSourceName(), messageKey, msgNode);\n    }\n\n    if (extractedMessage.isEmpty()) {\n      // value of the message is an empty string. Translators do not like it.\n      compiler.report(traversal.makeError(node, MESSAGE_HAS_NO_TEXT,\n          messageKey));\n    }\n\n    // New-style messages must have descriptions. We don't emit a warning\n    // for legacy-style messages, because there are thousands of\n    // them in legacy code that are not worth the effort to fix, since they've\n    // already been translated anyway.\n    String desc = extractedMessage.getDesc();\n    if (isNewStyleMessage\n        && (desc == null || desc.trim().isEmpty())\n        && !extractedMessage.isExternal()) {\n      compiler.report(traversal.makeError(node, MESSAGE_HAS_NO_DESCRIPTION,\n          messageKey));\n    }\n\n    JsMessageDefinition msgDefinition = new JsMessageDefinition(\n        node, msgNode, msgNodeParent);\n    processJsMessage(extractedMessage, msgDefinition);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LightweightMessageFormatter.LightweightMessageFormatter",
+    "class_name": "com.google.javascript.jscomp.LightweightMessageFormatter",
+    "signature": "com.google.javascript.jscomp.LightweightMessageFormatter.LightweightMessageFormatter(SourceExcerptProvider)",
+    "snippet": "  public LightweightMessageFormatter(SourceExcerptProvider source) {\n    this(source, LINE);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LightweightMessageFormatter.LightweightMessageFormatter",
+    "class_name": "com.google.javascript.jscomp.LightweightMessageFormatter",
+    "signature": "com.google.javascript.jscomp.LightweightMessageFormatter.LightweightMessageFormatter(SourceExcerptProvider,SourceExcerpt)",
+    "snippet": "  public LightweightMessageFormatter(SourceExcerptProvider source,\n      SourceExcerpt excerpt) {\n    super(source);\n    Preconditions.checkNotNull(source);\n    this.excerpt = excerpt;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LoggerErrorManager.LoggerErrorManager",
+    "class_name": "com.google.javascript.jscomp.LoggerErrorManager",
+    "signature": "com.google.javascript.jscomp.LoggerErrorManager.LoggerErrorManager(MessageFormatter,Logger)",
+    "snippet": "  public LoggerErrorManager(MessageFormatter formatter, Logger logger) {\n    this.formatter = formatter;\n    this.logger = logger;\n  }",
+    "comment": " Creates an instance. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NodeTraversal.NodeTraversal",
+    "class_name": "com.google.javascript.jscomp.NodeTraversal",
+    "signature": "com.google.javascript.jscomp.NodeTraversal.NodeTraversal(AbstractCompiler,Callback)",
+    "snippet": "  public NodeTraversal(AbstractCompiler compiler, Callback cb) {\n    this(compiler, cb, new SyntacticScopeCreator(compiler));\n  }",
+    "comment": " Creates a node traversal using the specified callback interface. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NodeTraversal.NodeTraversal",
+    "class_name": "com.google.javascript.jscomp.NodeTraversal",
+    "signature": "com.google.javascript.jscomp.NodeTraversal.NodeTraversal(AbstractCompiler,Callback,ScopeCreator)",
+    "snippet": "  public NodeTraversal(AbstractCompiler compiler, Callback cb,\n      ScopeCreator scopeCreator) {\n    this.callback = cb;\n    if (cb instanceof ScopedCallback) {\n      this.scopeCallback = (ScopedCallback) cb;\n    }\n    this.compiler = compiler;\n    this.inputId = null;\n    this.sourceName = \"\";\n    this.scopeCreator = scopeCreator;\n  }",
+    "comment": " Creates a node traversal using the specified callback interface and the scope creator. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NodeTraversal.getSourceName",
+    "class_name": "com.google.javascript.jscomp.NodeTraversal",
+    "signature": "com.google.javascript.jscomp.NodeTraversal.getSourceName(Node)",
+    "snippet": "  private static String getSourceName(Node n) {\n    String name = n.getSourceFileName();\n    return name == null ? \"\" : name;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NodeTraversal.popScope",
+    "class_name": "com.google.javascript.jscomp.NodeTraversal",
+    "signature": "com.google.javascript.jscomp.NodeTraversal.popScope()",
+    "snippet": "  private void popScope() {\n    if (scopeCallback != null) {\n      scopeCallback.exitScope(this);\n    }\n    if (scopeRoots.isEmpty()) {\n      scopes.pop();\n    } else {\n      scopeRoots.pop();\n    }\n    cfgs.pop();\n  }",
+    "comment": "Pops back to the previous scope (e.g. when leaving a function). */",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NodeTraversal.pushScope",
+    "class_name": "com.google.javascript.jscomp.NodeTraversal",
+    "signature": "com.google.javascript.jscomp.NodeTraversal.pushScope(Node)",
+    "snippet": "  private void pushScope(Node node) {\n    Preconditions.checkState(curNode != null);\n    scopeRoots.push(node);\n    cfgs.push(null);\n    if (scopeCallback != null) {\n      scopeCallback.enterScope(this);\n    }\n  }",
+    "comment": "Creates a new scope (e.g. when entering a function). */",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NodeTraversal.traverse",
+    "class_name": "com.google.javascript.jscomp.NodeTraversal",
+    "signature": "com.google.javascript.jscomp.NodeTraversal.traverse(AbstractCompiler,Node,Callback)",
+    "snippet": "  public static void traverse(\n      AbstractCompiler compiler, Node root, Callback cb) {\n    NodeTraversal t = new NodeTraversal(compiler, cb);\n    t.traverse(root);\n  }",
+    "comment": " Traverses a node recursively. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NodeTraversal.traverse",
+    "class_name": "com.google.javascript.jscomp.NodeTraversal",
+    "signature": "com.google.javascript.jscomp.NodeTraversal.traverse(Node)",
+    "snippet": "  public void traverse(Node root) {\n    try {\n      inputId = NodeUtil.getInputId(root);\n      sourceName = \"\";\n      curNode = root;\n      pushScope(root);\n      traverseBranch(root, null);\n      popScope();\n    } catch (Exception unexpectedException) {\n      throwUnexpectedException(unexpectedException);\n    }\n  }",
+    "comment": " Traverses a parse tree recursively. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NodeTraversal.traverseBranch",
+    "class_name": "com.google.javascript.jscomp.NodeTraversal",
+    "signature": "com.google.javascript.jscomp.NodeTraversal.traverseBranch(Node,Node)",
+    "snippet": "  @SuppressWarnings(\"fallthrough\")\n  private void traverseBranch(Node n, Node parent) {\n    int type = n.getType();\n    if (type == Token.SCRIPT) {\n      inputId = n.getInputId();\n      sourceName = getSourceName(n);\n    }\n\n    curNode = n;\n    if (!callback.shouldTraverse(this, n, parent)) return;\n\n    switch (type) {\n      case Token.FUNCTION:\n        traverseFunction(n, parent);\n        break;\n\n      default:\n        for (Node child = n.getFirstChild(); child != null; ) {\n          // child could be replaced, in which case our child node\n          // would no longer point to the true next\n          Node next = child.getNext();\n          traverseBranch(child, n);\n          child = next;\n        }\n        break;\n    }\n\n    curNode = n;\n    callback.visit(this, n, parent);\n  }",
+    "comment": " Traverses a branch. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractPostOrderCallback.shouldTraverse",
+    "class_name": "com.google.javascript.jscomp.NodeTraversal$AbstractPostOrderCallback",
+    "signature": "com.google.javascript.jscomp.NodeTraversal$AbstractPostOrderCallback.shouldTraverse(NodeTraversal,Node,Node)",
+    "snippet": "    @Override\n    public final boolean shouldTraverse(NodeTraversal nodeTraversal, Node n,\n        Node parent) {\n      return true;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NodeUtil.getInputId",
+    "class_name": "com.google.javascript.jscomp.NodeUtil",
+    "signature": "com.google.javascript.jscomp.NodeUtil.getInputId(Node)",
+    "snippet": "  public static InputId getInputId(Node n) {\n    while (n != null && n.getType() != Token.SCRIPT) {\n      n = n.getParent();\n    }\n\n    return (n != null && n.getType() == Token.SCRIPT) ? n.getInputId() : null;\n  }",
+    "comment": " @param n The node. @return The InputId property on the node or its ancestors. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "PassFactory.PassFactory",
+    "class_name": "com.google.javascript.jscomp.PassFactory",
+    "signature": "com.google.javascript.jscomp.PassFactory.PassFactory(String,boolean)",
+    "snippet": "  protected PassFactory(String name, boolean isOneTimePass) {\n    this.name = name;\n    this.isOneTimePass = isOneTimePass;\n  }",
+    "comment": " @param name The name of the pass that this factory creates. @param isOneTimePass If true, the pass produced by this factory can only be run once. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TweakFunction.getName",
+    "class_name": "com.google.javascript.jscomp.ProcessTweaks$TweakFunction",
+    "signature": "com.google.javascript.jscomp.ProcessTweaks$TweakFunction.getName()",
+    "snippet": "    String getName() {\n      return name;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RhinoErrorReporter.forNewRhino",
+    "class_name": "com.google.javascript.jscomp.RhinoErrorReporter",
+    "signature": "com.google.javascript.jscomp.RhinoErrorReporter.forNewRhino(AbstractCompiler)",
+    "snippet": "  public static com.google.javascript.jscomp.mozilla.rhino.ErrorReporter\n      forNewRhino(AbstractCompiler compiler) {\n    return new NewRhinoErrorReporter(compiler);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RhinoErrorReporter.forOldRhino",
+    "class_name": "com.google.javascript.jscomp.RhinoErrorReporter",
+    "signature": "com.google.javascript.jscomp.RhinoErrorReporter.forOldRhino(AbstractCompiler)",
+    "snippet": "  public static ErrorReporter forOldRhino(AbstractCompiler compiler) {\n    return new OldRhinoErrorReporter(compiler);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RhinoErrorReporter.replacePlaceHolders",
+    "class_name": "com.google.javascript.jscomp.RhinoErrorReporter",
+    "signature": "com.google.javascript.jscomp.RhinoErrorReporter.replacePlaceHolders(String)",
+    "snippet": "  private Pattern replacePlaceHolders(String s) {\n    s = Pattern.quote(s);\n    return Pattern.compile(s.replaceAll(\"\\\\{\\\\d+\\\\}\", \"\\\\\\\\E.*\\\\\\\\Q\"));\n  }",
+    "comment": " For each message such as \"Not a good use of {0}\", replace the place holder {0} with a wild card that matches all possible strings. Also put the any non-place-holder in quotes for regex matching later. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SourceFile.SourceFile",
+    "class_name": "com.google.javascript.jscomp.SourceFile",
+    "signature": "com.google.javascript.jscomp.SourceFile.SourceFile(String)",
+    "snippet": "  public SourceFile(String fileName) {\n    if (fileName == null || fileName.isEmpty()) {\n      throw new IllegalArgumentException(\"a source must have a name\");\n    }\n    this.fileName = fileName;\n    // Starting point: offset 0 is at line 1.\n    this.lastOffset = 0;\n    this.lastLine = 1;\n  }",
+    "comment": " Construct a new abstract source file.  @param fileName The file name of the source file. It does not necessarily need to correspond to a real path. But it should be unique. Will appear in warning messages emitted by the compiler. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SourceFile.fromCode",
+    "class_name": "com.google.javascript.jscomp.SourceFile",
+    "signature": "com.google.javascript.jscomp.SourceFile.fromCode(String,String)",
+    "snippet": "  public static SourceFile fromCode(String fileName, String code) {\n    return new Preloaded(fileName, code);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SourceFile.getCode",
+    "class_name": "com.google.javascript.jscomp.SourceFile",
+    "signature": "com.google.javascript.jscomp.SourceFile.getCode()",
+    "snippet": "  public String getCode() throws IOException {\n    return code;\n  }",
+    "comment": " Gets all the code in this source file. @throws IOException ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SourceFile.getLine",
+    "class_name": "com.google.javascript.jscomp.SourceFile",
+    "signature": "com.google.javascript.jscomp.SourceFile.getLine(int)",
+    "snippet": "  public String getLine(int lineNumber) {\n    String js = \"\";\n    try {\n      // NOTE(nicksantos): Right now, this is optimized for few warnings.\n      // This is probably the right trade-off, but will be slow if there\n      // are lots of warnings in one file.\n      js = getCode();\n    } catch (IOException e) {\n      return null;\n    }\n\n    int pos = 0;\n    int startLine = 1;\n\n    // If we've saved a previous offset and it's for a line less than the\n    // one we're searching for, then start at that point.\n    if (lineNumber >= lastLine) {\n      pos = lastOffset;\n      startLine = lastLine;\n    }\n\n    for (int n = startLine; n < lineNumber; n++) {\n      int nextpos = js.indexOf('\\n', pos);\n      if (nextpos == -1) {\n        return null;\n      }\n      pos = nextpos + 1;\n    }\n\n    // Remember this offset for the next search we do.\n    lastOffset = pos;\n    lastLine = lineNumber;\n\n    if (js.indexOf('\\n', pos) == -1) {\n      // If next new line cannot be found, there are two cases\n      // 1. pos already reaches the end of file, then null should be returned\n      // 2. otherwise, return the contents between pos and the end of file.\n        return null;\n    } else {\n      return js.substring(pos, js.indexOf('\\n', pos));\n    }\n  }",
+    "comment": " Gets the source line for the indicated line number.  @param lineNumber the line number, 1 being the first line of the file. @return The line indicated. Does not include the newline at the end of the file. Returns {@code null} if it does not exist, or if there was an IO exception. ",
+    "is_bug": true,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SourceFile.getName",
+    "class_name": "com.google.javascript.jscomp.SourceFile",
+    "signature": "com.google.javascript.jscomp.SourceFile.getName()",
+    "snippet": "  @Override\n  public String getName() {\n    return fileName;\n  }",
+    "comment": "Returns a unique name for the source file. */",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SourceFile.setCode",
+    "class_name": "com.google.javascript.jscomp.SourceFile",
+    "signature": "com.google.javascript.jscomp.SourceFile.setCode(String)",
+    "snippet": "  private void setCode(String sourceCode) {\n    code = sourceCode;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SourceFile.setIsExtern",
+    "class_name": "com.google.javascript.jscomp.SourceFile",
+    "signature": "com.google.javascript.jscomp.SourceFile.setIsExtern(boolean)",
+    "snippet": "  void setIsExtern(boolean newVal) {\n    isExternFile = newVal;\n  }",
+    "comment": "Sets that this is an extern. */",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SourceFile.setOriginalPath",
+    "class_name": "com.google.javascript.jscomp.SourceFile",
+    "signature": "com.google.javascript.jscomp.SourceFile.setOriginalPath(String)",
+    "snippet": "  public void setOriginalPath(String originalPath) {\n    this.originalPath = originalPath;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SuppressDocWarningsGuard.SuppressDocWarningsGuard",
+    "class_name": "com.google.javascript.jscomp.SuppressDocWarningsGuard",
+    "signature": "com.google.javascript.jscomp.SuppressDocWarningsGuard.SuppressDocWarningsGuard(Map)",
+    "snippet": "  SuppressDocWarningsGuard(Map<String, DiagnosticGroup> suppressableGroups) {\n    for (Map.Entry<String, DiagnosticGroup> entry :\n             suppressableGroups.entrySet()) {\n      suppressors.put(\n          entry.getKey(),\n          new DiagnosticGroupWarningsGuard(\n              entry.getValue(),\n              CheckLevel.OFF));\n    }\n  }",
+    "comment": " The suppressable groups, indexed by name. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SuppressDocWarningsGuard.getPriority",
+    "class_name": "com.google.javascript.jscomp.SuppressDocWarningsGuard",
+    "signature": "com.google.javascript.jscomp.SuppressDocWarningsGuard.getPriority()",
+    "snippet": "  @Override\n  public int getPriority() {\n    // Happens after path-based filtering, but before other times\n    // of filtering.\n    return WarningsGuard.Priority.SUPPRESS_DOC.value;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SyntacticScopeCreator.SyntacticScopeCreator",
+    "class_name": "com.google.javascript.jscomp.SyntacticScopeCreator",
+    "signature": "com.google.javascript.jscomp.SyntacticScopeCreator.SyntacticScopeCreator(AbstractCompiler)",
+    "snippet": "  SyntacticScopeCreator(AbstractCompiler compiler) {\n    this.compiler = compiler;\n    this.redeclarationHandler = new DefaultRedeclarationHandler();\n  }",
+    "comment": " Creates a ScopeCreator. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "WarningsGuard.disables",
+    "class_name": "com.google.javascript.jscomp.WarningsGuard",
+    "signature": "com.google.javascript.jscomp.WarningsGuard.disables(DiagnosticGroup)",
+    "snippet": "  protected boolean disables(DiagnosticGroup group) {\n    return false;\n  }",
+    "comment": " Returns whether all warnings in the given diagnostic group will be filtered out. Used to determine which passes to skip.  @param group A group of DiagnosticTypes. @return Whether all warnings of these types are disabled by this guard. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "WarningsGuard.enables",
+    "class_name": "com.google.javascript.jscomp.WarningsGuard",
+    "signature": "com.google.javascript.jscomp.WarningsGuard.enables(DiagnosticGroup)",
+    "snippet": "  protected boolean enables(DiagnosticGroup group) {\n    return false;\n  }",
+    "comment": " Returns whether any of the warnings in the given diagnostic group will be upgraded to a warning or error.  @param group A group of DiagnosticTypes. @return Whether any warnings of these types are enabled by this guard. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "WarningsGuard.getPriority",
+    "class_name": "com.google.javascript.jscomp.WarningsGuard",
+    "signature": "com.google.javascript.jscomp.WarningsGuard.getPriority()",
+    "snippet": "  protected int getPriority() {\n    return Priority.DEFAULT.value;\n  }",
+    "comment": " The priority in which warnings guards are applied. Lower means the guard will be applied sooner. Expressed on a scale of 1 to 100. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Config.Config",
+    "class_name": "com.google.javascript.jscomp.parsing.Config",
+    "signature": "com.google.javascript.jscomp.parsing.Config.Config(Set,Set,boolean,LanguageMode,boolean)",
+    "snippet": "  Config(Set<String> annotationWhitelist, Set<String> suppressionNames,\n      boolean isIdeMode, LanguageMode languageMode,\n      boolean acceptConstKeyword) {\n    this.annotationNames = buildAnnotationNames(annotationWhitelist);\n    this.parseJsDocDocumentation = isIdeMode;\n    this.suppressionNames = suppressionNames;\n    this.isIdeMode = isIdeMode;\n    this.languageMode = languageMode;\n    this.acceptConstKeyword = acceptConstKeyword;\n  }",
+    "comment": " Annotation names. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Config.buildAnnotationNames",
+    "class_name": "com.google.javascript.jscomp.parsing.Config",
+    "signature": "com.google.javascript.jscomp.parsing.Config.buildAnnotationNames(Set)",
+    "snippet": "  private static Map<String, Annotation> buildAnnotationNames(\n      Set<String> annotationWhitelist) {\n    ImmutableMap.Builder<String, Annotation> annotationBuilder =\n        ImmutableMap.builder();\n    annotationBuilder.putAll(Annotation.recognizedAnnotations);\n    for (String unrecognizedAnnotation : annotationWhitelist) {\n      if (!Annotation.recognizedAnnotations.containsKey(\n              unrecognizedAnnotation)) {\n        annotationBuilder.put(\n            unrecognizedAnnotation, Annotation.NOT_IMPLEMENTED);\n      }\n    }\n    return annotationBuilder.build();\n  }",
+    "comment": " Create the annotation names from the user-specified annotation whitelist. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ParserRunner.createConfig",
+    "class_name": "com.google.javascript.jscomp.parsing.ParserRunner",
+    "signature": "com.google.javascript.jscomp.parsing.ParserRunner.createConfig(boolean,LanguageMode,boolean,Set)",
+    "snippet": "  public static Config createConfig(boolean isIdeMode,\n                                    LanguageMode languageMode,\n                                    boolean acceptConstKeyword,\n                                    Set<String> extraAnnotationNames) {\n    initResourceConfig();\n    Set<String> effectiveAnnotationNames;\n    if (extraAnnotationNames == null) {\n      effectiveAnnotationNames = annotationNames;\n    } else {\n      effectiveAnnotationNames = new HashSet<String>(annotationNames);\n      effectiveAnnotationNames.addAll(extraAnnotationNames);\n    }\n    return new Config(effectiveAnnotationNames, suppressionNames,\n        isIdeMode, languageMode, acceptConstKeyword);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ParserRunner.extractList",
+    "class_name": "com.google.javascript.jscomp.parsing.ParserRunner",
+    "signature": "com.google.javascript.jscomp.parsing.ParserRunner.extractList(String)",
+    "snippet": "  private static Set<String> extractList(String configProp) {\n    String[] names = configProp.split(\",\");\n    Set<String> trimmedNames = Sets.newHashSet();\n    for (String name : names) {\n      trimmedNames.add(name.trim());\n    }\n    return ImmutableSet.copyOf(trimmedNames);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ParserRunner.initResourceConfig",
+    "class_name": "com.google.javascript.jscomp.parsing.ParserRunner",
+    "signature": "com.google.javascript.jscomp.parsing.ParserRunner.initResourceConfig()",
+    "snippet": "  private static synchronized void initResourceConfig() {\n    if (annotationNames != null) {\n      return;\n    }\n\n    ResourceBundle config = ResourceBundle.getBundle(configResource);\n    annotationNames = extractList(config.getString(\"jsdoc.annotations\"));\n    suppressionNames = extractList(config.getString(\"jsdoc.suppressions\"));\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ParserRunner.parse",
+    "class_name": "com.google.javascript.jscomp.parsing.ParserRunner",
+    "signature": "com.google.javascript.jscomp.parsing.ParserRunner.parse(StaticSourceFile,String,Config,ErrorReporter,Logger)",
+    "snippet": "  public static Node parse(StaticSourceFile sourceFile,\n                           String sourceString,\n                           Config config,\n                           ErrorReporter errorReporter,\n                           Logger logger) throws IOException {\n    Context cx = Context.enter();\n    cx.setErrorReporter(errorReporter);\n    cx.setLanguageVersion(Context.VERSION_1_5);\n    CompilerEnvirons compilerEnv = new CompilerEnvirons();\n    compilerEnv.initFromContext(cx);\n    compilerEnv.setRecordingComments(true);\n    compilerEnv.setRecordingLocalJsDocComments(true);\n    // ES5 specifically allows trailing commas\n    compilerEnv.setWarnTrailingComma(\n        config.languageMode == LanguageMode.ECMASCRIPT3);\n\n    if (config.isIdeMode || config.languageMode != LanguageMode.ECMASCRIPT3) {\n      // Do our own identifier check for ECMASCRIPT 5\n      compilerEnv.setReservedKeywordAsIdentifier(true);\n      compilerEnv.setAllowKeywordAsObjectPropertyName(true);\n    }\n\n    if (config.isIdeMode) {\n      compilerEnv.setAllowMemberExprAsFunctionName(true);\n    }\n\n    Parser p = new Parser(compilerEnv, errorReporter);\n    AstRoot astRoot = null;\n    try {\n      astRoot = p.parse(sourceString, sourceFile.getName(), 1);\n    } catch (EvaluatorException e) {\n      logger.info(\n          \"Error parsing \" + sourceFile.getName() + \": \" + e.getMessage());\n    } finally {\n      Context.exit();\n    }\n    Node root = null;\n    if (astRoot != null) {\n      root = IRFactory.transformTree(\n          astRoot, sourceFile, sourceString, config, errorReporter);\n      root.setIsSyntheticBlock(true);\n    }\n    return root;\n  }",
+    "comment": " Parses the JavaScript text given by a reader.  @param sourceString Source code from the file. @param errorReporter An error. @param logger A logger. @return The AST of the given text. @throws IOException ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Context.getCurrentContext",
+    "class_name": "com.google.javascript.rhino.Context",
+    "signature": "com.google.javascript.rhino.Context.getCurrentContext()",
+    "snippet": "    public static Context getCurrentContext() {\n        return threadContexts.get();\n    }",
+    "comment": " Get the current Context.  The current Context is per-thread; this method looks up the Context associated with the current thread. <p>  @return the Context associated with the current thread, or null if no context is associated with the current thread. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "InputId.InputId",
+    "class_name": "com.google.javascript.rhino.InputId",
+    "signature": "com.google.javascript.rhino.InputId.InputId(String)",
+    "snippet": "  public InputId(String id) {\n    this.id = id;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "InputId.equals",
+    "class_name": "com.google.javascript.rhino.InputId",
+    "signature": "com.google.javascript.rhino.InputId.equals(Object)",
+    "snippet": "  @Override\n  public boolean equals(Object obj) {\n    if (this == obj) return true;\n    if (obj == null) return false;\n    if (getClass() != obj.getClass()) return false;\n    return id.equals(((InputId) obj).id);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "InputId.getIdName",
+    "class_name": "com.google.javascript.rhino.InputId",
+    "signature": "com.google.javascript.rhino.InputId.getIdName()",
+    "snippet": "  public String getIdName() {\n    return id;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "InputId.hashCode",
+    "class_name": "com.google.javascript.rhino.InputId",
+    "signature": "com.google.javascript.rhino.InputId.hashCode()",
+    "snippet": "  @Override\n  public int hashCode() {\n    return id.hashCode();\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Node.Node",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.Node(int)",
+    "snippet": "  public Node(int nodeType) {\n    type = nodeType;\n    parent = null;\n    sourcePosition = -1;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Node.createProp",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.createProp(int,Object,PropListItem)",
+    "snippet": "  PropListItem createProp(int propType, Object value, PropListItem next) {\n    return new ObjectPropListItem(propType, value, next);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Node.getFirstChild",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.getFirstChild()",
+    "snippet": "  public Node getFirstChild() {\n    return first;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Node.getInputId",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.getInputId()",
+    "snippet": "  public InputId getInputId() {\n    return ((InputId) this.getProp(INPUT_ID));\n  }",
+    "comment": " @return The Id of the CompilerInput associated with this Node. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Node.getProp",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.getProp(int)",
+    "snippet": "  public Object getProp(int propType) {\n    if (propType == SOURCENAME_PROP) {\n      return getSourceFileName();\n    }\n\n    PropListItem item = lookupProperty(propType);\n    if (item == null) {\n      return null;\n    }\n    return item.getObjectValue();\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Node.getSourceFileName",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.getSourceFileName()",
+    "snippet": "  public String getSourceFileName() {\n    StaticSourceFile file = getStaticSourceFile();\n    return file == null ? null : file.getName();\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Node.getStaticSourceFile",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.getStaticSourceFile()",
+    "snippet": "  public StaticSourceFile getStaticSourceFile() {\n    return ((StaticSourceFile) this.getProp(STATIC_SOURCE_FILE));\n  }",
+    "comment": "Returns the source file associated with this input. May be null */",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Node.getType",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.getType()",
+    "snippet": "  public int getType() {\n    return type;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Node.lookupProperty",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.lookupProperty(int)",
+    "snippet": "  @VisibleForTesting\n  PropListItem lookupProperty(int propType) {\n    PropListItem x = propListHead;\n    while (x != null && propType != x.getType()) {\n      x = x.getNext();\n    }\n    return x;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Node.putProp",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.putProp(int,Object)",
+    "snippet": "  public void putProp(int propType, Object value) {\n    if (propType == SOURCENAME_PROP) {\n      putProp(\n          STATIC_SOURCE_FILE, new SimpleSourceFile((String) value, false));\n      return;\n    }\n\n    removeProp(propType);\n    if (value != null) {\n      propListHead = createProp(propType, value, propListHead);\n    }\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Node.removeProp",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.removeProp(PropListItem,int)",
+    "snippet": "  private PropListItem removeProp(PropListItem item, int propType) {\n    if (item == null) {\n      return null;\n    } else if (item.getType() == propType) {\n      return item.getNext();\n    } else {\n      PropListItem result = removeProp(item.getNext(), propType);\n      if (result != item.getNext()) {\n        return item.chain(result);\n      } else {\n        return item;\n      }\n    }\n  }",
+    "comment": " @param item The item to inspect @param propType The property to look for @return The replacement list if the property was removed, or 'item' otherwise. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Node.removeProp",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.removeProp(int)",
+    "snippet": "  public void removeProp(int propType) {\n    PropListItem result = removeProp(propListHead, propType);\n    if (result != propListHead) {\n      propListHead = result;\n    }\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Node.setInputId",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.setInputId(InputId)",
+    "snippet": "  public void setInputId(InputId inputId) {\n    this.putProp(INPUT_ID, inputId);\n  }",
+    "comment": " @param inputId ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Node.setStaticSourceFile",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.setStaticSourceFile(StaticSourceFile)",
+    "snippet": "  public void setStaticSourceFile(StaticSourceFile file) {\n    this.putProp(STATIC_SOURCE_FILE, file);\n  }",
+    "comment": "Source position management",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractPropListItem.getNext",
+    "class_name": "com.google.javascript.rhino.Node$AbstractPropListItem",
+    "signature": "com.google.javascript.rhino.Node$AbstractPropListItem.getNext()",
+    "snippet": "    @Override\n    public PropListItem getNext() {\n      return next;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractPropListItem.getType",
+    "class_name": "com.google.javascript.rhino.Node$AbstractPropListItem",
+    "signature": "com.google.javascript.rhino.Node$AbstractPropListItem.getType()",
+    "snippet": "    @Override\n    public int getType() {\n      return propType;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ObjectPropListItem.getObjectValue",
+    "class_name": "com.google.javascript.rhino.Node$ObjectPropListItem",
+    "signature": "com.google.javascript.rhino.Node$ObjectPropListItem.getObjectValue()",
+    "snippet": "    @Override\n    public Object getObjectValue() {\n      return objectValue;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ScriptRuntime.getMessage",
+    "class_name": "com.google.javascript.rhino.ScriptRuntime",
+    "signature": "com.google.javascript.rhino.ScriptRuntime.getMessage(String,Object[])",
+    "snippet": "    public static String getMessage(String messageId, Object[] arguments)\n    {\n        final String defaultResource\n            = \"rhino_ast.java.com.google.javascript.rhino.Messages\";\n\n        Context cx = Context.getCurrentContext();\n        Locale locale = cx != null ? cx.getLocale() : Locale.getDefault();\n\n        // ResourceBundle does cacheing.\n        ResourceBundle rb = ResourceBundle.getBundle(defaultResource, locale);\n\n        String formatString;\n        try {\n            formatString = rb.getString(messageId);\n        } catch (java.util.MissingResourceException mre) {\n            throw new RuntimeException\n                (\"no message resource found for message property \"+ messageId);\n        }\n\n        /*\n         * It's OK to format the string, even if 'arguments' is null;\n         * we need to format it anyway, to make double ''s collapse to\n         * single 's.\n         */\n        // TODO: MessageFormat is not available on pJava\n        MessageFormat formatter = new MessageFormat(formatString);\n        return formatter.format(arguments);\n    }",
+    "comment": "OPT there's a noticable delay for the first error!  Maybe it'd make sense to use a ListResourceBundle instead of a properties file to avoid (synchronized) text parsing. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ScriptRuntime.getMessage0",
+    "class_name": "com.google.javascript.rhino.ScriptRuntime",
+    "signature": "com.google.javascript.rhino.ScriptRuntime.getMessage0(String)",
+    "snippet": "    public static String getMessage0(String messageId)\n    {\n        return getMessage(messageId, null);\n    }",
+    "comment": "------------------",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ObjectType.createDelegateSuffix",
+    "class_name": "com.google.javascript.rhino.jstype.ObjectType",
+    "signature": "com.google.javascript.rhino.jstype.ObjectType.createDelegateSuffix(String)",
+    "snippet": "  public static String createDelegateSuffix(String suffix) {\n    return \"(\" + suffix + \")\";\n  }",
+    "comment": " Creates a suffix for a proxy delegate. @see #getNormalizedReferenceName ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 1
+  }
+]

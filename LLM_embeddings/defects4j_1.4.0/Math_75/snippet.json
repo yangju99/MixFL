@@ -1,0 +1,142 @@
+[
+  {
+    "name": "Frequency.Frequency",
+    "class_name": "org.apache.commons.math.stat.Frequency",
+    "signature": "org.apache.commons.math.stat.Frequency.Frequency()",
+    "snippet": "    public Frequency() {\n        freqTable = new TreeMap<Comparable<?>, Long>();\n    }",
+    "comment": " Default constructor. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Frequency.addValue",
+    "class_name": "org.apache.commons.math.stat.Frequency",
+    "signature": "org.apache.commons.math.stat.Frequency.addValue(Comparable)",
+    "snippet": "    public void addValue(Comparable<?> v){\n        Comparable<?> obj = v;\n        if (v instanceof Integer) {\n           obj = Long.valueOf(((Integer) v).longValue());\n        }\n        try {\n            Long count = freqTable.get(obj);\n            if (count == null) {\n                freqTable.put(obj, Long.valueOf(1));\n            } else {\n                freqTable.put(obj, Long.valueOf(count.longValue() + 1));\n            }\n        } catch (ClassCastException ex) {\n            //TreeMap will throw ClassCastException if v is not comparable\n            throw MathRuntimeException.createIllegalArgumentException(\n                  \"instance of class {0} not comparable to existing values\",\n                  v.getClass().getName());\n        }\n    }",
+    "comment": " Adds 1 to the frequency count for v. <p> If other objects have already been added to this Frequency, v must be comparable to those that have already been added. </p>  @param v the value to add. @throws IllegalArgumentException if <code>v</code> is not comparable with previous entries ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Frequency.addValue",
+    "class_name": "org.apache.commons.math.stat.Frequency",
+    "signature": "org.apache.commons.math.stat.Frequency.addValue(int)",
+    "snippet": "    public void addValue(int v) {\n        addValue(Long.valueOf(v));\n    }",
+    "comment": " Adds 1 to the frequency count for v.  @param v the value to add. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Frequency.addValue",
+    "class_name": "org.apache.commons.math.stat.Frequency",
+    "signature": "org.apache.commons.math.stat.Frequency.addValue(long)",
+    "snippet": "    public void addValue(long v) {\n        addValue(Long.valueOf(v));\n    }",
+    "comment": " Adds 1 to the frequency count for v.  @param v the value to add. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Frequency.getCount",
+    "class_name": "org.apache.commons.math.stat.Frequency",
+    "signature": "org.apache.commons.math.stat.Frequency.getCount(Comparable)",
+    "snippet": "    public long getCount(Comparable<?> v) {\n        if (v instanceof Integer) {\n            return getCount(((Integer) v).longValue());\n        }\n        long result = 0;\n        try {\n            Long count =  freqTable.get(v);\n            if (count != null) {\n                result = count.longValue();\n            }\n        } catch (ClassCastException ex) {\n            // ignore and return 0 -- ClassCastException will be thrown if value is not comparable\n        }\n        return result;\n    }",
+    "comment": " Returns the number of values = v. Returns 0 if the value is not comparable.  @param v the value to lookup. @return the frequency of v. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Frequency.getCumFreq",
+    "class_name": "org.apache.commons.math.stat.Frequency",
+    "signature": "org.apache.commons.math.stat.Frequency.getCumFreq(Comparable)",
+    "snippet": "    @SuppressWarnings(\"unchecked\")\n        public long getCumFreq(Comparable<?> v) {\n        if (getSumFreq() == 0) {\n            return 0;\n        }\n        if (v instanceof Integer) {\n            return getCumFreq(((Integer) v).longValue());\n        }\n        Comparator<Comparable<?>> c = (Comparator<Comparable<?>>) freqTable.comparator();\n        if (c == null) {\n            c = new NaturalComparator();\n        }\n        long result = 0;\n\n        try {\n            Long value = freqTable.get(v);\n            if (value != null) {\n                result = value.longValue();\n            }\n        } catch (ClassCastException ex) {\n            return result;   // v is not comparable\n        }\n\n        if (c.compare(v, freqTable.firstKey()) < 0) {\n            return 0;  // v is comparable, but less than first value\n        }\n\n        if (c.compare(v, freqTable.lastKey()) >= 0) {\n            return getSumFreq();    // v is comparable, but greater than the last value\n        }\n\n        Iterator<Comparable<?>> values = valuesIterator();\n        while (values.hasNext()) {\n            Comparable<?> nextValue = values.next();\n            if (c.compare(v, nextValue) > 0) {\n                result += getCount(nextValue);\n            } else {\n                return result;\n            }\n        }\n        return result;\n    }",
+    "comment": " Returns the cumulative frequency of values less than or equal to v. <p> Returns 0 if v is not comparable to the values set.</p>  @param v the value to lookup. @return the proportion of values equal to v ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Frequency.getCumFreq",
+    "class_name": "org.apache.commons.math.stat.Frequency",
+    "signature": "org.apache.commons.math.stat.Frequency.getCumFreq(long)",
+    "snippet": "    public long getCumFreq(long v) {\n        return getCumFreq(Long.valueOf(v));\n    }",
+    "comment": " Returns the cumulative frequency of values less than or equal to v. <p> Returns 0 if v is not comparable to the values set.</p>  @param v the value to lookup @return the proportion of values equal to v ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Frequency.getCumPct",
+    "class_name": "org.apache.commons.math.stat.Frequency",
+    "signature": "org.apache.commons.math.stat.Frequency.getCumPct(Comparable)",
+    "snippet": "    public double getCumPct(Comparable<?> v) {\n        final long sumFreq = getSumFreq();\n        if (sumFreq == 0) {\n            return Double.NaN;\n        }\n        return (double) getCumFreq(v) / (double) sumFreq;\n    }",
+    "comment": " Returns the cumulative percentage of values less than or equal to v (as a proportion between 0 and 1). <p> Returns <code>Double.NaN</code> if no values have been added. Returns 0 if at least one value has been added, but v is not comparable to the values set.</p>  @param v the value to lookup @return the proportion of values less than or equal to v ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Frequency.getPct",
+    "class_name": "org.apache.commons.math.stat.Frequency",
+    "signature": "org.apache.commons.math.stat.Frequency.getPct(Comparable)",
+    "snippet": "    public double getPct(Comparable<?> v) {\n        final long sumFreq = getSumFreq();\n        if (sumFreq == 0) {\n            return Double.NaN;\n        }\n        return (double) getCount(v) / (double) sumFreq;\n    }",
+    "comment": " Returns the percentage of values that are equal to v (as a proportion between 0 and 1). <p> Returns <code>Double.NaN</code> if no values have been added.</p>  @param v the value to lookup @return the proportion of values equal to v ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Frequency.getPct",
+    "class_name": "org.apache.commons.math.stat.Frequency",
+    "signature": "org.apache.commons.math.stat.Frequency.getPct(Object)",
+    "snippet": "    @Deprecated\n    public double getPct(Object v) {\n        return getCumPct((Comparable<?>) v);\n    }",
+    "comment": " Returns the percentage of values that are equal to v (as a proportion between 0 and 1). <p> Returns <code>Double.NaN</code> if no values have been added.</p>  @param v the value to lookup @return the proportion of values equal to v @deprecated replaced by {@link #getPct(Comparable)} as of 2.0 ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Frequency.getPct",
+    "class_name": "org.apache.commons.math.stat.Frequency",
+    "signature": "org.apache.commons.math.stat.Frequency.getPct(int)",
+    "snippet": "    public double getPct(int v) {\n        return getPct(Long.valueOf(v));\n    }",
+    "comment": " Returns the percentage of values that are equal to v (as a proportion between 0 and 1).  @param v the value to lookup @return the proportion of values equal to v ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Frequency.getPct",
+    "class_name": "org.apache.commons.math.stat.Frequency",
+    "signature": "org.apache.commons.math.stat.Frequency.getPct(long)",
+    "snippet": "    public double getPct(long v) {\n        return getPct(Long.valueOf(v));\n    }",
+    "comment": " Returns the percentage of values that are equal to v (as a proportion between 0 and 1).  @param v the value to lookup @return the proportion of values equal to v ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Frequency.getSumFreq",
+    "class_name": "org.apache.commons.math.stat.Frequency",
+    "signature": "org.apache.commons.math.stat.Frequency.getSumFreq()",
+    "snippet": "    public long getSumFreq() {\n        long result = 0;\n        Iterator<Long> iterator = freqTable.values().iterator();\n        while (iterator.hasNext())  {\n            result += iterator.next().longValue();\n        }\n        return result;\n    }",
+    "comment": " Returns the sum of all frequencies.  @return the total frequency count. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NaturalComparator.compare",
+    "class_name": "org.apache.commons.math.stat.Frequency$NaturalComparator",
+    "signature": "org.apache.commons.math.stat.Frequency$NaturalComparator.compare(Comparable,Comparable)",
+    "snippet": "        @SuppressWarnings(\"unchecked\")\n        public int compare(Comparable<T> o1, Comparable<T> o2) {\n            return o1.compareTo((T) o2);\n        }",
+    "comment": " Compare the two {@link Comparable Comparable} arguments. This method is equivalent to: <pre>(({@link Comparable Comparable})o1).{@link Comparable#compareTo compareTo}(o2)</pre>  @param  o1 the first object @param  o2 the second object @return  result of comparison @throws NullPointerException when <i>o1</i> is <code>null</code>, or when <code>((Comparable)o1).compareTo(o2)</code> does @throws ClassCastException when <i>o1</i> is not a {@link Comparable Comparable}, or when <code>((Comparable)o1).compareTo(o2)</code> does ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

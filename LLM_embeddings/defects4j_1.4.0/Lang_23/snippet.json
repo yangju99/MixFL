@@ -1,0 +1,142 @@
+[
+  {
+    "name": "Validate.isTrue",
+    "class_name": "org.apache.commons.lang3.Validate",
+    "signature": "org.apache.commons.lang3.Validate.isTrue(boolean)",
+    "snippet": "    public static void isTrue(boolean expression) {\n        if (expression == false) {\n            throw new IllegalArgumentException(DEFAULT_IS_TRUE_EX_MESSAGE);\n        }\n    }",
+    "comment": " <p>Validate that the argument condition is <code>true</code>; otherwise  throwing an exception. This method is useful when validating according  to an arbitrary boolean expression, such as validating a  primitive number or using your own custom validation expression.</p>  <pre> Validate.isTrue(i > 0); Validate.isTrue(myObject.isOk());</pre>  <p>The message of the exception is &quot;The validated expression is  false&quot;.</p>  @param expression the boolean expression to check  @throws IllegalArgumentException if expression is <code>false</code> @see #isTrue(boolean, String, long) @see #isTrue(boolean, String, double) @see #isTrue(boolean, String, Object...) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "ExtendedMessageFormat.ExtendedMessageFormat",
+    "class_name": "org.apache.commons.lang3.text.ExtendedMessageFormat",
+    "signature": "org.apache.commons.lang3.text.ExtendedMessageFormat.ExtendedMessageFormat(String,Locale,Map)",
+    "snippet": "    public ExtendedMessageFormat(String pattern, Locale locale, Map<String, ? extends FormatFactory> registry) {\n        super(DUMMY_PATTERN);\n        setLocale(locale);\n        this.registry = registry;\n        applyPattern(pattern);\n    }",
+    "comment": " Create a new ExtendedMessageFormat.  @param pattern  the pattern to use, not null @param locale  the locale to use, not null @param registry  the registry of format factories, may be null @throws IllegalArgumentException in case of a bad pattern. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "ExtendedMessageFormat.applyPattern",
+    "class_name": "org.apache.commons.lang3.text.ExtendedMessageFormat",
+    "signature": "org.apache.commons.lang3.text.ExtendedMessageFormat.applyPattern(String)",
+    "snippet": "    @Override\n    public final void applyPattern(String pattern) {\n        if (registry == null) {\n            super.applyPattern(pattern);\n            toPattern = super.toPattern();\n            return;\n        }\n        ArrayList<Format> foundFormats = new ArrayList<Format>();\n        ArrayList<String> foundDescriptions = new ArrayList<String>();\n        StringBuilder stripCustom = new StringBuilder(pattern.length());\n\n        ParsePosition pos = new ParsePosition(0);\n        char[] c = pattern.toCharArray();\n        int fmtCount = 0;\n        while (pos.getIndex() < pattern.length()) {\n            switch (c[pos.getIndex()]) {\n            case QUOTE:\n                appendQuotedString(pattern, pos, stripCustom, true);\n                break;\n            case START_FE:\n                fmtCount++;\n                seekNonWs(pattern, pos);\n                int start = pos.getIndex();\n                int index = readArgumentIndex(pattern, next(pos));\n                stripCustom.append(START_FE).append(index);\n                seekNonWs(pattern, pos);\n                Format format = null;\n                String formatDescription = null;\n                if (c[pos.getIndex()] == START_FMT) {\n                    formatDescription = parseFormatDescription(pattern,\n                            next(pos));\n                    format = getFormat(formatDescription);\n                    if (format == null) {\n                        stripCustom.append(START_FMT).append(formatDescription);\n                    }\n                }\n                foundFormats.add(format);\n                foundDescriptions.add(format == null ? null : formatDescription);\n                Validate.isTrue(foundFormats.size() == fmtCount);\n                Validate.isTrue(foundDescriptions.size() == fmtCount);\n                if (c[pos.getIndex()] != END_FE) {\n                    throw new IllegalArgumentException(\n                            \"Unreadable format element at position \" + start);\n                }\n                //$FALL-THROUGH$\n            default:\n                stripCustom.append(c[pos.getIndex()]);\n                next(pos);\n            }\n        }\n        super.applyPattern(stripCustom.toString());\n        toPattern = insertFormats(super.toPattern(), foundDescriptions);\n        if (containsElements(foundFormats)) {\n            Format[] origFormats = getFormats();\n            // only loop over what we know we have, as MessageFormat on Java 1.3 \n            // seems to provide an extra format element:\n            int i = 0;\n            for (Iterator<Format> it = foundFormats.iterator(); it.hasNext(); i++) {\n                Format f = it.next();\n                if (f != null) {\n                    origFormats[i] = f;\n                }\n            }\n            super.setFormats(origFormats);\n        }\n    }",
+    "comment": " Apply the specified pattern.  @param pattern String ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "ExtendedMessageFormat.containsElements",
+    "class_name": "org.apache.commons.lang3.text.ExtendedMessageFormat",
+    "signature": "org.apache.commons.lang3.text.ExtendedMessageFormat.containsElements(Collection)",
+    "snippet": "    private boolean containsElements(Collection<?> coll) {\n        if (coll == null || coll.size() == 0) {\n            return false;\n        }\n        for (Iterator<?> iter = coll.iterator(); iter.hasNext();) {\n            if (iter.next() != null) {\n                return true;\n            }\n        }\n        return false;\n    }",
+    "comment": " Learn whether the specified Collection contains non-null elements. @param coll to check @return <code>true</code> if some Object was found, <code>false</code> otherwise. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "ExtendedMessageFormat.getFormat",
+    "class_name": "org.apache.commons.lang3.text.ExtendedMessageFormat",
+    "signature": "org.apache.commons.lang3.text.ExtendedMessageFormat.getFormat(String)",
+    "snippet": "    private Format getFormat(String desc) {\n        if (registry != null) {\n            String name = desc;\n            String args = null;\n            int i = desc.indexOf(START_FMT);\n            if (i > 0) {\n                name = desc.substring(0, i).trim();\n                args = desc.substring(i + 1).trim();\n            }\n            FormatFactory factory = registry.get(name);\n            if (factory != null) {\n                return factory.getFormat(name, args, getLocale());\n            }\n        }\n        return null;\n    }",
+    "comment": " Get a custom format from a format description.  @param desc String @return Format ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "ExtendedMessageFormat.insertFormats",
+    "class_name": "org.apache.commons.lang3.text.ExtendedMessageFormat",
+    "signature": "org.apache.commons.lang3.text.ExtendedMessageFormat.insertFormats(String,ArrayList)",
+    "snippet": "    private String insertFormats(String pattern, ArrayList<String> customPatterns) {\n        if (!containsElements(customPatterns)) {\n            return pattern;\n        }\n        StringBuilder sb = new StringBuilder(pattern.length() * 2);\n        ParsePosition pos = new ParsePosition(0);\n        int fe = -1;\n        int depth = 0;\n        while (pos.getIndex() < pattern.length()) {\n            char c = pattern.charAt(pos.getIndex());\n            switch (c) {\n            case QUOTE:\n                appendQuotedString(pattern, pos, sb, false);\n                break;\n            case START_FE:\n                depth++;\n                if (depth == 1) {\n                    fe++;\n                    sb.append(START_FE).append(\n                            readArgumentIndex(pattern, next(pos)));\n                    String customPattern = customPatterns.get(fe);\n                    if (customPattern != null) {\n                        sb.append(START_FMT).append(customPattern);\n                    }\n                }\n                break;\n            case END_FE:\n                depth--;\n                //$FALL-THROUGH$\n            default:\n                sb.append(c);\n                next(pos);\n            }\n        }\n        return sb.toString();\n    }",
+    "comment": " Insert formats back into the pattern for toPattern() support.  @param pattern source @param customPatterns The custom patterns to re-insert, if any @return full pattern ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "ExtendedMessageFormat.next",
+    "class_name": "org.apache.commons.lang3.text.ExtendedMessageFormat",
+    "signature": "org.apache.commons.lang3.text.ExtendedMessageFormat.next(ParsePosition)",
+    "snippet": "    private ParsePosition next(ParsePosition pos) {\n        pos.setIndex(pos.getIndex() + 1);\n        return pos;\n    }",
+    "comment": " Convenience method to advance parse position by 1  @param pos ParsePosition @return <code>pos</code> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "ExtendedMessageFormat.parseFormatDescription",
+    "class_name": "org.apache.commons.lang3.text.ExtendedMessageFormat",
+    "signature": "org.apache.commons.lang3.text.ExtendedMessageFormat.parseFormatDescription(String,ParsePosition)",
+    "snippet": "    private String parseFormatDescription(String pattern, ParsePosition pos) {\n        int start = pos.getIndex();\n        seekNonWs(pattern, pos);\n        int text = pos.getIndex();\n        int depth = 1;\n        for (; pos.getIndex() < pattern.length(); next(pos)) {\n            switch (pattern.charAt(pos.getIndex())) {\n            case START_FE:\n                depth++;\n                break;\n            case END_FE:\n                depth--;\n                if (depth == 0) {\n                    return pattern.substring(text, pos.getIndex());\n                }\n                break;\n            case QUOTE:\n                getQuotedString(pattern, pos, false);\n                break;\n            }\n        }\n        throw new IllegalArgumentException(\n                \"Unterminated format element at position \" + start);\n    }",
+    "comment": " Parse the format component of a format element.  @param pattern string to parse @param pos current parse position @return Format description String ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "ExtendedMessageFormat.readArgumentIndex",
+    "class_name": "org.apache.commons.lang3.text.ExtendedMessageFormat",
+    "signature": "org.apache.commons.lang3.text.ExtendedMessageFormat.readArgumentIndex(String,ParsePosition)",
+    "snippet": "    private int readArgumentIndex(String pattern, ParsePosition pos) {\n        int start = pos.getIndex();\n        seekNonWs(pattern, pos);\n        StringBuffer result = new StringBuffer();\n        boolean error = false;\n        for (; !error && pos.getIndex() < pattern.length(); next(pos)) {\n            char c = pattern.charAt(pos.getIndex());\n            if (Character.isWhitespace(c)) {\n                seekNonWs(pattern, pos);\n                c = pattern.charAt(pos.getIndex());\n                if (c != START_FMT && c != END_FE) {\n                    error = true;\n                    continue;\n                }\n            }\n            if ((c == START_FMT || c == END_FE) && result.length() > 0) {\n                try {\n                    return Integer.parseInt(result.toString());\n                } catch (NumberFormatException e) {\n                    // we've already ensured only digits, so unless something\n                    // outlandishly large was specified we should be okay.\n                }\n            }\n            error = !Character.isDigit(c);\n            result.append(c);\n        }\n        if (error) {\n            throw new IllegalArgumentException(\n                    \"Invalid format argument index at position \" + start + \": \"\n                            + pattern.substring(start, pos.getIndex()));\n        }\n        throw new IllegalArgumentException(\n                \"Unterminated format element at position \" + start);\n    }",
+    "comment": " Read the argument index from the current format element  @param pattern pattern to parse @param pos current parse position @return argument index ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "ExtendedMessageFormat.seekNonWs",
+    "class_name": "org.apache.commons.lang3.text.ExtendedMessageFormat",
+    "signature": "org.apache.commons.lang3.text.ExtendedMessageFormat.seekNonWs(String,ParsePosition)",
+    "snippet": "    private void seekNonWs(String pattern, ParsePosition pos) {\n        int len = 0;\n        char[] buffer = pattern.toCharArray();\n        do {\n            len = StrMatcher.splitMatcher().isMatch(buffer, pos.getIndex());\n            pos.setIndex(pos.getIndex() + len);\n        } while (len > 0 && pos.getIndex() < pattern.length());\n    }",
+    "comment": " Consume whitespace from the current parse position.  @param pattern String to read @param pos current position ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "StrMatcher.StrMatcher",
+    "class_name": "org.apache.commons.lang3.text.StrMatcher",
+    "signature": "org.apache.commons.lang3.text.StrMatcher.StrMatcher()",
+    "snippet": "    protected StrMatcher() {\n        super();\n    }",
+    "comment": " Constructor. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "StrMatcher.isMatch",
+    "class_name": "org.apache.commons.lang3.text.StrMatcher",
+    "signature": "org.apache.commons.lang3.text.StrMatcher.isMatch(char[],int)",
+    "snippet": "    public int isMatch(char[] buffer, int pos) {\n        return isMatch(buffer, pos, 0, buffer.length);\n    }",
+    "comment": " Returns the number of matching characters, zero for no match. <p> This method is called to check for a match. The parameter <code>pos</code> represents the current position to be checked in the string <code>buffer</code> (a character array which must not be changed). The API guarantees that <code>pos</code> is a valid index for <code>buffer</code>. <p> The matching code may check one character or many. It may check characters preceeding <code>pos</code> as well as those after. <p> It must return zero for no match, or a positive number if a match was found. The number indicates the number of characters that matched.  @param buffer  the text content to match against, do not change @param pos  the starting position for the match, valid for buffer @return the number of matching characters, zero for no match @since 2.4 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "StrMatcher.splitMatcher",
+    "class_name": "org.apache.commons.lang3.text.StrMatcher",
+    "signature": "org.apache.commons.lang3.text.StrMatcher.splitMatcher()",
+    "snippet": "    public static StrMatcher splitMatcher() {\n        return SPLIT_MATCHER;\n    }",
+    "comment": " Matches the same characters as StringTokenizer, namely space, tab, newline and formfeed.  @return the split matcher ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "CharSetMatcher.isMatch",
+    "class_name": "org.apache.commons.lang3.text.StrMatcher$CharSetMatcher",
+    "signature": "org.apache.commons.lang3.text.StrMatcher$CharSetMatcher.isMatch(char[],int,int,int)",
+    "snippet": "        @Override\n        public int isMatch(char[] buffer, int pos, int bufferStart, int bufferEnd) {\n            return Arrays.binarySearch(chars, buffer[pos]) >= 0 ? 1 : 0;\n        }",
+    "comment": " Returns whether or not the given character matches.  @param buffer  the text content to match against, do not change @param pos  the starting position for the match, valid for buffer @param bufferStart  the first active index in the buffer, valid for buffer @param bufferEnd  the end index of the active buffer, valid for buffer @return the number of matching characters, zero for no match ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  }
+]

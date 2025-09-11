@@ -1,0 +1,742 @@
+[
+  {
+    "name": "AbstractIntegrator.AbstractIntegrator",
+    "class_name": "org.apache.commons.math.ode.AbstractIntegrator",
+    "signature": "org.apache.commons.math.ode.AbstractIntegrator.AbstractIntegrator(String)",
+    "snippet": "    public AbstractIntegrator(final String name) {\n        this.name = name;\n        stepHandlers = new ArrayList<StepHandler>();\n        stepStart = Double.NaN;\n        stepSize  = Double.NaN;\n        eventsStates = new ArrayList<EventState>();\n        statesInitialized = false;\n        evaluations = new Incrementor();\n        setMaxEvaluations(-1);\n        evaluations.resetCount();\n    }",
+    "comment": "Build an instance. @param name name of the method ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractIntegrator.computeDerivatives",
+    "class_name": "org.apache.commons.math.ode.AbstractIntegrator",
+    "signature": "org.apache.commons.math.ode.AbstractIntegrator.computeDerivatives(double,double[],double[])",
+    "snippet": "    public void computeDerivatives(final double t, final double[] y, final double[] yDot)\n        throws MaxCountExceededException {\n        evaluations.incrementCount();\n        expandable.computeDerivatives(t, y, yDot);\n    }",
+    "comment": "Compute the derivatives and check the number of evaluations. @param t current value of the independent <I>time</I> variable @param y array containing the current value of the state vector @param yDot placeholder array where to put the time derivative of the state vector @exception MaxCountExceededException if the number of functions evaluations is exceeded ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractIntegrator.initIntegration",
+    "class_name": "org.apache.commons.math.ode.AbstractIntegrator",
+    "signature": "org.apache.commons.math.ode.AbstractIntegrator.initIntegration(double,double[],double)",
+    "snippet": "    protected void initIntegration(final double t0, final double[] y0, final double t) {\n\n        evaluations.resetCount();\n\n        for (final EventState state : eventsStates) {\n            state.getEventHandler().init(t0, y0, t);\n        }\n\n        for (StepHandler handler : stepHandlers) {\n            handler.init(t0, y0, t);\n        }\n\n        setStateInitialized(false);\n\n    }",
+    "comment": "Prepare the start of an integration. @param t0 start value of the independent <i>time</i> variable @param y0 array containing the start value of the state vector @param t target time for the integration ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractIntegrator.integrate",
+    "class_name": "org.apache.commons.math.ode.AbstractIntegrator",
+    "signature": "org.apache.commons.math.ode.AbstractIntegrator.integrate(FirstOrderDifferentialEquations,double,double[],double,double[])",
+    "snippet": "    public double integrate(final FirstOrderDifferentialEquations equations,\n                            final double t0, final double[] y0, final double t, final double[] y)\n        throws MathIllegalStateException, MathIllegalArgumentException {\n\n        if (y0.length != equations.getDimension()) {\n            throw new DimensionMismatchException(y0.length, equations.getDimension());\n        }\n        if (y.length != equations.getDimension()) {\n            throw new DimensionMismatchException(y.length, equations.getDimension());\n        }\n\n        // prepare expandable stateful equations\n        final ExpandableStatefulODE expandableODE = new ExpandableStatefulODE(equations);\n        expandableODE.setTime(t0);\n        expandableODE.setPrimaryState(y0);\n\n        // perform integration\n        integrate(expandableODE, t);\n\n        // extract results back from the stateful equations\n        System.arraycopy(expandableODE.getPrimaryState(), 0, y, 0, y.length);\n        return expandableODE.getTime();\n\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractIntegrator.sanityChecks",
+    "class_name": "org.apache.commons.math.ode.AbstractIntegrator",
+    "signature": "org.apache.commons.math.ode.AbstractIntegrator.sanityChecks(ExpandableStatefulODE,double)",
+    "snippet": "    protected void sanityChecks(final ExpandableStatefulODE equations, final double t)\n        throws NumberIsTooSmallException {\n\n        final double threshold = 1000 * FastMath.ulp(FastMath.max(FastMath.abs(equations.getTime()),\n                                                                  FastMath.abs(t)));\n        final double dt = FastMath.abs(equations.getTime() - t);\n        if (dt <= threshold) {\n            throw new NumberIsTooSmallException(LocalizedFormats.TOO_SMALL_INTEGRATION_INTERVAL,\n                                                dt, threshold, false);\n        }\n\n    }",
+    "comment": "Check the integration span. @param equations set of differential equations @param t target time for the integration @exception NumberIsTooSmallException if integration span is too small ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractIntegrator.setEquations",
+    "class_name": "org.apache.commons.math.ode.AbstractIntegrator",
+    "signature": "org.apache.commons.math.ode.AbstractIntegrator.setEquations(ExpandableStatefulODE)",
+    "snippet": "    protected void setEquations(final ExpandableStatefulODE equations) {\n        this.expandable = equations;\n    }",
+    "comment": "Set the equations. @param equations equations to set ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractIntegrator.setMaxEvaluations",
+    "class_name": "org.apache.commons.math.ode.AbstractIntegrator",
+    "signature": "org.apache.commons.math.ode.AbstractIntegrator.setMaxEvaluations(int)",
+    "snippet": "    public void setMaxEvaluations(int maxEvaluations) {\n        evaluations.setMaximalCount((maxEvaluations < 0) ? Integer.MAX_VALUE : maxEvaluations);\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractIntegrator.setStateInitialized",
+    "class_name": "org.apache.commons.math.ode.AbstractIntegrator",
+    "signature": "org.apache.commons.math.ode.AbstractIntegrator.setStateInitialized(boolean)",
+    "snippet": "    protected void setStateInitialized(final boolean stateInitialized) {\n        this.statesInitialized = stateInitialized;\n    }",
+    "comment": "Set the stateInitialized flag. <p>This method must be called by integrators with the value {@code false} before they start integration, so a proper lazy initialization is done automatically on the first step.</p> @param stateInitialized new value for the flag @since 2.2 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "EquationsMapper.EquationsMapper",
+    "class_name": "org.apache.commons.math.ode.EquationsMapper",
+    "signature": "org.apache.commons.math.ode.EquationsMapper.EquationsMapper(int,int)",
+    "snippet": "    public EquationsMapper(final int firstIndex, final int dimension) {\n        this.firstIndex = firstIndex;\n        this.dimension  = dimension;\n    }",
+    "comment": "simple constructor. @param firstIndex index of the first equation element in complete state arrays @param dimension dimension of the secondary state parameters ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "EquationsMapper.extractEquationData",
+    "class_name": "org.apache.commons.math.ode.EquationsMapper",
+    "signature": "org.apache.commons.math.ode.EquationsMapper.extractEquationData(double[],double[])",
+    "snippet": "    public void extractEquationData(double[] complete, double[] equationData)\n        throws DimensionMismatchException {\n        if (equationData.length != dimension) {\n            throw new DimensionMismatchException(equationData.length, dimension);\n        }\n        System.arraycopy(complete, firstIndex, equationData, 0, dimension);\n    }",
+    "comment": "Extract equation data from a complete state or derivative array. @param complete complete state or derivative array from which equation data should be retrieved @param equationData placeholder where to put equation data @throws DimensionMismatchException if the dimension of the equation data does not match the mapper dimension ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "EquationsMapper.getDimension",
+    "class_name": "org.apache.commons.math.ode.EquationsMapper",
+    "signature": "org.apache.commons.math.ode.EquationsMapper.getDimension()",
+    "snippet": "    public int getDimension() {\n        return dimension;\n    }",
+    "comment": "Get the dimension of the secondary state parameters. @return dimension of the secondary state parameters ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "EquationsMapper.insertEquationData",
+    "class_name": "org.apache.commons.math.ode.EquationsMapper",
+    "signature": "org.apache.commons.math.ode.EquationsMapper.insertEquationData(double[],double[])",
+    "snippet": "    public void insertEquationData(double[] equationData, double[] complete)\n        throws DimensionMismatchException {\n        if (equationData.length != dimension) {\n            throw new DimensionMismatchException(equationData.length, dimension);\n        }\n        System.arraycopy(equationData, 0, complete, firstIndex, dimension);\n    }",
+    "comment": "Insert equation data into a complete state or derivative array. @param equationData equation data to be inserted into the complete array @param complete placeholder where to put equation data (only the part corresponding to the equation will be overwritten) @throws DimensionMismatchException if the dimension of the equation data does not match the mapper dimension ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExpandableStatefulODE.ExpandableStatefulODE",
+    "class_name": "org.apache.commons.math.ode.ExpandableStatefulODE",
+    "signature": "org.apache.commons.math.ode.ExpandableStatefulODE.ExpandableStatefulODE(FirstOrderDifferentialEquations)",
+    "snippet": "    public ExpandableStatefulODE(final FirstOrderDifferentialEquations primary) {\n        final int n          = primary.getDimension();\n        this.primary         = primary;\n        this.primaryMapper   = new EquationsMapper(0, n);\n        this.time            = Double.NaN;\n        this.primaryState    = new double[n];\n        this.primaryStateDot = new double[n];\n        this.components      = new ArrayList<ExpandableStatefulODE.SecondaryComponent>();\n    }",
+    "comment": "Build an expandable set from its primary ODE set. @param primary the primary set of differential equations to be integrated. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExpandableStatefulODE.computeDerivatives",
+    "class_name": "org.apache.commons.math.ode.ExpandableStatefulODE",
+    "signature": "org.apache.commons.math.ode.ExpandableStatefulODE.computeDerivatives(double,double[],double[])",
+    "snippet": "    public void computeDerivatives(final double t, final double[] y, final double[] yDot) {\n\n        // compute derivatives of the primary equations\n        primaryMapper.extractEquationData(y, primaryState);\n        primary.computeDerivatives(t, primaryState, primaryStateDot);\n        primaryMapper.insertEquationData(primaryStateDot, yDot);\n\n        // Add contribution for secondary equations\n        for (final SecondaryComponent component : components) {\n            component.mapper.extractEquationData(y, component.state);\n            component.equation.computeDerivatives(t, primaryState, primaryStateDot,\n                                                  component.state, component.stateDot);\n            component.mapper.insertEquationData(component.stateDot, yDot);\n        }\n\n    }",
+    "comment": "Get the current time derivative of the complete state vector. @param t current value of the independent <I>time</I> variable @param y array containing the current value of the complete state vector @param yDot placeholder array where to put the time derivative of the complete state vector ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExpandableStatefulODE.getCompleteState",
+    "class_name": "org.apache.commons.math.ode.ExpandableStatefulODE",
+    "signature": "org.apache.commons.math.ode.ExpandableStatefulODE.getCompleteState()",
+    "snippet": "    public double[] getCompleteState() {\n\n        // allocate complete array\n        double[] completeState = new double[getTotalDimension()];\n\n        // set the data\n        primaryMapper.insertEquationData(primaryState, completeState);\n        for (final SecondaryComponent component : components) {\n            component.mapper.insertEquationData(component.state, completeState);\n        }\n\n        return completeState;\n\n    }",
+    "comment": "Get the complete current state. @return complete current state @throws DimensionMismatchException if the dimension of the complete state does not match the complete equations sets dimension ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExpandableStatefulODE.getPrimaryMapper",
+    "class_name": "org.apache.commons.math.ode.ExpandableStatefulODE",
+    "signature": "org.apache.commons.math.ode.ExpandableStatefulODE.getPrimaryMapper()",
+    "snippet": "    public EquationsMapper getPrimaryMapper() {\n        return primaryMapper;\n    }",
+    "comment": "Get an equations mapper for the primary equations set. @return mapper for the primary set @see #getSecondaryMappers() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExpandableStatefulODE.getSecondaryMappers",
+    "class_name": "org.apache.commons.math.ode.ExpandableStatefulODE",
+    "signature": "org.apache.commons.math.ode.ExpandableStatefulODE.getSecondaryMappers()",
+    "snippet": "    public EquationsMapper[] getSecondaryMappers() {\n        final EquationsMapper[] mappers = new EquationsMapper[components.size()];\n        for (int i = 0; i < mappers.length; ++i) {\n            mappers[i] = components.get(i).mapper;\n        }\n        return mappers;\n    }",
+    "comment": "Get the equations mappers for the secondary equations sets. @return equations mappers for the secondary equations sets @see #getPrimaryMapper() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExpandableStatefulODE.getTime",
+    "class_name": "org.apache.commons.math.ode.ExpandableStatefulODE",
+    "signature": "org.apache.commons.math.ode.ExpandableStatefulODE.getTime()",
+    "snippet": "    public double getTime() {\n        return time;\n    }",
+    "comment": "Get current time. @return current time ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExpandableStatefulODE.getTotalDimension",
+    "class_name": "org.apache.commons.math.ode.ExpandableStatefulODE",
+    "signature": "org.apache.commons.math.ode.ExpandableStatefulODE.getTotalDimension()",
+    "snippet": "    public int getTotalDimension() {\n        if (components.isEmpty()) {\n            // there are no secondary equations, the complete set is limited to the primary set\n            return primaryMapper.getDimension();\n        } else {\n            // there are secondary equations, the complete set ends after the last set\n            final EquationsMapper lastMapper = components.get(components.size() - 1).mapper;\n            return lastMapper.getFirstIndex() + lastMapper.getDimension();\n        }\n    }",
+    "comment": "Return the dimension of the complete set of equations. <p> The complete set of equations correspond to the primary set plus all secondary sets. </p> @return dimension of the complete set of equations ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExpandableStatefulODE.setPrimaryState",
+    "class_name": "org.apache.commons.math.ode.ExpandableStatefulODE",
+    "signature": "org.apache.commons.math.ode.ExpandableStatefulODE.setPrimaryState(double[])",
+    "snippet": "    public void setPrimaryState(final double[] primaryState) throws DimensionMismatchException {\n\n        // safety checks\n        if (primaryState.length != this.primaryState.length) {\n            throw new DimensionMismatchException(primaryState.length, this.primaryState.length);\n        }\n\n        // set the data\n        System.arraycopy(primaryState, 0, this.primaryState, 0, primaryState.length);\n\n    }",
+    "comment": "Set primary part of the current state. @param primaryState primary part of the current state @throws DimensionMismatchException if the dimension of the array does not match the primary set ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExpandableStatefulODE.setTime",
+    "class_name": "org.apache.commons.math.ode.ExpandableStatefulODE",
+    "signature": "org.apache.commons.math.ode.ExpandableStatefulODE.setTime(double)",
+    "snippet": "    public void setTime(final double time) {\n        this.time = time;\n    }",
+    "comment": "Set current time. @param time current time ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AdaptiveStepsizeIntegrator.AdaptiveStepsizeIntegrator",
+    "class_name": "org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator",
+    "signature": "org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator.AdaptiveStepsizeIntegrator(String,double,double,double,double)",
+    "snippet": "  public AdaptiveStepsizeIntegrator(final String name,\n                                    final double minStep, final double maxStep,\n                                    final double scalAbsoluteTolerance,\n                                    final double scalRelativeTolerance) {\n\n    super(name);\n    setStepSizeControl(minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);\n    resetInternalState();\n\n  }",
+    "comment": "Build an integrator with the given stepsize bounds. The default step handler does nothing. @param name name of the method @param minStep minimal step (sign is irrelevant, regardless of integration direction, forward or backward), the last step can be smaller than this @param maxStep maximal step (sign is irrelevant, regardless of integration direction, forward or backward), the last step can be smaller than this @param scalAbsoluteTolerance allowed absolute error @param scalRelativeTolerance allowed relative error ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AdaptiveStepsizeIntegrator.getMaxStep",
+    "class_name": "org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator",
+    "signature": "org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator.getMaxStep()",
+    "snippet": "  public double getMaxStep() {\n    return maxStep;\n  }",
+    "comment": "Get the maximal step. @return maximal step ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AdaptiveStepsizeIntegrator.getMinStep",
+    "class_name": "org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator",
+    "signature": "org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator.getMinStep()",
+    "snippet": "  public double getMinStep() {\n    return minStep;\n  }",
+    "comment": "Get the minimal step. @return minimal step ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AdaptiveStepsizeIntegrator.initializeStep",
+    "class_name": "org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator",
+    "signature": "org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator.initializeStep(boolean,int,double[],double,double[],double[],double[],double[])",
+    "snippet": "  public double initializeStep(final boolean forward, final int order, final double[] scale,\n                               final double t0, final double[] y0, final double[] yDot0,\n                               final double[] y1, final double[] yDot1) {\n\n    if (initialStep > 0) {\n      // use the user provided value\n      return forward ? initialStep : -initialStep;\n    }\n\n    // very rough first guess : h = 0.01 * ||y/scale|| / ||y'/scale||\n    // this guess will be used to perform an Euler step\n    double ratio;\n    double yOnScale2 = 0;\n    double yDotOnScale2 = 0;\n    for (int j = 0; j < scale.length; ++j) {\n      ratio         = y0[j] / scale[j];\n      yOnScale2    += ratio * ratio;\n      ratio         = yDot0[j] / scale[j];\n      yDotOnScale2 += ratio * ratio;\n    }\n\n    double h = ((yOnScale2 < 1.0e-10) || (yDotOnScale2 < 1.0e-10)) ?\n               1.0e-6 : (0.01 * FastMath.sqrt(yOnScale2 / yDotOnScale2));\n    if (! forward) {\n      h = -h;\n    }\n\n    // perform an Euler step using the preceding rough guess\n    for (int j = 0; j < y0.length; ++j) {\n      y1[j] = y0[j] + h * yDot0[j];\n    }\n    computeDerivatives(t0 + h, y1, yDot1);\n\n    // estimate the second derivative of the solution\n    double yDDotOnScale = 0;\n    for (int j = 0; j < scale.length; ++j) {\n      ratio         = (yDot1[j] - yDot0[j]) / scale[j];\n      yDDotOnScale += ratio * ratio;\n    }\n    yDDotOnScale = FastMath.sqrt(yDDotOnScale) / h;\n\n    // step size is computed such that\n    // h^order * max (||y'/tol||, ||y''/tol||) = 0.01\n    final double maxInv2 = FastMath.max(FastMath.sqrt(yDotOnScale2), yDDotOnScale);\n    final double h1 = (maxInv2 < 1.0e-15) ?\n                      FastMath.max(1.0e-6, 0.001 * FastMath.abs(h)) :\n                      FastMath.pow(0.01 / maxInv2, 1.0 / order);\n    h = FastMath.min(100.0 * FastMath.abs(h), h1);\n    h = FastMath.max(h, 1.0e-12 * FastMath.abs(t0));  // avoids cancellation when computing t1 - t0\n    if (h < getMinStep()) {\n      h = getMinStep();\n    }\n    if (h > getMaxStep()) {\n      h = getMaxStep();\n    }\n    if (! forward) {\n      h = -h;\n    }\n\n    return h;\n\n  }",
+    "comment": "Initialize the integration step. @param forward forward integration indicator @param order order of the method @param scale scaling vector for the state vector (can be shorter than state vector) @param t0 start time @param y0 state vector at t0 @param yDot0 first time derivative of y0 @param y1 work array for a state vector @param yDot1 work array for the first time derivative of y1 @return first integration step ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AdaptiveStepsizeIntegrator.resetInternalState",
+    "class_name": "org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator",
+    "signature": "org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator.resetInternalState()",
+    "snippet": "  protected void resetInternalState() {\n    stepStart = Double.NaN;\n    stepSize  = FastMath.sqrt(minStep * maxStep);\n  }",
+    "comment": "Reset internal state to dummy values. */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AdaptiveStepsizeIntegrator.sanityChecks",
+    "class_name": "org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator",
+    "signature": "org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator.sanityChecks(ExpandableStatefulODE,double)",
+    "snippet": "  @Override\n  protected void sanityChecks(final ExpandableStatefulODE equations, final double t)\n      throws DimensionMismatchException, NumberIsTooSmallException {\n\n      super.sanityChecks(equations, t);\n\n      mainSetDimension = equations.getPrimaryMapper().getDimension();\n\n      if ((vecAbsoluteTolerance != null) && (vecAbsoluteTolerance.length != mainSetDimension)) {\n          throw new DimensionMismatchException(mainSetDimension, vecAbsoluteTolerance.length);\n      }\n\n      if ((vecRelativeTolerance != null) && (vecRelativeTolerance.length != mainSetDimension)) {\n          throw new DimensionMismatchException(mainSetDimension, vecRelativeTolerance.length);\n      }\n\n  }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AdaptiveStepsizeIntegrator.setStepSizeControl",
+    "class_name": "org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator",
+    "signature": "org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator.setStepSizeControl(double,double,double,double)",
+    "snippet": "  public void setStepSizeControl(final double minimalStep, final double maximalStep,\n                                 final double absoluteTolerance,\n                                 final double relativeTolerance) {\n\n      minStep     = FastMath.abs(minimalStep);\n      maxStep     = FastMath.abs(maximalStep);\n      initialStep = -1;\n\n      scalAbsoluteTolerance = absoluteTolerance;\n      scalRelativeTolerance = relativeTolerance;\n      vecAbsoluteTolerance  = null;\n      vecRelativeTolerance  = null;\n\n  }",
+    "comment": "Set the adaptive step size control parameters. <p> A side effect of this method is to also reset the initial step so it will be automatically computed by the integrator if {@link #setInitialStepSize(double) setInitialStepSize} is not called by the user. </p> @param minimalStep minimal step (must be positive even for backward integration), the last step can be smaller than this @param maximalStep maximal step (must be positive even for backward integration) @param absoluteTolerance allowed absolute error @param relativeTolerance allowed relative error ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DormandPrince853Integrator.DormandPrince853Integrator",
+    "class_name": "org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator",
+    "signature": "org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator.DormandPrince853Integrator(double,double,double,double)",
+    "snippet": "  public DormandPrince853Integrator(final double minStep, final double maxStep,\n                                    final double scalAbsoluteTolerance,\n                                    final double scalRelativeTolerance) {\n    super(METHOD_NAME, true, STATIC_C, STATIC_A, STATIC_B,\n          new DormandPrince853StepInterpolator(),\n          minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);\n  }",
+    "comment": "Simple constructor. Build an eighth order Dormand-Prince integrator with the given step bounds @param minStep minimal step (sign is irrelevant, regardless of integration direction, forward or backward), the last step can be smaller than this @param maxStep maximal step (sign is irrelevant, regardless of integration direction, forward or backward), the last step can be smaller than this @param scalAbsoluteTolerance allowed absolute error @param scalRelativeTolerance allowed relative error ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DormandPrince853Integrator.getOrder",
+    "class_name": "org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator",
+    "signature": "org.apache.commons.math.ode.nonstiff.DormandPrince853Integrator.getOrder()",
+    "snippet": "  @Override\n  public int getOrder() {\n    return 8;\n  }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DormandPrince853StepInterpolator.DormandPrince853StepInterpolator",
+    "class_name": "org.apache.commons.math.ode.nonstiff.DormandPrince853StepInterpolator",
+    "signature": "org.apache.commons.math.ode.nonstiff.DormandPrince853StepInterpolator.DormandPrince853StepInterpolator()",
+    "snippet": "  public DormandPrince853StepInterpolator() {\n    super();\n    yDotKLast = null;\n    v         = null;\n    vectorsInitialized = false;\n  }",
+    "comment": "Simple constructor. This constructor builds an instance that is not usable yet, the {@link #reinitialize} method should be called before using the instance in order to initialize the internal arrays. This constructor is used only in order to delay the initialization in some cases. The {@link EmbeddedRungeKuttaIntegrator} uses the prototyping design pattern to create the step interpolators by cloning an uninitialized model and latter initializing the copy. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DormandPrince853StepInterpolator.DormandPrince853StepInterpolator",
+    "class_name": "org.apache.commons.math.ode.nonstiff.DormandPrince853StepInterpolator",
+    "signature": "org.apache.commons.math.ode.nonstiff.DormandPrince853StepInterpolator.DormandPrince853StepInterpolator(DormandPrince853StepInterpolator)",
+    "snippet": "  public DormandPrince853StepInterpolator(final DormandPrince853StepInterpolator interpolator) {\n\n    super(interpolator);\n\n    if (interpolator.currentState == null) {\n\n      yDotKLast = null;\n      v         = null;\n      vectorsInitialized = false;\n\n    } else {\n\n      final int dimension = interpolator.currentState.length;\n\n      yDotKLast    = new double[3][];\n      for (int k = 0; k < yDotKLast.length; ++k) {\n        yDotKLast[k] = new double[dimension];\n        System.arraycopy(interpolator.yDotKLast[k], 0, yDotKLast[k], 0,\n                         dimension);\n      }\n\n      v = new double[7][];\n      for (int k = 0; k < v.length; ++k) {\n        v[k] = new double[dimension];\n        System.arraycopy(interpolator.v[k], 0, v[k], 0, dimension);\n      }\n\n      vectorsInitialized = interpolator.vectorsInitialized;\n\n    }\n\n  }",
+    "comment": "Copy constructor. @param interpolator interpolator to copy from. The copy is a deep copy: its arrays are separated from the original arrays of the instance ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DormandPrince853StepInterpolator.doCopy",
+    "class_name": "org.apache.commons.math.ode.nonstiff.DormandPrince853StepInterpolator",
+    "signature": "org.apache.commons.math.ode.nonstiff.DormandPrince853StepInterpolator.doCopy()",
+    "snippet": "  @Override\n  protected StepInterpolator doCopy() {\n    return new DormandPrince853StepInterpolator(this);\n  }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DormandPrince853StepInterpolator.doFinalize",
+    "class_name": "org.apache.commons.math.ode.nonstiff.DormandPrince853StepInterpolator",
+    "signature": "org.apache.commons.math.ode.nonstiff.DormandPrince853StepInterpolator.doFinalize()",
+    "snippet": "  @Override\n  protected void doFinalize() {\n\n    if (currentState == null) {\n      // we are finalizing an uninitialized instance\n      return;\n    }\n\n    double s;\n    final double[] yTmp = new double[currentState.length];\n    final double pT = getGlobalPreviousTime();\n\n    // k14\n    for (int j = 0; j < currentState.length; ++j) {\n      s = K14_01 * yDotK[0][j]  + K14_06 * yDotK[5][j]  + K14_07 * yDotK[6][j] +\n          K14_08 * yDotK[7][j]  + K14_09 * yDotK[8][j]  + K14_10 * yDotK[9][j] +\n          K14_11 * yDotK[10][j] + K14_12 * yDotK[11][j] + K14_13 * yDotK[12][j];\n      yTmp[j] = currentState[j] + h * s;\n    }\n    integrator.computeDerivatives(pT + C14 * h, yTmp, yDotKLast[0]);\n\n    // k15\n    for (int j = 0; j < currentState.length; ++j) {\n     s = K15_01 * yDotK[0][j]  + K15_06 * yDotK[5][j]  + K15_07 * yDotK[6][j] +\n         K15_08 * yDotK[7][j]  + K15_09 * yDotK[8][j]  + K15_10 * yDotK[9][j] +\n         K15_11 * yDotK[10][j] + K15_12 * yDotK[11][j] + K15_13 * yDotK[12][j] +\n         K15_14 * yDotKLast[0][j];\n     yTmp[j] = currentState[j] + h * s;\n    }\n    integrator.computeDerivatives(pT + C15 * h, yTmp, yDotKLast[1]);\n\n    // k16\n    for (int j = 0; j < currentState.length; ++j) {\n      s = K16_01 * yDotK[0][j]  + K16_06 * yDotK[5][j]  + K16_07 * yDotK[6][j] +\n          K16_08 * yDotK[7][j]  + K16_09 * yDotK[8][j]  + K16_10 * yDotK[9][j] +\n          K16_11 * yDotK[10][j] + K16_12 * yDotK[11][j] + K16_13 * yDotK[12][j] +\n          K16_14 * yDotKLast[0][j] +  K16_15 * yDotKLast[1][j];\n      yTmp[j] = currentState[j] + h * s;\n    }\n    integrator.computeDerivatives(pT + C16 * h, yTmp, yDotKLast[2]);\n\n  }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DormandPrince853StepInterpolator.reinitialize",
+    "class_name": "org.apache.commons.math.ode.nonstiff.DormandPrince853StepInterpolator",
+    "signature": "org.apache.commons.math.ode.nonstiff.DormandPrince853StepInterpolator.reinitialize(AbstractIntegrator,double[],double[][],boolean,EquationsMapper,EquationsMapper[])",
+    "snippet": "  @Override\n  public void reinitialize(final AbstractIntegrator integrator,\n                           final double[] y, final double[][] yDotK, final boolean forward,\n                           final EquationsMapper primaryMapper,\n                           final EquationsMapper[] secondaryMappers) {\n\n    super.reinitialize(integrator, y, yDotK, forward, primaryMapper, secondaryMappers);\n\n    final int dimension = currentState.length;\n\n    yDotKLast = new double[3][];\n    for (int k = 0; k < yDotKLast.length; ++k) {\n      yDotKLast[k] = new double[dimension];\n    }\n\n    v = new double[7][];\n    for (int k = 0; k < v.length; ++k) {\n      v[k]  = new double[dimension];\n    }\n\n    vectorsInitialized = false;\n\n  }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DormandPrince853StepInterpolator.storeTime",
+    "class_name": "org.apache.commons.math.ode.nonstiff.DormandPrince853StepInterpolator",
+    "signature": "org.apache.commons.math.ode.nonstiff.DormandPrince853StepInterpolator.storeTime(double)",
+    "snippet": "  @Override\n  public void storeTime(final double t) {\n    super.storeTime(t);\n    vectorsInitialized = false;\n  }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "EmbeddedRungeKuttaIntegrator.EmbeddedRungeKuttaIntegrator",
+    "class_name": "org.apache.commons.math.ode.nonstiff.EmbeddedRungeKuttaIntegrator",
+    "signature": "org.apache.commons.math.ode.nonstiff.EmbeddedRungeKuttaIntegrator.EmbeddedRungeKuttaIntegrator(String,boolean,double[],double[][],double[],RungeKuttaStepInterpolator,double,double,double,double)",
+    "snippet": "  protected EmbeddedRungeKuttaIntegrator(final String name, final boolean fsal,\n                                         final double[] c, final double[][] a, final double[] b,\n                                         final RungeKuttaStepInterpolator prototype,\n                                         final double minStep, final double maxStep,\n                                         final double scalAbsoluteTolerance,\n                                         final double scalRelativeTolerance) {\n\n    super(name, minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);\n\n    this.fsal      = fsal;\n    this.c         = c;\n    this.a         = a;\n    this.b         = b;\n    this.prototype = prototype;\n\n    exp = -1.0 / getOrder();\n\n    // set the default values of the algorithm control parameters\n    setSafety(0.9);\n    setMinReduction(0.2);\n    setMaxGrowth(10.0);\n\n  }",
+    "comment": "Build a Runge-Kutta integrator with the given Butcher array. @param name name of the method @param fsal indicate that the method is an <i>fsal</i> @param c time steps from Butcher array (without the first zero) @param a internal weights from Butcher array (without the first empty row) @param b propagation weights for the high order method from Butcher array @param prototype prototype of the step interpolator to use @param minStep minimal step (sign is irrelevant, regardless of integration direction, forward or backward), the last step can be smaller than this @param maxStep maximal step (sign is irrelevant, regardless of integration direction, forward or backward), the last step can be smaller than this @param scalAbsoluteTolerance allowed absolute error @param scalRelativeTolerance allowed relative error ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "EmbeddedRungeKuttaIntegrator.integrate",
+    "class_name": "org.apache.commons.math.ode.nonstiff.EmbeddedRungeKuttaIntegrator",
+    "signature": "org.apache.commons.math.ode.nonstiff.EmbeddedRungeKuttaIntegrator.integrate(ExpandableStatefulODE,double)",
+    "snippet": "  @Override\n  public void integrate(final ExpandableStatefulODE equations, final double t)\n      throws MathIllegalStateException, MathIllegalArgumentException {\n\n    sanityChecks(equations, t);\n    setEquations(equations);\n    final boolean forward = t > equations.getTime();\n\n    // create some internal working arrays\n    final double[] y0  = equations.getCompleteState();\n    final double[] y = y0.clone();\n    final int stages = c.length + 1;\n    final double[][] yDotK = new double[stages][y.length];\n    final double[] yTmp    = y0.clone();\n    final double[] yDotTmp = new double[y.length];\n\n    // set up an interpolator sharing the integrator arrays\n    final RungeKuttaStepInterpolator interpolator = (RungeKuttaStepInterpolator) prototype.copy();\n    interpolator.reinitialize(this, yTmp, yDotK, forward,\n                              equations.getPrimaryMapper(), equations.getSecondaryMappers());\n    interpolator.storeTime(equations.getTime());\n\n    // set up integration control objects\n    stepStart         = equations.getTime();\n    double  hNew      = 0;\n    boolean firstTime = true;\n    initIntegration(equations.getTime(), y0, t);\n\n    // main integration loop\n    isLastStep = false;\n    do {\n\n      interpolator.shift();\n\n      // iterate over step size, ensuring local normalized error is smaller than 1\n      double error = 10;\n      while (error >= 1.0) {\n\n        if (firstTime || !fsal) {\n          // first stage\n          computeDerivatives(stepStart, y, yDotK[0]);\n        }\n\n        if (firstTime) {\n          final double[] scale = new double[mainSetDimension];\n          if (vecAbsoluteTolerance == null) {\n              for (int i = 0; i < scale.length; ++i) {\n                scale[i] = scalAbsoluteTolerance + scalRelativeTolerance * FastMath.abs(y[i]);\n              }\n          } else {\n              for (int i = 0; i < scale.length; ++i) {\n                scale[i] = vecAbsoluteTolerance[i] + vecRelativeTolerance[i] * FastMath.abs(y[i]);\n              }\n          }\n          hNew = initializeStep(forward, getOrder(), scale,\n                                stepStart, y, yDotK[0], yTmp, yDotK[1]);\n          firstTime = false;\n        }\n\n        stepSize = hNew;\n\n        // next stages\n        for (int k = 1; k < stages; ++k) {\n\n          for (int j = 0; j < y0.length; ++j) {\n            double sum = a[k-1][0] * yDotK[0][j];\n            for (int l = 1; l < k; ++l) {\n              sum += a[k-1][l] * yDotK[l][j];\n            }\n            yTmp[j] = y[j] + stepSize * sum;\n          }\n\n          computeDerivatives(stepStart + c[k-1] * stepSize, yTmp, yDotK[k]);\n\n        }\n\n        // estimate the state at the end of the step\n        for (int j = 0; j < y0.length; ++j) {\n          double sum    = b[0] * yDotK[0][j];\n          for (int l = 1; l < stages; ++l) {\n            sum    += b[l] * yDotK[l][j];\n          }\n          yTmp[j] = y[j] + stepSize * sum;\n        }\n\n        // estimate the error at the end of the step\n        error = estimateError(yDotK, y, yTmp, stepSize);\n        if (error >= 1.0) {\n          // reject the step and attempt to reduce error by stepsize control\n          final double factor =\n              FastMath.min(maxGrowth,\n                           FastMath.max(minReduction, safety * FastMath.pow(error, exp)));\n          hNew = filterStep(stepSize * factor, forward, false);\n        }\n\n      }\n\n      // local error is small enough: accept the step, trigger events and step handlers\n      interpolator.storeTime(stepStart + stepSize);\n      System.arraycopy(yTmp, 0, y, 0, y0.length);\n      System.arraycopy(yDotK[stages - 1], 0, yDotTmp, 0, y0.length);\n      stepStart = acceptStep(interpolator, y, yDotTmp, t);\n      System.arraycopy(y, 0, yTmp, 0, y.length);\n\n      if (!isLastStep) {\n\n          // prepare next step\n          interpolator.storeTime(stepStart);\n\n          if (fsal) {\n              // save the last evaluation for the next step\n              System.arraycopy(yDotTmp, 0, yDotK[0], 0, y0.length);\n          }\n\n          // stepsize control for next step\n          final double factor =\n              FastMath.min(maxGrowth, FastMath.max(minReduction, safety * FastMath.pow(error, exp)));\n          final double  scaledH    = stepSize * factor;\n          final double  nextT      = stepStart + scaledH;\n          final boolean nextIsLast = forward ? (nextT >= t) : (nextT <= t);\n          hNew = filterStep(scaledH, forward, nextIsLast);\n\n          final double  filteredNextT      = stepStart + hNew;\n          final boolean filteredNextIsLast = forward ? (filteredNextT >= t) : (filteredNextT <= t);\n          if (filteredNextIsLast) {\n              hNew = t - stepStart;\n          }\n\n      }\n\n    } while (!isLastStep);\n\n    // dispatch results\n    equations.setTime(stepStart);\n    equations.setCompleteState(y);\n\n    resetInternalState();\n\n  }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "EmbeddedRungeKuttaIntegrator.setMaxGrowth",
+    "class_name": "org.apache.commons.math.ode.nonstiff.EmbeddedRungeKuttaIntegrator",
+    "signature": "org.apache.commons.math.ode.nonstiff.EmbeddedRungeKuttaIntegrator.setMaxGrowth(double)",
+    "snippet": "  public void setMaxGrowth(final double maxGrowth) {\n    this.maxGrowth = maxGrowth;\n  }",
+    "comment": "Set the maximal growth factor for stepsize control. @param maxGrowth maximal growth factor ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "EmbeddedRungeKuttaIntegrator.setMinReduction",
+    "class_name": "org.apache.commons.math.ode.nonstiff.EmbeddedRungeKuttaIntegrator",
+    "signature": "org.apache.commons.math.ode.nonstiff.EmbeddedRungeKuttaIntegrator.setMinReduction(double)",
+    "snippet": "  public void setMinReduction(final double minReduction) {\n    this.minReduction = minReduction;\n  }",
+    "comment": "Set the minimal reduction factor for stepsize control. @param minReduction minimal reduction factor ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "EmbeddedRungeKuttaIntegrator.setSafety",
+    "class_name": "org.apache.commons.math.ode.nonstiff.EmbeddedRungeKuttaIntegrator",
+    "signature": "org.apache.commons.math.ode.nonstiff.EmbeddedRungeKuttaIntegrator.setSafety(double)",
+    "snippet": "  public void setSafety(final double safety) {\n    this.safety = safety;\n  }",
+    "comment": "Set the safety factor for stepsize control. @param safety safety factor ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RungeKuttaStepInterpolator.RungeKuttaStepInterpolator",
+    "class_name": "org.apache.commons.math.ode.nonstiff.RungeKuttaStepInterpolator",
+    "signature": "org.apache.commons.math.ode.nonstiff.RungeKuttaStepInterpolator.RungeKuttaStepInterpolator()",
+    "snippet": "  protected RungeKuttaStepInterpolator() {\n    previousState = null;\n    yDotK         = null;\n    integrator    = null;\n  }",
+    "comment": "Simple constructor. This constructor builds an instance that is not usable yet, the {@link #reinitialize} method should be called before using the instance in order to initialize the internal arrays. This constructor is used only in order to delay the initialization in some cases. The {@link RungeKuttaIntegrator} and {@link EmbeddedRungeKuttaIntegrator} classes use the prototyping design pattern to create the step interpolators by cloning an uninitialized model and latter initializing the copy. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RungeKuttaStepInterpolator.RungeKuttaStepInterpolator",
+    "class_name": "org.apache.commons.math.ode.nonstiff.RungeKuttaStepInterpolator",
+    "signature": "org.apache.commons.math.ode.nonstiff.RungeKuttaStepInterpolator.RungeKuttaStepInterpolator(RungeKuttaStepInterpolator)",
+    "snippet": "  public RungeKuttaStepInterpolator(final RungeKuttaStepInterpolator interpolator) {\n\n    super(interpolator);\n\n    if (interpolator.currentState != null) {\n\n      previousState = interpolator.previousState.clone();\n\n      yDotK = new double[interpolator.yDotK.length][];\n      for (int k = 0; k < interpolator.yDotK.length; ++k) {\n        yDotK[k] = interpolator.yDotK[k].clone();\n      }\n\n    } else {\n      previousState = null;\n      yDotK = null;\n    }\n\n    // we cannot keep any reference to the equations in the copy\n    // the interpolator should have been finalized before\n    integrator = null;\n\n  }",
+    "comment": "Copy constructor.  <p>The copied interpolator should have been finalized before the copy, otherwise the copy will not be able to perform correctly any interpolation and will throw a {@link NullPointerException} later. Since we don't want this constructor to throw the exceptions finalization may involve and since we don't want this method to modify the state of the copied interpolator, finalization is <strong>not</strong> done automatically, it remains under user control.</p>  <p>The copy is a deep copy: its arrays are separated from the original arrays of the instance.</p>  @param interpolator interpolator to copy from.  ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RungeKuttaStepInterpolator.reinitialize",
+    "class_name": "org.apache.commons.math.ode.nonstiff.RungeKuttaStepInterpolator",
+    "signature": "org.apache.commons.math.ode.nonstiff.RungeKuttaStepInterpolator.reinitialize(AbstractIntegrator,double[],double[][],boolean,EquationsMapper,EquationsMapper[])",
+    "snippet": "  public void reinitialize(final AbstractIntegrator rkIntegrator,\n                           final double[] y, final double[][] yDotArray, final boolean forward,\n                           final EquationsMapper primaryMapper,\n                           final EquationsMapper[] secondaryMappers) {\n    reinitialize(y, forward, primaryMapper, secondaryMappers);\n    this.previousState = null;\n    this.yDotK = yDotArray;\n    this.integrator = rkIntegrator;\n  }",
+    "comment": "Reinitialize the instance <p>Some Runge-Kutta integrators need fewer functions evaluations than their counterpart step interpolators. So the interpolator should perform the last evaluations they need by themselves. The {@link RungeKuttaIntegrator RungeKuttaIntegrator} and {@link EmbeddedRungeKuttaIntegrator EmbeddedRungeKuttaIntegrator} abstract classes call this method in order to let the step interpolator perform the evaluations it needs. These evaluations will be performed during the call to <code>doFinalize</code> if any, i.e. only if the step handler either calls the {@link AbstractStepInterpolator#finalizeStep finalizeStep} method or the {@link AbstractStepInterpolator#getInterpolatedState getInterpolatedState} method (for an interpolator which needs a finalization) or if it clones the step interpolator.</p> @param rkIntegrator integrator being used @param y reference to the integrator array holding the state at the end of the step @param yDotArray reference to the integrator array holding all the intermediate slopes @param forward integration direction indicator @param primaryMapper equations mapper for the primary equations set @param secondaryMappers equations mappers for the secondary equations sets ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RungeKuttaStepInterpolator.shift",
+    "class_name": "org.apache.commons.math.ode.nonstiff.RungeKuttaStepInterpolator",
+    "signature": "org.apache.commons.math.ode.nonstiff.RungeKuttaStepInterpolator.shift()",
+    "snippet": "  @Override\n  public void shift() {\n    previousState = currentState.clone();\n    super.shift();\n  }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractStepInterpolator.AbstractStepInterpolator",
+    "class_name": "org.apache.commons.math.ode.sampling.AbstractStepInterpolator",
+    "signature": "org.apache.commons.math.ode.sampling.AbstractStepInterpolator.AbstractStepInterpolator()",
+    "snippet": "  protected AbstractStepInterpolator() {\n    globalPreviousTime = Double.NaN;\n    globalCurrentTime  = Double.NaN;\n    softPreviousTime   = Double.NaN;\n    softCurrentTime    = Double.NaN;\n    h                  = Double.NaN;\n    interpolatedTime   = Double.NaN;\n    currentState       = null;\n    finalized          = false;\n    this.forward       = true;\n    this.dirtyState    = true;\n    primaryMapper      = null;\n    secondaryMappers   = null;\n    allocateInterpolatedArrays(-1);\n  }",
+    "comment": "Simple constructor. This constructor builds an instance that is not usable yet, the {@link #reinitialize} method should be called before using the instance in order to initialize the internal arrays. This constructor is used only in order to delay the initialization in some cases. As an example, the {@link org.apache.commons.math.ode.nonstiff.EmbeddedRungeKuttaIntegrator} class uses the prototyping design pattern to create the step interpolators by cloning an uninitialized model and latter initializing the copy. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractStepInterpolator.AbstractStepInterpolator",
+    "class_name": "org.apache.commons.math.ode.sampling.AbstractStepInterpolator",
+    "signature": "org.apache.commons.math.ode.sampling.AbstractStepInterpolator.AbstractStepInterpolator(AbstractStepInterpolator)",
+    "snippet": "  protected AbstractStepInterpolator(final AbstractStepInterpolator interpolator) {\n\n    globalPreviousTime = interpolator.globalPreviousTime;\n    globalCurrentTime  = interpolator.globalCurrentTime;\n    softPreviousTime   = interpolator.softPreviousTime;\n    softCurrentTime    = interpolator.softCurrentTime;\n    h                  = interpolator.h;\n    interpolatedTime   = interpolator.interpolatedTime;\n\n    if (interpolator.currentState == null) {\n        currentState     = null;\n        primaryMapper    = null;\n        secondaryMappers = null;\n        allocateInterpolatedArrays(-1);\n    } else {\n      currentState                     = interpolator.currentState.clone();\n      interpolatedState                = interpolator.interpolatedState.clone();\n      interpolatedDerivatives          = interpolator.interpolatedDerivatives.clone();\n      interpolatedPrimaryState         = interpolator.interpolatedPrimaryState.clone();\n      interpolatedPrimaryDerivatives   = interpolator.interpolatedPrimaryDerivatives.clone();\n      interpolatedSecondaryState       = new double[interpolator.interpolatedSecondaryState.length][];\n      interpolatedSecondaryDerivatives = new double[interpolator.interpolatedSecondaryDerivatives.length][];\n      for (int i = 0; i < interpolatedSecondaryState.length; ++i) {\n          interpolatedSecondaryState[i]       = interpolator.interpolatedSecondaryState[i].clone();\n          interpolatedSecondaryDerivatives[i] = interpolator.interpolatedSecondaryDerivatives[i].clone();\n      }\n    }\n\n    finalized        = interpolator.finalized;\n    forward          = interpolator.forward;\n    dirtyState       = interpolator.dirtyState;\n    primaryMapper    = interpolator.primaryMapper;\n    secondaryMappers = (interpolator.secondaryMappers == null) ?\n                       null : interpolator.secondaryMappers.clone();\n\n  }",
+    "comment": "Copy constructor.  <p>The copied interpolator should have been finalized before the copy, otherwise the copy will not be able to perform correctly any derivative computation and will throw a {@link NullPointerException} later. Since we don't want this constructor to throw the exceptions finalization may involve and since we don't want this method to modify the state of the copied interpolator, finalization is <strong>not</strong> done automatically, it remains under user control.</p>  <p>The copy is a deep copy: its arrays are separated from the original arrays of the instance.</p>  @param interpolator interpolator to copy from.  ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractStepInterpolator.allocateInterpolatedArrays",
+    "class_name": "org.apache.commons.math.ode.sampling.AbstractStepInterpolator",
+    "signature": "org.apache.commons.math.ode.sampling.AbstractStepInterpolator.allocateInterpolatedArrays(int)",
+    "snippet": "  private void allocateInterpolatedArrays(final int dimension) {\n      if (dimension < 0) {\n          interpolatedState                = null;\n          interpolatedDerivatives          = null;\n          interpolatedPrimaryState         = null;\n          interpolatedPrimaryDerivatives   = null;\n          interpolatedSecondaryState       = null;\n          interpolatedSecondaryDerivatives = null;\n      } else {\n          interpolatedState                = new double[dimension];\n          interpolatedDerivatives          = new double[dimension];\n          interpolatedPrimaryState         = new double[primaryMapper.getDimension()];\n          interpolatedPrimaryDerivatives   = new double[primaryMapper.getDimension()];\n          if (secondaryMappers == null) {\n              interpolatedSecondaryState       = null;\n              interpolatedSecondaryDerivatives = null;\n          } else {\n              interpolatedSecondaryState       = new double[secondaryMappers.length][];\n              interpolatedSecondaryDerivatives = new double[secondaryMappers.length][];\n              for (int i = 0; i < secondaryMappers.length; ++i) {\n                  interpolatedSecondaryState[i]       = new double[secondaryMappers[i].getDimension()];\n                  interpolatedSecondaryDerivatives[i] = new double[secondaryMappers[i].getDimension()];\n              }\n          }\n      }\n  }",
+    "comment": "Allocate the various interpolated states arrays. @param dimension total dimension (negative if arrays should be set to null) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractStepInterpolator.copy",
+    "class_name": "org.apache.commons.math.ode.sampling.AbstractStepInterpolator",
+    "signature": "org.apache.commons.math.ode.sampling.AbstractStepInterpolator.copy()",
+    "snippet": "   public StepInterpolator copy() {\n\n     // finalize the step before performing copy\n     finalizeStep();\n\n     // create the new independent instance\n     return doCopy();\n\n   }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractStepInterpolator.finalizeStep",
+    "class_name": "org.apache.commons.math.ode.sampling.AbstractStepInterpolator",
+    "signature": "org.apache.commons.math.ode.sampling.AbstractStepInterpolator.finalizeStep()",
+    "snippet": "  public final void finalizeStep() {\n    if (! finalized) {\n      doFinalize();\n      finalized = true;\n    }\n  }",
+    "comment": " Finalize the step.  <p>Some embedded Runge-Kutta integrators need fewer functions evaluations than their counterpart step interpolators. These interpolators should perform the last evaluations they need by themselves only if they need them. This method triggers these extra evaluations. It can be called directly by the user step handler and it is called automatically if {@link #setInterpolatedTime} is called.</p>  <p>Once this method has been called, <strong>no</strong> other evaluation will be performed on this step. If there is a need to have some side effects between the step handler and the differential equations (for example update some data in the equations once the step has been done), it is advised to call this method explicitly from the step handler before these side effects are set up. If the step handler induces no side effect, then this method can safely be ignored, it will be called transparently as needed.</p>  <p><strong>Warning</strong>: since the step interpolator provided to the step handler as a parameter of the {@link StepHandler#handleStep handleStep} is valid only for the duration of the {@link StepHandler#handleStep handleStep} call, one cannot simply store a reference and reuse it later. One should first finalize the instance, then copy this finalized instance into a new object that can be kept.</p>  <p>This method calls the protected <code>doFinalize</code> method if it has never been called during this step and set a flag indicating that it has been called once. It is the <code> doFinalize</code> method which should perform the evaluations. This wrapping prevents from calling <code>doFinalize</code> several times and hence evaluating the differential equations too often. Therefore, subclasses are not allowed not reimplement it, they should rather reimplement <code>doFinalize</code>.</p>  ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractStepInterpolator.reinitialize",
+    "class_name": "org.apache.commons.math.ode.sampling.AbstractStepInterpolator",
+    "signature": "org.apache.commons.math.ode.sampling.AbstractStepInterpolator.reinitialize(double[],boolean,EquationsMapper,EquationsMapper[])",
+    "snippet": "  protected void reinitialize(final double[] y, final boolean isForward,\n                              final EquationsMapper primary,\n                              final EquationsMapper[] secondary) {\n\n    globalPreviousTime    = Double.NaN;\n    globalCurrentTime     = Double.NaN;\n    softPreviousTime      = Double.NaN;\n    softCurrentTime       = Double.NaN;\n    h                     = Double.NaN;\n    interpolatedTime      = Double.NaN;\n    currentState          = y;\n    finalized             = false;\n    this.forward          = isForward;\n    this.dirtyState       = true;\n    this.primaryMapper    = primary;\n    this.secondaryMappers = secondary.clone();\n    allocateInterpolatedArrays(y.length);\n\n  }",
+    "comment": "Reinitialize the instance @param y reference to the integrator array holding the state at the end of the step @param isForward integration direction indicator @param primary equations mapper for the primary equations set @param secondary equations mappers for the secondary equations sets ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractStepInterpolator.setInterpolatedTime",
+    "class_name": "org.apache.commons.math.ode.sampling.AbstractStepInterpolator",
+    "signature": "org.apache.commons.math.ode.sampling.AbstractStepInterpolator.setInterpolatedTime(double)",
+    "snippet": "  public void setInterpolatedTime(final double time) {\n      interpolatedTime = time;\n      dirtyState       = true;\n  }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractStepInterpolator.shift",
+    "class_name": "org.apache.commons.math.ode.sampling.AbstractStepInterpolator",
+    "signature": "org.apache.commons.math.ode.sampling.AbstractStepInterpolator.shift()",
+    "snippet": "  public void shift() {\n    globalPreviousTime = globalCurrentTime;\n    softPreviousTime   = globalPreviousTime;\n    softCurrentTime    = globalCurrentTime;\n  }",
+    "comment": "Shift one step forward. Copy the current time into the previous time, hence preparing the interpolator for future calls to {@link #storeTime storeTime} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractStepInterpolator.storeTime",
+    "class_name": "org.apache.commons.math.ode.sampling.AbstractStepInterpolator",
+    "signature": "org.apache.commons.math.ode.sampling.AbstractStepInterpolator.storeTime(double)",
+    "snippet": "  public void storeTime(final double t) {\n\n    globalCurrentTime = t;\n    softCurrentTime   = globalCurrentTime;\n    h                 = globalCurrentTime - globalPreviousTime;\n    setInterpolatedTime(t);\n\n    // the step is not finalized anymore\n    finalized  = false;\n\n  }",
+    "comment": "Store the current step time. @param t current time ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.abs",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.abs(double)",
+    "snippet": "    public static double abs(double x) {\n        return (x < 0.0) ? -x : (x == 0.0) ? 0.0 : x; // -0.0 => +0.0\n    }",
+    "comment": " Absolute value. @param x number from which absolute value is requested @return abs(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.exp",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.exp(double,double,double[])",
+    "snippet": "    private static double exp(double x, double extra, double[] hiPrec) {\n        double intPartA;\n        double intPartB;\n        int intVal;\n\n        /* Lookup exp(floor(x)).\n         * intPartA will have the upper 22 bits, intPartB will have the lower\n         * 52 bits.\n         */\n        if (x < 0.0) {\n            intVal = (int) -x;\n\n            if (intVal > 746) {\n                if (hiPrec != null) {\n                    hiPrec[0] = 0.0;\n                    hiPrec[1] = 0.0;\n                }\n                return 0.0;\n            }\n\n            if (intVal > 709) {\n                /* This will produce a subnormal output */\n                final double result = exp(x+40.19140625, extra, hiPrec) / 285040095144011776.0;\n                if (hiPrec != null) {\n                    hiPrec[0] /= 285040095144011776.0;\n                    hiPrec[1] /= 285040095144011776.0;\n                }\n                return result;\n            }\n\n            if (intVal == 709) {\n                /* exp(1.494140625) is nearly a machine number... */\n                final double result = exp(x+1.494140625, extra, hiPrec) / 4.455505956692756620;\n                if (hiPrec != null) {\n                    hiPrec[0] /= 4.455505956692756620;\n                    hiPrec[1] /= 4.455505956692756620;\n                }\n                return result;\n            }\n\n            intVal++;\n\n            intPartA = ExpIntTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX-intVal];\n            intPartB = ExpIntTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX-intVal];\n\n            intVal = -intVal;\n        } else {\n            intVal = (int) x;\n\n            if (intVal > 709) {\n                if (hiPrec != null) {\n                    hiPrec[0] = Double.POSITIVE_INFINITY;\n                    hiPrec[1] = 0.0;\n                }\n                return Double.POSITIVE_INFINITY;\n            }\n\n            intPartA = ExpIntTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX+intVal];\n            intPartB = ExpIntTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX+intVal];\n        }\n\n        /* Get the fractional part of x, find the greatest multiple of 2^-10 less than\n         * x and look up the exp function of it.\n         * fracPartA will have the upper 22 bits, fracPartB the lower 52 bits.\n         */\n        final int intFrac = (int) ((x - intVal) * 1024.0);\n        final double fracPartA = ExpFracTable.EXP_FRAC_TABLE_A[intFrac];\n        final double fracPartB = ExpFracTable.EXP_FRAC_TABLE_B[intFrac];\n\n        /* epsilon is the difference in x from the nearest multiple of 2^-10.  It\n         * has a value in the range 0 <= epsilon < 2^-10.\n         * Do the subtraction from x as the last step to avoid possible loss of percison.\n         */\n        final double epsilon = x - (intVal + intFrac / 1024.0);\n\n        /* Compute z = exp(epsilon) - 1.0 via a minimax polynomial.  z has\n       full double precision (52 bits).  Since z < 2^-10, we will have\n       62 bits of precision when combined with the contant 1.  This will be\n       used in the last addition below to get proper rounding. */\n\n        /* Remez generated polynomial.  Converges on the interval [0, 2^-10], error\n       is less than 0.5 ULP */\n        double z = 0.04168701738764507;\n        z = z * epsilon + 0.1666666505023083;\n        z = z * epsilon + 0.5000000000042687;\n        z = z * epsilon + 1.0;\n        z = z * epsilon + -3.940510424527919E-20;\n\n        /* Compute (intPartA+intPartB) * (fracPartA+fracPartB) by binomial\n       expansion.\n       tempA is exact since intPartA and intPartB only have 22 bits each.\n       tempB will have 52 bits of precision.\n         */\n        double tempA = intPartA * fracPartA;\n        double tempB = intPartA * fracPartB + intPartB * fracPartA + intPartB * fracPartB;\n\n        /* Compute the result.  (1+z)(tempA+tempB).  Order of operations is\n       important.  For accuracy add by increasing size.  tempA is exact and\n       much larger than the others.  If there are extra bits specified from the\n       pow() function, use them. */\n        final double tempC = tempB + tempA;\n        final double result;\n        if (extra != 0.0) {\n            result = tempC*extra*z + tempC*extra + tempC*z + tempB + tempA;\n        } else {\n            result = tempC*z + tempB + tempA;\n        }\n\n        if (hiPrec != null) {\n            // If requesting high precision\n            hiPrec[0] = tempA;\n            hiPrec[1] = tempC*extra*z + tempC*extra + tempC*z + tempB;\n        }\n\n        return result;\n    }",
+    "comment": " Internal helper method for exponential function. @param x original argument of the exponential function @param extra extra bits of precision on input (To Be Confirmed) @param hiPrec extra bits of precision on output (To Be Confirmed) @return exp(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.log",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.log(double,double[])",
+    "snippet": "    private static double log(final double x, final double[] hiPrec) {\n        if (x==0) { // Handle special case of +0/-0\n            return Double.NEGATIVE_INFINITY;\n        }\n        long bits = Double.doubleToLongBits(x);\n\n        /* Handle special cases of negative input, and NaN */\n        if ((bits & 0x8000000000000000L) != 0 || x != x) {\n            if (x != 0.0) {\n                if (hiPrec != null) {\n                    hiPrec[0] = Double.NaN;\n                }\n\n                return Double.NaN;\n            }\n        }\n\n        /* Handle special cases of Positive infinity. */\n        if (x == Double.POSITIVE_INFINITY) {\n            if (hiPrec != null) {\n                hiPrec[0] = Double.POSITIVE_INFINITY;\n            }\n\n            return Double.POSITIVE_INFINITY;\n        }\n\n        /* Extract the exponent */\n        int exp = (int)(bits >> 52)-1023;\n\n        if ((bits & 0x7ff0000000000000L) == 0) {\n            // Subnormal!\n            if (x == 0) {\n                // Zero\n                if (hiPrec != null) {\n                    hiPrec[0] = Double.NEGATIVE_INFINITY;\n                }\n\n                return Double.NEGATIVE_INFINITY;\n            }\n\n            /* Normalize the subnormal number. */\n            bits <<= 1;\n            while ( (bits & 0x0010000000000000L) == 0) {\n                exp--;\n                bits <<= 1;\n            }\n        }\n\n\n        if (exp == -1 || exp == 0) {\n            if (x < 1.01 && x > 0.99 && hiPrec == null) {\n                /* The normal method doesn't work well in the range [0.99, 1.01], so call do a straight\n           polynomial expansion in higer precision. */\n\n               /* Compute x - 1.0 and split it */\n                double xa = x - 1.0;\n                double xb = xa - x + 1.0;\n                double tmp = xa * HEX_40000000;\n                double aa = xa + tmp - tmp;\n                double ab = xa - aa;\n                xa = aa;\n                xb = ab;\n\n                double ya = LN_QUICK_COEF[LN_QUICK_COEF.length-1][0];\n                double yb = LN_QUICK_COEF[LN_QUICK_COEF.length-1][1];\n\n                for (int i = LN_QUICK_COEF.length - 2; i >= 0; i--) {\n                    /* Multiply a = y * x */\n                    aa = ya * xa;\n                    ab = ya * xb + yb * xa + yb * xb;\n                    /* split, so now y = a */\n                    tmp = aa * HEX_40000000;\n                    ya = aa + tmp - tmp;\n                    yb = aa - ya + ab;\n\n                    /* Add  a = y + lnQuickCoef */\n                    aa = ya + LN_QUICK_COEF[i][0];\n                    ab = yb + LN_QUICK_COEF[i][1];\n                    /* Split y = a */\n                    tmp = aa * HEX_40000000;\n                    ya = aa + tmp - tmp;\n                    yb = aa - ya + ab;\n                }\n\n                /* Multiply a = y * x */\n                aa = ya * xa;\n                ab = ya * xb + yb * xa + yb * xb;\n                /* split, so now y = a */\n                tmp = aa * HEX_40000000;\n                ya = aa + tmp - tmp;\n                yb = aa - ya + ab;\n\n                return ya + yb;\n            }\n        }\n\n        // lnm is a log of a number in the range of 1.0 - 2.0, so 0 <= lnm < ln(2)\n        double lnm[] = lnMant.LN_MANT[(int)((bits & 0x000ffc0000000000L) >> 42)];\n\n        /*\n    double epsilon = x / Double.longBitsToDouble(bits & 0xfffffc0000000000L);\n\n    epsilon -= 1.0;\n         */\n\n        // y is the most significant 10 bits of the mantissa\n        //double y = Double.longBitsToDouble(bits & 0xfffffc0000000000L);\n        //double epsilon = (x - y) / y;\n        double epsilon = (bits & 0x3ffffffffffL) / (TWO_POWER_52 + (bits & 0x000ffc0000000000L));\n\n        double lnza = 0.0;\n        double lnzb = 0.0;\n\n        if (hiPrec != null) {\n            /* split epsilon -> x */\n            double tmp = epsilon * HEX_40000000;\n            double aa = epsilon + tmp - tmp;\n            double ab = epsilon - aa;\n            double xa = aa;\n            double xb = ab;\n\n            /* Need a more accurate epsilon, so adjust the division. */\n            double numer = bits & 0x3ffffffffffL;\n            double denom = TWO_POWER_52 + (bits & 0x000ffc0000000000L);\n            aa = numer - xa*denom - xb * denom;\n            xb += aa / denom;\n\n            /* Remez polynomial evaluation */\n            double ya = LN_HI_PREC_COEF[LN_HI_PREC_COEF.length-1][0];\n            double yb = LN_HI_PREC_COEF[LN_HI_PREC_COEF.length-1][1];\n\n            for (int i = LN_HI_PREC_COEF.length - 2; i >= 0; i--) {\n                /* Multiply a = y * x */\n                aa = ya * xa;\n                ab = ya * xb + yb * xa + yb * xb;\n                /* split, so now y = a */\n                tmp = aa * HEX_40000000;\n                ya = aa + tmp - tmp;\n                yb = aa - ya + ab;\n\n                /* Add  a = y + lnHiPrecCoef */\n                aa = ya + LN_HI_PREC_COEF[i][0];\n                ab = yb + LN_HI_PREC_COEF[i][1];\n                /* Split y = a */\n                tmp = aa * HEX_40000000;\n                ya = aa + tmp - tmp;\n                yb = aa - ya + ab;\n            }\n\n            /* Multiply a = y * x */\n            aa = ya * xa;\n            ab = ya * xb + yb * xa + yb * xb;\n\n            /* split, so now lnz = a */\n            /*\n      tmp = aa * 1073741824.0;\n      lnza = aa + tmp - tmp;\n      lnzb = aa - lnza + ab;\n             */\n            lnza = aa + ab;\n            lnzb = -(lnza - aa - ab);\n        } else {\n            /* High precision not required.  Eval Remez polynomial\n         using standard double precision */\n            lnza = -0.16624882440418567;\n            lnza = lnza * epsilon + 0.19999954120254515;\n            lnza = lnza * epsilon + -0.2499999997677497;\n            lnza = lnza * epsilon + 0.3333333333332802;\n            lnza = lnza * epsilon + -0.5;\n            lnza = lnza * epsilon + 1.0;\n            lnza = lnza * epsilon;\n        }\n\n        /* Relative sizes:\n         * lnzb     [0, 2.33E-10]\n         * lnm[1]   [0, 1.17E-7]\n         * ln2B*exp [0, 1.12E-4]\n         * lnza      [0, 9.7E-4]\n         * lnm[0]   [0, 0.692]\n         * ln2A*exp [0, 709]\n         */\n\n        /* Compute the following sum:\n         * lnzb + lnm[1] + ln2B*exp + lnza + lnm[0] + ln2A*exp;\n         */\n\n        //return lnzb + lnm[1] + ln2B*exp + lnza + lnm[0] + ln2A*exp;\n        double a = LN_2_A*exp;\n        double b = 0.0;\n        double c = a+lnm[0];\n        double d = -(c-a-lnm[0]);\n        a = c;\n        b = b + d;\n\n        c = a + lnza;\n        d = -(c - a - lnza);\n        a = c;\n        b = b + d;\n\n        c = a + LN_2_B*exp;\n        d = -(c - a - LN_2_B*exp);\n        a = c;\n        b = b + d;\n\n        c = a + lnm[1];\n        d = -(c - a - lnm[1]);\n        a = c;\n        b = b + d;\n\n        c = a + lnzb;\n        d = -(c - a - lnzb);\n        a = c;\n        b = b + d;\n\n        if (hiPrec != null) {\n            hiPrec[0] = a;\n            hiPrec[1] = b;\n        }\n\n        return a + b;\n    }",
+    "comment": " Internal helper method for natural logarithm function. @param x original argument of the natural logarithm function @param hiPrec extra bits of precision on output (To Be Confirmed) @return log(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.max",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.max(double,double)",
+    "snippet": "    public static double max(final double a, final double b) {\n        if (a > b) {\n            return a;\n        }\n        if (a < b) {\n            return b;\n        }\n        /* if either arg is NaN, return NaN */\n        if (a != b) {\n            return Double.NaN;\n        }\n        /* min(+0.0,-0.0) == -0.0 */\n        /* 0x8000000000000000L == Double.doubleToRawLongBits(-0.0d) */\n        long bits = Double.doubleToRawLongBits(a);\n        if (bits == 0x8000000000000000L) {\n            return b;\n        }\n        return a;\n    }",
+    "comment": "Compute the maximum of two values @param a first value @param b second value @return b if a is lesser or equal to b, a otherwise ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.min",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.min(double,double)",
+    "snippet": "    public static double min(final double a, final double b) {\n        if (a > b) {\n            return b;\n        }\n        if (a < b) {\n            return a;\n        }\n        /* if either arg is NaN, return NaN */\n        if (a != b) {\n            return Double.NaN;\n        }\n        /* min(+0.0,-0.0) == -0.0 */\n        /* 0x8000000000000000L == Double.doubleToRawLongBits(-0.0d) */\n        long bits = Double.doubleToRawLongBits(a);\n        if (bits == 0x8000000000000000L) {\n            return a;\n        }\n        return b;\n    }",
+    "comment": "Compute the minimum of two values @param a first value @param b second value @return a if a is lesser or equal to b, b otherwise ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.nextAfter",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.nextAfter(double,double)",
+    "snippet": "    public static double nextAfter(double d, double direction) {\n\n        // handling of some important special cases\n        if (Double.isNaN(d) || Double.isNaN(direction)) {\n            return Double.NaN;\n        } else if (d == direction) {\n            return direction;\n        } else if (Double.isInfinite(d)) {\n            return (d < 0) ? -Double.MAX_VALUE : Double.MAX_VALUE;\n        } else if (d == 0) {\n            return (direction < 0) ? -Double.MIN_VALUE : Double.MIN_VALUE;\n        }\n        // special cases MAX_VALUE to infinity and  MIN_VALUE to 0\n        // are handled just as normal numbers\n\n        final long bits = Double.doubleToLongBits(d);\n        final long sign = bits & 0x8000000000000000L;\n        if ((direction < d) ^ (sign == 0L)) {\n            return Double.longBitsToDouble(sign | ((bits & 0x7fffffffffffffffL) + 1));\n        } else {\n            return Double.longBitsToDouble(sign | ((bits & 0x7fffffffffffffffL) - 1));\n        }\n\n    }",
+    "comment": " Get the next machine representable number after a number, moving in the direction of another number. <p> The ordering is as follows (increasing): <ul> <li>-INFINITY</li> <li>-MAX_VALUE</li> <li>-MIN_VALUE</li> <li>-0.0</li> <li>+0.0</li> <li>+MIN_VALUE</li> <li>+MAX_VALUE</li> <li>+INFINITY</li> <li></li> <p> If arguments compare equal, then the second argument is returned. <p> If {@code direction} is greater than {@code d}, the smallest machine representable number strictly greater than {@code d} is returned; if less, then the largest representable number strictly less than {@code d} is returned.</p> <p> If {@code d} is infinite and direction does not bring it back to finite numbers, it is returned unchanged.</p>  @param d base number @param direction (the only important thing is whether {@code direction} is greater or smaller than {@code d}) @return the next machine representable number in the specified direction ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.pow",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.pow(double,double)",
+    "snippet": "    public static double pow(double x, double y) {\n        final double lns[] = new double[2];\n\n        if (y == 0.0) {\n            return 1.0;\n        }\n\n        if (x != x) { // X is NaN\n            return x;\n        }\n\n\n        if (x == 0) {\n            long bits = Double.doubleToLongBits(x);\n            if ((bits & 0x8000000000000000L) != 0) {\n                // -zero\n                long yi = (long) y;\n\n                if (y < 0 && y == yi && (yi & 1) == 1) {\n                    return Double.NEGATIVE_INFINITY;\n                }\n\n                if (y > 0 && y == yi && (yi & 1) == 1) {\n                    return -0.0;\n                }\n            }\n\n            if (y < 0) {\n                return Double.POSITIVE_INFINITY;\n            }\n            if (y > 0) {\n                return 0.0;\n            }\n\n            return Double.NaN;\n        }\n\n        if (x == Double.POSITIVE_INFINITY) {\n            if (y != y) { // y is NaN\n                return y;\n            }\n            if (y < 0.0) {\n                return 0.0;\n            } else {\n                return Double.POSITIVE_INFINITY;\n            }\n        }\n\n        if (y == Double.POSITIVE_INFINITY) {\n            if (x * x == 1.0) {\n                return Double.NaN;\n            }\n\n            if (x * x > 1.0) {\n                return Double.POSITIVE_INFINITY;\n            } else {\n                return 0.0;\n            }\n        }\n\n        if (x == Double.NEGATIVE_INFINITY) {\n            if (y != y) { // y is NaN\n                return y;\n            }\n\n            if (y < 0) {\n                long yi = (long) y;\n                if (y == yi && (yi & 1) == 1) {\n                    return -0.0;\n                }\n\n                return 0.0;\n            }\n\n            if (y > 0)  {\n                long yi = (long) y;\n                if (y == yi && (yi & 1) == 1) {\n                    return Double.NEGATIVE_INFINITY;\n                }\n\n                return Double.POSITIVE_INFINITY;\n            }\n        }\n\n        if (y == Double.NEGATIVE_INFINITY) {\n\n            if (x * x == 1.0) {\n                return Double.NaN;\n            }\n\n            if (x * x < 1.0) {\n                return Double.POSITIVE_INFINITY;\n            } else {\n                return 0.0;\n            }\n        }\n\n        /* Handle special case x<0 */\n        if (x < 0) {\n            // y is an even integer in this case\n            if (y >= TWO_POWER_52 || y <= -TWO_POWER_52) {\n                return pow(-x, y);\n            }\n\n            if (y == (long) y) {\n                // If y is an integer\n                return ((long)y & 1) == 0 ? pow(-x, y) : -pow(-x, y);\n            } else {\n                return Double.NaN;\n            }\n        }\n\n        /* Split y into ya and yb such that y = ya+yb */\n        double ya;\n        double yb;\n        if (y < 8e298 && y > -8e298) {\n            double tmp1 = y * HEX_40000000;\n            ya = y + tmp1 - tmp1;\n            yb = y - ya;\n        } else {\n            double tmp1 = y * 9.31322574615478515625E-10;\n            double tmp2 = tmp1 * 9.31322574615478515625E-10;\n            ya = (tmp1 + tmp2 - tmp1) * HEX_40000000 * HEX_40000000;\n            yb = y - ya;\n        }\n\n        /* Compute ln(x) */\n        final double lores = log(x, lns);\n        if (Double.isInfinite(lores)){ // don't allow this to be converted to NaN\n            return lores;\n        }\n\n        double lna = lns[0];\n        double lnb = lns[1];\n\n        /* resplit lns */\n        double tmp1 = lna * HEX_40000000;\n        double tmp2 = lna + tmp1 - tmp1;\n        lnb += lna - tmp2;\n        lna = tmp2;\n\n        // y*ln(x) = (aa+ab)\n        final double aa = lna * ya;\n        final double ab = lna * yb + lnb * ya + lnb * yb;\n\n        lna = aa+ab;\n        lnb = -(lna - aa - ab);\n\n        double z = 1.0 / 120.0;\n        z = z * lnb + (1.0 / 24.0);\n        z = z * lnb + (1.0 / 6.0);\n        z = z * lnb + 0.5;\n        z = z * lnb + 1.0;\n        z = z * lnb;\n\n        final double result = exp(lna, z, null);\n        //result = result + result * z;\n        return result;\n    }",
+    "comment": " Power function.  Compute x^y.  @param x   a double @param y   a double @return double ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.sqrt",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.sqrt(double)",
+    "snippet": "    public static double sqrt(final double a) {\n        return Math.sqrt(a);\n    }",
+    "comment": "Compute the square root of a number. <p><b>Note:</b> this implementation currently delegates to {@link Math#sqrt} @param a number on which evaluation is done @return square root of a ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.ulp",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.ulp(double)",
+    "snippet": "    public static double ulp(double x) {\n        if (Double.isInfinite(x)) {\n            return Double.POSITIVE_INFINITY;\n        }\n        return abs(x - Double.longBitsToDouble(Double.doubleToLongBits(x) ^ 1));\n    }",
+    "comment": " Compute least significant bit (Unit in Last Position) for a number. @param x number from which ulp is requested @return ulp(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMathLiteralArrays.loadExpFracA",
+    "class_name": "org.apache.commons.math.util.FastMathLiteralArrays",
+    "signature": "org.apache.commons.math.util.FastMathLiteralArrays.loadExpFracA()",
+    "snippet": "    static double[] loadExpFracA() {\n        return EXP_FRAC_A;\n    }",
+    "comment": " Load \"EXP_FRAC_A\".  @return the data array. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMathLiteralArrays.loadExpFracB",
+    "class_name": "org.apache.commons.math.util.FastMathLiteralArrays",
+    "signature": "org.apache.commons.math.util.FastMathLiteralArrays.loadExpFracB()",
+    "snippet": "    static double[] loadExpFracB() {\n        return EXP_FRAC_B;\n    }",
+    "comment": " Load \"EXP_FRAC_B\".  @return the data array. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMathLiteralArrays.loadExpIntA",
+    "class_name": "org.apache.commons.math.util.FastMathLiteralArrays",
+    "signature": "org.apache.commons.math.util.FastMathLiteralArrays.loadExpIntA()",
+    "snippet": "    static double[] loadExpIntA() {\n        return EXP_INT_A;\n    }",
+    "comment": " Load \"EXP_INT_A\".  @return the data array. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMathLiteralArrays.loadExpIntB",
+    "class_name": "org.apache.commons.math.util.FastMathLiteralArrays",
+    "signature": "org.apache.commons.math.util.FastMathLiteralArrays.loadExpIntB()",
+    "snippet": "    static double[] loadExpIntB() {\n        return EXP_INT_B;\n    }",
+    "comment": " Load \"EXP_INT_B\".  @return the data array. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMathLiteralArrays.loadLnMant",
+    "class_name": "org.apache.commons.math.util.FastMathLiteralArrays",
+    "signature": "org.apache.commons.math.util.FastMathLiteralArrays.loadLnMant()",
+    "snippet": "    static double[][] loadLnMant() {\n        return LN_MANT;\n    }",
+    "comment": " Load \"LN_MANT\".  @return the data array. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.Incrementor",
+    "class_name": "org.apache.commons.math.util.Incrementor",
+    "signature": "org.apache.commons.math.util.Incrementor.Incrementor()",
+    "snippet": "    public Incrementor() {\n        this(0);\n    }",
+    "comment": " Default constructor. For the new instance to be useful, the maximal count must be set by calling {@link #setMaximalCount(int) setMaximalCount}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.Incrementor",
+    "class_name": "org.apache.commons.math.util.Incrementor",
+    "signature": "org.apache.commons.math.util.Incrementor.Incrementor(int)",
+    "snippet": "    public Incrementor(int max) {\n        this(max,\n             new MaxCountExceededCallback() {\n                 /** {@inheritDoc} */\n                 public void trigger(int max) {\n                     throw new MaxCountExceededException(max);\n                 }\n             });\n    }",
+    "comment": " Defines a maximal count.  @param max Maximal count. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.Incrementor",
+    "class_name": "org.apache.commons.math.util.Incrementor",
+    "signature": "org.apache.commons.math.util.Incrementor.Incrementor(int,MaxCountExceededCallback)",
+    "snippet": "    public Incrementor(int max,\n                       MaxCountExceededCallback cb) {\n        maximalCount = max;\n        maxCountCallback = cb;\n    }",
+    "comment": " Defines a maximal count and a callback method to be triggered at counter exhaustion.  @param max Maximal count. @param cb Function to be called when the maximal count has been reached. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.incrementCount",
+    "class_name": "org.apache.commons.math.util.Incrementor",
+    "signature": "org.apache.commons.math.util.Incrementor.incrementCount()",
+    "snippet": "    public void incrementCount() {\n        if (++count > maximalCount) {\n            maxCountCallback.trigger(maximalCount);\n        }\n    }",
+    "comment": " Adds one to the current iteration count. At counter exhaustion, this method will call the {@link MaxCountExceededCallback#trigger(int) trigger} method of the callback object passed to the {@link #Incrementor(int,MaxCountExceededCallback) constructor}. If not explictly set, a default callback is used that will throw a {@code MaxCountExceededException}.  @throws MaxCountExceededException at counter exhaustion, unless a custom {@link MaxCountExceededCallback callback} has been set at construction. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.resetCount",
+    "class_name": "org.apache.commons.math.util.Incrementor",
+    "signature": "org.apache.commons.math.util.Incrementor.resetCount()",
+    "snippet": "    public void resetCount() {\n        count = 0;\n    }",
+    "comment": " Resets the counter to 0. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.setMaximalCount",
+    "class_name": "org.apache.commons.math.util.Incrementor",
+    "signature": "org.apache.commons.math.util.Incrementor.setMaximalCount(int)",
+    "snippet": "    public void setMaximalCount(int max) {\n        maximalCount = max;\n    }",
+    "comment": " Sets the upper limit for the counter. This does not automatically reset the current count to zero (see {@link #resetCount()}).  @param max Upper limit of the counter. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

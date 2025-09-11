@@ -1,0 +1,262 @@
+[
+  {
+    "name": "Series.Series",
+    "class_name": "org.jfree.data.general.Series",
+    "signature": "org.jfree.data.general.Series.Series(Comparable)",
+    "snippet": "    protected Series(Comparable key) {\n        this(key, null);\n    }",
+    "comment": " Creates a new series with the specified key.    @param key  the series key (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Series.Series",
+    "class_name": "org.jfree.data.general.Series",
+    "signature": "org.jfree.data.general.Series.Series(Comparable,String)",
+    "snippet": "    protected Series(Comparable key, String description) {\n        if (key == null) {\n            throw new IllegalArgumentException(\"Null 'key' argument.\");\n        }\n        this.key = key;\n        this.description = description;\n        this.listeners = new EventListenerList();\n        this.propertyChangeSupport = new PropertyChangeSupport(this);\n        this.notify = true;   \n    }",
+    "comment": " Creates a new series with the specified key and description.  @param key  the series key (<code>null</code> NOT permitted). @param description  the series description (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Series.fireSeriesChanged",
+    "class_name": "org.jfree.data.general.Series",
+    "signature": "org.jfree.data.general.Series.fireSeriesChanged()",
+    "snippet": "    public void fireSeriesChanged() {\n        if (this.notify) {\n            notifyListeners(new SeriesChangeEvent(this));\n        }\n    }",
+    "comment": " General method for signalling to registered listeners that the series has been changed. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Series.notifyListeners",
+    "class_name": "org.jfree.data.general.Series",
+    "signature": "org.jfree.data.general.Series.notifyListeners(SeriesChangeEvent)",
+    "snippet": "    protected void notifyListeners(SeriesChangeEvent event) {\n\n        Object[] listenerList = this.listeners.getListenerList();\n        for (int i = listenerList.length - 2; i >= 0; i -= 2) {\n            if (listenerList[i] == SeriesChangeListener.class) {\n                ((SeriesChangeListener) listenerList[i + 1]).seriesChanged(\n                        event);\n            }\n        }\n\n    }",
+    "comment": " Sends a change event to all registered listeners.  @param event  contains information about the event that triggered the  notification. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SeriesChangeEvent.SeriesChangeEvent",
+    "class_name": "org.jfree.data.general.SeriesChangeEvent",
+    "signature": "org.jfree.data.general.SeriesChangeEvent.SeriesChangeEvent(Object)",
+    "snippet": "    public SeriesChangeEvent(Object source) {\n        super(source);\n    }",
+    "comment": " Constructs a new event.  @param source  the source of the change event. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimeSeries.TimeSeries",
+    "class_name": "org.jfree.data.time.TimeSeries",
+    "signature": "org.jfree.data.time.TimeSeries.TimeSeries(Comparable)",
+    "snippet": "    public TimeSeries(Comparable name) {\n        this(name, DEFAULT_DOMAIN_DESCRIPTION, DEFAULT_RANGE_DESCRIPTION, \n                Day.class);\n    }",
+    "comment": " Creates a new (empty) time series.  By default, a daily time series is  created.  Use one of the other constructors if you require a different  time period.  @param name  the series name (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimeSeries.TimeSeries",
+    "class_name": "org.jfree.data.time.TimeSeries",
+    "signature": "org.jfree.data.time.TimeSeries.TimeSeries(Comparable,Class)",
+    "snippet": "    public TimeSeries(Comparable name, Class timePeriodClass) {\n        this(name, DEFAULT_DOMAIN_DESCRIPTION, DEFAULT_RANGE_DESCRIPTION, \n                timePeriodClass);\n    }",
+    "comment": " Creates a new (empty) time series with the specified name and class of {@link RegularTimePeriod}.  @param name  the series name (<code>null</code> not permitted). @param timePeriodClass  the type of time period (<code>null</code> not  permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimeSeries.TimeSeries",
+    "class_name": "org.jfree.data.time.TimeSeries",
+    "signature": "org.jfree.data.time.TimeSeries.TimeSeries(Comparable,String,String,Class)",
+    "snippet": "    public TimeSeries(Comparable name, String domain, String range, \n                      Class timePeriodClass) {\n        super(name);\n        this.domain = domain;\n        this.range = range;\n        this.timePeriodClass = timePeriodClass;\n        this.data = new java.util.ArrayList();\n        this.maximumItemCount = Integer.MAX_VALUE;\n        this.maximumItemAge = Long.MAX_VALUE;\n    }",
+    "comment": " Creates a new time series that contains no data. <P> Descriptions can be specified for the domain and range.  One situation where this is helpful is when generating a chart for the time series - axis labels can be taken from the domain and range description.  @param name  the name of the series (<code>null</code> not permitted). @param domain  the domain description (<code>null</code> permitted). @param range  the range description (<code>null</code> permitted). @param timePeriodClass  the type of time period (<code>null</code> not  permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimeSeries.add",
+    "class_name": "org.jfree.data.time.TimeSeries",
+    "signature": "org.jfree.data.time.TimeSeries.add(RegularTimePeriod,Number)",
+    "snippet": "    public void add(RegularTimePeriod period, Number value) {\n        // defer argument checking...\n        add(period, value, true);\n    }",
+    "comment": " Adds a new data item to the series and sends  a {@link org.jfree.data.general.SeriesChangeEvent} to all registered  listeners.  @param period  the time period (<code>null</code> not permitted). @param value  the value (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimeSeries.add",
+    "class_name": "org.jfree.data.time.TimeSeries",
+    "signature": "org.jfree.data.time.TimeSeries.add(RegularTimePeriod,Number,boolean)",
+    "snippet": "    public void add(RegularTimePeriod period, Number value, boolean notify) {\n        // defer argument checking...\n        TimeSeriesDataItem item = new TimeSeriesDataItem(period, value);\n        add(item, notify);\n    }",
+    "comment": " Adds a new data item to the series and sends  a {@link org.jfree.data.general.SeriesChangeEvent} to all registered  listeners.  @param period  the time period (<code>null</code> not permitted). @param value  the value (<code>null</code> permitted). @param notify  notify listeners? ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimeSeries.add",
+    "class_name": "org.jfree.data.time.TimeSeries",
+    "signature": "org.jfree.data.time.TimeSeries.add(TimeSeriesDataItem,boolean)",
+    "snippet": "    public void add(TimeSeriesDataItem item, boolean notify) {\n        if (item == null) {\n            throw new IllegalArgumentException(\"Null 'item' argument.\");\n        }\n        if (!item.getPeriod().getClass().equals(this.timePeriodClass)) {\n            StringBuffer b = new StringBuffer();\n            b.append(\"You are trying to add data where the time period class \");\n            b.append(\"is \");\n            b.append(item.getPeriod().getClass().getName());\n            b.append(\", but the TimeSeries is expecting an instance of \");\n            b.append(this.timePeriodClass.getName());\n            b.append(\".\");\n            throw new SeriesException(b.toString());\n        }\n\n        // make the change (if it's not a duplicate time period)...\n        boolean added = false;\n        int count = getItemCount();\n        if (count == 0) {\n            this.data.add(item);\n            added = true;\n        }\n        else {\n            RegularTimePeriod last = getTimePeriod(getItemCount() - 1);\n            if (item.getPeriod().compareTo(last) > 0) {\n                this.data.add(item);\n                added = true;\n            }\n            else {\n                int index = Collections.binarySearch(this.data, item);\n                if (index < 0) {\n                    this.data.add(-index - 1, item);\n                    added = true;\n                }\n                else {\n                    StringBuffer b = new StringBuffer();\n                    b.append(\"You are attempting to add an observation for \");\n                    b.append(\"the time period \");\n                    b.append(item.getPeriod().toString());\n                    b.append(\" but the series already contains an observation\");\n                    b.append(\" for that time period. Duplicates are not \");\n                    b.append(\"permitted.  Try using the addOrUpdate() method.\");\n                    throw new SeriesException(b.toString());\n                }\n            }\n        }\n        if (added) {\n            // check if this addition will exceed the maximum item count...\n            if (getItemCount() > this.maximumItemCount) {\n                this.data.remove(0);\n            }\n\n            removeAgedItems(false);  // remove old items if necessary, but\n                                     // don't notify anyone, because that\n                                     // happens next anyway...\n            if (notify) {\n                fireSeriesChanged();\n            }\n        }\n\n    }",
+    "comment": " Adds a data item to the series and sends a  {@link org.jfree.data.general.SeriesChangeEvent} to all registered  listeners.  @param item  the (timeperiod, value) pair (<code>null</code> not  permitted). @param notify  notify listeners? ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimeSeries.clone",
+    "class_name": "org.jfree.data.time.TimeSeries",
+    "signature": "org.jfree.data.time.TimeSeries.clone()",
+    "snippet": "    public Object clone() throws CloneNotSupportedException {\n        Object clone = createCopy(0, getItemCount() - 1);\n        return clone;\n    }",
+    "comment": " Returns a clone of the time series. <P> Notes: <ul> <li>no need to clone the domain and range descriptions, since String  object is immutable;</li> <li>we pass over to the more general method clone(start, end).</li> </ul>  @return A clone of the time series.  @throws CloneNotSupportedException not thrown by this class, but  subclasses may differ. ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimeSeries.createCopy",
+    "class_name": "org.jfree.data.time.TimeSeries",
+    "signature": "org.jfree.data.time.TimeSeries.createCopy(int,int)",
+    "snippet": "    public TimeSeries createCopy(int start, int end) \n        throws CloneNotSupportedException {\n\n        if (start < 0) {\n            throw new IllegalArgumentException(\"Requires start >= 0.\");\n        }\n        if (end < start) {\n            throw new IllegalArgumentException(\"Requires start <= end.\");\n        }\n        TimeSeries copy = (TimeSeries) super.clone();\n\n        copy.data = new java.util.ArrayList();\n        if (this.data.size() > 0) {\n            for (int index = start; index <= end; index++) {\n                TimeSeriesDataItem item \n                    = (TimeSeriesDataItem) this.data.get(index);\n                TimeSeriesDataItem clone = (TimeSeriesDataItem) item.clone();\n                try {\n                    copy.add(clone);\n                }\n                catch (SeriesException e) {\n                    e.printStackTrace();\n                }\n            }\n        }\n        return copy;\n    }",
+    "comment": " Creates a new timeseries by copying a subset of the data in this time series.  @param start  the index of the first time period to copy. @param end  the index of the last time period to copy.  @return A series containing a copy of this times series from start until end.  @throws CloneNotSupportedException if there is a cloning problem. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimeSeries.getDataItem",
+    "class_name": "org.jfree.data.time.TimeSeries",
+    "signature": "org.jfree.data.time.TimeSeries.getDataItem(int)",
+    "snippet": "    public TimeSeriesDataItem getDataItem(int index) {\n        return (TimeSeriesDataItem) this.data.get(index);\n    }",
+    "comment": " Returns a data item for the series.  @param index  the item index (zero-based).  @return The data item.  @see #getDataItem(RegularTimePeriod) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimeSeries.getItemCount",
+    "class_name": "org.jfree.data.time.TimeSeries",
+    "signature": "org.jfree.data.time.TimeSeries.getItemCount()",
+    "snippet": "    public int getItemCount() {\n        return this.data.size();\n    }",
+    "comment": " Returns the number of items in the series.  @return The item count. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimeSeries.getTimePeriod",
+    "class_name": "org.jfree.data.time.TimeSeries",
+    "signature": "org.jfree.data.time.TimeSeries.getTimePeriod(int)",
+    "snippet": "    public RegularTimePeriod getTimePeriod(int index) {\n        return getDataItem(index).getPeriod();\n    }",
+    "comment": " Returns the time period at the specified index.  @param index  the index of the data item.  @return The time period. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimeSeries.removeAgedItems",
+    "class_name": "org.jfree.data.time.TimeSeries",
+    "signature": "org.jfree.data.time.TimeSeries.removeAgedItems(boolean)",
+    "snippet": "    public void removeAgedItems(boolean notify) {\n        // check if there are any values earlier than specified by the history \n        // count...\n        if (getItemCount() > 1) {\n            long latest = getTimePeriod(getItemCount() - 1).getSerialIndex();\n            boolean removed = false;\n            while ((latest - getTimePeriod(0).getSerialIndex()) \n                    > this.maximumItemAge) {\n                this.data.remove(0);\n                removed = true;\n            }\n            if (removed && notify) {\n                fireSeriesChanged();\n            }\n        }\n    }",
+    "comment": " Age items in the series.  Ensure that the timespan from the youngest to  the oldest record in the series does not exceed maximumItemAge time  periods.  Oldest items will be removed if required.  @param notify  controls whether or not a {@link SeriesChangeEvent} is  sent to registered listeners IF any items are removed. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimeSeriesDataItem.TimeSeriesDataItem",
+    "class_name": "org.jfree.data.time.TimeSeriesDataItem",
+    "signature": "org.jfree.data.time.TimeSeriesDataItem.TimeSeriesDataItem(RegularTimePeriod,Number)",
+    "snippet": "    public TimeSeriesDataItem(RegularTimePeriod period, Number value) {\n        if (period == null) {\n            throw new IllegalArgumentException(\"Null 'period' argument.\");   \n        }\n        this.period = period;\n        this.value = value;\n    }",
+    "comment": " Constructs a new data item that associates a value with a time period.  @param period  the time period (<code>null</code> not permitted). @param value  the value (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TimeSeriesDataItem.getPeriod",
+    "class_name": "org.jfree.data.time.TimeSeriesDataItem",
+    "signature": "org.jfree.data.time.TimeSeriesDataItem.getPeriod()",
+    "snippet": "    public RegularTimePeriod getPeriod() {\n        return this.period;\n    }",
+    "comment": " Returns the time period.  @return The time period (never <code>null</code>). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Year.Year",
+    "class_name": "org.jfree.data.time.Year",
+    "signature": "org.jfree.data.time.Year.Year(int)",
+    "snippet": "    public Year(int year) {\n        if ((year < SerialDate.MINIMUM_YEAR_SUPPORTED)\n            || (year > SerialDate.MAXIMUM_YEAR_SUPPORTED)) {\n\n            throw new IllegalArgumentException(\n                \"Year constructor: year (\" + year + \") outside valid range.\");\n        }\n        this.year = (short) year;\n        peg(Calendar.getInstance());\n    }",
+    "comment": " Creates a time period representing a single year.  @param year  the year. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Year.compareTo",
+    "class_name": "org.jfree.data.time.Year",
+    "signature": "org.jfree.data.time.Year.compareTo(Object)",
+    "snippet": "    public int compareTo(Object o1) {\n\n        int result;\n\n        // CASE 1 : Comparing to another Year object\n        // -----------------------------------------\n        if (o1 instanceof Year) {\n            Year y = (Year) o1;\n            result = this.year - y.getYear();\n        }\n\n        // CASE 2 : Comparing to another TimePeriod object\n        // -----------------------------------------------\n        else if (o1 instanceof RegularTimePeriod) {\n            // more difficult case - evaluate later...\n            result = 0;\n        }\n\n        // CASE 3 : Comparing to a non-TimePeriod object\n        // ---------------------------------------------\n        else {\n            // consider time periods to be ordered after general objects\n            result = 1;\n        }\n\n        return result;\n\n    }",
+    "comment": " Returns an integer indicating the order of this <code>Year</code> object relative to the specified object:  negative == before, zero == same, positive == after.  @param o1  the object to compare.  @return negative == before, zero == same, positive == after. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Year.getFirstMillisecond",
+    "class_name": "org.jfree.data.time.Year",
+    "signature": "org.jfree.data.time.Year.getFirstMillisecond(Calendar)",
+    "snippet": "    public long getFirstMillisecond(Calendar calendar) {\n        calendar.set(this.year, Calendar.JANUARY, 1, 0, 0, 0);\n        calendar.set(Calendar.MILLISECOND, 0);\n        // in the following line, we'd rather call calendar.getTimeInMillis()\n        // to avoid object creation, but that isn't supported in Java 1.3.1\n        return calendar.getTime().getTime();\n    }",
+    "comment": " Returns the first millisecond of the year, evaluated using the supplied calendar (which determines the time zone).  @param calendar  the calendar (<code>null</code> not permitted).  @return The first millisecond of the year.  @throws NullPointerException if <code>calendar</code> is  <code>null</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Year.getLastMillisecond",
+    "class_name": "org.jfree.data.time.Year",
+    "signature": "org.jfree.data.time.Year.getLastMillisecond(Calendar)",
+    "snippet": "    public long getLastMillisecond(Calendar calendar) {\n        calendar.set(this.year, Calendar.DECEMBER, 31, 23, 59, 59);\n        calendar.set(Calendar.MILLISECOND, 999);\n        // in the following line, we'd rather call calendar.getTimeInMillis()\n        // to avoid object creation, but that isn't supported in Java 1.3.1\n        return calendar.getTime().getTime();\n    }",
+    "comment": " Returns the last millisecond of the year, evaluated using the supplied calendar (which determines the time zone).  @param calendar  the calendar (<code>null</code> not permitted).  @return The last millisecond of the year.  @throws NullPointerException if <code>calendar</code> is  <code>null</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Year.getSerialIndex",
+    "class_name": "org.jfree.data.time.Year",
+    "signature": "org.jfree.data.time.Year.getSerialIndex()",
+    "snippet": "    public long getSerialIndex() {\n        return this.year;\n    }",
+    "comment": " Returns a serial index number for the year. <P> The implementation simply returns the year number (e.g. 2002).  @return The serial index number. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Year.getYear",
+    "class_name": "org.jfree.data.time.Year",
+    "signature": "org.jfree.data.time.Year.getYear()",
+    "snippet": "    public int getYear() {\n        return this.year;\n    }",
+    "comment": " Returns the year.  @return The year. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Year.peg",
+    "class_name": "org.jfree.data.time.Year",
+    "signature": "org.jfree.data.time.Year.peg(Calendar)",
+    "snippet": "    public void peg(Calendar calendar) {\n        this.firstMillisecond = getFirstMillisecond(calendar);\n        this.lastMillisecond = getLastMillisecond(calendar);\n    }",
+    "comment": " Recalculates the start date/time and end date/time for this time period  relative to the supplied calendar (which incorporates a time zone).  @param calendar  the calendar (<code>null</code> not permitted).  @since 1.0.3 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

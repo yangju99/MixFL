@@ -1,0 +1,22 @@
+[
+  {
+    "name": "StandardToolTipTagFragmentGenerator.StandardToolTipTagFragmentGenerator",
+    "class_name": "org.jfree.chart.imagemap.StandardToolTipTagFragmentGenerator",
+    "signature": "org.jfree.chart.imagemap.StandardToolTipTagFragmentGenerator.StandardToolTipTagFragmentGenerator()",
+    "snippet": "    public StandardToolTipTagFragmentGenerator() {\n        super();\n    }",
+    "comment": " Creates a new instance. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StandardToolTipTagFragmentGenerator.generateToolTipFragment",
+    "class_name": "org.jfree.chart.imagemap.StandardToolTipTagFragmentGenerator",
+    "signature": "org.jfree.chart.imagemap.StandardToolTipTagFragmentGenerator.generateToolTipFragment(String)",
+    "snippet": "    public String generateToolTipFragment(String toolTipText) {\n        return \" title=\\\"\" + toolTipText\n            + \"\\\" alt=\\\"\\\"\";\n    }",
+    "comment": " Generates a tooltip string to go in an HTML image map.  @param toolTipText  the tooltip.  @return The formatted HTML area tag attribute(s). ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

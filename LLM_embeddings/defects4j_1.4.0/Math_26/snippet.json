@@ -1,0 +1,142 @@
+[
+  {
+    "name": "ConvergenceException.ConvergenceException",
+    "class_name": "org.apache.commons.math3.exception.ConvergenceException",
+    "signature": "org.apache.commons.math3.exception.ConvergenceException.ConvergenceException(Localizable,Object[])",
+    "snippet": "    public ConvergenceException(Localizable pattern,\n                                Object ... args) {\n        getContext().addMessage(pattern, args);\n    }",
+    "comment": " Construct the exception with a specific context and arguments.  @param pattern Message pattern providing the specific context of the error. @param args Arguments. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathIllegalStateException.MathIllegalStateException",
+    "class_name": "org.apache.commons.math3.exception.MathIllegalStateException",
+    "signature": "org.apache.commons.math3.exception.MathIllegalStateException.MathIllegalStateException()",
+    "snippet": "    public MathIllegalStateException() {\n        this(LocalizedFormats.ILLEGAL_STATE);\n    }",
+    "comment": " Default constructor. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathIllegalStateException.MathIllegalStateException",
+    "class_name": "org.apache.commons.math3.exception.MathIllegalStateException",
+    "signature": "org.apache.commons.math3.exception.MathIllegalStateException.MathIllegalStateException(Localizable,Object[])",
+    "snippet": "    public MathIllegalStateException(Localizable pattern,\n                                     Object ... args) {\n        context = new ExceptionContext(this);\n        context.addMessage(pattern, args);\n    }",
+    "comment": " Simple constructor.  @param pattern Message pattern explaining the cause of the error. @param args Arguments. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathIllegalStateException.getContext",
+    "class_name": "org.apache.commons.math3.exception.MathIllegalStateException",
+    "signature": "org.apache.commons.math3.exception.MathIllegalStateException.getContext()",
+    "snippet": "    public ExceptionContext getContext() {\n        return context;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ArgUtils.flatten",
+    "class_name": "org.apache.commons.math3.exception.util.ArgUtils",
+    "signature": "org.apache.commons.math3.exception.util.ArgUtils.flatten(Object[])",
+    "snippet": "    public static Object[] flatten(Object[] array) {\n        final List<Object> list = new ArrayList<Object>();\n        if (array != null) {\n            for (Object o : array) {\n                if (o instanceof Object[]) {\n                    for (Object oR : flatten((Object[]) o)) {\n                        list.add(oR);\n                    }\n                } else {\n                    list.add(o);\n                }\n            }\n        }\n        return list.toArray();\n    }",
+    "comment": " Transform a multidimensional array into a one-dimensional list.  @param array Array (possibly multidimensional). @return a list of all the {@code Object} instances contained in {@code array}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExceptionContext.ExceptionContext",
+    "class_name": "org.apache.commons.math3.exception.util.ExceptionContext",
+    "signature": "org.apache.commons.math3.exception.util.ExceptionContext.ExceptionContext(Throwable)",
+    "snippet": "    public ExceptionContext(final Throwable throwable) {\n        this.throwable = throwable;\n        msgPatterns    = new ArrayList<Localizable>();\n        msgArguments   = new ArrayList<Object[]>();\n        context        = new HashMap<String, Object>();\n    }",
+    "comment": "Simple constructor. @param throwable the exception this context refers too ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ExceptionContext.addMessage",
+    "class_name": "org.apache.commons.math3.exception.util.ExceptionContext",
+    "signature": "org.apache.commons.math3.exception.util.ExceptionContext.addMessage(Localizable,Object[])",
+    "snippet": "    public void addMessage(Localizable pattern,\n                           Object ... arguments) {\n        msgPatterns.add(pattern);\n        msgArguments.add(ArgUtils.flatten(arguments));\n    }",
+    "comment": " Adds a message.  @param pattern Message pattern. @param arguments Values for replacing the placeholders in the message pattern. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Fraction.Fraction",
+    "class_name": "org.apache.commons.math3.fraction.Fraction",
+    "signature": "org.apache.commons.math3.fraction.Fraction.Fraction(double,double,int)",
+    "snippet": "    public Fraction(double value, double epsilon, int maxIterations)\n        throws FractionConversionException\n    {\n        this(value, epsilon, Integer.MAX_VALUE, maxIterations);\n    }",
+    "comment": " Create a fraction given the double value and maximum error allowed. <p> References: <ul> <li><a href=\"http://mathworld.wolfram.com/ContinuedFraction.html\"> Continued Fraction</a> equations (11) and (22)-(26)</li> </ul> </p> @param value the double value to convert to a fraction. @param epsilon maximum error allowed.  The resulting fraction is within {@code epsilon} of {@code value}, in absolute terms. @param maxIterations maximum number of convergents @throws FractionConversionException if the continued fraction failed to converge. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Fraction.Fraction",
+    "class_name": "org.apache.commons.math3.fraction.Fraction",
+    "signature": "org.apache.commons.math3.fraction.Fraction.Fraction(int,int)",
+    "snippet": "    public Fraction(int num, int den) {\n        if (den == 0) {\n            throw new MathArithmeticException(LocalizedFormats.ZERO_DENOMINATOR_IN_FRACTION,\n                                              num, den);\n        }\n        if (den < 0) {\n            if (num == Integer.MIN_VALUE ||\n                den == Integer.MIN_VALUE) {\n                throw new MathArithmeticException(LocalizedFormats.OVERFLOW_IN_FRACTION,\n                                                  num, den);\n            }\n            num = -num;\n            den = -den;\n        }\n        // reduce numerator and denominator by greatest common denominator.\n        final int d = ArithmeticUtils.gcd(num, den);\n        if (d > 1) {\n            num /= d;\n            den /= d;\n        }\n\n        // move sign to numerator.\n        if (den < 0) {\n            num = -num;\n            den = -den;\n        }\n        this.numerator   = num;\n        this.denominator = den;\n    }",
+    "comment": " Create a fraction given the numerator and denominator.  The fraction is reduced to lowest terms. @param num the numerator. @param den the denominator. @throws MathArithmeticException if the denominator is {@code zero} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FractionConversionException.FractionConversionException",
+    "class_name": "org.apache.commons.math3.fraction.FractionConversionException",
+    "signature": "org.apache.commons.math3.fraction.FractionConversionException.FractionConversionException(double,long,long)",
+    "snippet": "    public FractionConversionException(double value, long p, long q) {\n        super(LocalizedFormats.FRACTION_CONVERSION_OVERFLOW, value, p, q);\n    }",
+    "comment": " Constructs an exception with specified formatted detail message. Message formatting is delegated to {@link java.text.MessageFormat}. @param value double value to convert @param p current numerator @param q current denominator ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ArithmeticUtils.gcd",
+    "class_name": "org.apache.commons.math3.util.ArithmeticUtils",
+    "signature": "org.apache.commons.math3.util.ArithmeticUtils.gcd(int,int)",
+    "snippet": "    public static int gcd(final int p, final int q) {\n        int u = p;\n        int v = q;\n        if ((u == 0) || (v == 0)) {\n            if ((u == Integer.MIN_VALUE) || (v == Integer.MIN_VALUE)) {\n                throw new MathArithmeticException(LocalizedFormats.GCD_OVERFLOW_32_BITS,\n                                                  p, q);\n            }\n            return FastMath.abs(u) + FastMath.abs(v);\n        }\n        // keep u and v negative, as negative integers range down to\n        // -2^31, while positive numbers can only be as large as 2^31-1\n        // (i.e. we can't necessarily negate a negative number without\n        // overflow)\n        /* assert u!=0 && v!=0; */\n        if (u > 0) {\n            u = -u;\n        } // make u negative\n        if (v > 0) {\n            v = -v;\n        } // make v negative\n        // B1. [Find power of 2]\n        int k = 0;\n        while ((u & 1) == 0 && (v & 1) == 0 && k < 31) { // while u and v are\n                                                            // both even...\n            u /= 2;\n            v /= 2;\n            k++; // cast out twos.\n        }\n        if (k == 31) {\n            throw new MathArithmeticException(LocalizedFormats.GCD_OVERFLOW_32_BITS,\n                                              p, q);\n        }\n        // B2. Initialize: u and v have been divided by 2^k and at least\n        // one is odd.\n        int t = ((u & 1) == 1) ? v : -(u / 2)/* B3 */;\n        // t negative: u was odd, v may be even (t replaces v)\n        // t positive: u was even, v is odd (t replaces u)\n        do {\n            /* assert u<0 && v<0; */\n            // B4/B3: cast out twos from t.\n            while ((t & 1) == 0) { // while t is even..\n                t /= 2; // cast out twos\n            }\n            // B5 [reset max(u,v)]\n            if (t > 0) {\n                u = -t;\n            } else {\n                v = t;\n            }\n            // B6/B3. at this point both u and v should be odd.\n            t = (v - u) / 2;\n            // |u| larger: t positive (replace u)\n            // |v| larger: t negative (replace v)\n        } while (t != 0);\n        return -u * (1 << k); // gcd is u*2^k\n    }",
+    "comment": " <p> Gets the greatest common divisor of the absolute value of two numbers, using the \"binary gcd\" method which avoids division and modulo operations. See Knuth 4.5.2 algorithm B. This algorithm is due to Josef Stein (1961). </p> Special cases: <ul> <li>The invocations {@code gcd(Integer.MIN_VALUE, Integer.MIN_VALUE)}, {@code gcd(Integer.MIN_VALUE, 0)} and {@code gcd(0, Integer.MIN_VALUE)} throw an {@code ArithmeticException}, because the result would be 2^31, which is too large for an int value.</li> <li>The result of {@code gcd(x, x)}, {@code gcd(0, x)} and {@code gcd(x, 0)} is the absolute value of {@code x}, except for the special cases above. <li>The invocation {@code gcd(0, 0)} is the only one which returns {@code 0}.</li> </ul>  @param p Number. @param q Number. @return the greatest common divisor, never negative. @throws MathArithmeticException if the result cannot be represented as a non-negative {@code int} value. @since 1.1 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.abs",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.abs(double)",
+    "snippet": "    public static double abs(double x) {\n        return (x < 0.0) ? -x : (x == 0.0) ? 0.0 : x; // -0.0 => +0.0\n    }",
+    "comment": " Absolute value. @param x number from which absolute value is requested @return abs(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.abs",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.abs(int)",
+    "snippet": "    public static int abs(final int x) {\n        return (x < 0) ? -x : x;\n    }",
+    "comment": " Absolute value. @param x number from which absolute value is requested @return abs(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.floor",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.floor(double)",
+    "snippet": "    public static double floor(double x) {\n        long y;\n\n        if (x != x) { // NaN\n            return x;\n        }\n\n        if (x >= TWO_POWER_52 || x <= -TWO_POWER_52) {\n            return x;\n        }\n\n        y = (long) x;\n        if (x < 0 && y != x) {\n            y--;\n        }\n\n        if (y == 0) {\n            return x*y;\n        }\n\n        return y;\n    }",
+    "comment": "Get the largest whole number smaller than x. @param x number from which floor is requested @return a double number f such that f is an integer f <= x < f + 1.0 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

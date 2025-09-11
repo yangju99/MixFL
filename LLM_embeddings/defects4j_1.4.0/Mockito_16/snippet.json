@@ -1,0 +1,1162 @@
+[
+  {
+    "name": "Mockito.mock",
+    "class_name": "org.mockito.Mockito",
+    "signature": "org.mockito.Mockito.mock(Class,Answer)",
+    "snippet": "    public static <T> T mock(Class<T> classToMock, Answer defaultAnswer) {\n        return mock(classToMock, withSettings().defaultAnswer(defaultAnswer));\n    }",
+    "comment": " Creates mock with a specified strategy for its answers to interactions.  It's quite advanced feature and typically you don't need it to write decent tests. However it can be helpful when working with legacy systems. <p> It is the default answer so it will be used <b>only when you don't</b> stub the method call.  <pre> Foo mock = mock(Foo.class, RETURNS_SMART_NULLS); Foo mockTwo = mock(Foo.class, new YourOwnAnswer());  </pre>  <p>See examples in javadoc for {@link Mockito} class</p>  @param classToMock class or interface to mock @param defaultAnswer default answer for unstubbed methods  @return mock object ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Mockito.mock",
+    "class_name": "org.mockito.Mockito",
+    "signature": "org.mockito.Mockito.mock(Class,MockSettings)",
+    "snippet": "    public static <T> T mock(Class<T> classToMock, MockSettings mockSettings) {\n        return MOCKITO_CORE.mock(classToMock, mockSettings);\n    }",
+    "comment": " Creates a mock with some non-standard settings. <p> The number of configuration points for a mock grows  so we need a fluent way to introduce new configuration without adding more and more overloaded Mockito.mock() methods.  Hence {@link MockSettings}. <pre> Listener mock = mock(Listener.class, withSettings() .name(\"firstListner\").defaultBehavior(RETURNS_SMART_NULLS)); );   </pre> <b>Use it carefully and occasionally</b>. What might be reason your test needs non-standard mocks?  Is the code under test so complicated that it requires non-standard mocks?  Wouldn't you prefer to refactor the code under test so it is testable in a simple way? <p> See also {@link Mockito#withSettings()} <p> See examples in javadoc for {@link Mockito} class  @param classToMock class or interface to mock @param mockSettings additional mock settings @return mock object ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Mockito.when",
+    "class_name": "org.mockito.Mockito",
+    "signature": "org.mockito.Mockito.when(T)",
+    "snippet": "    public static <T> OngoingStubbing<T> when(T methodCall) {\n        return MOCKITO_CORE.when(methodCall);\n    }",
+    "comment": " Enables stubbing methods. Use it when you want the mock to return particular value when particular method is called.  <p> Simply put: \"<b>When</b> the x method is called <b>then</b> return y\". <p> <b>when() is a successor of deprecated {@link Mockito#stub(Object)}</b> <p> Examples:  <pre> <b>when</b>(mock.someMethod()).<b>thenReturn</b>(10);  you can use flexible argument matchers, e.g: when(mock.someMethod(<b>anyString()</b>)).thenReturn(10);  setting exception to be thrown: when(mock.someMethod(\"some arg\")).thenThrow(new RuntimeException());  you can set different behavior for consecutive method calls. Last stubbing (e.g: thenReturn(\"foo\")) determines the behavior of further consecutive calls. when(mock.someMethod(\"some arg\")) .thenThrow(new RuntimeException()) .thenReturn(\"foo\");  Alternative, shorter version for consecutive stubbing: when(mock.someMethod(\"some arg\")) .thenReturn(\"one\", \"two\"); is the same as: when(mock.someMethod(\"some arg\")) .thenReturn(\"one\") .thenReturn(\"two\");  shorter version for consecutive method calls throwing exceptions: when(mock.someMethod(\"some arg\")) .thenThrow(new RuntimeException(), new NullPointerException();  </pre>  For stubbing void methods with throwables see: {@link Mockito#doThrow(Throwable)} <p> Stubbing can be overridden: for example common stubbing can go to fixture setup but the test methods can override it. Please note that overridding stubbing is a potential code smell that points out too much stubbing. <p> Once stubbed, the method will always return stubbed value regardless of how many times it is called. <p> Last stubbing is more important - when you stubbed the same method with the same arguments many times. <p> Although it is possible to verify a stubbed invocation, usually <b>it's just redundant</b>. Let's say you've stubbed foo.bar().  If your code cares what foo.bar() returns then something else breaks(often before even verify() gets executed). If your code doesn't care what get(0) returns then it should not be stubbed.  Not convinced? See <a href=\"http://monkeyisland.pl/2008/04/26/asking-and-telling\">here</a>.  <p> See examples in javadoc for {@link Mockito} class @param methodCall method to be stubbed ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Mockito.withSettings",
+    "class_name": "org.mockito.Mockito",
+    "signature": "org.mockito.Mockito.withSettings()",
+    "snippet": "    public static MockSettings withSettings() {\n        return new MockSettingsImpl().defaultAnswer(RETURNS_DEFAULTS);\n    }",
+    "comment": " Allows mock creation with additional mock settings.  <p> Don't use it too often.  Consider writing simple tests that use simple mocks.  Repeat after me: simple tests push simple, KISSy, readable & maintainable code. If you cannot write a test in a simple way - refactor the code under test. <p> Examples of mock settings: <pre> Creates mock with different default answer & name Foo mock = mock(Foo.class, withSettings() .defaultAnswer(RETURNS_SMART_NULLS) .name(\"cool mockie\"));  Creates mock with different default answer, descriptive name and extra interfaces Foo mock = mock(Foo.class, withSettings() .defaultAnswer(RETURNS_SMART_NULLS) .name(\"cool mockie\") .extraInterfaces(Bar.class));     </pre> {@link MockSettings} has been introduced for two reasons.  Firstly, to make it easy to add another mock settings when the demand comes. Secondly, to enable combining different mock settings without introducing zillions of overloaded mock() methods. <p> See javadoc for {@link MockSettings} to learn about possible mock settings. <p>  @return mock settings instance with defaults. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockitoAnnotations.initMocks",
+    "class_name": "org.mockito.MockitoAnnotations",
+    "signature": "org.mockito.MockitoAnnotations.initMocks(Object)",
+    "snippet": "    public static void initMocks(Object testClass) {\n        if (testClass == null) {\n            throw new MockitoException(\"testClass cannot be null. For info how to use @Mock annotations see examples in javadoc for MockitoAnnotations class\");\n        }\n        \n        Class<?> clazz = testClass.getClass();\n        while (clazz != Object.class) {\n            scan(testClass, clazz);\n            clazz = clazz.getSuperclass();\n        }\n    }",
+    "comment": " Initializes objects annotated with &#064;Mock for given testClass. <p> See examples in javadoc for {@link MockitoAnnotations} class. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockitoAnnotations.scan",
+    "class_name": "org.mockito.MockitoAnnotations",
+    "signature": "org.mockito.MockitoAnnotations.scan(Object,Class)",
+    "snippet": "    private static void scan(Object testClass, Class<?> clazz) {\n        AnnotationEngine annotationEngine = new GlobalConfiguration().getAnnotationEngine();\n        Field[] fields = clazz.getDeclaredFields();\n        for (Field field : fields) {\n            for(Annotation annotation : field.getAnnotations()) {\n                Object mock = annotationEngine.createMockFor(annotation, field);\n                if (mock != null) {\n                    boolean wasAccessible = field.isAccessible();\n                    field.setAccessible(true);\n                    try {\n                        field.set(testClass, mock);\n                    } catch (IllegalAccessException e) {\n                        throw new MockitoException(\"Problems initiating mocks annotated with \" + annotation, e);\n                    } finally {\n                        field.setAccessible(wasAccessible);\n                    }    \n                }\n            }\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Reporter.missingMethodInvocation",
+    "class_name": "org.mockito.exceptions.Reporter",
+    "signature": "org.mockito.exceptions.Reporter.missingMethodInvocation()",
+    "snippet": "    public void missingMethodInvocation() {\n        throw new MissingMethodInvocationException(join(\n                \"when() requires an argument which has to be a method call on a mock.\",\n                \"For example:\",\n                \"    when(mock.getArticles()).thenReturn(articles);\",\n                \"\",\n                \"Also, this error might show up because you stub final/private/equals() or hashCode() method.\",\n                \"Those methods *cannot* be stubbed/verified.\",\n                \"\"\n        ));\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockitoException.MockitoException",
+    "class_name": "org.mockito.exceptions.base.MockitoException",
+    "signature": "org.mockito.exceptions.base.MockitoException.MockitoException(String)",
+    "snippet": "    public MockitoException(String message) {\n        super(message);\n        filterStackTrace();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockitoException.filterStackTrace",
+    "class_name": "org.mockito.exceptions.base.MockitoException",
+    "signature": "org.mockito.exceptions.base.MockitoException.filterStackTrace()",
+    "snippet": "    private void filterStackTrace() {\n        unfilteredStackTrace = getStackTrace();\n        \n        ConditionalStackTraceFilter filter = new ConditionalStackTraceFilter();\n        filter.filter(this);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MissingMethodInvocationException.MissingMethodInvocationException",
+    "class_name": "org.mockito.exceptions.misusing.MissingMethodInvocationException",
+    "signature": "org.mockito.exceptions.misusing.MissingMethodInvocationException.MissingMethodInvocationException(String)",
+    "snippet": "    public MissingMethodInvocationException(String message) {\n        super(message);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockHandler.MockHandler",
+    "class_name": "org.mockito.internal.MockHandler",
+    "signature": "org.mockito.internal.MockHandler.MockHandler(MockSettingsImpl)",
+    "snippet": "    public MockHandler(MockSettingsImpl mockSettings) {\n        this.mockSettings = mockSettings;\n        this.mockingProgress = new ThreadSafeMockingProgress();\n        this.matchersBinder = new MatchersBinder();\n        this.invocationContainerImpl = new InvocationContainerImpl(mockingProgress);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockHandler.handle",
+    "class_name": "org.mockito.internal.MockHandler",
+    "signature": "org.mockito.internal.MockHandler.handle(Invocation)",
+    "snippet": "    public Object handle(Invocation invocation) throws Throwable {\n        if (invocationContainerImpl.hasAnswersForStubbing()) {\n            // stubbing voids with stubVoid() or doAnswer() style\n            InvocationMatcher invocationMatcher = matchersBinder.bindMatchers(mockingProgress\n                            .getArgumentMatcherStorage(), invocation);\n            invocationContainerImpl.setMethodForStubbing(invocationMatcher);\n            return null;\n        }\n        VerificationMode verificationMode = mockingProgress.pullVerificationMode();\n\n        InvocationMatcher invocationMatcher = matchersBinder.bindMatchers(mockingProgress.getArgumentMatcherStorage(),\n                        invocation);\n\n        mockingProgress.validateState();\n\n        if (verificationMode != null) {\n            VerificationDataImpl data = new VerificationDataImpl(invocationContainerImpl.getInvocations(), invocationMatcher);\n            verificationMode.verify(data);\n            return null;\n        }\n        \n        invocationContainerImpl.setInvocationForPotentialStubbing(invocationMatcher);\n        OngoingStubbingImpl<T> ongoingStubbing = new OngoingStubbingImpl<T>(invocationContainerImpl);\n        mockingProgress.reportOngoingStubbing(ongoingStubbing);\n\n        StubbedInvocationMatcher stubbedInvocation = invocationContainerImpl.findAnswerFor(invocation);\n        if (!invocation.isVoid() && stubbedInvocation == null) {\n            // it is a return-value interaction but not stubbed. This *might* be\n            // a problem\n            mockingProgress.getDebuggingInfo().addPotentiallyUnstubbed(invocationMatcher);\n        }\n\n        if (stubbedInvocation != null) {\n            mockingProgress.getDebuggingInfo().reportUsedStub(invocationMatcher);\n            stubbedInvocation.captureArgumentsFrom(invocation);\n            return stubbedInvocation.answer(invocation);\n        } else {\n            Object ret = mockSettings.getDefaultAnswer().answer(invocation);\n\n            // redo setting invocation for potential stubbing in case of partial\n            // mocks / spies.\n            // Without it, the real method inside 'when' might have delegated\n            // to other self method and overwrite the intended stubbed method\n            // with a different one.\n            invocationContainerImpl.resetInvocationForPotentialStubbing(invocationMatcher);\n            return ret;\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockitoCore.mock",
+    "class_name": "org.mockito.internal.MockitoCore",
+    "signature": "org.mockito.internal.MockitoCore.mock(Class,MockSettings)",
+    "snippet": "    public <T> T mock(Class<T> classToMock, MockSettings mockSettings) {\n        mockingProgress.validateState();\n            mockingProgress.resetOngoingStubbing();\n        return mockUtil.createMock(classToMock, (MockSettingsImpl) mockSettings);\n    }",
+    "comment": "",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockitoCore.mock",
+    "class_name": "org.mockito.internal.MockitoCore",
+    "signature": "org.mockito.internal.MockitoCore.mock(Class,MockSettings,boolean)",
+    "snippet": "    public <T> T mock(Class<T> classToMock, MockSettings mockSettings, boolean shouldResetOngoingStubbing) { return mock(classToMock, mockSettings); }",
+    "comment": "",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockitoCore.stub",
+    "class_name": "org.mockito.internal.MockitoCore",
+    "signature": "org.mockito.internal.MockitoCore.stub()",
+    "snippet": "    public IOngoingStubbing stub() {\n        IOngoingStubbing stubbing = mockingProgress.pullOngoingStubbing();\n        if (stubbing == null) {\n            mockingProgress.reset();\n            reporter.missingMethodInvocation();\n        }\n        return stubbing;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockitoCore.when",
+    "class_name": "org.mockito.internal.MockitoCore",
+    "signature": "org.mockito.internal.MockitoCore.when(T)",
+    "snippet": "    public <T> OngoingStubbing<T> when(T methodCall) {\n        mockingProgress.stubbingStarted();\n        return (OngoingStubbing) stub();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ClassPathLoader.loadConfiguration",
+    "class_name": "org.mockito.internal.configuration.ClassPathLoader",
+    "signature": "org.mockito.internal.configuration.ClassPathLoader.loadConfiguration()",
+    "snippet": "    @SuppressWarnings({\"unchecked\"})\n    public IMockitoConfiguration loadConfiguration() {\n        //Trying to get config from classpath\n        Class configClass = null;\n        try {\n            configClass = (Class) Class.forName(\"org.mockito.configuration.MockitoConfiguration\");\n        } catch (ClassNotFoundException e) {\n            //that's ok, it means there is no global config, using default one. \n            return null;\n        }\n        \n        try {\n            return (IMockitoConfiguration) configClass.newInstance();\n        } catch (ClassCastException e) {\n            throw new MockitoConfigurationException(\"\\n\" +\n                    \"MockitoConfiguration class must implement org.mockito.configuration.IMockitoConfiguration interface.\", e);\n        } catch (Exception e) {\n            throw new MockitoConfigurationException(\"\\n\" +\n                    \"Unable to instantianate org.mockito.configuration.MockitoConfiguration class. Does it have a safe, no-arg constructor?\", e);\n        }\n    }",
+    "comment": " @return configuration loaded from classpath or null ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "GlobalConfiguration.GlobalConfiguration",
+    "class_name": "org.mockito.internal.configuration.GlobalConfiguration",
+    "signature": "org.mockito.internal.configuration.GlobalConfiguration.GlobalConfiguration()",
+    "snippet": "    public GlobalConfiguration() {\n        //Configuration should be loaded only once but I cannot really test it\n        if (globalConfiguration.get() == null) {\n            globalConfiguration.set(createConfig());\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "GlobalConfiguration.cleansStackTrace",
+    "class_name": "org.mockito.internal.configuration.GlobalConfiguration",
+    "signature": "org.mockito.internal.configuration.GlobalConfiguration.cleansStackTrace()",
+    "snippet": "    public boolean cleansStackTrace() {\n        return globalConfiguration.get().cleansStackTrace();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "GlobalConfiguration.createConfig",
+    "class_name": "org.mockito.internal.configuration.GlobalConfiguration",
+    "signature": "org.mockito.internal.configuration.GlobalConfiguration.createConfig()",
+    "snippet": "    private IMockitoConfiguration createConfig() {\n        IMockitoConfiguration defaultConfiguration = new DefaultMockitoConfiguration();\n        IMockitoConfiguration config = new ClassPathLoader().loadConfiguration();\n        if (config != null) {\n            return config;\n        } else {\n            return defaultConfiguration;\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "GlobalConfiguration.getAnnotationEngine",
+    "class_name": "org.mockito.internal.configuration.GlobalConfiguration",
+    "signature": "org.mockito.internal.configuration.GlobalConfiguration.getAnnotationEngine()",
+    "snippet": "    public AnnotationEngine getAnnotationEngine() {\n        return globalConfiguration.get().getAnnotationEngine();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "GlobalConfiguration.getIt",
+    "class_name": "org.mockito.internal.configuration.GlobalConfiguration",
+    "signature": "org.mockito.internal.configuration.GlobalConfiguration.getIt()",
+    "snippet": "    IMockitoConfiguration getIt() {\n        return globalConfiguration.get();\n    }",
+    "comment": "back door for testing",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "GlobalConfiguration.validate",
+    "class_name": "org.mockito.internal.configuration.GlobalConfiguration",
+    "signature": "org.mockito.internal.configuration.GlobalConfiguration.validate()",
+    "snippet": "    public static void validate() {\n        new GlobalConfiguration();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "DelegatingMethod.DelegatingMethod",
+    "class_name": "org.mockito.internal.creation.DelegatingMethod",
+    "signature": "org.mockito.internal.creation.DelegatingMethod.DelegatingMethod(Method)",
+    "snippet": "    public DelegatingMethod(Method method) {\n        assert method != null : \"Method cannot be null\";\n        this.method = method;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "DelegatingMethod.getJavaMethod",
+    "class_name": "org.mockito.internal.creation.DelegatingMethod",
+    "signature": "org.mockito.internal.creation.DelegatingMethod.getJavaMethod()",
+    "snippet": "    public Method getJavaMethod() {\n        return method;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "DelegatingMethod.getReturnType",
+    "class_name": "org.mockito.internal.creation.DelegatingMethod",
+    "signature": "org.mockito.internal.creation.DelegatingMethod.getReturnType()",
+    "snippet": "    public Class<?> getReturnType() {\n        return method.getReturnType();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "DelegatingMethod.isVarArgs",
+    "class_name": "org.mockito.internal.creation.DelegatingMethod",
+    "signature": "org.mockito.internal.creation.DelegatingMethod.isVarArgs()",
+    "snippet": "    public boolean isVarArgs() {\n        return method.isVarArgs();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "DelegatingMockitoMethodProxy.DelegatingMockitoMethodProxy",
+    "class_name": "org.mockito.internal.creation.DelegatingMockitoMethodProxy",
+    "signature": "org.mockito.internal.creation.DelegatingMockitoMethodProxy.DelegatingMockitoMethodProxy(MethodProxy)",
+    "snippet": "    public DelegatingMockitoMethodProxy(MethodProxy methodProxy) {\n        this.methodProxy = methodProxy;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "DelegatingMockitoMethodProxy.getMethodProxy",
+    "class_name": "org.mockito.internal.creation.DelegatingMockitoMethodProxy",
+    "signature": "org.mockito.internal.creation.DelegatingMockitoMethodProxy.getMethodProxy()",
+    "snippet": "    public MethodProxy getMethodProxy() {\n        return methodProxy;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MethodInterceptorFilter.MethodInterceptorFilter",
+    "class_name": "org.mockito.internal.creation.MethodInterceptorFilter",
+    "signature": "org.mockito.internal.creation.MethodInterceptorFilter.MethodInterceptorFilter(MockitoInvocationHandler,MockSettingsImpl)",
+    "snippet": "    public MethodInterceptorFilter(MockitoInvocationHandler handler, MockSettingsImpl mockSettings) {\n        this.handler = handler;\n        this.mockSettings = mockSettings;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MethodInterceptorFilter.createMockitoMethod",
+    "class_name": "org.mockito.internal.creation.MethodInterceptorFilter",
+    "signature": "org.mockito.internal.creation.MethodInterceptorFilter.createMockitoMethod(Method)",
+    "snippet": "    public MockitoMethod createMockitoMethod(Method method) {\n        if (mockSettings.isSerializable()) {\n            return new SerializableMethod(method);\n        } else {\n            return new DelegatingMethod(method); \n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MethodInterceptorFilter.createMockitoMethodProxy",
+    "class_name": "org.mockito.internal.creation.MethodInterceptorFilter",
+    "signature": "org.mockito.internal.creation.MethodInterceptorFilter.createMockitoMethodProxy(MethodProxy)",
+    "snippet": "    public MockitoMethodProxy createMockitoMethodProxy(MethodProxy methodProxy) {\n        if (mockSettings.isSerializable())\n            return new SerializableMockitoMethodProxy(methodProxy);\n        return new DelegatingMockitoMethodProxy(methodProxy);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MethodInterceptorFilter.intercept",
+    "class_name": "org.mockito.internal.creation.MethodInterceptorFilter",
+    "signature": "org.mockito.internal.creation.MethodInterceptorFilter.intercept(Object,Method,Object[],MethodProxy)",
+    "snippet": "    public Object intercept(Object proxy, Method method, Object[] args, MethodProxy methodProxy)\n            throws Throwable {\n        if (objectMethodsGuru.isEqualsMethod(method)) {\n            return proxy == args[0];\n        } else if (objectMethodsGuru.isHashCodeMethod(method)) {\n            return hashCodeForMock(proxy);\n        }\n        \n        MockitoMethodProxy mockitoMethodProxy = createMockitoMethodProxy(methodProxy);\n        cglibHacker.setMockitoNamingPolicy(mockitoMethodProxy);\n        \n        MockitoMethod mockitoMethod = createMockitoMethod(method);\n        \n        FilteredCGLIBProxyRealMethod realMethod = new FilteredCGLIBProxyRealMethod(mockitoMethodProxy);\n        Invocation invocation = new Invocation(proxy, mockitoMethod, args, SequenceNumber.next(), realMethod);\n        return handler.handle(invocation);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockSettingsImpl.defaultAnswer",
+    "class_name": "org.mockito.internal.creation.MockSettingsImpl",
+    "signature": "org.mockito.internal.creation.MockSettingsImpl.defaultAnswer(Answer)",
+    "snippet": "    @SuppressWarnings(\"unchecked\")\n    public MockSettings defaultAnswer(Answer defaultAnswer) {\n        this.defaultAnswer = defaultAnswer;\n        return this;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockSettingsImpl.getDefaultAnswer",
+    "class_name": "org.mockito.internal.creation.MockSettingsImpl",
+    "signature": "org.mockito.internal.creation.MockSettingsImpl.getDefaultAnswer()",
+    "snippet": "    public Answer<Object> getDefaultAnswer() {\n        return defaultAnswer;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockSettingsImpl.getExtraInterfaces",
+    "class_name": "org.mockito.internal.creation.MockSettingsImpl",
+    "signature": "org.mockito.internal.creation.MockSettingsImpl.getExtraInterfaces()",
+    "snippet": "    public Class<?>[] getExtraInterfaces() {\n        return extraInterfaces;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockSettingsImpl.getSpiedInstance",
+    "class_name": "org.mockito.internal.creation.MockSettingsImpl",
+    "signature": "org.mockito.internal.creation.MockSettingsImpl.getSpiedInstance()",
+    "snippet": "    public Object getSpiedInstance() {\n        return spiedInstance;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockSettingsImpl.initiateMockName",
+    "class_name": "org.mockito.internal.creation.MockSettingsImpl",
+    "signature": "org.mockito.internal.creation.MockSettingsImpl.initiateMockName(Class)",
+    "snippet": "    public void initiateMockName(Class classToMock) {\n        mockName = new MockName(name, classToMock);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockSettingsImpl.isSerializable",
+    "class_name": "org.mockito.internal.creation.MockSettingsImpl",
+    "signature": "org.mockito.internal.creation.MockSettingsImpl.isSerializable()",
+    "snippet": "    public boolean isSerializable() {\n        return serializable;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CGLIBHacker.reflectOnCreateInfo",
+    "class_name": "org.mockito.internal.creation.cglib.CGLIBHacker",
+    "signature": "org.mockito.internal.creation.cglib.CGLIBHacker.reflectOnCreateInfo(MethodProxy)",
+    "snippet": "    @SuppressWarnings(\"unchecked\")\n    private Field reflectOnCreateInfo(MethodProxy methodProxy) throws SecurityException, NoSuchFieldException {\n\n        Class cglibMethodProxyClass = methodProxy.getClass();\n        // in case methodProxy was extended by user, let's traverse the object\n        // graph to find the cglib methodProxy\n        // with all the fields we would like to change\n        while (cglibMethodProxyClass != MethodProxy.class) {\n            cglibMethodProxyClass = methodProxy.getClass().getSuperclass();\n        }\n        return cglibMethodProxyClass.getDeclaredField(\"createInfo\");\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CGLIBHacker.setMockitoNamingPolicy",
+    "class_name": "org.mockito.internal.creation.cglib.CGLIBHacker",
+    "signature": "org.mockito.internal.creation.cglib.CGLIBHacker.setMockitoNamingPolicy(MockitoMethodProxy)",
+    "snippet": "    public void setMockitoNamingPolicy(MockitoMethodProxy mockitoMethodProxy) {\n        try {\n            MethodProxy methodProxy = mockitoMethodProxy.getMethodProxy();\n            Field createInfoField = reflectOnCreateInfo(methodProxy);\n            createInfoField.setAccessible(true);\n            Object createInfo = createInfoField.get(methodProxy);\n            Field namingPolicyField = createInfo.getClass().getDeclaredField(\"namingPolicy\");\n            namingPolicyField.setAccessible(true);\n            if (namingPolicyField.get(createInfo) == null) {\n                namingPolicyField.set(createInfo, MockitoNamingPolicy.INSTANCE);\n            }\n        } catch (Exception e) {\n            throw new RuntimeException(\n                            \"Unable to set MockitoNamingPolicy on cglib generator which creates FastClasses\", e);\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockitoNamingPolicy.getTag",
+    "class_name": "org.mockito.internal.creation.cglib.MockitoNamingPolicy",
+    "signature": "org.mockito.internal.creation.cglib.MockitoNamingPolicy.getTag()",
+    "snippet": "    @Override\n    protected String getTag() {\n        return \"ByMockitoWithCGLIB\";\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ClassImposterizer.canImposterise",
+    "class_name": "org.mockito.internal.creation.jmock.ClassImposterizer",
+    "signature": "org.mockito.internal.creation.jmock.ClassImposterizer.canImposterise(Class)",
+    "snippet": "    public boolean canImposterise(Class<?> type) {\n        return !type.isPrimitive() && !Modifier.isFinal(type.getModifiers());\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ClassImposterizer.createProxy",
+    "class_name": "org.mockito.internal.creation.jmock.ClassImposterizer",
+    "signature": "org.mockito.internal.creation.jmock.ClassImposterizer.createProxy(Class,MethodInterceptor)",
+    "snippet": "    private Object createProxy(Class<?> proxyClass, final MethodInterceptor interceptor) {\n        Factory proxy = (Factory) objenesis.newInstance(proxyClass);\n        proxy.setCallbacks(new Callback[] {interceptor, SerializableNoOp.SERIALIZABLE_INSTANCE });\n        return proxy;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ClassImposterizer.setConstructorsAccessible",
+    "class_name": "org.mockito.internal.creation.jmock.ClassImposterizer",
+    "signature": "org.mockito.internal.creation.jmock.ClassImposterizer.setConstructorsAccessible(Class,boolean)",
+    "snippet": "    private void setConstructorsAccessible(Class<?> mockedType, boolean accessible) {\n        for (Constructor<?> constructor : mockedType.getDeclaredConstructors()) {\n            constructor.setAccessible(accessible);\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "SearchingClassLoader.addIfNewElement",
+    "class_name": "org.mockito.internal.creation.jmock.SearchingClassLoader",
+    "signature": "org.mockito.internal.creation.jmock.SearchingClassLoader.addIfNewElement(List,ClassLoader)",
+    "snippet": "    private static void addIfNewElement(List<ClassLoader> loaders, ClassLoader c) {\n        if (c != null && !loaders.contains(c)) {\n            loaders.add(c);\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "SearchingClassLoader.combine",
+    "class_name": "org.mockito.internal.creation.jmock.SearchingClassLoader",
+    "signature": "org.mockito.internal.creation.jmock.SearchingClassLoader.combine(List)",
+    "snippet": "    private static ClassLoader combine(List<ClassLoader> parentLoaders) {\n        ClassLoader loader = parentLoaders.get(parentLoaders.size()-1);\n        \n        for (int i = parentLoaders.size()-2; i >= 0; i--) {\n            loader = new SearchingClassLoader(parentLoaders.get(i), loader);\n        }\n        \n        return loader;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "DebuggingInfo.addPotentiallyUnstubbed",
+    "class_name": "org.mockito.internal.debugging.DebuggingInfo",
+    "signature": "org.mockito.internal.debugging.DebuggingInfo.addPotentiallyUnstubbed(InvocationMatcher)",
+    "snippet": "    public void addPotentiallyUnstubbed(InvocationMatcher invocationMatcher) {\n        if (!collectingData) {\n            return;\n        }\n        unstubbedInvocations.add(invocationMatcher);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Location.Location",
+    "class_name": "org.mockito.internal.debugging.Location",
+    "signature": "org.mockito.internal.debugging.Location.Location()",
+    "snippet": "    public Location() {\n        this(new StackTraceFilter());\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Location.Location",
+    "class_name": "org.mockito.internal.debugging.Location",
+    "signature": "org.mockito.internal.debugging.Location.Location(StackTraceFilter)",
+    "snippet": "    public Location(StackTraceFilter filter) {\n        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();\n        StackTraceElement[] filtered = filter.filter(stackTrace, false);\n        if (filtered.length == 0) {\n            where = \"-> at <<unknown line>>\";\n        } else {\n            where = \"-> at \" + filtered[0].toString();\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ConditionalStackTraceFilter.filter",
+    "class_name": "org.mockito.internal.exceptions.base.ConditionalStackTraceFilter",
+    "signature": "org.mockito.internal.exceptions.base.ConditionalStackTraceFilter.filter(Throwable)",
+    "snippet": "    public void filter(Throwable throwable) {\n        if (!config.cleansStackTrace()) {\n            return;\n        }\n        StackTraceElement[] filtered = filter.filter(throwable.getStackTrace(), true);\n        throwable.setStackTrace(filtered);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "StackTraceFilter.filter",
+    "class_name": "org.mockito.internal.exceptions.base.StackTraceFilter",
+    "signature": "org.mockito.internal.exceptions.base.StackTraceFilter.filter(StackTraceElement[],boolean)",
+    "snippet": "    public StackTraceElement[] filter(StackTraceElement[] target, boolean keepTop) {\n        //TODO: after 1.8 profile\n        List<StackTraceElement> unfilteredStackTrace = Arrays.asList(target);\n        \n        int lastBad = -1;\n        int firstBad = -1;\n        for (int i = 0; i < unfilteredStackTrace.size(); i++) {\n            if (!this.isBad(unfilteredStackTrace.get(i))) {\n                continue;\n            }\n            lastBad = i;\n            if (firstBad == -1) {\n                firstBad = i;\n            }\n        }\n        \n        List<StackTraceElement> top;\n        if (keepTop && firstBad != -1) {\n            top = unfilteredStackTrace.subList(0, firstBad);\n        } else {\n            top = new LinkedList<StackTraceElement>();\n        }\n        \n        List<StackTraceElement> bottom = unfilteredStackTrace.subList(lastBad + 1, unfilteredStackTrace.size());\n        List<StackTraceElement> filtered = new ArrayList<StackTraceElement>(top);\n        filtered.addAll(bottom);\n        return filtered.toArray(new StackTraceElement[]{});\n    }",
+    "comment": " Example how the filter works (+/- means good/bad): [a+, b+, c-, d+, e+, f-, g+] -> [a+, b+, g+] Basically removes all bad from the middle. If any good are in the middle of bad those are also removed.  ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "StackTraceFilter.isBad",
+    "class_name": "org.mockito.internal.exceptions.base.StackTraceFilter",
+    "signature": "org.mockito.internal.exceptions.base.StackTraceFilter.isBad(StackTraceElement)",
+    "snippet": "    public boolean isBad(StackTraceElement e) {\n        boolean fromMockObject = e.getClassName().contains(\"$$EnhancerByMockitoWithCGLIB$$\");\n        boolean fromOrgMockito = e.getClassName().startsWith(\"org.mockito.\");\n        boolean isRunner = e.getClassName().startsWith(\"org.mockito.runners.\");\n        boolean isInternalRunner = e.getClassName().startsWith(\"org.mockito.internal.runners.\");\n        return (fromMockObject || fromOrgMockito) && !isRunner && !isInternalRunner;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Invocation.Invocation",
+    "class_name": "org.mockito.internal.invocation.Invocation",
+    "signature": "org.mockito.internal.invocation.Invocation.Invocation(Object,MockitoMethod,Object[],int,RealMethod)",
+    "snippet": "    public Invocation(Object mock, MockitoMethod mockitoMethod, Object[] args, int sequenceNumber, RealMethod realMethod) {\n        this.method = mockitoMethod;\n        this.mock = mock;\n        this.realMethod = realMethod;\n        this.arguments = expandVarArgs(mockitoMethod.isVarArgs(), args);\n        this.rawArguments = args;\n        this.sequenceNumber = sequenceNumber;\n        this.location = new Location();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Invocation.argumentsToMatchers",
+    "class_name": "org.mockito.internal.invocation.Invocation",
+    "signature": "org.mockito.internal.invocation.Invocation.argumentsToMatchers()",
+    "snippet": "    protected List<Matcher> argumentsToMatchers() {\n        List<Matcher> matchers = new ArrayList<Matcher>(arguments.length);\n        for (Object arg : arguments) {\n            if (arg != null && arg.getClass().isArray()) {\n                matchers.add(new ArrayEquals(arg));\n            } else {\n                matchers.add(new Equals(arg));\n            }\n        }\n        return matchers;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Invocation.expandVarArgs",
+    "class_name": "org.mockito.internal.invocation.Invocation",
+    "signature": "org.mockito.internal.invocation.Invocation.expandVarArgs(boolean,Object[])",
+    "snippet": "    private static Object[] expandVarArgs(final boolean isVarArgs, final Object[] args) {\n        if (!isVarArgs || args[args.length - 1] != null && !args[args.length - 1].getClass().isArray()) {\n            return args == null ? new Object[0] : args;\n        }\n\n        final int nonVarArgsCount = args.length - 1;\n        Object[] varArgs;\n        if (args[nonVarArgsCount] == null) {\n            // in case someone deliberately passed null varArg array\n            varArgs = new Object[] { null };\n        } else {\n            varArgs = ArrayEquals.createObjectArray(args[nonVarArgsCount]);\n        }\n        final int varArgsCount = varArgs.length;\n        Object[] newArgs = new Object[nonVarArgsCount + varArgsCount];\n        System.arraycopy(args, 0, newArgs, 0, nonVarArgsCount);\n        System.arraycopy(varArgs, 0, newArgs, nonVarArgsCount, varArgsCount);\n        return newArgs;\n    }",
+    "comment": "varArgs (1, a, b);",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Invocation.getMethod",
+    "class_name": "org.mockito.internal.invocation.Invocation",
+    "signature": "org.mockito.internal.invocation.Invocation.getMethod()",
+    "snippet": "    public Method getMethod() {\n        return method.getJavaMethod();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Invocation.isToString",
+    "class_name": "org.mockito.internal.invocation.Invocation",
+    "signature": "org.mockito.internal.invocation.Invocation.isToString(InvocationOnMock)",
+    "snippet": "    public static boolean isToString(InvocationOnMock invocation) {\n        return new ObjectMethodsGuru().isToString(invocation.getMethod());\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Invocation.isVoid",
+    "class_name": "org.mockito.internal.invocation.Invocation",
+    "signature": "org.mockito.internal.invocation.Invocation.isVoid()",
+    "snippet": "    public boolean isVoid() {\n        return this.method.getReturnType() == Void.TYPE;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "InvocationMatcher.InvocationMatcher",
+    "class_name": "org.mockito.internal.invocation.InvocationMatcher",
+    "signature": "org.mockito.internal.invocation.InvocationMatcher.InvocationMatcher(Invocation,List)",
+    "snippet": "    public InvocationMatcher(Invocation invocation, List<Matcher> matchers) {\n        this.invocation = invocation;\n        if (matchers.isEmpty()) {\n            this.matchers = invocation.argumentsToMatchers();\n        } else {\n            this.matchers = matchers;\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "InvocationMatcher.getInvocation",
+    "class_name": "org.mockito.internal.invocation.InvocationMatcher",
+    "signature": "org.mockito.internal.invocation.InvocationMatcher.getInvocation()",
+    "snippet": "    public Invocation getInvocation() {\n        return this.invocation;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MatchersBinder.bindMatchers",
+    "class_name": "org.mockito.internal.invocation.MatchersBinder",
+    "signature": "org.mockito.internal.invocation.MatchersBinder.bindMatchers(ArgumentMatcherStorage,Invocation)",
+    "snippet": "    public InvocationMatcher bindMatchers(ArgumentMatcherStorage argumentMatcherStorage, Invocation invocation) {\n        List<Matcher> lastMatchers = argumentMatcherStorage.pullMatchers();\n        validateMatchers(invocation, lastMatchers);\n\n        InvocationMatcher invocationWithMatchers = new InvocationMatcher(invocation, lastMatchers);\n        return invocationWithMatchers;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MatchersBinder.validateMatchers",
+    "class_name": "org.mockito.internal.invocation.MatchersBinder",
+    "signature": "org.mockito.internal.invocation.MatchersBinder.validateMatchers(Invocation,List)",
+    "snippet": "    private void validateMatchers(Invocation invocation, List<Matcher> matchers) {\n        if (!matchers.isEmpty()) {\n            int recordedMatchersSize = matchers.size();\n            int expectedMatchersSize = invocation.getArgumentsCount();\n            if (expectedMatchersSize != recordedMatchersSize) {\n                new Reporter().invalidUseOfMatchers(expectedMatchersSize, recordedMatchersSize);\n            }\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CGLIBProxyRealMethod.CGLIBProxyRealMethod",
+    "class_name": "org.mockito.internal.invocation.realmethod.CGLIBProxyRealMethod",
+    "signature": "org.mockito.internal.invocation.realmethod.CGLIBProxyRealMethod.CGLIBProxyRealMethod(MockitoMethodProxy)",
+    "snippet": "    public CGLIBProxyRealMethod(MockitoMethodProxy methodProxy) {\n        this.methodProxy = methodProxy;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "FilteredCGLIBProxyRealMethod.FilteredCGLIBProxyRealMethod",
+    "class_name": "org.mockito.internal.invocation.realmethod.FilteredCGLIBProxyRealMethod",
+    "signature": "org.mockito.internal.invocation.realmethod.FilteredCGLIBProxyRealMethod.FilteredCGLIBProxyRealMethod(MockitoMethodProxy)",
+    "snippet": "    public FilteredCGLIBProxyRealMethod(MockitoMethodProxy methodProxy) {\n        this(new CGLIBProxyRealMethod(methodProxy));\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "FilteredCGLIBProxyRealMethod.FilteredCGLIBProxyRealMethod",
+    "class_name": "org.mockito.internal.invocation.realmethod.FilteredCGLIBProxyRealMethod",
+    "signature": "org.mockito.internal.invocation.realmethod.FilteredCGLIBProxyRealMethod.FilteredCGLIBProxyRealMethod(RealMethod)",
+    "snippet": "    public FilteredCGLIBProxyRealMethod(RealMethod realMethod) {\n        this.realMethod = realMethod;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ArgumentMatcherStorageImpl.pullMatchers",
+    "class_name": "org.mockito.internal.progress.ArgumentMatcherStorageImpl",
+    "signature": "org.mockito.internal.progress.ArgumentMatcherStorageImpl.pullMatchers()",
+    "snippet": "    public List<Matcher> pullMatchers() {\n        if (matcherStack.isEmpty()) {\n            return Collections.emptyList();\n        }\n        \n        List<LocalizedMatcher> matchers = new ArrayList<LocalizedMatcher>(matcherStack);\n        matcherStack.clear();\n        return (List) matchers;\n    }",
+    "comment": "(non-Javadoc) @see org.mockito.internal.progress.ArgumentMatcherStorage#pullMatchers() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ArgumentMatcherStorageImpl.reset",
+    "class_name": "org.mockito.internal.progress.ArgumentMatcherStorageImpl",
+    "signature": "org.mockito.internal.progress.ArgumentMatcherStorageImpl.reset()",
+    "snippet": "    public void reset() {\n        matcherStack.clear();\n    }",
+    "comment": "(non-Javadoc) @see org.mockito.internal.progress.ArgumentMatcherStorage#reset() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ArgumentMatcherStorageImpl.validateState",
+    "class_name": "org.mockito.internal.progress.ArgumentMatcherStorageImpl",
+    "signature": "org.mockito.internal.progress.ArgumentMatcherStorageImpl.validateState()",
+    "snippet": "    public void validateState() {\n        if (!matcherStack.isEmpty()) {\n            LocalizedMatcher lastMatcher = matcherStack.lastElement();\n            matcherStack.clear();\n            new Reporter().misplacedArgumentMatcher(lastMatcher.getLocation());\n        }\n    }",
+    "comment": "(non-Javadoc) @see org.mockito.internal.progress.ArgumentMatcherStorage#validateState() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockingProgressImpl.getArgumentMatcherStorage",
+    "class_name": "org.mockito.internal.progress.MockingProgressImpl",
+    "signature": "org.mockito.internal.progress.MockingProgressImpl.getArgumentMatcherStorage()",
+    "snippet": "    public ArgumentMatcherStorage getArgumentMatcherStorage() {\n        return argumentMatcherStorage;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockingProgressImpl.getDebuggingInfo",
+    "class_name": "org.mockito.internal.progress.MockingProgressImpl",
+    "signature": "org.mockito.internal.progress.MockingProgressImpl.getDebuggingInfo()",
+    "snippet": "    public DebuggingInfo getDebuggingInfo() {\n        return debuggingInfo;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockingProgressImpl.pullOngoingStubbing",
+    "class_name": "org.mockito.internal.progress.MockingProgressImpl",
+    "signature": "org.mockito.internal.progress.MockingProgressImpl.pullOngoingStubbing()",
+    "snippet": "    public IOngoingStubbing pullOngoingStubbing() {\n        IOngoingStubbing temp = iOngoingStubbing;\n        iOngoingStubbing = null;\n        return temp;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockingProgressImpl.pullVerificationMode",
+    "class_name": "org.mockito.internal.progress.MockingProgressImpl",
+    "signature": "org.mockito.internal.progress.MockingProgressImpl.pullVerificationMode()",
+    "snippet": "    public VerificationMode pullVerificationMode() {\n        if (verificationMode == null) {\n            return null;\n        }\n        \n        VerificationMode temp = verificationMode.getObject();\n        verificationMode = null;\n        return temp;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockingProgressImpl.reportOngoingStubbing",
+    "class_name": "org.mockito.internal.progress.MockingProgressImpl",
+    "signature": "org.mockito.internal.progress.MockingProgressImpl.reportOngoingStubbing(IOngoingStubbing)",
+    "snippet": "    public void reportOngoingStubbing(IOngoingStubbing iOngoingStubbing) {\n        this.iOngoingStubbing = iOngoingStubbing;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockingProgressImpl.reset",
+    "class_name": "org.mockito.internal.progress.MockingProgressImpl",
+    "signature": "org.mockito.internal.progress.MockingProgressImpl.reset()",
+    "snippet": "    public void reset() {\n        stubbingInProgress = null;\n        verificationMode = null;\n        getArgumentMatcherStorage().reset();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockingProgressImpl.resetOngoingStubbing",
+    "class_name": "org.mockito.internal.progress.MockingProgressImpl",
+    "signature": "org.mockito.internal.progress.MockingProgressImpl.resetOngoingStubbing()",
+    "snippet": "    public void resetOngoingStubbing() {\n        iOngoingStubbing = null;\n    }",
+    "comment": "(non-Javadoc) @see org.mockito.internal.progress.MockingProgress#resetOngoingStubbing() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockingProgressImpl.stubbingStarted",
+    "class_name": "org.mockito.internal.progress.MockingProgressImpl",
+    "signature": "org.mockito.internal.progress.MockingProgressImpl.stubbingStarted()",
+    "snippet": "    public void stubbingStarted() {\n        validateState();\n        stubbingInProgress = new Location();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockingProgressImpl.validateState",
+    "class_name": "org.mockito.internal.progress.MockingProgressImpl",
+    "signature": "org.mockito.internal.progress.MockingProgressImpl.validateState()",
+    "snippet": "    public void validateState() {\n        //State is cool when GlobalConfiguration is already loaded\n        //this cannot really be tested functionally because I cannot dynamically mess up org.mockito.configuration.MockitoConfiguration class \n        GlobalConfiguration.validate();\n        \n        if (verificationMode != null) {\n            Location location = verificationMode.getLocation();\n            verificationMode = null;\n            reporter.unfinishedVerificationException(location);\n        }\n        \n        if (stubbingInProgress != null) {\n            Location temp = stubbingInProgress;\n            stubbingInProgress = null;\n            reporter.unfinishedStubbing(temp);\n        }\n      \n        getArgumentMatcherStorage().validateState();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "SequenceNumber.next",
+    "class_name": "org.mockito.internal.progress.SequenceNumber",
+    "signature": "org.mockito.internal.progress.SequenceNumber.next()",
+    "snippet": "    public static synchronized int next() {\n        return sequenceNumber++;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ThreadSafeMockingProgress.getArgumentMatcherStorage",
+    "class_name": "org.mockito.internal.progress.ThreadSafeMockingProgress",
+    "signature": "org.mockito.internal.progress.ThreadSafeMockingProgress.getArgumentMatcherStorage()",
+    "snippet": "    public ArgumentMatcherStorage getArgumentMatcherStorage() {\n        return threadSafely().getArgumentMatcherStorage();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ThreadSafeMockingProgress.getDebuggingInfo",
+    "class_name": "org.mockito.internal.progress.ThreadSafeMockingProgress",
+    "signature": "org.mockito.internal.progress.ThreadSafeMockingProgress.getDebuggingInfo()",
+    "snippet": "    public DebuggingInfo getDebuggingInfo() {\n        return threadSafely().getDebuggingInfo();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ThreadSafeMockingProgress.pullOngoingStubbing",
+    "class_name": "org.mockito.internal.progress.ThreadSafeMockingProgress",
+    "signature": "org.mockito.internal.progress.ThreadSafeMockingProgress.pullOngoingStubbing()",
+    "snippet": "    public IOngoingStubbing pullOngoingStubbing() {\n        return threadSafely().pullOngoingStubbing();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ThreadSafeMockingProgress.pullVerificationMode",
+    "class_name": "org.mockito.internal.progress.ThreadSafeMockingProgress",
+    "signature": "org.mockito.internal.progress.ThreadSafeMockingProgress.pullVerificationMode()",
+    "snippet": "    public VerificationMode pullVerificationMode() {\n        return threadSafely().pullVerificationMode();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ThreadSafeMockingProgress.reportOngoingStubbing",
+    "class_name": "org.mockito.internal.progress.ThreadSafeMockingProgress",
+    "signature": "org.mockito.internal.progress.ThreadSafeMockingProgress.reportOngoingStubbing(IOngoingStubbing)",
+    "snippet": "    public void reportOngoingStubbing(IOngoingStubbing iOngoingStubbing) {\n        threadSafely().reportOngoingStubbing(iOngoingStubbing);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ThreadSafeMockingProgress.reset",
+    "class_name": "org.mockito.internal.progress.ThreadSafeMockingProgress",
+    "signature": "org.mockito.internal.progress.ThreadSafeMockingProgress.reset()",
+    "snippet": "    public void reset() {\n        threadSafely().reset();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ThreadSafeMockingProgress.resetOngoingStubbing",
+    "class_name": "org.mockito.internal.progress.ThreadSafeMockingProgress",
+    "signature": "org.mockito.internal.progress.ThreadSafeMockingProgress.resetOngoingStubbing()",
+    "snippet": "    public void resetOngoingStubbing() {\n        threadSafely().resetOngoingStubbing();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ThreadSafeMockingProgress.stubbingStarted",
+    "class_name": "org.mockito.internal.progress.ThreadSafeMockingProgress",
+    "signature": "org.mockito.internal.progress.ThreadSafeMockingProgress.stubbingStarted()",
+    "snippet": "    public void stubbingStarted() {\n        threadSafely().stubbingStarted();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ThreadSafeMockingProgress.threadSafely",
+    "class_name": "org.mockito.internal.progress.ThreadSafeMockingProgress",
+    "signature": "org.mockito.internal.progress.ThreadSafeMockingProgress.threadSafely()",
+    "snippet": "    static MockingProgress threadSafely() {\n        if (mockingProgress.get() == null) {\n            mockingProgress.set(new MockingProgressImpl());\n        }\n        return mockingProgress.get();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ThreadSafeMockingProgress.validateState",
+    "class_name": "org.mockito.internal.progress.ThreadSafeMockingProgress",
+    "signature": "org.mockito.internal.progress.ThreadSafeMockingProgress.validateState()",
+    "snippet": "    public void validateState() {\n        threadSafely().validateState();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "InvocationContainerImpl.InvocationContainerImpl",
+    "class_name": "org.mockito.internal.stubbing.InvocationContainerImpl",
+    "signature": "org.mockito.internal.stubbing.InvocationContainerImpl.InvocationContainerImpl(MockingProgress)",
+    "snippet": "    public InvocationContainerImpl(MockingProgress mockingProgress) {\n        this.mockingProgress = mockingProgress;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "InvocationContainerImpl.findAnswerFor",
+    "class_name": "org.mockito.internal.stubbing.InvocationContainerImpl",
+    "signature": "org.mockito.internal.stubbing.InvocationContainerImpl.findAnswerFor(Invocation)",
+    "snippet": "    public StubbedInvocationMatcher findAnswerFor(Invocation invocation) {\n        for (StubbedInvocationMatcher s : stubbed) {\n            if (s.matches(invocation)) {\n                s.markStubUsed(invocation);\n                invocation.markStubbed(new StubInfo(s));\n                return s;\n            }\n        }\n\n        return null;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "InvocationContainerImpl.hasAnswersForStubbing",
+    "class_name": "org.mockito.internal.stubbing.InvocationContainerImpl",
+    "signature": "org.mockito.internal.stubbing.InvocationContainerImpl.hasAnswersForStubbing()",
+    "snippet": "    public boolean hasAnswersForStubbing() {\n        return !answersForStubbing.isEmpty();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "InvocationContainerImpl.resetInvocationForPotentialStubbing",
+    "class_name": "org.mockito.internal.stubbing.InvocationContainerImpl",
+    "signature": "org.mockito.internal.stubbing.InvocationContainerImpl.resetInvocationForPotentialStubbing(InvocationMatcher)",
+    "snippet": "    public void resetInvocationForPotentialStubbing(InvocationMatcher invocationMatcher) {\n        this.invocationForStubbing = invocationMatcher;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "InvocationContainerImpl.setInvocationForPotentialStubbing",
+    "class_name": "org.mockito.internal.stubbing.InvocationContainerImpl",
+    "signature": "org.mockito.internal.stubbing.InvocationContainerImpl.setInvocationForPotentialStubbing(InvocationMatcher)",
+    "snippet": "    public void setInvocationForPotentialStubbing(InvocationMatcher invocation) {\n        registeredInvocations.add(invocation.getInvocation());\n        this.invocationForStubbing = invocation;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "OngoingStubbingImpl.OngoingStubbingImpl",
+    "class_name": "org.mockito.internal.stubbing.OngoingStubbingImpl",
+    "signature": "org.mockito.internal.stubbing.OngoingStubbingImpl.OngoingStubbingImpl(InvocationContainerImpl)",
+    "snippet": "    public OngoingStubbingImpl(InvocationContainerImpl invocationContainerImpl) {\n        this.invocationContainerImpl = invocationContainerImpl;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ReturnsEmptyValues.answer",
+    "class_name": "org.mockito.internal.stubbing.defaultanswers.ReturnsEmptyValues",
+    "signature": "org.mockito.internal.stubbing.defaultanswers.ReturnsEmptyValues.answer(InvocationOnMock)",
+    "snippet": "    public Object answer(InvocationOnMock invocation) {\n        if (Invocation.isToString(invocation)) {\n            Object mock = invocation.getMock();\n            MockName name = new MockUtil().getMockName(mock);\n            if (name.isSurrogate()) {\n                return \"Mock for \" + ClassNameFinder.classNameForMock(mock) + \", hashCode: \" + mock.hashCode();\n            } else {\n                return name.toString();\n            }\n        }\n        \n        Class<?> returnType = invocation.getMethod().getReturnType();\n        return returnValueFor(returnType);\n    }",
+    "comment": "(non-Javadoc) @see org.mockito.stubbing.Answer#answer(org.mockito.invocation.InvocationOnMock) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ReturnsEmptyValues.returnValueFor",
+    "class_name": "org.mockito.internal.stubbing.defaultanswers.ReturnsEmptyValues",
+    "signature": "org.mockito.internal.stubbing.defaultanswers.ReturnsEmptyValues.returnValueFor(Class)",
+    "snippet": "    Object returnValueFor(Class<?> type) {\n        if (type.isPrimitive()) {\n            return primitiveOf(type);\n        } else if (Primitives.isPrimitiveWrapper(type)) {\n            return Primitives.primitiveWrapperOf(type);\n        //new instances are used instead of Collections.emptyList(), etc.\n        //to avoid UnsupportedOperationException if code under test modifies returned collection\n        } else if (type == Collection.class) {\n            return new LinkedList<Object>();\n        } else if (type == Set.class) {\n            return new HashSet<Object>();\n        } else if (type == HashSet.class) {\n            return new HashSet<Object>();\n        } else if (type == SortedSet.class) {\n            return new TreeSet<Object>();\n        } else if (type == TreeSet.class) {\n            return new TreeSet<Object>();\n        } else if (type == LinkedHashSet.class) {\n            return new LinkedHashSet<Object>();\n        } else if (type == List.class) {\n            return new LinkedList<Object>();\n        } else if (type == LinkedList.class) {\n            return new LinkedList<Object>();\n        } else if (type == ArrayList.class) {\n            return new ArrayList<Object>();\n        } else if (type == Map.class) {\n            return new HashMap<Object, Object>();\n        } else if (type == HashMap.class) {\n            return new HashMap<Object, Object>();\n        } else if (type == SortedMap.class) {\n            return new TreeMap<Object, Object>();\n        } else if (type == TreeMap.class) {\n            return new TreeMap<Object, Object>();\n        } else if (type == LinkedHashMap.class) {\n            return new LinkedHashMap<Object, Object>();\n        }       \n        //Let's not care about the rest of collections.\n        return null;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ReturnsMocks.answer",
+    "class_name": "org.mockito.internal.stubbing.defaultanswers.ReturnsMocks",
+    "signature": "org.mockito.internal.stubbing.defaultanswers.ReturnsMocks.answer(InvocationOnMock)",
+    "snippet": "    public Object answer(InvocationOnMock invocation) throws Throwable {\n        Object ret = delegate.answer(invocation);\n        if (ret != null) {\n            return ret;\n        }\n            \n        return returnValueFor(invocation.getMethod().getReturnType());\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ReturnsMocks.returnValueFor",
+    "class_name": "org.mockito.internal.stubbing.defaultanswers.ReturnsMocks",
+    "signature": "org.mockito.internal.stubbing.defaultanswers.ReturnsMocks.returnValueFor(Class)",
+    "snippet": "    @SuppressWarnings(\"unchecked\")\n    Object returnValueFor(Class<?> clazz) {\n        if (!ClassImposterizer.INSTANCE.canImposterise(clazz)) {\n            return null;\n        }\n        \n        return mockitoCore.mock(clazz, new MockSettingsImpl().defaultAnswer(this), false);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ReturnsMoreEmptyValues.answer",
+    "class_name": "org.mockito.internal.stubbing.defaultanswers.ReturnsMoreEmptyValues",
+    "signature": "org.mockito.internal.stubbing.defaultanswers.ReturnsMoreEmptyValues.answer(InvocationOnMock)",
+    "snippet": "    public Object answer(InvocationOnMock invocation) throws Throwable {\n        Object ret = delegate.answer(invocation);\n        if (ret != null) {\n            return ret;\n        }\n\n        Class<?> returnType = invocation.getMethod().getReturnType();\n        return returnValueFor(returnType);\n    }",
+    "comment": "(non-Javadoc) @see org.mockito.stubbing.Answer#answer(org.mockito.invocation.InvocationOnMock) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ReturnsMoreEmptyValues.returnValueFor",
+    "class_name": "org.mockito.internal.stubbing.defaultanswers.ReturnsMoreEmptyValues",
+    "signature": "org.mockito.internal.stubbing.defaultanswers.ReturnsMoreEmptyValues.returnValueFor(Class)",
+    "snippet": "    Object returnValueFor(Class<?> type) {\n        if (type == String.class) {\n            return \"\";\n        }  else if (type.isArray()) {\n            Class<?> componenetType = type.getComponentType();\n            return Array.newInstance(componenetType, 0);\n        }\n        return null;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CreationValidator.validateExtraInterfaces",
+    "class_name": "org.mockito.internal.util.CreationValidator",
+    "signature": "org.mockito.internal.util.CreationValidator.validateExtraInterfaces(Class,Class[])",
+    "snippet": "    public void validateExtraInterfaces(Class classToMock, Class ... extraInterfaces) {\n        if (extraInterfaces == null) {\n            return;\n        }\n        \n        for (Class i : extraInterfaces) {\n            if (classToMock == i) {\n                new Reporter().extraInterfacesCannotContainMockedType(classToMock);\n            }\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CreationValidator.validateMockedType",
+    "class_name": "org.mockito.internal.util.CreationValidator",
+    "signature": "org.mockito.internal.util.CreationValidator.validateMockedType(Class,Object)",
+    "snippet": "    public void validateMockedType(Class classToMock, Object spiedInstance) {\n        if (classToMock == null || spiedInstance == null) {\n            return;\n        }\n        if (!classToMock.equals(spiedInstance.getClass())) {\n            new Reporter().mockedTypeIsInconsistentWithSpiedInstanceType(classToMock, spiedInstance);\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CreationValidator.validateType",
+    "class_name": "org.mockito.internal.util.CreationValidator",
+    "signature": "org.mockito.internal.util.CreationValidator.validateType(Class)",
+    "snippet": "    public void validateType(Class classToMock) {\n        if (!ClassImposterizer.INSTANCE.canImposterise(classToMock)) {\n            new Reporter().cannotMockFinalClass(classToMock);\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockName.MockName",
+    "class_name": "org.mockito.internal.util.MockName",
+    "signature": "org.mockito.internal.util.MockName.MockName(String,Class)",
+    "snippet": "    @SuppressWarnings(\"unchecked\")\n    public MockName(String mockName, Class classToMock) {\n        if (mockName == null) {\n            this.mockName = toInstanceName(classToMock);\n            this.surrogate = true;\n        } else {\n            this.mockName = mockName;\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockName.toInstanceName",
+    "class_name": "org.mockito.internal.util.MockName",
+    "signature": "org.mockito.internal.util.MockName.toInstanceName(Class)",
+    "snippet": "    private static String toInstanceName(Class<?> clazz) {\n        String className = clazz.getSimpleName();\n        if (className.length() == 0) {\n            //it's an anonymous class, let's get name from the parent\n            className = clazz.getSuperclass().getSimpleName();\n        }\n        //lower case first letter\n        return className.substring(0, 1).toLowerCase() + className.substring(1);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockUtil.MockUtil",
+    "class_name": "org.mockito.internal.util.MockUtil",
+    "signature": "org.mockito.internal.util.MockUtil.MockUtil()",
+    "snippet": "    public MockUtil() {\n        this(new CreationValidator());\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockUtil.MockUtil",
+    "class_name": "org.mockito.internal.util.MockUtil",
+    "signature": "org.mockito.internal.util.MockUtil.MockUtil(CreationValidator)",
+    "snippet": "    public MockUtil(CreationValidator creationValidator) {\n        this.creationValidator = creationValidator;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "MockUtil.createMock",
+    "class_name": "org.mockito.internal.util.MockUtil",
+    "signature": "org.mockito.internal.util.MockUtil.createMock(Class,MockSettingsImpl)",
+    "snippet": "    public <T> T createMock(Class<T> classToMock, MockSettingsImpl settings) {\n        creationValidator.validateType(classToMock);\n        creationValidator.validateExtraInterfaces(classToMock, settings.getExtraInterfaces());\n        creationValidator.validateMockedType(classToMock, settings.getSpiedInstance());\n\n        settings.initiateMockName(classToMock);\n\n        MockHandler<T> mockHandler = new MockHandler<T>(settings);\n        MethodInterceptorFilter filter = new MethodInterceptorFilter(mockHandler, settings);\n        Class<?>[] interfaces = settings.getExtraInterfaces();\n\n        Class<?>[] ancillaryTypes;\n        if (settings.isSerializable()) {\n            ancillaryTypes = interfaces == null ? new Class<?>[] {Serializable.class} : new ArrayUtils().concat(interfaces, Serializable.class);\n        } else {\n            ancillaryTypes = interfaces == null ? new Class<?>[0] : interfaces;\n        }\n\n        Object spiedInstance = settings.getSpiedInstance();\n        \n        T mock = ClassImposterizer.INSTANCE.imposterise(filter, classToMock, ancillaryTypes);\n        \n        if (spiedInstance != null) {\n            new LenientCopyTool().copyToMock(spiedInstance, mock);\n        }\n        \n        return mock;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ObjectMethodsGuru.isEqualsMethod",
+    "class_name": "org.mockito.internal.util.ObjectMethodsGuru",
+    "signature": "org.mockito.internal.util.ObjectMethodsGuru.isEqualsMethod(Method)",
+    "snippet": "    public boolean isEqualsMethod(Method method) {\n        return method.getName().equals(\"equals\") && method.getParameterTypes().length == 1 && method.getParameterTypes()[0] == Object.class;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ObjectMethodsGuru.isHashCodeMethod",
+    "class_name": "org.mockito.internal.util.ObjectMethodsGuru",
+    "signature": "org.mockito.internal.util.ObjectMethodsGuru.isHashCodeMethod(Method)",
+    "snippet": "    public boolean isHashCodeMethod(Method method) {\n        return method.getName().equals(\"hashCode\") && method.getParameterTypes().length == 0;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ObjectMethodsGuru.isToString",
+    "class_name": "org.mockito.internal.util.ObjectMethodsGuru",
+    "signature": "org.mockito.internal.util.ObjectMethodsGuru.isToString(Method)",
+    "snippet": "    public boolean isToString(Method method) {\n        return isToString(new DelegatingMethod(method));\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ObjectMethodsGuru.isToString",
+    "class_name": "org.mockito.internal.util.ObjectMethodsGuru",
+    "signature": "org.mockito.internal.util.ObjectMethodsGuru.isToString(MockitoMethod)",
+    "snippet": "    public boolean isToString(MockitoMethod method) {\n        return method.getReturnType() == String.class && method.getParameterTypes().length == 0\n                && method.getName().equals(\"toString\");\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Primitives.isPrimitiveWrapper",
+    "class_name": "org.mockito.internal.util.Primitives",
+    "signature": "org.mockito.internal.util.Primitives.isPrimitiveWrapper(Class)",
+    "snippet": "    public static boolean isPrimitiveWrapper(Class<?> type) {\n        return wrapperReturnValues.containsKey(type);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "StringJoiner.join",
+    "class_name": "org.mockito.internal.util.StringJoiner",
+    "signature": "org.mockito.internal.util.StringJoiner.join(Object[])",
+    "snippet": "    public static String join(Object ... linesToBreak) {\n        StringBuilder out = new StringBuilder(\"\\n\");\n        for (Object line : linesToBreak) {\n            out.append(line.toString()).append(\"\\n\");\n        }\n        int lastBreak = out.lastIndexOf(\"\\n\");\n        return out.replace(lastBreak, lastBreak+1, \"\").toString();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  },
+  {
+    "name": "RegisteredInvocations.add",
+    "class_name": "org.mockito.internal.verification.RegisteredInvocations",
+    "signature": "org.mockito.internal.verification.RegisteredInvocations.add(Invocation)",
+    "snippet": "    public void add(Invocation invocation) {\n        invocations.add(invocation);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 4
+  }
+]

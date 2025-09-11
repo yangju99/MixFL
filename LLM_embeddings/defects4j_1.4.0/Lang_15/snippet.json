@@ -1,0 +1,302 @@
+[
+  {
+    "name": "ClassUtils.addAbbreviation",
+    "class_name": "org.apache.commons.lang3.ClassUtils",
+    "signature": "org.apache.commons.lang3.ClassUtils.addAbbreviation(String,String)",
+    "snippet": "    private static void addAbbreviation(String primitive, String abbreviation) {\n        abbreviationMap.put(primitive, abbreviation);\n        reverseAbbreviationMap.put(abbreviation, primitive);\n    }",
+    "comment": " Add primitive type abbreviation to maps of abbreviations.  @param primitive Canonical name of primitive type @param abbreviation Corresponding abbreviation of primitive type ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ClassUtils.isAssignable",
+    "class_name": "org.apache.commons.lang3.ClassUtils",
+    "signature": "org.apache.commons.lang3.ClassUtils.isAssignable(Class,Class)",
+    "snippet": "    public static boolean isAssignable(Class<?> cls, Class<?> toClass) {\n        return isAssignable(cls, toClass, SystemUtils.isJavaVersionAtLeast(JavaVersion.JAVA_1_5));\n    }",
+    "comment": " <p>Checks if one {@code Class} can be assigned to a variable of another {@code Class}.</p>  <p>Unlike the {@link Class#isAssignableFrom(java.lang.Class)} method, this method takes into account widenings of primitive classes and {@code null}s.</p>  <p>Primitive widenings allow an int to be assigned to a long, float or double. This method returns the correct result for these cases.</p>  <p>{@code Null} may be assigned to any reference type. This method will return {@code true} if {@code null} is passed in and the toClass is non-primitive.</p>  <p>Specifically, this method tests whether the type represented by the specified {@code Class} parameter can be converted to the type represented by this {@code Class} object via an identity conversion widening primitive or widening reference conversion. See <em><a href=\"http://java.sun.com/docs/books/jls/\">The Java Language Specification</a></em>, sections 5.1.1, 5.1.2 and 5.1.4 for details.</p>  <p><strong>Since Lang 3.0,</strong> this method will default behavior for calculating assignability between primitive and wrapper types <em>corresponding to the running Java version</em>; i.e. autoboxing will be the default behavior in VMs running Java versions >= 1.5.</p>  @param cls  the Class to check, may be null @param toClass  the Class to try to assign into, returns false if null @return {@code true} if assignment possible ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ClassUtils.isAssignable",
+    "class_name": "org.apache.commons.lang3.ClassUtils",
+    "signature": "org.apache.commons.lang3.ClassUtils.isAssignable(Class,Class,boolean)",
+    "snippet": "    public static boolean isAssignable(Class<?> cls, Class<?> toClass, boolean autoboxing) {\n        if (toClass == null) {\n            return false;\n        }\n        // have to check for null, as isAssignableFrom doesn't\n        if (cls == null) {\n            return !toClass.isPrimitive();\n        }\n        //autoboxing:\n        if (autoboxing) {\n            if (cls.isPrimitive() && !toClass.isPrimitive()) {\n                cls = primitiveToWrapper(cls);\n                if (cls == null) {\n                    return false;\n                }\n            }\n            if (toClass.isPrimitive() && !cls.isPrimitive()) {\n                cls = wrapperToPrimitive(cls);\n                if (cls == null) {\n                    return false;\n                }\n            }\n        }\n        if (cls.equals(toClass)) {\n            return true;\n        }\n        if (cls.isPrimitive()) {\n            if (toClass.isPrimitive() == false) {\n                return false;\n            }\n            if (Integer.TYPE.equals(cls)) {\n                return Long.TYPE.equals(toClass)\n                    || Float.TYPE.equals(toClass)\n                    || Double.TYPE.equals(toClass);\n            }\n            if (Long.TYPE.equals(cls)) {\n                return Float.TYPE.equals(toClass)\n                    || Double.TYPE.equals(toClass);\n            }\n            if (Boolean.TYPE.equals(cls)) {\n                return false;\n            }\n            if (Double.TYPE.equals(cls)) {\n                return false;\n            }\n            if (Float.TYPE.equals(cls)) {\n                return Double.TYPE.equals(toClass);\n            }\n            if (Character.TYPE.equals(cls)) {\n                return Integer.TYPE.equals(toClass)\n                    || Long.TYPE.equals(toClass)\n                    || Float.TYPE.equals(toClass)\n                    || Double.TYPE.equals(toClass);\n            }\n            if (Short.TYPE.equals(cls)) {\n                return Integer.TYPE.equals(toClass)\n                    || Long.TYPE.equals(toClass)\n                    || Float.TYPE.equals(toClass)\n                    || Double.TYPE.equals(toClass);\n            }\n            if (Byte.TYPE.equals(cls)) {\n                return Short.TYPE.equals(toClass)\n                    || Integer.TYPE.equals(toClass)\n                    || Long.TYPE.equals(toClass)\n                    || Float.TYPE.equals(toClass)\n                    || Double.TYPE.equals(toClass);\n            }\n            // should never get here\n            return false;\n        }\n        return toClass.isAssignableFrom(cls);\n    }",
+    "comment": " <p>Checks if one {@code Class} can be assigned to a variable of another {@code Class}.</p>  <p>Unlike the {@link Class#isAssignableFrom(java.lang.Class)} method, this method takes into account widenings of primitive classes and {@code null}s.</p>  <p>Primitive widenings allow an int to be assigned to a long, float or double. This method returns the correct result for these cases.</p>  <p>{@code Null} may be assigned to any reference type. This method will return {@code true} if {@code null} is passed in and the toClass is non-primitive.</p>  <p>Specifically, this method tests whether the type represented by the specified {@code Class} parameter can be converted to the type represented by this {@code Class} object via an identity conversion widening primitive or widening reference conversion. See <em><a href=\"http://java.sun.com/docs/books/jls/\">The Java Language Specification</a></em>, sections 5.1.1, 5.1.2 and 5.1.4 for details.</p>  @param cls  the Class to check, may be null @param toClass  the Class to try to assign into, returns false if null @param autoboxing  whether to use implicit autoboxing/unboxing between primitives and wrappers @return {@code true} if assignment possible ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ClassUtils.primitiveToWrapper",
+    "class_name": "org.apache.commons.lang3.ClassUtils",
+    "signature": "org.apache.commons.lang3.ClassUtils.primitiveToWrapper(Class)",
+    "snippet": "    public static Class<?> primitiveToWrapper(Class<?> cls) {\n        Class<?> convertedClass = cls;\n        if (cls != null && cls.isPrimitive()) {\n            convertedClass = primitiveWrapperMap.get(cls);\n        }\n        return convertedClass;\n    }",
+    "comment": " <p>Converts the specified primitive Class object to its corresponding wrapper Class object.</p>  <p>NOTE: From v2.2, this method handles {@code Void.TYPE}, returning {@code Void.TYPE}.</p>  @param cls  the class to convert, may be null @return the wrapper class for {@code cls} or {@code cls} if {@code cls} is not a primitive. {@code null} if null input. @since 2.1 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "JavaVersion.atLeast",
+    "class_name": "org.apache.commons.lang3.JavaVersion",
+    "signature": "org.apache.commons.lang3.JavaVersion.atLeast(JavaVersion)",
+    "snippet": "    public boolean atLeast(JavaVersion requiredVersion) {\n        return this.value >= requiredVersion.value;\n    }",
+    "comment": " <p>Whether this version of Java is at least the version of Java passed in.</p>  <p>For example:<br /> {@code myVersion.atLeast(JavaVersion.JAVA_1_4)}<p>  @param requiredVersion  the version to check against, not null @return true if this version is equal to or greater than the specified version ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "JavaVersion.get",
+    "class_name": "org.apache.commons.lang3.JavaVersion",
+    "signature": "org.apache.commons.lang3.JavaVersion.get(String)",
+    "snippet": "    static JavaVersion get(final String nom) {\n        if (\"0.9\".equals(nom)) {\n            return JAVA_0_9;\n        } else if (\"1.1\".equals(nom)) {\n            return JAVA_1_1;\n        } else if (\"1.2\".equals(nom)) {\n            return JAVA_1_2;\n        } else if (\"1.3\".equals(nom)) {\n            return JAVA_1_3;\n        } else if (\"1.4\".equals(nom)) {\n            return JAVA_1_4;\n        } else if (\"1.5\".equals(nom)) {\n            return JAVA_1_5;\n        } else if (\"1.6\".equals(nom)) {\n            return JAVA_1_6;\n        } else if (\"1.7\".equals(nom)) {\n            return JAVA_1_7;\n        } else if (\"1.8\".equals(nom)) {\n            return JAVA_1_8;\n        } else {\n            return null;\n        }\n    }",
+    "comment": " Transforms the given string with a Java version number to the corresponding constant of this enumeration class. This method is used internally.  @param nom the Java version as string @return the corresponding enumeration constant or <b>null</b> if the version is unknown ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SystemUtils.getJavaVersionMatches",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.getJavaVersionMatches(String)",
+    "snippet": "    private static boolean getJavaVersionMatches(String versionPrefix) {\n        return isJavaVersionMatch(JAVA_SPECIFICATION_VERSION, versionPrefix);\n    }",
+    "comment": " <p> Decides if the Java version matches. </p>  @param versionPrefix the prefix for the java version @return true if matches, or false if not or can't determine ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SystemUtils.getOSMatches",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.getOSMatches(String,String)",
+    "snippet": "    private static boolean getOSMatches(String osNamePrefix, String osVersionPrefix) {\n        return isOSMatch(OS_NAME, OS_VERSION, osNamePrefix, osVersionPrefix);\n    }",
+    "comment": " Decides if the operating system matches.  @param osNamePrefix the prefix for the os name @param osVersionPrefix the prefix for the version @return true if matches, or false if not or can't determine ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SystemUtils.getOSMatchesName",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.getOSMatchesName(String)",
+    "snippet": "    private static boolean getOSMatchesName(String osNamePrefix) {\n        return isOSNameMatch(OS_NAME, osNamePrefix);\n    }",
+    "comment": " Decides if the operating system matches.  @param osNamePrefix the prefix for the os name @return true if matches, or false if not or can't determine ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SystemUtils.getSystemProperty",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.getSystemProperty(String)",
+    "snippet": "    private static String getSystemProperty(String property) {\n        try {\n            return System.getProperty(property);\n        } catch (SecurityException ex) {\n            // we are not allowed to look at this property\n            System.err.println(\"Caught a SecurityException reading the system property '\" + property\n                    + \"'; the SystemUtils property value will default to null.\");\n            return null;\n        }\n    }",
+    "comment": " <p> Gets a System property, defaulting to {@code null} if the property cannot be read. </p> <p> If a {@code SecurityException} is caught, the return value is {@code null} and a message is written to {@code System.err}. </p>  @param property the system property name @return the system property value or {@code null} if a security problem occurs ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SystemUtils.isJavaVersionAtLeast",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.isJavaVersionAtLeast(JavaVersion)",
+    "snippet": "    public static boolean isJavaVersionAtLeast(JavaVersion requiredVersion) {\n        return JAVA_SPECIFICATION_VERSION_AS_ENUM.atLeast(requiredVersion);\n    }",
+    "comment": " <p> Is the Java version at least the requested version. </p> <p> Example input: </p> <ul> <li>{@code 1.2f} to test for Java 1.2</li> <li>{@code 1.31f} to test for Java 1.3.1</li> </ul>  @param requiredVersion the required version, for example 1.31f @return {@code true} if the actual version is equal or greater than the required version ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SystemUtils.isJavaVersionMatch",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.isJavaVersionMatch(String,String)",
+    "snippet": "    static boolean isJavaVersionMatch(String version, String versionPrefix) {\n        if (version == null) {\n            return false;\n        }\n        return version.startsWith(versionPrefix);\n    }",
+    "comment": " <p> Decides if the Java version matches. </p> <p> This method is package private instead of private to support unit test invocation. </p>  @param version the actual Java version @param versionPrefix the prefix for the expected Java version @return true if matches, or false if not or can't determine ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SystemUtils.isOSMatch",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.isOSMatch(String,String,String,String)",
+    "snippet": "    static boolean isOSMatch(String osName, String osVersion, String osNamePrefix, String osVersionPrefix) {\n        if (osName == null || osVersion == null) {\n            return false;\n        }\n        return osName.startsWith(osNamePrefix) && osVersion.startsWith(osVersionPrefix);\n    }",
+    "comment": " Decides if the operating system matches. <p> This method is package private instead of private to support unit test invocation. </p>  @param osName the actual OS name @param osVersion the actual OS version @param osNamePrefix the prefix for the expected OS name @param osVersionPrefix the prefix for the expected OS version @return true if matches, or false if not or can't determine ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SystemUtils.isOSNameMatch",
+    "class_name": "org.apache.commons.lang3.SystemUtils",
+    "signature": "org.apache.commons.lang3.SystemUtils.isOSNameMatch(String,String)",
+    "snippet": "    static boolean isOSNameMatch(String osName, String osNamePrefix) {\n        if (osName == null) {\n            return false;\n        }\n        return osName.startsWith(osNamePrefix);\n    }",
+    "comment": " Decides if the operating system matches. <p> This method is package private instead of private to support unit test invocation. </p>  @param osName the actual OS name @param osNamePrefix the prefix for the expected OS name @return true if matches, or false if not or can't determine ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TypeUtils.getClosestParentType",
+    "class_name": "org.apache.commons.lang3.reflect.TypeUtils",
+    "signature": "org.apache.commons.lang3.reflect.TypeUtils.getClosestParentType(Class,Class)",
+    "snippet": "    private static Type getClosestParentType(Class<?> cls, Class<?> superClass) {\n        // only look at the interfaces if the super class is also an interface\n        if (superClass.isInterface()) {\n            // get the generic interfaces of the subject class\n            Type[] interfaceTypes = cls.getGenericInterfaces();\n            // will hold the best generic interface match found\n            Type genericInterface = null;\n\n            // find the interface closest to the super class\n            for (Type midType : interfaceTypes) {\n                Class<?> midClass = null;\n\n                if (midType instanceof ParameterizedType) {\n                    midClass = getRawType((ParameterizedType) midType);\n                } else if (midType instanceof Class<?>) {\n                    midClass = (Class<?>) midType;\n                } else {\n                    throw new IllegalStateException(\"Unexpected generic\"\n                            + \" interface type found: \" + midType);\n                }\n\n                // check if this interface is further up the inheritance chain\n                // than the previously found match\n                if (isAssignable(midClass, superClass)\n                        && isAssignable(genericInterface, (Type) midClass)) {\n                    genericInterface = midType;\n                }\n            }\n\n            // found a match?\n            if (genericInterface != null) {\n                return genericInterface;\n            }\n        }\n\n        // none of the interfaces were descendants of the target class, so the\n        // super class has to be one, instead\n        return cls.getGenericSuperclass();\n    }",
+    "comment": " <p> Closest parent type? Closest to what? The closest parent type to the super class specified by <code>superClass</code>. </p>  @param cls the class in question @param superClass the super class @return the closes parent type ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TypeUtils.getImplicitLowerBounds",
+    "class_name": "org.apache.commons.lang3.reflect.TypeUtils",
+    "signature": "org.apache.commons.lang3.reflect.TypeUtils.getImplicitLowerBounds(WildcardType)",
+    "snippet": "    public static Type[] getImplicitLowerBounds(WildcardType wildcardType) {\n        Type[] bounds = wildcardType.getLowerBounds();\n\n        return bounds.length == 0 ? new Type[] { null } : bounds;\n    }",
+    "comment": " <p> Returns an array containing a single value of <code>null</code> if {@link WildcardType#getLowerBounds()} returns an empty array. Otherwise, it returns the result of <code>WildcardType.getLowerBounds()</code>. </p>  @param wildcardType the subject wildcard type @return a non-empty array containing the lower bounds of the wildcard type. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TypeUtils.getImplicitUpperBounds",
+    "class_name": "org.apache.commons.lang3.reflect.TypeUtils",
+    "signature": "org.apache.commons.lang3.reflect.TypeUtils.getImplicitUpperBounds(WildcardType)",
+    "snippet": "    public static Type[] getImplicitUpperBounds(WildcardType wildcardType) {\n        Type[] bounds = wildcardType.getUpperBounds();\n\n        return bounds.length == 0 ? new Type[] { Object.class } : normalizeUpperBounds(bounds);\n    }",
+    "comment": " <p> Returns an array containing the sole value of {@link Object} if {@link WildcardType#getUpperBounds()} returns an empty array. Otherwise, it returns the result of <code>WildcardType.getUpperBounds()</code> passed into {@link #normalizeUpperBounds}. </p>  @param wildcardType the subject wildcard type @return a non-empty array containing the upper bounds of the wildcard type. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TypeUtils.getRawType",
+    "class_name": "org.apache.commons.lang3.reflect.TypeUtils",
+    "signature": "org.apache.commons.lang3.reflect.TypeUtils.getRawType(ParameterizedType)",
+    "snippet": "    private static Class<?> getRawType(ParameterizedType parameterizedType) {\n        Type rawType = parameterizedType.getRawType();\n\n        // check if raw type is a Class object\n        // not currently necessary, but since the return type is Type instead of\n        // Class, there's enough reason to believe that future versions of Java\n        // may return other Type implementations. And type-safety checking is\n        // rarely a bad idea.\n        if (!(rawType instanceof Class<?>)) {\n            throw new IllegalStateException(\"Wait... What!? Type of rawType: \" + rawType);\n        }\n\n        return (Class<?>) rawType;\n    }",
+    "comment": " <p> Transforms the passed in type to a {@code Class} object. Type-checking method of convenience. </p>  @param parameterizedType the type to be converted @return the corresponding {@code Class} object @throws IllegalStateException if the conversion fails ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TypeUtils.getTypeArguments",
+    "class_name": "org.apache.commons.lang3.reflect.TypeUtils",
+    "signature": "org.apache.commons.lang3.reflect.TypeUtils.getTypeArguments(Class,Class,Map)",
+    "snippet": "    private static Map<TypeVariable<?>, Type> getTypeArguments(Class<?> cls, Class<?> toClass,\n            Map<TypeVariable<?>, Type> subtypeVarAssigns) {\n        // make sure they're assignable\n        if (!isAssignable(cls, toClass)) {\n            return null;\n        }\n\n        // can't work with primitives\n        if (cls.isPrimitive()) {\n            // both classes are primitives?\n            if (toClass.isPrimitive()) {\n                // dealing with widening here. No type arguments to be\n                // harvested with these two types.\n                return new HashMap<TypeVariable<?>, Type>();\n            }\n\n            // work with wrapper the wrapper class instead of the primitive\n            cls = ClassUtils.primitiveToWrapper(cls);\n        }\n\n        // create a copy of the incoming map, or an empty one if it's null\n        HashMap<TypeVariable<?>, Type> typeVarAssigns = subtypeVarAssigns == null ? new HashMap<TypeVariable<?>, Type>()\n                : new HashMap<TypeVariable<?>, Type>(subtypeVarAssigns);\n\n        // has target class been reached?\n        if (cls.getTypeParameters().length > 0 || toClass.equals(cls)) {\n            return typeVarAssigns;\n        }\n\n        // walk the inheritance hierarchy until the target class is reached\n        return getTypeArguments(getClosestParentType(cls, toClass), toClass, typeVarAssigns);\n    }",
+    "comment": " <p> Return a map of the type arguments of a class in the context of <code>toClass</code>. </p>  @param cls the class in question @param toClass the context class @param subtypeVarAssigns a map with type variables @return the map with type arguments ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TypeUtils.getTypeArguments",
+    "class_name": "org.apache.commons.lang3.reflect.TypeUtils",
+    "signature": "org.apache.commons.lang3.reflect.TypeUtils.getTypeArguments(ParameterizedType,Class,Map)",
+    "snippet": "    private static Map<TypeVariable<?>, Type> getTypeArguments(\n            ParameterizedType parameterizedType, Class<?> toClass,\n            Map<TypeVariable<?>, Type> subtypeVarAssigns) {\n        Class<?> cls = getRawType(parameterizedType);\n\n        // make sure they're assignable\n        if (!isAssignable(cls, toClass)) {\n            return null;\n        }\n\n        Type ownerType = parameterizedType.getOwnerType();\n        Map<TypeVariable<?>, Type> typeVarAssigns;\n\n        if (ownerType instanceof ParameterizedType) {\n            // get the owner type arguments first\n            ParameterizedType parameterizedOwnerType = (ParameterizedType) ownerType;\n            typeVarAssigns = getTypeArguments(parameterizedOwnerType,\n                    getRawType(parameterizedOwnerType), subtypeVarAssigns);\n        } else {\n            // no owner, prep the type variable assignments map\n            typeVarAssigns = subtypeVarAssigns == null ? new HashMap<TypeVariable<?>, Type>()\n                    : new HashMap<TypeVariable<?>, Type>(subtypeVarAssigns);\n        }\n\n        // get the subject parameterized type's arguments\n        Type[] typeArgs = parameterizedType.getActualTypeArguments();\n        // and get the corresponding type variables from the raw class\n        TypeVariable<?>[] typeParams = cls.getTypeParameters();\n\n        // map the arguments to their respective type variables\n        for (int i = 0; i < typeParams.length; i++) {\n            Type typeArg = typeArgs[i];\n            typeVarAssigns.put(typeParams[i], typeVarAssigns.containsKey(typeArg) ? typeVarAssigns\n                    .get(typeArg) : typeArg);\n        }\n\n        if (toClass.equals(cls)) {\n            // target class has been reached. Done.\n            return typeVarAssigns;\n        }\n\n        // walk the inheritance hierarchy until the target class is reached\n        return getTypeArguments(getClosestParentType(cls, toClass), toClass, typeVarAssigns);\n    }",
+    "comment": " <p> Return a map of the type arguments of a parameterized type in the context of <code>toClass</code>. </p>  @param parameterizedType the parameterized type @param toClass the class @param subtypeVarAssigns a map with type variables @return the map with type arguments ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TypeUtils.getTypeArguments",
+    "class_name": "org.apache.commons.lang3.reflect.TypeUtils",
+    "signature": "org.apache.commons.lang3.reflect.TypeUtils.getTypeArguments(Type,Class)",
+    "snippet": "    public static Map<TypeVariable<?>, Type> getTypeArguments(Type type, Class<?> toClass) {\n        return getTypeArguments(type, toClass, null);\n    }",
+    "comment": " <p> Gets the type arguments of a class/interface based on a subtype. For instance, this method will determine that both of the parameters for the interface {@link Map} are {@link Object} for the subtype {@link java.util.Properties Properties} even though the subtype does not directly implement the <code>Map</code> interface. <p> </p> This method returns <code>null</code> if <code>type</code> is not assignable to <code>toClass</code>. It returns an empty map if none of the classes or interfaces in its inheritance hierarchy specify any type arguments. </p> <p> A side-effect of this method is that it also retrieves the type arguments for the classes and interfaces that are part of the hierarchy between <code>type</code> and <code>toClass</code>. So with the above example, this method will also determine that the type arguments for {@link java.util.Hashtable Hashtable} are also both <code>Object</code>. In cases where the interface specified by <code>toClass</code> is (indirectly) implemented more than once (e.g. where <code>toClass</code> specifies the interface {@link java.lang.Iterable Iterable} and <code>type</code> specifies a parameterized type that implements both {@link java.util.Set Set} and {@link java.util.Collection Collection}), this method will look at the inheritance hierarchy of only one of the implementations/subclasses; the first interface encountered that isn't a subinterface to one of the others in the <code>type</code> to <code>toClass</code> hierarchy. </p>  @param type the type from which to determine the type parameters of <code>toClass</code> @param toClass the class whose type parameters are to be determined based on the subtype <code>type</code> @return a map of the type assignments for the type variables in each type in the inheritance hierarchy from <code>type</code> to <code>toClass</code> inclusive. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TypeUtils.getTypeArguments",
+    "class_name": "org.apache.commons.lang3.reflect.TypeUtils",
+    "signature": "org.apache.commons.lang3.reflect.TypeUtils.getTypeArguments(Type,Class,Map)",
+    "snippet": "    private static Map<TypeVariable<?>, Type> getTypeArguments(Type type, Class<?> toClass,\n            Map<TypeVariable<?>, Type> subtypeVarAssigns) {\n        if (type instanceof Class<?>) {\n            return getTypeArguments((Class<?>) type, toClass, subtypeVarAssigns);\n        }\n\n        if (type instanceof ParameterizedType) {\n            return getTypeArguments((ParameterizedType) type, toClass, subtypeVarAssigns);\n        }\n\n        if (type instanceof GenericArrayType) {\n            return getTypeArguments(((GenericArrayType) type).getGenericComponentType(), toClass\n                    .isArray() ? toClass.getComponentType() : toClass, subtypeVarAssigns);\n        }\n\n        // since wildcard types are not assignable to classes, should this just\n        // return null?\n        if (type instanceof WildcardType) {\n            for (Type bound : getImplicitUpperBounds((WildcardType) type)) {\n                // find the first bound that is assignable to the target class\n                if (isAssignable(bound, toClass)) {\n                    return getTypeArguments(bound, toClass, subtypeVarAssigns);\n                }\n            }\n\n            return null;\n        }\n\n        // *\n        if (type instanceof TypeVariable<?>) {\n            for (Type bound : getImplicitBounds((TypeVariable<?>) type)) {\n                // find the first bound that is assignable to the target class\n                if (isAssignable(bound, toClass)) {\n                    return getTypeArguments(bound, toClass, subtypeVarAssigns);\n                }\n            }\n\n            return null;\n        }\n        // */\n\n        throw new IllegalStateException(\"found an unhandled type: \" + type);\n    }",
+    "comment": " <p> Return a map of the type arguments of <code>type</code> in the context of <code>toClass</code>. </p>  @param type the type in question @param toClass the class @param subtypeVarAssigns a map with type variables @return the map with type arguments ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TypeUtils.isAssignable",
+    "class_name": "org.apache.commons.lang3.reflect.TypeUtils",
+    "signature": "org.apache.commons.lang3.reflect.TypeUtils.isAssignable(Type,Class)",
+    "snippet": "    private static boolean isAssignable(Type type, Class<?> toClass) {\n        if (type == null) {\n            // consistency with ClassUtils.isAssignable() behavior\n            return toClass == null || !toClass.isPrimitive();\n        }\n\n        // only a null type can be assigned to null type which\n        // would have cause the previous to return true\n        if (toClass == null) {\n            return false;\n        }\n\n        // all types are assignable to themselves\n        if (toClass.equals(type)) {\n            return true;\n        }\n\n        if (type instanceof Class<?>) {\n            // just comparing two classes\n            return ClassUtils.isAssignable((Class<?>) type, toClass);\n        }\n\n        if (type instanceof ParameterizedType) {\n            // only have to compare the raw type to the class\n            return isAssignable(getRawType((ParameterizedType) type), toClass);\n        }\n\n        // *\n        if (type instanceof TypeVariable<?>) {\n            // if any of the bounds are assignable to the class, then the\n            // type is assignable to the class.\n            for (Type bound : ((TypeVariable<?>) type).getBounds()) {\n                if (isAssignable(bound, toClass)) {\n                    return true;\n                }\n            }\n\n            return false;\n        }\n\n        // the only classes to which a generic array type can be assigned\n        // are class Object and array classes\n        if (type instanceof GenericArrayType) {\n            return toClass.equals(Object.class)\n                    || toClass.isArray()\n                    && isAssignable(((GenericArrayType) type).getGenericComponentType(), toClass\n                            .getComponentType());\n        }\n\n        // wildcard types are not assignable to a class (though one would think\n        // \"? super Object\" would be assignable to Object)\n        if (type instanceof WildcardType) {\n            return false;\n        }\n\n        throw new IllegalStateException(\"found an unhandled type: \" + type);\n    }",
+    "comment": " <p> Checks if the subject type may be implicitly cast to the target class following the Java generics rules. </p>  @param type the subject type to be assigned to the target type @param toClass the target class @return true if <code>type</code> is assignable to <code>toClass</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TypeUtils.isAssignable",
+    "class_name": "org.apache.commons.lang3.reflect.TypeUtils",
+    "signature": "org.apache.commons.lang3.reflect.TypeUtils.isAssignable(Type,GenericArrayType,Map)",
+    "snippet": "    private static boolean isAssignable(Type type, GenericArrayType toGenericArrayType,\n            Map<TypeVariable<?>, Type> typeVarAssigns) {\n        if (type == null) {\n            return true;\n        }\n\n        // only a null type can be assigned to null type which\n        // would have cause the previous to return true\n        if (toGenericArrayType == null) {\n            return false;\n        }\n\n        // all types are assignable to themselves\n        if (toGenericArrayType.equals(type)) {\n            return true;\n        }\n\n        Type toComponentType = toGenericArrayType.getGenericComponentType();\n\n        if (type instanceof Class<?>) {\n            Class<?> cls = (Class<?>) type;\n\n            // compare the component types\n            return cls.isArray()\n                    && isAssignable(cls.getComponentType(), toComponentType, typeVarAssigns);\n        }\n\n        if (type instanceof GenericArrayType) {\n            // compare the component types\n            return isAssignable(((GenericArrayType) type).getGenericComponentType(),\n                    toComponentType, typeVarAssigns);\n        }\n\n        if (type instanceof WildcardType) {\n            // so long as one of the upper bounds is assignable, it's good\n            for (Type bound : getImplicitUpperBounds((WildcardType) type)) {\n                if (isAssignable(bound, toGenericArrayType)) {\n                    return true;\n                }\n            }\n\n            return false;\n        }\n\n        if (type instanceof TypeVariable<?>) {\n            // probably should remove the following logic and just return false.\n            // type variables cannot specify arrays as bounds.\n            for (Type bound : getImplicitBounds((TypeVariable<?>) type)) {\n                if (isAssignable(bound, toGenericArrayType)) {\n                    return true;\n                }\n            }\n\n            return false;\n        }\n\n        if (type instanceof ParameterizedType) {\n            // the raw type of a parameterized type is never an array or\n            // generic array, otherwise the declaration would look like this:\n            // Collection[]< ? extends String > collection;\n            return false;\n        }\n\n        throw new IllegalStateException(\"found an unhandled type: \" + type);\n    }",
+    "comment": " <p> Checks if the subject type may be implicitly cast to the target generic array type following the Java generics rules. </p>  @param type the subject type to be assigned to the target type @param toGenericArrayType the target generic array type @param typeVarAssigns a map with type variables @return true if <code>type</code> is assignable to <code>toGenericArrayType</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TypeUtils.isAssignable",
+    "class_name": "org.apache.commons.lang3.reflect.TypeUtils",
+    "signature": "org.apache.commons.lang3.reflect.TypeUtils.isAssignable(Type,ParameterizedType,Map)",
+    "snippet": "    private static boolean isAssignable(Type type, ParameterizedType toParameterizedType,\n            Map<TypeVariable<?>, Type> typeVarAssigns) {\n        if (type == null) {\n            return true;\n        }\n\n        // only a null type can be assigned to null type which\n        // would have cause the previous to return true\n        if (toParameterizedType == null) {\n            return false;\n        }\n\n        // all types are assignable to themselves\n        if (toParameterizedType.equals(type)) {\n            return true;\n        }\n\n        // get the target type's raw type\n        Class<?> toClass = getRawType(toParameterizedType);\n        // get the subject type's type arguments including owner type arguments\n        // and supertype arguments up to and including the target class.\n        Map<TypeVariable<?>, Type> fromTypeVarAssigns = getTypeArguments(type, toClass, null);\n\n        // null means the two types are not compatible\n        if (fromTypeVarAssigns == null) {\n            return false;\n        }\n\n        // compatible types, but there's no type arguments. this is equivalent\n        // to comparing Map< ?, ? > to Map, and raw types are always assignable\n        // to parameterized types.\n        if (fromTypeVarAssigns.isEmpty()) {\n            return true;\n        }\n\n        // get the target type's type arguments including owner type arguments\n        Map<TypeVariable<?>, Type> toTypeVarAssigns = getTypeArguments(toParameterizedType,\n                toClass, typeVarAssigns);\n\n        // now to check each type argument\n        for (Map.Entry<TypeVariable<?>, Type> entry : toTypeVarAssigns.entrySet()) {\n            Type toTypeArg = entry.getValue();\n            Type fromTypeArg = fromTypeVarAssigns.get(entry.getKey());\n\n            // parameters must either be absent from the subject type, within\n            // the bounds of the wildcard type, or be an exact match to the\n            // parameters of the target type.\n            if (fromTypeArg != null\n                    && !toTypeArg.equals(fromTypeArg)\n                    && !(toTypeArg instanceof WildcardType && isAssignable(fromTypeArg, toTypeArg,\n                            typeVarAssigns))) {\n                return false;\n            }\n        }\n\n        return true;\n    }",
+    "comment": " <p> Checks if the subject type may be implicitly cast to the target parameterized type following the Java generics rules. </p>  @param type the subject type to be assigned to the target type @param toParameterizedType the target parameterized type @param typeVarAssigns a map with type variables @return true if <code>type</code> is assignable to <code>toType</code>. ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TypeUtils.isAssignable",
+    "class_name": "org.apache.commons.lang3.reflect.TypeUtils",
+    "signature": "org.apache.commons.lang3.reflect.TypeUtils.isAssignable(Type,Type)",
+    "snippet": "    public static boolean isAssignable(Type type, Type toType) {\n        return isAssignable(type, toType, null);\n    }",
+    "comment": " <p> Checks if the subject type may be implicitly cast to the target type following the Java generics rules. If both types are {@link Class} objects, the method returns the result of {@link ClassUtils#isAssignable(Class, Class)}. </p>  @param type the subject type to be assigned to the target type @param toType the target type @return <code>true</code> if <code>type</code> is assignable to <code>toType</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TypeUtils.isAssignable",
+    "class_name": "org.apache.commons.lang3.reflect.TypeUtils",
+    "signature": "org.apache.commons.lang3.reflect.TypeUtils.isAssignable(Type,Type,Map)",
+    "snippet": "    private static boolean isAssignable(Type type, Type toType,\n            Map<TypeVariable<?>, Type> typeVarAssigns) {\n        if (toType == null || toType instanceof Class<?>) {\n            return isAssignable(type, (Class<?>) toType);\n        }\n\n        if (toType instanceof ParameterizedType) {\n            return isAssignable(type, (ParameterizedType) toType, typeVarAssigns);\n        }\n\n        if (toType instanceof GenericArrayType) {\n            return isAssignable(type, (GenericArrayType) toType, typeVarAssigns);\n        }\n\n        if (toType instanceof WildcardType) {\n            return isAssignable(type, (WildcardType) toType, typeVarAssigns);\n        }\n\n        // *\n        if (toType instanceof TypeVariable<?>) {\n            return isAssignable(type, (TypeVariable<?>) toType, typeVarAssigns);\n        }\n        // */\n\n        throw new IllegalStateException(\"found an unhandled type: \" + toType);\n    }",
+    "comment": " <p> Checks if the subject type may be implicitly cast to the target type following the Java generics rules. </p>  @param type the subject type to be assigned to the target type @param toType the target type @param typeVarAssigns optional map of type variable assignments @return <code>true</code> if <code>type</code> is assignable to <code>toType</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TypeUtils.isAssignable",
+    "class_name": "org.apache.commons.lang3.reflect.TypeUtils",
+    "signature": "org.apache.commons.lang3.reflect.TypeUtils.isAssignable(Type,WildcardType,Map)",
+    "snippet": "    private static boolean isAssignable(Type type, WildcardType toWildcardType,\n            Map<TypeVariable<?>, Type> typeVarAssigns) {\n        if (type == null) {\n            return true;\n        }\n\n        // only a null type can be assigned to null type which\n        // would have cause the previous to return true\n        if (toWildcardType == null) {\n            return false;\n        }\n\n        // all types are assignable to themselves\n        if (toWildcardType.equals(type)) {\n            return true;\n        }\n\n        Type[] toUpperBounds = getImplicitUpperBounds(toWildcardType);\n        Type[] toLowerBounds = getImplicitLowerBounds(toWildcardType);\n\n        if (type instanceof WildcardType) {\n            WildcardType wildcardType = (WildcardType) type;\n            Type[] upperBounds = getImplicitUpperBounds(wildcardType);\n            Type[] lowerBounds = getImplicitLowerBounds(wildcardType);\n\n            for (Type toBound : toUpperBounds) {\n                // if there are assignments for unresolved type variables,\n                // now's the time to substitute them.\n                toBound = substituteTypeVariables(toBound, typeVarAssigns);\n\n                // each upper bound of the subject type has to be assignable to\n                // each\n                // upper bound of the target type\n                for (Type bound : upperBounds) {\n                    if (!isAssignable(bound, toBound, typeVarAssigns)) {\n                        return false;\n                    }\n                }\n            }\n\n            for (Type toBound : toLowerBounds) {\n                // if there are assignments for unresolved type variables,\n                // now's the time to substitute them.\n                toBound = substituteTypeVariables(toBound, typeVarAssigns);\n\n                // each lower bound of the target type has to be assignable to\n                // each\n                // lower bound of the subject type\n                for (Type bound : lowerBounds) {\n                    if (!isAssignable(toBound, bound, typeVarAssigns)) {\n                        return false;\n                    }\n                }\n            }\n\n            return true;\n        }\n\n        for (Type toBound : toUpperBounds) {\n            // if there are assignments for unresolved type variables,\n            // now's the time to substitute them.\n            if (!isAssignable(type, substituteTypeVariables(toBound, typeVarAssigns),\n                    typeVarAssigns)) {\n                return false;\n            }\n        }\n\n        for (Type toBound : toLowerBounds) {\n            // if there are assignments for unresolved type variables,\n            // now's the time to substitute them.\n            if (!isAssignable(substituteTypeVariables(toBound, typeVarAssigns), type,\n                    typeVarAssigns)) {\n                return false;\n            }\n        }\n\n        return true;\n    }",
+    "comment": " <p> Checks if the subject type may be implicitly cast to the target wildcard type following the Java generics rules. </p>  @param type the subject type to be assigned to the target type @param toWildcardType the target wildcard type @param typeVarAssigns a map with type variables @return true if <code>type</code> is assignable to <code>toWildcardType</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TypeUtils.normalizeUpperBounds",
+    "class_name": "org.apache.commons.lang3.reflect.TypeUtils",
+    "signature": "org.apache.commons.lang3.reflect.TypeUtils.normalizeUpperBounds(Type[])",
+    "snippet": "    public static Type[] normalizeUpperBounds(Type[] bounds) {\n        // don't bother if there's only one (or none) type\n        if (bounds.length < 2) {\n            return bounds;\n        }\n\n        Set<Type> types = new HashSet<Type>(bounds.length);\n\n        for (Type type1 : bounds) {\n            boolean subtypeFound = false;\n\n            for (Type type2 : bounds) {\n                if (type1 != type2 && isAssignable(type2, type1, null)) {\n                    subtypeFound = true;\n                    break;\n                }\n            }\n\n            if (!subtypeFound) {\n                types.add(type1);\n            }\n        }\n\n        return types.toArray(new Type[types.size()]);\n    }",
+    "comment": " <p> This method strips out the redundant upper bound types in type variable types and wildcard types (or it would with wildcard types if multiple upper bounds were allowed). </p> <p> Example: with the variable type declaration:  <pre> &lt;K extends java.util.Collection&lt;String&gt; &amp; java.util.List&lt;String&gt;&gt; </pre>  since <code>List</code> is a subinterface of <code>Collection</code>, this method will return the bounds as if the declaration had been:  <pre> &lt;K extends java.util.List&lt;String&gt;&gt; </pre>  </p>  @param bounds an array of types representing the upper bounds of either <code>WildcardType</code> or <code>TypeVariable</code>. @return an array containing the values from <code>bounds</code> minus the redundant types. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TypeUtils.substituteTypeVariables",
+    "class_name": "org.apache.commons.lang3.reflect.TypeUtils",
+    "signature": "org.apache.commons.lang3.reflect.TypeUtils.substituteTypeVariables(Type,Map)",
+    "snippet": "    private static Type substituteTypeVariables(Type type, Map<TypeVariable<?>, Type> typeVarAssigns) {\n        if (type instanceof TypeVariable<?> && typeVarAssigns != null) {\n            Type replacementType = typeVarAssigns.get(type);\n\n            if (replacementType == null) {\n                throw new IllegalArgumentException(\"missing assignment type for type variable \"\n                        + type);\n            }\n\n            return replacementType;\n        }\n\n        return type;\n    }",
+    "comment": " <p> </p>  @param type the type to be replaced @param typeVarAssigns the map with type variables @return the replaced type @throws IllegalArgumentException if the type cannot be substituted ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  }
+]

@@ -1,0 +1,302 @@
+[
+  {
+    "name": "ConvergingAlgorithmImpl.ConvergingAlgorithmImpl",
+    "class_name": "org.apache.commons.math.ConvergingAlgorithmImpl",
+    "signature": "org.apache.commons.math.ConvergingAlgorithmImpl.ConvergingAlgorithmImpl()",
+    "snippet": "    protected ConvergingAlgorithmImpl() {}",
+    "comment": " Default constructor.  @since 2.2 @deprecated in 2.2 (to be removed as soon as the single non-default one has been removed). ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "ConvergingAlgorithmImpl.getAbsoluteAccuracy",
+    "class_name": "org.apache.commons.math.ConvergingAlgorithmImpl",
+    "signature": "org.apache.commons.math.ConvergingAlgorithmImpl.getAbsoluteAccuracy()",
+    "snippet": "    public double getAbsoluteAccuracy() {\n        return absoluteAccuracy;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "ConvergingAlgorithmImpl.getIterationCount",
+    "class_name": "org.apache.commons.math.ConvergingAlgorithmImpl",
+    "signature": "org.apache.commons.math.ConvergingAlgorithmImpl.getIterationCount()",
+    "snippet": "    public int getIterationCount() {\n        return iterationCount;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "ConvergingAlgorithmImpl.getRelativeAccuracy",
+    "class_name": "org.apache.commons.math.ConvergingAlgorithmImpl",
+    "signature": "org.apache.commons.math.ConvergingAlgorithmImpl.getRelativeAccuracy()",
+    "snippet": "    public double getRelativeAccuracy() {\n        return relativeAccuracy;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "ConvergingAlgorithmImpl.setAbsoluteAccuracy",
+    "class_name": "org.apache.commons.math.ConvergingAlgorithmImpl",
+    "signature": "org.apache.commons.math.ConvergingAlgorithmImpl.setAbsoluteAccuracy(double)",
+    "snippet": "    public void setAbsoluteAccuracy(double accuracy) {\n        absoluteAccuracy = accuracy;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "ConvergingAlgorithmImpl.setMaximalIterationCount",
+    "class_name": "org.apache.commons.math.ConvergingAlgorithmImpl",
+    "signature": "org.apache.commons.math.ConvergingAlgorithmImpl.setMaximalIterationCount(int)",
+    "snippet": "    public void setMaximalIterationCount(int count) {\n        maximalIterationCount = count;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "ConvergingAlgorithmImpl.setRelativeAccuracy",
+    "class_name": "org.apache.commons.math.ConvergingAlgorithmImpl",
+    "signature": "org.apache.commons.math.ConvergingAlgorithmImpl.setRelativeAccuracy(double)",
+    "snippet": "    public void setRelativeAccuracy(double accuracy) {\n        relativeAccuracy = accuracy;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "MultiStartUnivariateRealOptimizer.MultiStartUnivariateRealOptimizer",
+    "class_name": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer",
+    "signature": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer.MultiStartUnivariateRealOptimizer(UnivariateRealOptimizer,int,RandomGenerator)",
+    "snippet": "    public MultiStartUnivariateRealOptimizer(final UnivariateRealOptimizer optimizer,\n                                             final int starts,\n                                             final RandomGenerator generator) {\n        this.optimizer        = optimizer;\n        this.totalIterations  = 0;\n        this.starts           = starts;\n        this.generator        = generator;\n        this.optima           = null;\n        setMaximalIterationCount(Integer.MAX_VALUE);\n        setMaxEvaluations(Integer.MAX_VALUE);\n    }",
+    "comment": " Create a multi-start optimizer from a single-start optimizer @param optimizer single-start optimizer to wrap @param starts number of starts to perform (including the first one), multi-start is disabled if value is less than or equal to 1 @param generator random generator to use for restarts ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "MultiStartUnivariateRealOptimizer.getAbsoluteAccuracy",
+    "class_name": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer",
+    "signature": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer.getAbsoluteAccuracy()",
+    "snippet": "    public double getAbsoluteAccuracy() {\n        return optimizer.getAbsoluteAccuracy();\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "MultiStartUnivariateRealOptimizer.getEvaluations",
+    "class_name": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer",
+    "signature": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer.getEvaluations()",
+    "snippet": "    public int getEvaluations() {\n        return totalEvaluations;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "MultiStartUnivariateRealOptimizer.getOptima",
+    "class_name": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer",
+    "signature": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer.getOptima()",
+    "snippet": "    public double[] getOptima() throws IllegalStateException {\n        if (optima == null) {\n            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.NO_OPTIMUM_COMPUTED_YET);\n        }\n        return optima.clone();\n    }",
+    "comment": "Get all the optima found during the last call to {@link #optimize(UnivariateRealFunction, GoalType, double, double) optimize}. <p>The optimizer stores all the optima found during a set of restarts. The {@link #optimize(UnivariateRealFunction, GoalType, double, double) optimize} method returns the best point only. This method returns all the points found at the end of each starts, including the best one already returned by the {@link #optimize(UnivariateRealFunction, GoalType, double, double) optimize} method. </p> <p> The returned array as one element for each start as specified in the constructor. It is ordered with the results from the runs that did converge first, sorted from best to worst objective value (i.e in ascending order if minimizing and in descending order if maximizing), followed by Double.NaN elements corresponding to the runs that did not converge. This means all elements will be NaN if the {@link #optimize(UnivariateRealFunction, GoalType, double, double) optimize} method did throw a {@link ConvergenceException ConvergenceException}). This also means that if the first element is not NaN, it is the best point found across all starts.</p> @return array containing the optima @exception IllegalStateException if {@link #optimize(UnivariateRealFunction, GoalType, double, double) optimize} has not been called @see #getOptimaValues() ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "MultiStartUnivariateRealOptimizer.getOptimaValues",
+    "class_name": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer",
+    "signature": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer.getOptimaValues()",
+    "snippet": "    public double[] getOptimaValues() throws IllegalStateException {\n        if (optimaValues == null) {\n            throw MathRuntimeException.createIllegalStateException(LocalizedFormats.NO_OPTIMUM_COMPUTED_YET);\n        }\n        return optimaValues.clone();\n    }",
+    "comment": "Get all the function values at optima found during the last call to {@link #optimize(UnivariateRealFunction, GoalType, double, double) optimize}. <p> The returned array as one element for each start as specified in the constructor. It is ordered with the results from the runs that did converge first, sorted from best to worst objective value (i.e in ascending order if minimizing and in descending order if maximizing), followed by Double.NaN elements corresponding to the runs that did not converge. This means all elements will be NaN if the {@link #optimize(UnivariateRealFunction, GoalType, double, double) optimize} method did throw a {@link ConvergenceException ConvergenceException}). This also means that if the first element is not NaN, it is the best point found across all starts.</p> @return array containing the optima @exception IllegalStateException if {@link #optimize(UnivariateRealFunction, GoalType, double, double) optimize} has not been called @see #getOptima() ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "MultiStartUnivariateRealOptimizer.getRelativeAccuracy",
+    "class_name": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer",
+    "signature": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer.getRelativeAccuracy()",
+    "snippet": "    public double getRelativeAccuracy() {\n        return optimizer.getRelativeAccuracy();\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "MultiStartUnivariateRealOptimizer.optimize",
+    "class_name": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer",
+    "signature": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer.optimize(UnivariateRealFunction,GoalType,double,double)",
+    "snippet": "    public double optimize(final UnivariateRealFunction f, final GoalType goalType,\n                           final double min, final double max)\n        throws ConvergenceException,\n            FunctionEvaluationException {\n\n        optima           = new double[starts];\n        optimaValues     = new double[starts];\n        totalIterations  = 0;\n        totalEvaluations = 0;\n\n        // multi-start loop\n        for (int i = 0; i < starts; ++i) {\n\n            try {\n                optimizer.setMaximalIterationCount(maxIterations - totalIterations);\n                optimizer.setMaxEvaluations(maxEvaluations - totalEvaluations);\n                final double bound1 = (i == 0) ? min : min + generator.nextDouble() * (max - min);\n                final double bound2 = (i == 0) ? max : min + generator.nextDouble() * (max - min);\n                optima[i]       = optimizer.optimize(f, goalType,\n                                                     Math.min(bound1, bound2),\n                                                     Math.max(bound1, bound2));\n                optimaValues[i] = optimizer.getFunctionValue();\n            } catch (FunctionEvaluationException fee) {\n                optima[i]       = Double.NaN;\n                optimaValues[i] = Double.NaN;\n            } catch (ConvergenceException ce) {\n                optima[i]       = Double.NaN;\n                optimaValues[i] = Double.NaN;\n            }\n\n            totalIterations  += optimizer.getIterationCount();\n            totalEvaluations += optimizer.getEvaluations();\n\n        }\n\n        // sort the optima from best to worst, followed by NaN elements\n        int lastNaN = optima.length;\n        for (int i = 0; i < lastNaN; ++i) {\n            if (Double.isNaN(optima[i])) {\n                optima[i] = optima[--lastNaN];\n                optima[lastNaN + 1] = Double.NaN;\n                optimaValues[i] = optimaValues[--lastNaN];\n                optimaValues[lastNaN + 1] = Double.NaN;\n            }\n        }\n\n        double currX = optima[0];\n        double currY = optimaValues[0];\n        for (int j = 1; j < lastNaN; ++j) {\n            final double prevY = currY;\n            currX = optima[j];\n            currY = optimaValues[j];\n            if ((goalType == GoalType.MAXIMIZE) ^ (currY < prevY)) {\n                // the current element should be inserted closer to the beginning\n                int i = j - 1;\n                double mIX = optima[i];\n                double mIY = optimaValues[i];\n                while ((i >= 0) && ((goalType == GoalType.MAXIMIZE) ^ (currY < mIY))) {\n                    optima[i + 1]       = mIX;\n                    optimaValues[i + 1] = mIY;\n                    if (i-- != 0) {\n                        mIX = optima[i];\n                        mIY = optimaValues[i];\n                    } else {\n                        mIX = Double.NaN;\n                        mIY = Double.NaN;\n                    }\n                }\n                optima[i + 1]       = currX;\n                optimaValues[i + 1] = currY;\n                currX = optima[j];\n                currY = optimaValues[j];\n            }\n        }\n\n        if (Double.isNaN(optima[0])) {\n            throw new OptimizationException(\n                    LocalizedFormats.NO_CONVERGENCE_WITH_ANY_START_POINT,\n                    starts);\n        }\n\n        // return the found point given the best objective function value\n        return optima[0];\n\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "MultiStartUnivariateRealOptimizer.setAbsoluteAccuracy",
+    "class_name": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer",
+    "signature": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer.setAbsoluteAccuracy(double)",
+    "snippet": "    public void setAbsoluteAccuracy(double accuracy) {\n        optimizer.setAbsoluteAccuracy(accuracy);\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "MultiStartUnivariateRealOptimizer.setMaxEvaluations",
+    "class_name": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer",
+    "signature": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer.setMaxEvaluations(int)",
+    "snippet": "    public void setMaxEvaluations(int maxEvaluations) {\n        this.maxEvaluations = maxEvaluations;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "MultiStartUnivariateRealOptimizer.setMaximalIterationCount",
+    "class_name": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer",
+    "signature": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer.setMaximalIterationCount(int)",
+    "snippet": "    public void setMaximalIterationCount(int count) {\n        this.maxIterations = count;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "MultiStartUnivariateRealOptimizer.setRelativeAccuracy",
+    "class_name": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer",
+    "signature": "org.apache.commons.math.optimization.MultiStartUnivariateRealOptimizer.setRelativeAccuracy(double)",
+    "snippet": "    public void setRelativeAccuracy(double accuracy) {\n        optimizer.setRelativeAccuracy(accuracy);\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "AbstractUnivariateRealOptimizer.AbstractUnivariateRealOptimizer",
+    "class_name": "org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer",
+    "signature": "org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer.AbstractUnivariateRealOptimizer()",
+    "snippet": "    protected AbstractUnivariateRealOptimizer() {}",
+    "comment": " Default constructor. To be removed once the single non-default one has been removed. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "AbstractUnivariateRealOptimizer.clearResult",
+    "class_name": "org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer",
+    "signature": "org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer.clearResult()",
+    "snippet": "    protected final void clearResult() {\n        this.resultComputed = false;\n    }",
+    "comment": " Convenience function for implementations. @deprecated in 2.2 (no alternative). ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "AbstractUnivariateRealOptimizer.computeObjectiveValue",
+    "class_name": "org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer",
+    "signature": "org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer.computeObjectiveValue(UnivariateRealFunction,double)",
+    "snippet": "    protected double computeObjectiveValue(final UnivariateRealFunction f,\n                                           final double point)\n        throws FunctionEvaluationException {\n        if (++evaluations > maxEvaluations) {\n            throw new FunctionEvaluationException(new MaxEvaluationsExceededException(maxEvaluations),\n                                                  point);\n        }\n        return f.value(point);\n    }",
+    "comment": " Compute the objective function value. @param f objective function @param point point at which the objective function must be evaluated @return objective function value at specified point @exception FunctionEvaluationException if the function cannot be evaluated or the maximal number of iterations is exceeded @deprecated in 2.2. Use this {@link #computeObjectiveValue(double) replacement} instead. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "AbstractUnivariateRealOptimizer.getEvaluations",
+    "class_name": "org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer",
+    "signature": "org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer.getEvaluations()",
+    "snippet": "    public int getEvaluations() {\n        return evaluations;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "AbstractUnivariateRealOptimizer.getFunctionValue",
+    "class_name": "org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer",
+    "signature": "org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer.getFunctionValue()",
+    "snippet": "    public double getFunctionValue() {\n        if (functionValue == Double.NaN) {\n            final double opt = getResult();\n            try {\n                functionValue = function.value(opt);\n            } catch (FunctionEvaluationException e) {\n                throw new RuntimeException(e);\n            }\n        }\n        return functionValue;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "AbstractUnivariateRealOptimizer.getGoalType",
+    "class_name": "org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer",
+    "signature": "org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer.getGoalType()",
+    "snippet": "    public GoalType getGoalType() {\n        return goal;\n    }",
+    "comment": " @return the optimization type. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "AbstractUnivariateRealOptimizer.setMaxEvaluations",
+    "class_name": "org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer",
+    "signature": "org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer.setMaxEvaluations(int)",
+    "snippet": "    public void setMaxEvaluations(int maxEvaluations) {\n        this.maxEvaluations = maxEvaluations;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "AbstractUnivariateRealOptimizer.setResult",
+    "class_name": "org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer",
+    "signature": "org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer.setResult(double,double,int)",
+    "snippet": "    protected final void setResult(final double x, final double fx,\n                                   final int iterationCount) {\n        this.result         = x;\n        this.functionValue  = fx;\n        this.iterationCount = iterationCount;\n        this.resultComputed = true;\n    }",
+    "comment": " Convenience function for implementations.  @param x the result to set @param fx the result to set @param iterationCount the iteration count to set @deprecated in 2.2 (no alternative). ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "BrentOptimizer.BrentOptimizer",
+    "class_name": "org.apache.commons.math.optimization.univariate.BrentOptimizer",
+    "signature": "org.apache.commons.math.optimization.univariate.BrentOptimizer.BrentOptimizer()",
+    "snippet": "    public BrentOptimizer() {\n        setMaxEvaluations(Integer.MAX_VALUE);\n        setMaximalIterationCount(100);\n        setAbsoluteAccuracy(1E-10);\n        setRelativeAccuracy(1.0e-14);\n    }",
+    "comment": " Construct a solver. ",
+    "is_bug": true,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "BrentOptimizer.localMin",
+    "class_name": "org.apache.commons.math.optimization.univariate.BrentOptimizer",
+    "signature": "org.apache.commons.math.optimization.univariate.BrentOptimizer.localMin(boolean,UnivariateRealFunction,GoalType,double,double,double,double,double)",
+    "snippet": "    private double localMin(boolean isMinim,\n                            UnivariateRealFunction f,\n                            GoalType goalType,\n                            double lo, double mid, double hi,\n                            double eps, double t)\n        throws MaxIterationsExceededException, FunctionEvaluationException {\n        if (eps <= 0) {\n            throw new NotStrictlyPositiveException(eps);\n        }\n        if (t <= 0) {\n            throw new NotStrictlyPositiveException(t);\n        }\n        double a, b;\n        if (lo < hi) {\n            a = lo;\n            b = hi;\n        } else {\n            a = hi;\n            b = lo;\n        }\n\n        double x = mid;\n        double v = x;\n        double w = x;\n        double d = 0;\n        double e = 0;\n        double fx = computeObjectiveValue(f, x);\n        if (goalType == GoalType.MAXIMIZE) {\n            fx = -fx;\n        }\n        double fv = fx;\n        double fw = fx;\n\n        int count = 0;\n        while (count < maximalIterationCount) {\n            double m = 0.5 * (a + b);\n            final double tol1 = eps * Math.abs(x) + t;\n            final double tol2 = 2 * tol1;\n\n            // Check stopping criterion.\n            if (Math.abs(x - m) > tol2 - 0.5 * (b - a)) {\n                double p = 0;\n                double q = 0;\n                double r = 0;\n                double u = 0;\n\n                if (Math.abs(e) > tol1) { // Fit parabola.\n                    r = (x - w) * (fx - fv);\n                    q = (x - v) * (fx - fw);\n                    p = (x - v) * q - (x - w) * r;\n                    q = 2 * (q - r);\n\n                    if (q > 0) {\n                        p = -p;\n                    } else {\n                        q = -q;\n                    }\n\n                    r = e;\n                    e = d;\n\n                    if (p > q * (a - x)\n                        && p < q * (b - x)\n                        && Math.abs(p) < Math.abs(0.5 * q * r)) {\n                        // Parabolic interpolation step.\n                        d = p / q;\n                        u = x + d;\n\n                        // f must not be evaluated too close to a or b.\n                        if (u - a < tol2\n                            || b - u < tol2) {\n                            if (x <= m) {\n                                d = tol1;\n                            } else {\n                                d = -tol1;\n                            }\n                        }\n                    } else {\n                        // Golden section step.\n                        if (x < m) {\n                            e = b - x;\n                        } else {\n                            e = a - x;\n                        }\n                        d = GOLDEN_SECTION * e;\n                    }\n                } else {\n                    // Golden section step.\n                    if (x < m) {\n                        e = b - x;\n                    } else {\n                        e = a - x;\n                    }\n                    d = GOLDEN_SECTION * e;\n                }\n\n                // Update by at least \"tol1\".\n                if (Math.abs(d) < tol1) {\n                    if (d >= 0) {\n                        u = x + tol1;\n                    } else {\n                        u = x - tol1;\n                    }\n                } else {\n                    u = x + d;\n                }\n\n                double fu = computeObjectiveValue(f, u);\n                if (goalType == GoalType.MAXIMIZE) {\n                    fu = -fu;\n                }\n\n                // Update a, b, v, w and x.\n                if (fu <= fx) {\n                    if (u < x) {\n                        b = x;\n                    } else {\n                        a = x;\n                    }\n                    v = w;\n                    fv = fw;\n                    w = x;\n                    fw = fx;\n                    x = u;\n                    fx = fu;\n                } else {\n                    if (u < x) {\n                        a = u;\n                    } else {\n                        b = u;\n                    }\n                    if (fu <= fw\n                        || w == x) {\n                        v = w;\n                        fv = fw;\n                        w = u;\n                        fw = fu;\n                    } else if (fu <= fv\n                               || v == x\n                               || v == w) {\n                        v = u;\n                        fv = fu;\n                    }\n                }\n            } else { // termination\n                setResult(x, (goalType == GoalType.MAXIMIZE) ? -fx : fx, count);\n                return x;\n            }\n            ++count;\n        }\n        throw new MaxIterationsExceededException(maximalIterationCount);\n    }",
+    "comment": " Find the minimum of the function within the interval {@code (lo, hi)}.  If the function is defined on the interval {@code (lo, hi)}, then this method finds an approximation {@code x} to the point at which the function attains its minimum.<br/> {@code t} and {@code eps} define a tolerance {@code tol = eps |x| + t} and the function is never evaluated at two points closer together than {@code tol}. {@code eps} should be no smaller than <em>2 macheps</em> and preferable not much less than <em>sqrt(macheps)</em>, where <em>macheps</em> is the relative machine precision. {@code t} should be positive. @param isMinim {@code true} when minimizing the function. @param lo Lower bound of the interval. @param mid Point inside the interval {@code [lo, hi]}. @param hi Higher bound of the interval. @param eps Relative accuracy. @param t Absolute accuracy. @return the optimum point. @throws MaxIterationsExceededException if the maximum iteration count is exceeded. @throws FunctionEvaluationException if an error occurs evaluating the function. ",
+    "is_bug": true,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "BrentOptimizer.optimize",
+    "class_name": "org.apache.commons.math.optimization.univariate.BrentOptimizer",
+    "signature": "org.apache.commons.math.optimization.univariate.BrentOptimizer.optimize(UnivariateRealFunction,GoalType,double,double)",
+    "snippet": "    public double optimize(final UnivariateRealFunction f, final GoalType goalType, final double min, final double max) throws MaxIterationsExceededException, FunctionEvaluationException {\n        return optimize(f, goalType, min, max, min + GOLDEN_SECTION * (max - min));\n    }",
+    "comment": "",
+    "is_bug": true,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  },
+  {
+    "name": "BrentOptimizer.optimize",
+    "class_name": "org.apache.commons.math.optimization.univariate.BrentOptimizer",
+    "signature": "org.apache.commons.math.optimization.univariate.BrentOptimizer.optimize(UnivariateRealFunction,GoalType,double,double,double)",
+    "snippet": "    public double optimize(final UnivariateRealFunction f, final GoalType goalType, final double min, final double max, final double startValue) throws MaxIterationsExceededException, FunctionEvaluationException {\n        clearResult();\n        return localMin(getGoalType() == GoalType.MINIMIZE,\n                        f, goalType, min, startValue, max,\n                        getRelativeAccuracy(), getAbsoluteAccuracy());\n    }",
+    "comment": "",
+    "is_bug": true,
+    "failing_test_cases": 4,
+    "buggy_methods": 5
+  }
+]

@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Complex.Complex",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.Complex(double,double)",
+    "snippet": "    public Complex(double real, double imaginary) {\n        super();\n        this.real = real;\n        this.imaginary = imaginary;\n    }",
+    "comment": " Create a complex number given the real and imaginary parts.  @param real the real part @param imaginary the imaginary part ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Complex.createComplex",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.createComplex(double,double)",
+    "snippet": "    protected Complex createComplex(double real, double imaginary) {\n        return new Complex(real, imaginary);\n    }",
+    "comment": " Create a complex number given the real and imaginary parts.  @param real the real part @param imaginary the imaginary part @return a new complex number instance @since 1.2 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Complex.equals",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.equals(Object)",
+    "snippet": "    public boolean equals(Object other) {\n        boolean ret;\n        \n        if (this == other) { \n            ret = true;\n        } else if (other == null) {\n            ret = false;\n        } else  {\n            try {\n                Complex rhs = (Complex)other;\n                if (rhs.isNaN()) {\n                    ret = this.isNaN();\n                } else {\n                    ret = (Double.doubleToRawLongBits(real) == Double.doubleToRawLongBits(rhs.getReal())) && (Double.doubleToRawLongBits(imaginary) == Double.doubleToRawLongBits(rhs.getImaginary())); \n                }\n            } catch (ClassCastException ex) {\n                // ignore exception\n                ret = false;\n            }\n        }\n      \n        return ret;\n    }",
+    "comment": " Test for the equality of two Complex objects. <p> If both the real and imaginary parts of two Complex numbers are exactly the same, and neither is <code>Double.NaN</code>, the two Complex objects are considered to be equal.</p> <p> All <code>NaN</code> values are considered to be equal - i.e, if either (or both) real and imaginary parts of the complex number are equal to <code>Double.NaN</code>, the complex number is equal to  <code>Complex.NaN</code>.</p>  @param other Object to test for equality to this @return true if two Complex objects are equal, false if object is null, not an instance of Complex, or not equal to this Complex instance  ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Complex.getReal",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.getReal()",
+    "snippet": "    public double getReal() {\n        return real;\n    }",
+    "comment": " Access the real part.  @return the real part ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Complex.hashCode",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.hashCode()",
+    "snippet": "    public int hashCode() {\n        if (isNaN()) {\n            return 7;\n        }\n        return 37 * (17 * MathUtils.hash(imaginary) + \n            MathUtils.hash(real));\n    }",
+    "comment": " Get a hashCode for the complex number. <p> All NaN values have the same hash code.</p>  @return a hash code value for this object ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Complex.isNaN",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.isNaN()",
+    "snippet": "    public boolean isNaN() {\n        return Double.isNaN(real) || Double.isNaN(imaginary);        \n    }",
+    "comment": " Returns true if either or both parts of this complex number is NaN; false otherwise  @return  true if either or both parts of this complex number is NaN; false otherwise ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Complex.multiply",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.multiply(Complex)",
+    "snippet": "    public Complex multiply(Complex rhs) {\n        if (isNaN() || rhs.isNaN()) {\n            return NaN;\n        }\n        if (Double.isInfinite(real) || Double.isInfinite(imaginary) ||\n            Double.isInfinite(rhs.real)|| Double.isInfinite(rhs.imaginary)) {\n            // we don't use Complex.isInfinite() to avoid testing for NaN again\n            return INF;\n        }\n        return createComplex(real * rhs.real - imaginary * rhs.imaginary,\n                real * rhs.imaginary + imaginary * rhs.real);\n    }",
+    "comment": " Return the product of this complex number and the given complex number. <p> Implements preliminary checks for NaN and infinity followed by the definitional formula: <pre><code> (a + bi)(c + di) = (ac - bd) + (ad + bc)i </code></pre> </p> <p> Returns {@link #NaN} if either this or <code>rhs</code> has one or more NaN parts. </p> Returns {@link #INF} if neither this nor <code>rhs</code> has one or more NaN parts and if either this or <code>rhs</code> has one or more infinite parts (same result is returned regardless of the sign of the components). </p> <p> Returns finite values in components of the result per the definitional formula in all remaining cases. </p>  @param rhs the other complex number @return the complex number product @throws NullPointerException if <code>rhs</code> is null ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathUtils.hash",
+    "class_name": "org.apache.commons.math.util.MathUtils",
+    "signature": "org.apache.commons.math.util.MathUtils.hash(double)",
+    "snippet": "    public static int hash(double value) {\n        long bits = Double.doubleToLongBits(value);\n        return (int)(bits ^ (bits >>> 32));\n    }",
+    "comment": " Returns an integer hash code representing the given double value.  @param value the value to be hashed @return the hash code ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

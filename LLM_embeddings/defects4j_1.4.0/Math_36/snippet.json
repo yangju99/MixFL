@@ -1,0 +1,62 @@
+[
+  {
+    "name": "BigFraction.BigFraction",
+    "class_name": "org.apache.commons.math.fraction.BigFraction",
+    "signature": "org.apache.commons.math.fraction.BigFraction.BigFraction(BigInteger,BigInteger)",
+    "snippet": "    public BigFraction(BigInteger num, BigInteger den) {\n        MathUtils.checkNotNull(num, LocalizedFormats.NUMERATOR);\n        MathUtils.checkNotNull(den, LocalizedFormats.DENOMINATOR);\n        if (BigInteger.ZERO.equals(den)) {\n            throw new ZeroException(LocalizedFormats.ZERO_DENOMINATOR);\n        }\n        if (BigInteger.ZERO.equals(num)) {\n            numerator   = BigInteger.ZERO;\n            denominator = BigInteger.ONE;\n        } else {\n\n            // reduce numerator and denominator by greatest common denominator\n            final BigInteger gcd = num.gcd(den);\n            if (BigInteger.ONE.compareTo(gcd) < 0) {\n                num = num.divide(gcd);\n                den = den.divide(gcd);\n            }\n\n            // move sign to numerator\n            if (BigInteger.ZERO.compareTo(den) > 0) {\n                num = num.negate();\n                den = den.negate();\n            }\n\n            // store the values in the final fields\n            numerator   = num;\n            denominator = den;\n\n        }\n    }",
+    "comment": " Create a {@link BigFraction} given the numerator and denominator as {@code BigInteger}. The {@link BigFraction} is reduced to lowest terms.  @param num the numerator, must not be {@code null}. @param den the denominator, must not be {@code null}. @throws ZeroException if the denominator is zero. @throws NullArgumentException if either of the arguments is null ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "BigFraction.BigFraction",
+    "class_name": "org.apache.commons.math.fraction.BigFraction",
+    "signature": "org.apache.commons.math.fraction.BigFraction.BigFraction(int)",
+    "snippet": "    public BigFraction(final int num) {\n        this(BigInteger.valueOf(num), BigInteger.ONE);\n    }",
+    "comment": " <p> Create a {@link BigFraction} equivalent to the passed <tt>int</tt>, ie \"num / 1\". </p>  @param num the numerator. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "BigFraction.BigFraction",
+    "class_name": "org.apache.commons.math.fraction.BigFraction",
+    "signature": "org.apache.commons.math.fraction.BigFraction.BigFraction(int,int)",
+    "snippet": "    public BigFraction(final int num, final int den) {\n        this(BigInteger.valueOf(num), BigInteger.valueOf(den));\n    }",
+    "comment": " <p> Create a {@link BigFraction} given the numerator and denominator as simple <tt>int</tt>. The {@link BigFraction} is reduced to lowest terms. </p>  @param num the numerator. @param den the denominator. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "BigFraction.doubleValue",
+    "class_name": "org.apache.commons.math.fraction.BigFraction",
+    "signature": "org.apache.commons.math.fraction.BigFraction.doubleValue()",
+    "snippet": "    @Override\n    public double doubleValue() {\n        double result = numerator.doubleValue() / denominator.doubleValue();\n            // Numerator and/or denominator must be out of range:\n            // Calculate how far to shift them to put them in range.\n        return result;\n    }",
+    "comment": " <p> Gets the fraction as a <tt>double</tt>. This calculates the fraction as the numerator divided by denominator. </p>  @return the fraction as a <tt>double</tt> @see java.lang.Number#doubleValue() ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "BigFraction.floatValue",
+    "class_name": "org.apache.commons.math.fraction.BigFraction",
+    "signature": "org.apache.commons.math.fraction.BigFraction.floatValue()",
+    "snippet": "    @Override\n    public float floatValue() {\n        float result = numerator.floatValue() / denominator.floatValue();\n            // Numerator and/or denominator must be out of range:\n            // Calculate how far to shift them to put them in range.\n        return result;\n    }",
+    "comment": " <p> Gets the fraction as a <tt>float</tt>. This calculates the fraction as the numerator divided by denominator. </p>  @return the fraction as a <tt>float</tt>. @see java.lang.Number#floatValue() ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "MathUtils.checkNotNull",
+    "class_name": "org.apache.commons.math.util.MathUtils",
+    "signature": "org.apache.commons.math.util.MathUtils.checkNotNull(Object,Localizable,Object[])",
+    "snippet": "    public static void checkNotNull(Object o,\n                                    Localizable pattern,\n                                    Object ... args) {\n        if (o == null) {\n            throw new NullArgumentException(pattern, args);\n        }\n    }",
+    "comment": " Checks that an object is not null.  @param o Object to be checked. @param pattern Message pattern. @param args Arguments to replace the placeholders in {@code pattern}. @throws NullArgumentException if {@code o} is {@code null}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  }
+]

@@ -1,0 +1,112 @@
+[
+  {
+    "name": "ProcessCommonJSModules.ProcessCommonJSModules",
+    "class_name": "com.google.javascript.jscomp.ProcessCommonJSModules",
+    "signature": "com.google.javascript.jscomp.ProcessCommonJSModules.ProcessCommonJSModules(AbstractCompiler,String)",
+    "snippet": "  ProcessCommonJSModules(AbstractCompiler compiler, String filenamePrefix) {\n    this(compiler, filenamePrefix, true);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ProcessCommonJSModules.ProcessCommonJSModules",
+    "class_name": "com.google.javascript.jscomp.ProcessCommonJSModules",
+    "signature": "com.google.javascript.jscomp.ProcessCommonJSModules.ProcessCommonJSModules(AbstractCompiler,String,boolean)",
+    "snippet": "  ProcessCommonJSModules(AbstractCompiler compiler, String filenamePrefix,\n      boolean reportDependencies) {\n    this.compiler = compiler;\n    this.filenamePrefix = filenamePrefix.endsWith(MODULE_SLASH) ?\n        filenamePrefix : filenamePrefix + MODULE_SLASH;\n    this.reportDependencies = reportDependencies;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ProcessCommonJSModules.guessCJSModuleName",
+    "class_name": "com.google.javascript.jscomp.ProcessCommonJSModules",
+    "signature": "com.google.javascript.jscomp.ProcessCommonJSModules.guessCJSModuleName(String)",
+    "snippet": "  String guessCJSModuleName(String filename) {\n    return toModuleName(normalizeSourceName(filename));\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ProcessCommonJSModules.normalizeSourceName",
+    "class_name": "com.google.javascript.jscomp.ProcessCommonJSModules",
+    "signature": "com.google.javascript.jscomp.ProcessCommonJSModules.normalizeSourceName(String)",
+    "snippet": "  private String normalizeSourceName(String filename) {\n    // The DOS command shell will normalize \"/\" to \"\\\", so we have to\n    // wrestle it back.\n\n    if (filename.indexOf(filenamePrefix) == 0) {\n      filename = filename.substring(filenamePrefix.length());\n    }\n\n    return filename;\n  }",
+    "comment": "",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ProcessCommonJSModules.toModuleName",
+    "class_name": "com.google.javascript.jscomp.ProcessCommonJSModules",
+    "signature": "com.google.javascript.jscomp.ProcessCommonJSModules.toModuleName(String)",
+    "snippet": "  public static String toModuleName(String filename) {\n    return MODULE_NAME_PREFIX +\n        filename.replaceAll(\"^\\\\.\" + Pattern.quote(MODULE_SLASH), \"\")\n            .replaceAll(Pattern.quote(MODULE_SLASH), MODULE_NAME_SEPARATOR)\n            .replaceAll(\"\\\\.js$\", \"\").replaceAll(\"-\", \"_\");\n  }",
+    "comment": " Turns a filename into a JS identifier that is used for moduleNames in rewritten code. Removes leading ./, replaces / with $, removes trailing .js and replaces - with _. All moduleNames get a \"module$\" prefix. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SourceFile.SourceFile",
+    "class_name": "com.google.javascript.jscomp.SourceFile",
+    "signature": "com.google.javascript.jscomp.SourceFile.SourceFile(String)",
+    "snippet": "  public SourceFile(String fileName) {\n    if (fileName == null || fileName.isEmpty()) {\n      throw new IllegalArgumentException(\"a source must have a name\");\n    }\n    this.fileName = fileName;\n  }",
+    "comment": " Construct a new abstract source file.  @param fileName The file name of the source file. It does not necessarily need to correspond to a real path. But it should be unique. Will appear in warning messages emitted by the compiler. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SourceFile.builder",
+    "class_name": "com.google.javascript.jscomp.SourceFile",
+    "signature": "com.google.javascript.jscomp.SourceFile.builder()",
+    "snippet": "  public static Builder builder() {\n    return new Builder();\n  }",
+    "comment": "Create a new builder for source files. */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SourceFile.fromCode",
+    "class_name": "com.google.javascript.jscomp.SourceFile",
+    "signature": "com.google.javascript.jscomp.SourceFile.fromCode(String,String)",
+    "snippet": "  public static SourceFile fromCode(String fileName, String code) {\n    return builder().buildFromCode(fileName, code);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SourceFile.setCode",
+    "class_name": "com.google.javascript.jscomp.SourceFile",
+    "signature": "com.google.javascript.jscomp.SourceFile.setCode(String)",
+    "snippet": "  private void setCode(String sourceCode) {\n    code = sourceCode;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SourceFile.setOriginalPath",
+    "class_name": "com.google.javascript.jscomp.SourceFile",
+    "signature": "com.google.javascript.jscomp.SourceFile.setOriginalPath(String)",
+    "snippet": "  public void setOriginalPath(String originalPath) {\n    this.originalPath = originalPath;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Builder.buildFromCode",
+    "class_name": "com.google.javascript.jscomp.SourceFile$Builder",
+    "signature": "com.google.javascript.jscomp.SourceFile$Builder.buildFromCode(String,String)",
+    "snippet": "    public SourceFile buildFromCode(String fileName, String code) {\n      return new Preloaded(fileName, originalPath, code);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  }
+]

@@ -1,0 +1,372 @@
+[
+  {
+    "name": "AbstractUnivariateRealSolver.AbstractUnivariateRealSolver",
+    "class_name": "org.apache.commons.math.analysis.solvers.AbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.AbstractUnivariateRealSolver.AbstractUnivariateRealSolver(double)",
+    "snippet": "    protected AbstractUnivariateRealSolver(final double absoluteAccuracy) {\n        super(absoluteAccuracy);\n    }",
+    "comment": " Construct a solver with given absolute accuracy.  @param absoluteAccuracy Maximum absolute error. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateRealSolver.BaseAbstractUnivariateRealSolver",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver.BaseAbstractUnivariateRealSolver(double)",
+    "snippet": "    protected BaseAbstractUnivariateRealSolver(final double absoluteAccuracy) {\n        this(DEFAULT_RELATIVE_ACCURACY,\n             absoluteAccuracy,\n             DEFAULT_FUNCTION_VALUE_ACCURACY);\n    }",
+    "comment": " Construct a solver with given absolute accuracy.  @param absoluteAccuracy Maximum absolute error. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateRealSolver.BaseAbstractUnivariateRealSolver",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver.BaseAbstractUnivariateRealSolver(double,double,double)",
+    "snippet": "    protected BaseAbstractUnivariateRealSolver(final double relativeAccuracy,\n                                               final double absoluteAccuracy,\n                                               final double functionValueAccuracy) {\n        this.absoluteAccuracy = absoluteAccuracy;\n        this.relativeAccuracy = relativeAccuracy;\n        this.functionValueAccuracy = functionValueAccuracy;\n    }",
+    "comment": " Construct a solver with given accuracies.  @param relativeAccuracy Maximum relative error. @param absoluteAccuracy Maximum absolute error. @param functionValueAccuracy Maximum function value error. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateRealSolver.computeObjectiveValue",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver.computeObjectiveValue(double)",
+    "snippet": "    protected double computeObjectiveValue(double point)\n        throws TooManyEvaluationsException {\n        incrementEvaluationCount();\n        return function.value(point);\n    }",
+    "comment": " Compute the objective function value.  @param point Point at which the objective function must be evaluated. @return the objective function value at specified point. @throws TooManyEvaluationsException if the maximal number of evaluations is exceeded. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateRealSolver.getAbsoluteAccuracy",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver.getAbsoluteAccuracy()",
+    "snippet": "    public double getAbsoluteAccuracy() {\n        return absoluteAccuracy;\n    }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateRealSolver.getFunctionValueAccuracy",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver.getFunctionValueAccuracy()",
+    "snippet": "    public double getFunctionValueAccuracy() {\n        return functionValueAccuracy;\n    }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateRealSolver.getMax",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver.getMax()",
+    "snippet": "    public double getMax() {\n        return searchMax;\n    }",
+    "comment": " @return the higher end of the search interval. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateRealSolver.getMin",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver.getMin()",
+    "snippet": "    public double getMin() {\n        return searchMin;\n    }",
+    "comment": " @return the lower end of the search interval. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateRealSolver.getRelativeAccuracy",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver.getRelativeAccuracy()",
+    "snippet": "    public double getRelativeAccuracy() {\n        return relativeAccuracy;\n    }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateRealSolver.incrementEvaluationCount",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver.incrementEvaluationCount()",
+    "snippet": "    protected void incrementEvaluationCount() {\n        try {\n            evaluations.incrementCount();\n        } catch (MaxCountExceededException e) {\n            throw new TooManyEvaluationsException(e.getMax());\n        }\n    }",
+    "comment": " Increment the evaluation count by one. Method {@link #computeObjectiveValue(double)} calls this method internally. It is provided for subclasses that do not exclusively use {@code computeObjectiveValue} to solve the function. See e.g. {@link AbstractDifferentiableUnivariateRealSolver}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractUnivariateRealSolver.verifyBracketing",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseAbstractUnivariateRealSolver.verifyBracketing(double,double)",
+    "snippet": "    protected void verifyBracketing(final double lower,\n                                    final double upper) {\n        UnivariateRealSolverUtils.verifyBracketing(function, lower, upper);\n    }",
+    "comment": " Check that the endpoints specify an interval and the function takes opposite signs at the endpoints.  @param lower Lower endpoint. @param upper Upper endpoint. @throws org.apache.commons.math.exception.NoBracketingException if the function has the same sign at the endpoints. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseSecantSolver.BaseSecantSolver",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseSecantSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseSecantSolver.BaseSecantSolver(double,Method)",
+    "snippet": "    protected BaseSecantSolver(final double absoluteAccuracy, final Method method) {\n        super(absoluteAccuracy);\n        this.allowed = AllowedSolution.ANY_SIDE;\n        this.method = method;\n    }",
+    "comment": " Construct a solver.  @param absoluteAccuracy absolute accuracy @param method <em>Secant</em>-based root-finding method to use ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseSecantSolver.doSolve",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseSecantSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseSecantSolver.doSolve()",
+    "snippet": "    protected final double doSolve() {\n        // Get initial solution\n        double x0 = getMin();\n        double x1 = getMax();\n        double f0 = computeObjectiveValue(x0);\n        double f1 = computeObjectiveValue(x1);\n\n        // If one of the bounds is the exact root, return it. Since these are\n        // not under-approximations or over-approximations, we can return them\n        // regardless of the allowed solutions.\n        if (f0 == 0.0) {\n            return x0;\n        }\n        if (f1 == 0.0) {\n            return x1;\n        }\n\n        // Verify bracketing of initial solution.\n        verifyBracketing(x0, x1);\n\n        // Get accuracies.\n        final double ftol = getFunctionValueAccuracy();\n        final double atol = getAbsoluteAccuracy();\n        final double rtol = getRelativeAccuracy();\n\n        // Keep track of inverted intervals, meaning that the left bound is\n        // larger than the right bound.\n        boolean inverted = false;\n\n        // Keep finding better approximations.\n        while (true) {\n            // Calculate the next approximation.\n            final double x = x1 - ((f1 * (x1 - x0)) / (f1 - f0));\n            final double fx = computeObjectiveValue(x);\n\n            // If the new approximation is the exact root, return it. Since\n            // this is not an under-approximation or an over-approximation,\n            // we can return it regardless of the allowed solutions.\n            if (fx == 0.0) {\n                return x;\n            }\n\n            // Update the bounds with the new approximation.\n            if (f1 * fx < 0) {\n                // The value of x1 has switched to the other bound, thus inverting\n                // the interval.\n                x0 = x1;\n                f0 = f1;\n                inverted = !inverted;\n            } else {\n                switch (method) {\n                case ILLINOIS:\n                    f0 *= 0.5;\n                    break;\n                case PEGASUS:\n                    f0 *= f1 / (f1 + fx);\n                    break;\n                case REGULA_FALSI:\n                    // Nothing.\n                    if (x == x1) {\n                        x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));\n                        f0 = computeObjectiveValue(x0);\n                    }\n                    break;\n                default:\n                    // Should never happen.\n                    throw new MathInternalError();\n                }\n            }\n            // Update from [x0, x1] to [x0, x].\n            x1 = x;\n            f1 = fx;\n\n            // If the function value of the last approximation is too small,\n            // given the function value accuracy, then we can't get closer to\n            // the root than we already are.\n            if (FastMath.abs(f1) <= ftol) {\n                switch (allowed) {\n                case ANY_SIDE:\n                    return x1;\n                case LEFT_SIDE:\n                    if (inverted) {\n                        return x1;\n                    }\n                    break;\n                case RIGHT_SIDE:\n                    if (!inverted) {\n                        return x1;\n                    }\n                    break;\n                case BELOW_SIDE:\n                    if (f1 <= 0) {\n                        return x1;\n                    }\n                    break;\n                case ABOVE_SIDE:\n                    if (f1 >= 0) {\n                        return x1;\n                    }\n                    break;\n                default:\n                    throw new MathInternalError();\n                }\n            }\n\n            // If the current interval is within the given accuracies, we\n            // are satisfied with the current approximation.\n            if (FastMath.abs(x1 - x0) < FastMath.max(rtol * FastMath.abs(x1),\n                                                     atol)) {\n                switch (allowed) {\n                case ANY_SIDE:\n                    return x1;\n                case LEFT_SIDE:\n                    return inverted ? x1 : x0;\n                case RIGHT_SIDE:\n                    return inverted ? x0 : x1;\n                case BELOW_SIDE:\n                    return (f1 <= 0) ? x1 : x0;\n                case ABOVE_SIDE:\n                    return (f1 >= 0) ? x1 : x0;\n                default:\n                    throw new MathInternalError();\n                }\n            }\n        }\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseSecantSolver.solve",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseSecantSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseSecantSolver.solve(int,UnivariateRealFunction,double,double,double)",
+    "snippet": "    @Override\n    public double solve(final int maxEval, final UnivariateRealFunction f,\n                        final double min, final double max, final double startValue) {\n        return solve(maxEval, f, min, max, startValue, AllowedSolution.ANY_SIDE);\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseSecantSolver.solve",
+    "class_name": "org.apache.commons.math.analysis.solvers.BaseSecantSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.BaseSecantSolver.solve(int,UnivariateRealFunction,double,double,double,AllowedSolution)",
+    "snippet": "    public double solve(final int maxEval, final UnivariateRealFunction f,\n                        final double min, final double max, final double startValue,\n                        final AllowedSolution allowedSolution) {\n        this.allowed = allowedSolution;\n        return super.solve(maxEval, f, min, max, startValue);\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RegulaFalsiSolver.RegulaFalsiSolver",
+    "class_name": "org.apache.commons.math.analysis.solvers.RegulaFalsiSolver",
+    "signature": "org.apache.commons.math.analysis.solvers.RegulaFalsiSolver.RegulaFalsiSolver()",
+    "snippet": "    public RegulaFalsiSolver() {\n        super(DEFAULT_ABSOLUTE_ACCURACY, Method.REGULA_FALSI);\n    }",
+    "comment": "Construct a solver with default accuracy (1e-6). */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "UnivariateRealSolverUtils.isBracketing",
+    "class_name": "org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils",
+    "signature": "org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils.isBracketing(UnivariateRealFunction,double,double)",
+    "snippet": "    public static boolean isBracketing(UnivariateRealFunction function,\n                                       final double lower,\n                                       final double upper) {\n        if (function == null) {\n            throw new NullArgumentException(LocalizedFormats.FUNCTION);\n        }\n        final double fLo = function.value(lower);\n        final double fHi = function.value(upper);\n        return (fLo >= 0 && fHi <= 0) || (fLo <= 0 && fHi >= 0);\n    }",
+    "comment": " Check whether the interval bounds bracket a root. That is, if the values at the endpoints are not equal to zero, then the function takes opposite signs at the endpoints.  @param function Function. @param lower Lower endpoint. @param upper Upper endpoint. @return {@code true} if the function values have opposite signs at the given points. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "UnivariateRealSolverUtils.verifyBracketing",
+    "class_name": "org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils",
+    "signature": "org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils.verifyBracketing(UnivariateRealFunction,double,double)",
+    "snippet": "    public static void verifyBracketing(UnivariateRealFunction function,\n                                        final double lower,\n                                        final double upper) {\n        if (function == null) {\n            throw new NullArgumentException(LocalizedFormats.FUNCTION);\n        }\n        verifyInterval(lower, upper);\n        if (!isBracketing(function, lower, upper)) {\n            throw new NoBracketingException(lower, upper,\n                                            function.value(lower),\n                                            function.value(upper));\n        }\n    }",
+    "comment": " Check that the endpoints specify an interval and the end points bracket a root.  @param function Function. @param lower Lower endpoint. @param upper Upper endpoint. @throws NoBracketingException if function has the same sign at the endpoints. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "UnivariateRealSolverUtils.verifyInterval",
+    "class_name": "org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils",
+    "signature": "org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils.verifyInterval(double,double)",
+    "snippet": "    public static void verifyInterval(final double lower,\n                                      final double upper) {\n        if (lower >= upper) {\n            throw new NumberIsTooLargeException(LocalizedFormats.ENDPOINTS_NOT_AN_INTERVAL,\n                                                lower, upper, false);\n        }\n    }",
+    "comment": " Check that the endpoints specify an interval.  @param lower Lower endpoint. @param upper Upper endpoint. @throws NumberIsTooLargeException if {@code lower >= upper}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.abs",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.abs(double)",
+    "snippet": "    public static double abs(double x) {\n        return (x < 0.0) ? -x : (x == 0.0) ? 0.0 : x; // -0.0 => +0.0\n    }",
+    "comment": " Absolute value. @param x number from which absolute value is requested @return abs(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.buildSinCosTables",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.buildSinCosTables()",
+    "snippet": "    private static void buildSinCosTables() {\n        final double result[] = new double[2];\n\n        /* Use taylor series for 0 <= x <= 6/8 */\n        for (int i = 0; i < 7; i++) {\n            double x = i / 8.0;\n\n            slowSin(x, result);\n            SINE_TABLE_A[i] = result[0];\n            SINE_TABLE_B[i] = result[1];\n\n            slowCos(x, result);\n            COSINE_TABLE_A[i] = result[0];\n            COSINE_TABLE_B[i] = result[1];\n        }\n\n        /* Use angle addition formula to complete table to 13/8, just beyond pi/2 */\n        for (int i = 7; i < 14; i++) {\n            double xs[] = new double[2];\n            double ys[] = new double[2];\n            double as[] = new double[2];\n            double bs[] = new double[2];\n            double temps[] = new double[2];\n\n            if ( (i & 1) == 0) {\n                // Even, use double angle\n                xs[0] = SINE_TABLE_A[i/2];\n                xs[1] = SINE_TABLE_B[i/2];\n                ys[0] = COSINE_TABLE_A[i/2];\n                ys[1] = COSINE_TABLE_B[i/2];\n\n                /* compute sine */\n                splitMult(xs, ys, result);\n                SINE_TABLE_A[i] = result[0] * 2.0;\n                SINE_TABLE_B[i] = result[1] * 2.0;\n\n                /* Compute cosine */\n                splitMult(ys, ys, as);\n                splitMult(xs, xs, temps);\n                temps[0] = -temps[0];\n                temps[1] = -temps[1];\n                splitAdd(as, temps, result);\n                COSINE_TABLE_A[i] = result[0];\n                COSINE_TABLE_B[i] = result[1];\n            } else {\n                xs[0] = SINE_TABLE_A[i/2];\n                xs[1] = SINE_TABLE_B[i/2];\n                ys[0] = COSINE_TABLE_A[i/2];\n                ys[1] = COSINE_TABLE_B[i/2];\n                as[0] = SINE_TABLE_A[i/2+1];\n                as[1] = SINE_TABLE_B[i/2+1];\n                bs[0] = COSINE_TABLE_A[i/2+1];\n                bs[1] = COSINE_TABLE_B[i/2+1];\n\n                /* compute sine */\n                splitMult(xs, bs, temps);\n                splitMult(ys, as, result);\n                splitAdd(result, temps, result);\n                SINE_TABLE_A[i] = result[0];\n                SINE_TABLE_B[i] = result[1];\n\n                /* Compute cosine */\n                splitMult(ys, bs, result);\n                splitMult(xs, as, temps);\n                temps[0] = -temps[0];\n                temps[1] = -temps[1];\n                splitAdd(result, temps, result);\n                COSINE_TABLE_A[i] = result[0];\n                COSINE_TABLE_B[i] = result[1];\n            }\n        }\n\n        /* Compute tangent = sine/cosine */\n        for (int i = 0; i < 14; i++) {\n            double xs[] = new double[2];\n            double ys[] = new double[2];\n            double as[] = new double[2];\n\n            as[0] = COSINE_TABLE_A[i];\n            as[1] = COSINE_TABLE_B[i];\n\n            splitReciprocal(as, ys);\n\n            xs[0] = SINE_TABLE_A[i];\n            xs[1] = SINE_TABLE_B[i];\n\n            splitMult(xs, ys, as);\n\n            TANGENT_TABLE_A[i] = as[0];\n            TANGENT_TABLE_B[i] = as[1];\n        }\n\n    }",
+    "comment": "Build the sine and cosine tables. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.expint",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.expint(int,double[])",
+    "snippet": "    private static double expint(int p, final double result[]) {\n        //double x = M_E;\n        final double xs[] = new double[2];\n        final double as[] = new double[2];\n        final double ys[] = new double[2];\n        //split(x, xs);\n        //xs[1] = (double)(2.7182818284590452353602874713526625L - xs[0]);\n        //xs[0] = 2.71827697753906250000;\n        //xs[1] = 4.85091998273542816811e-06;\n        //xs[0] = Double.longBitsToDouble(0x4005bf0800000000L);\n        //xs[1] = Double.longBitsToDouble(0x3ed458a2bb4a9b00L);\n\n        /* E */\n        xs[0] = 2.718281828459045;\n        xs[1] = 1.4456468917292502E-16;\n\n        split(1.0, ys);\n\n        while (p > 0) {\n            if ((p & 1) != 0) {\n                quadMult(ys, xs, as);\n                ys[0] = as[0]; ys[1] = as[1];\n            }\n\n            quadMult(xs, xs, as);\n            xs[0] = as[0]; xs[1] = as[1];\n\n            p >>= 1;\n        }\n\n        if (result != null) {\n            result[0] = ys[0];\n            result[1] = ys[1];\n\n            resplit(result);\n        }\n\n        return ys[0] + ys[1];\n    }",
+    "comment": "Compute exp(p) for a integer p in extended precision. @param p integer whose exponential is requested @param result placeholder where to put the result in extended precision @return exp(p) in standard precision (equal to result[0] + result[1]) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.max",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.max(double,double)",
+    "snippet": "    public static double max(final double a, final double b) {\n        if (a > b) {\n            return a;\n        }\n        if (a < b) {\n            return b;\n        }\n        /* if either arg is NaN, return NaN */\n        if (a != b) {\n            return Double.NaN;\n        }\n        /* min(+0.0,-0.0) == -0.0 */\n        /* 0x8000000000000000L == Double.doubleToRawLongBits(-0.0d) */\n        long bits = Double.doubleToRawLongBits(a);\n        if (bits == 0x8000000000000000L) {\n            return b;\n        }\n        return a;\n    }",
+    "comment": "Compute the maximum of two values @param a first value @param b second value @return b if a is lesser or equal to b, a otherwise ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.quadMult",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.quadMult(double[],double[],double[])",
+    "snippet": "    private static void quadMult(final double a[], final double b[], final double result[]) {\n        final double xs[] = new double[2];\n        final double ys[] = new double[2];\n        final double zs[] = new double[2];\n\n        /* a[0] * b[0] */\n        split(a[0], xs);\n        split(b[0], ys);\n        splitMult(xs, ys, zs);\n\n        result[0] = zs[0];\n        result[1] = zs[1];\n\n        /* a[0] * b[1] */\n        split(b[1], ys);\n        splitMult(xs, ys, zs);\n\n        double tmp = result[0] + zs[0];\n        result[1] = result[1] - (tmp - result[0] - zs[0]);\n        result[0] = tmp;\n        tmp = result[0] + zs[1];\n        result[1] = result[1] - (tmp - result[0] - zs[1]);\n        result[0] = tmp;\n\n        /* a[1] * b[0] */\n        split(a[1], xs);\n        split(b[0], ys);\n        splitMult(xs, ys, zs);\n\n        tmp = result[0] + zs[0];\n        result[1] = result[1] - (tmp - result[0] - zs[0]);\n        result[0] = tmp;\n        tmp = result[0] + zs[1];\n        result[1] = result[1] - (tmp - result[0] - zs[1]);\n        result[0] = tmp;\n\n        /* a[1] * b[0] */\n        split(a[1], xs);\n        split(b[1], ys);\n        splitMult(xs, ys, zs);\n\n        tmp = result[0] + zs[0];\n        result[1] = result[1] - (tmp - result[0] - zs[0]);\n        result[0] = tmp;\n        tmp = result[0] + zs[1];\n        result[1] = result[1] - (tmp - result[0] - zs[1]);\n        result[0] = tmp;\n    }",
+    "comment": "Compute (a[0] + a[1]) * (b[0] + b[1]) in extended precision. @param a first term of the multiplication @param b second term of the multiplication @param result placeholder where to put the result ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.resplit",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.resplit(double[])",
+    "snippet": "    private static void resplit(final double a[]) {\n        final double c = a[0] + a[1];\n        final double d = -(c - a[0] - a[1]);\n\n        if (c < 8e298 && c > -8e298) {\n            double z = c * HEX_40000000;\n            a[0] = (c + z) - z;\n            a[1] = c - a[0] + d;\n        } else {\n            double z = c * 9.31322574615478515625E-10;\n            a[0] = (c + z - c) * HEX_40000000;\n            a[1] = c - a[0] + d;\n        }\n    }",
+    "comment": "Recompute a split. @param a input/out array containing the split, changed on output ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.slowCos",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.slowCos(double,double[])",
+    "snippet": "    private static double slowCos(final double x, final double result[]) {\n\n        final double xs[] = new double[2];\n        final double ys[] = new double[2];\n        final double facts[] = new double[2];\n        final double as[] = new double[2];\n        split(x, xs);\n        ys[0] = ys[1] = 0.0;\n\n        for (int i = 19; i >= 0; i--) {\n            splitMult(xs, ys, as);\n            ys[0] = as[0]; ys[1] = as[1];\n\n            if ( (i & 1) != 0) {\n                continue;\n            }\n\n            split(FACT[i], as);\n            splitReciprocal(as, facts);\n\n            if ( (i & 2) != 0 ) {\n                facts[0] = -facts[0];\n                facts[1] = -facts[1];\n            }\n\n            splitAdd(ys, facts, as);\n            ys[0] = as[0]; ys[1] = as[1];\n        }\n\n        if (result != null) {\n            result[0] = ys[0];\n            result[1] = ys[1];\n        }\n\n        return ys[0] + ys[1];\n    }",
+    "comment": " For x between 0 and pi/4 compute cosine @param x number from which cosine is requested @param result placeholder where to put the result in extended precision @return cos(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.slowLog",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.slowLog(double)",
+    "snippet": "    private static double[] slowLog(double xi) {\n        double x[] = new double[2];\n        double x2[] = new double[2];\n        double y[] = new double[2];\n        double a[] = new double[2];\n\n        split(xi, x);\n\n        /* Set X = (x-1)/(x+1) */\n        x[0] += 1.0;\n        resplit(x);\n        splitReciprocal(x, a);\n        x[0] -= 2.0;\n        resplit(x);\n        splitMult(x, a, y);\n        x[0] = y[0];\n        x[1] = y[1];\n\n        /* Square X -> X2*/\n        splitMult(x, x, x2);\n\n\n        //x[0] -= 1.0;\n        //resplit(x);\n\n        y[0] = LN_SPLIT_COEF[LN_SPLIT_COEF.length-1][0];\n        y[1] = LN_SPLIT_COEF[LN_SPLIT_COEF.length-1][1];\n\n        for (int i = LN_SPLIT_COEF.length-2; i >= 0; i--) {\n            splitMult(y, x2, a);\n            y[0] = a[0];\n            y[1] = a[1];\n            splitAdd(y, LN_SPLIT_COEF[i], a);\n            y[0] = a[0];\n            y[1] = a[1];\n        }\n\n        splitMult(y, x, a);\n        y[0] = a[0];\n        y[1] = a[1];\n\n        return y;\n    }",
+    "comment": "xi in the range of [1, 2]. 3        5        7 x+1           /          x        x        x          \\ ln ----- =   2 *  |  x  +   ----  +  ----  +  ---- + ...  | 1-x           \\          3        5        7          /  So, compute a Remez approximation of the following function  ln ((sqrt(x)+1)/(1-sqrt(x)))  /  x  This will be an even function with only positive coefficents. x is in the range [0 - 1/3].  Transform xi for input to the above function by setting x = (xi-1)/(xi+1).   Input to the polynomial is x^2, then the result is multiplied by x. @param xi number from which log is requested @return log(xi) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.slowSin",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.slowSin(double,double[])",
+    "snippet": "    private static double slowSin(final double x, final double result[]) {\n        final double xs[] = new double[2];\n        final double ys[] = new double[2];\n        final double facts[] = new double[2];\n        final double as[] = new double[2];\n        split(x, xs);\n        ys[0] = ys[1] = 0.0;\n\n        for (int i = 19; i >= 0; i--) {\n            splitMult(xs, ys, as);\n            ys[0] = as[0]; ys[1] = as[1];\n\n            if ( (i & 1) == 0) {\n                continue;\n            }\n\n            split(FACT[i], as);\n            splitReciprocal(as, facts);\n\n            if ( (i & 2) != 0 ) {\n                facts[0] = -facts[0];\n                facts[1] = -facts[1];\n            }\n\n            splitAdd(ys, facts, as);\n            ys[0] = as[0]; ys[1] = as[1];\n        }\n\n        if (result != null) {\n            result[0] = ys[0];\n            result[1] = ys[1];\n        }\n\n        return ys[0] + ys[1];\n    }",
+    "comment": " For x between 0 and pi/4 compute sine. @param x number from which sine is requested @param result placeholder where to put the result in extended precision @return sin(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.slowexp",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.slowexp(double,double[])",
+    "snippet": "    private static double slowexp(final double x, final double result[]) {\n        final double xs[] = new double[2];\n        final double ys[] = new double[2];\n        final double facts[] = new double[2];\n        final double as[] = new double[2];\n        split(x, xs);\n        ys[0] = ys[1] = 0.0;\n\n        for (int i = 19; i >= 0; i--) {\n            splitMult(xs, ys, as);\n            ys[0] = as[0];\n            ys[1] = as[1];\n\n            split(FACT[i], as);\n            splitReciprocal(as, facts);\n\n            splitAdd(ys, facts, as);\n            ys[0] = as[0];\n            ys[1] = as[1];\n        }\n\n        if (result != null) {\n            result[0] = ys[0];\n            result[1] = ys[1];\n        }\n\n        return ys[0] + ys[1];\n    }",
+    "comment": " For x between 0 and 1, returns exp(x), uses extended precision @param x argument of exponential @param result placeholder where to place exp(x) split in two terms for extra precision (i.e. exp(x) = result[0] ° result[1] @return exp(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.split",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.split(double,double[])",
+    "snippet": "    private static void split(final double d, final double split[]) {\n        if (d < 8e298 && d > -8e298) {\n            final double a = d * HEX_40000000;\n            split[0] = (d + a) - a;\n            split[1] = d - split[0];\n        } else {\n            final double a = d * 9.31322574615478515625E-10;\n            split[0] = (d + a - d) * HEX_40000000;\n            split[1] = d - split[0];\n        }\n    }",
+    "comment": "Compute split[0], split[1] such that their sum is equal to d, and split[0] has its 30 least significant bits as zero. @param d number to split @param split placeholder where to place the result ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.splitAdd",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.splitAdd(double[],double[],double[])",
+    "snippet": "    private static void splitAdd(final double a[], final double b[], final double ans[]) {\n        ans[0] = a[0] + b[0];\n        ans[1] = a[1] + b[1];\n\n        resplit(ans);\n    }",
+    "comment": "Add two numbers in split form. @param a first term of addition @param b second term of addition @param ans placeholder where to put the result ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.splitMult",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.splitMult(double[],double[],double[])",
+    "snippet": "    private static void splitMult(double a[], double b[], double ans[]) {\n        ans[0] = a[0] * b[0];\n        ans[1] = a[0] * b[1] + a[1] * b[0] + a[1] * b[1];\n\n        /* Resplit */\n        resplit(ans);\n    }",
+    "comment": "Multiply two numbers in split form. @param a first term of multiplication @param b second term of multiplication @param ans placeholder where to put the result ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.splitReciprocal",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.splitReciprocal(double[],double[])",
+    "snippet": "    private static void splitReciprocal(final double in[], final double result[]) {\n        final double b = 1.0/4194304.0;\n        final double a = 1.0 - b;\n\n        if (in[0] == 0.0) {\n            in[0] = in[1];\n            in[1] = 0.0;\n        }\n\n        result[0] = a / in[0];\n        result[1] = (b*in[0]-a*in[1]) / (in[0]*in[0] + in[0]*in[1]);\n\n        if (result[1] != result[1]) { // can happen if result[1] is NAN\n            result[1] = 0.0;\n        }\n\n        /* Resplit */\n        resplit(result);\n\n        for (int i = 0; i < 2; i++) {\n            /* this may be overkill, probably once is enough */\n            double err = 1.0 - result[0] * in[0] - result[0] * in[1] -\n            result[1] * in[0] - result[1] * in[1];\n            /*err = 1.0 - err; */\n            err = err * (result[0] + result[1]);\n            /*printf(\"err = %16e\\n\", err); */\n            result[1] += err;\n        }\n    }",
+    "comment": "Compute the reciprocal of in.  Use the following algorithm. in = c + d. want to find x + y such that x+y = 1/(c+d) and x is much larger than y and x has several zero bits on the right.  Set b = 1/(2^22),  a = 1 - b.  Thus (a+b) = 1. Use following identity to compute (a+b)/(c+d)  (a+b)/(c+d)  =   a/c   +    (bc - ad) / (c^2 + cd) set x = a/c  and y = (bc - ad) / (c^2 + cd) This will be close to the right answer, but there will be some rounding in the calculation of X.  So by carefully computing 1 - (c+d)(x+y) we can compute an error and add that back in.   This is done carefully so that terms of similar size are subtracted first. @param in initial number, in split form @param result placeholder where to put the result ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.incrementCount",
+    "class_name": "org.apache.commons.math.util.Incrementor",
+    "signature": "org.apache.commons.math.util.Incrementor.incrementCount()",
+    "snippet": "    public void incrementCount() {\n        if (++count > maximalCount) {\n            throw new MaxCountExceededException(maximalCount);\n        }\n    }",
+    "comment": " Add one to the current iteration count.  @throws MaxCountExceededException at counter exhaustion. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.resetCount",
+    "class_name": "org.apache.commons.math.util.Incrementor",
+    "signature": "org.apache.commons.math.util.Incrementor.resetCount()",
+    "snippet": "    public void resetCount() {\n        count = 0;\n    }",
+    "comment": " Reset the counter to 0. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.setMaximalCount",
+    "class_name": "org.apache.commons.math.util.Incrementor",
+    "signature": "org.apache.commons.math.util.Incrementor.setMaximalCount(int)",
+    "snippet": "    public void setMaximalCount(int max) {\n        maximalCount = max;\n    }",
+    "comment": " Set the upper limit for the counter.  @param max Upper limit of the counter. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathUtils.checkNotNull",
+    "class_name": "org.apache.commons.math.util.MathUtils",
+    "signature": "org.apache.commons.math.util.MathUtils.checkNotNull(Object)",
+    "snippet": "    public static void checkNotNull(Object o)\n        throws NullArgumentException {\n        if (o == null) {\n            throw new NullArgumentException();\n        }\n    }",
+    "comment": " Checks that an object is not null.  @param o Object to be checked. @throws NullArgumentException if {@code o} is {@code null}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

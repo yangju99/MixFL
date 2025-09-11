@@ -1,0 +1,562 @@
+[
+  {
+    "name": "Answers.get",
+    "class_name": "org.mockito.Answers",
+    "signature": "org.mockito.Answers.get()",
+    "snippet": "    public Answer<Object> get() {\n        return implementation;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ArgumentCaptor.ArgumentCaptor",
+    "class_name": "org.mockito.ArgumentCaptor",
+    "signature": "org.mockito.ArgumentCaptor.ArgumentCaptor(Class)",
+    "snippet": "    ArgumentCaptor(Class<T> clazz) {\n        this.clazz = clazz;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ArgumentCaptor.forClass",
+    "class_name": "org.mockito.ArgumentCaptor",
+    "signature": "org.mockito.ArgumentCaptor.forClass(Class)",
+    "snippet": "    public static <T> ArgumentCaptor<T> forClass(Class<T> clazz) {\n        return new ArgumentCaptor<T>(clazz);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Mockito.mock",
+    "class_name": "org.mockito.Mockito",
+    "signature": "org.mockito.Mockito.mock(Class,MockSettings)",
+    "snippet": "    public static <T> T mock(Class<T> classToMock, MockSettings mockSettings) {\n        return MOCKITO_CORE.mock(classToMock, mockSettings);\n    }",
+    "comment": " Creates a mock with some non-standard settings. <p> The number of configuration points for a mock grows  so we need a fluent way to introduce new configuration without adding more and more overloaded Mockito.mock() methods.  Hence {@link MockSettings}. <pre> Listener mock = mock(Listener.class, withSettings() .name(\"firstListner\").defaultBehavior(RETURNS_SMART_NULLS)); );   </pre> <b>Use it carefully and occasionally</b>. What might be reason your test needs non-standard mocks?  Is the code under test so complicated that it requires non-standard mocks?  Wouldn't you prefer to refactor the code under test so it is testable in a simple way? <p> See also {@link Mockito#withSettings()} <p> See examples in javadoc for {@link Mockito} class  @param classToMock class or interface to mock @param mockSettings additional mock settings @return mock object ",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Mockito.withSettings",
+    "class_name": "org.mockito.Mockito",
+    "signature": "org.mockito.Mockito.withSettings()",
+    "snippet": "    public static MockSettings withSettings() {\n        return new MockSettingsImpl().defaultAnswer(RETURNS_DEFAULTS);\n    }",
+    "comment": " Allows mock creation with additional mock settings.  <p> Don't use it too often.  Consider writing simple tests that use simple mocks.  Repeat after me: simple tests push simple, KISSy, readable & maintainable code. If you cannot write a test in a simple way - refactor the code under test. <p> Examples of mock settings: <pre> Creates mock with different default answer & name Foo mock = mock(Foo.class, withSettings() .defaultAnswer(RETURNS_SMART_NULLS) .name(\"cool mockie\"));  Creates mock with different default answer, descriptive name and extra interfaces Foo mock = mock(Foo.class, withSettings() .defaultAnswer(RETURNS_SMART_NULLS) .name(\"cool mockie\") .extraInterfaces(Bar.class));     </pre> {@link MockSettings} has been introduced for two reasons.  Firstly, to make it easy to add another mock settings when the demand comes. Secondly, to enable combining different mock settings without introducing zillions of overloaded mock() methods. <p> See javadoc for {@link MockSettings} to learn about possible mock settings. <p>  @return mock settings instance with defaults. ",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockitoAnnotations.initMocks",
+    "class_name": "org.mockito.MockitoAnnotations",
+    "signature": "org.mockito.MockitoAnnotations.initMocks(Object)",
+    "snippet": "    public static void initMocks(Object testClass) {\n        if (testClass == null) {\n            throw new MockitoException(\"testClass cannot be null. For info how to use @Mock annotations see examples in javadoc for MockitoAnnotations class\");\n        }\n        \n        Class<?> clazz = testClass.getClass();\n        while (clazz != Object.class) {\n            scan(testClass, clazz);\n            clazz = clazz.getSuperclass();\n        }\n    }",
+    "comment": " Initializes objects annotated with Mockito annotations for given testClass: &#064;{@link org.mockito.Mock}, &#064;{@link Spy}, &#064;{@link Captor}, &#064;{@link InjectMocks}  <p> See examples in javadoc for {@link MockitoAnnotations} class. ",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockitoAnnotations.processAnnotationDeprecatedWay",
+    "class_name": "org.mockito.MockitoAnnotations",
+    "signature": "org.mockito.MockitoAnnotations.processAnnotationDeprecatedWay(AnnotationEngine,Object,Field)",
+    "snippet": "    @SuppressWarnings(\"deprecation\")\n    static void processAnnotationDeprecatedWay(AnnotationEngine annotationEngine, Object testClass, Field field) {\n        boolean alreadyAssigned = false;\n        for(Annotation annotation : field.getAnnotations()) {\n            Object mock = annotationEngine.createMockFor(annotation, field);\n            if (mock != null) {\n                throwIfAlreadyAssigned(field, alreadyAssigned);\n                alreadyAssigned = true;                \n                try {\n                    new FieldSetter(testClass, field).set(mock);\n                } catch (Exception e) {\n                    throw new MockitoException(\"Problems setting field \" + field.getName() + \" annotated with \"\n                            + annotation, e);\n                }\n            }\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockitoAnnotations.scan",
+    "class_name": "org.mockito.MockitoAnnotations",
+    "signature": "org.mockito.MockitoAnnotations.scan(Object,Class)",
+    "snippet": "    static void scan(Object testClass, Class<?> clazz) {\n        AnnotationEngine annotationEngine = new GlobalConfiguration().getAnnotationEngine();\n        Field[] fields = clazz.getDeclaredFields();\n        for (Field field : fields) {\n            //below can be removed later, when we get rid of deprecated stuff\n            if (annotationEngine.getClass() != new DefaultMockitoConfiguration().getAnnotationEngine().getClass()) {\n                //this means user has his own annotation engine and we have to respect that.\n                //we will do annotation processing the old way so that we are backwards compatible\n                processAnnotationDeprecatedWay(annotationEngine, testClass, field);                \n            } \n        }\n        //act 'the new' way\n        annotationEngine.process(clazz, testClass);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockitoAnnotations.throwIfAlreadyAssigned",
+    "class_name": "org.mockito.MockitoAnnotations",
+    "signature": "org.mockito.MockitoAnnotations.throwIfAlreadyAssigned(Field,boolean)",
+    "snippet": "    static void throwIfAlreadyAssigned(Field field, boolean alreadyAssigned) {\n        if (alreadyAssigned) {\n            new Reporter().moreThanOneAnnotationNotAllowed(field.getName());\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultMockitoConfiguration.getAnnotationEngine",
+    "class_name": "org.mockito.configuration.DefaultMockitoConfiguration",
+    "signature": "org.mockito.configuration.DefaultMockitoConfiguration.getAnnotationEngine()",
+    "snippet": "    public AnnotationEngine getAnnotationEngine() {\n        return new InjectingAnnotationEngine();\n    }",
+    "comment": "(non-Javadoc) @see org.mockito.IMockitoConfiguration#getAnnotationEngine() ",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockHandler.MockHandler",
+    "class_name": "org.mockito.internal.MockHandler",
+    "signature": "org.mockito.internal.MockHandler.MockHandler(MockSettingsImpl)",
+    "snippet": "    public MockHandler(MockSettingsImpl mockSettings) {\n        this.mockSettings = mockSettings;\n        this.mockingProgress = new ThreadSafeMockingProgress();\n        this.matchersBinder = new MatchersBinder();\n        this.invocationContainerImpl = new InvocationContainerImpl(mockingProgress);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockitoCore.mock",
+    "class_name": "org.mockito.internal.MockitoCore",
+    "signature": "org.mockito.internal.MockitoCore.mock(Class,MockSettings)",
+    "snippet": "    public <T> T mock(Class<T> classToMock, MockSettings mockSettings) {\n        T mock = mockUtil.createMock(classToMock, (MockSettingsImpl) mockSettings);\n        mockingProgress.mockingStarted(mock, classToMock, mockSettings);\n        return mock;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ClassPathLoader.loadConfiguration",
+    "class_name": "org.mockito.internal.configuration.ClassPathLoader",
+    "signature": "org.mockito.internal.configuration.ClassPathLoader.loadConfiguration()",
+    "snippet": "    @SuppressWarnings({\"unchecked\"})\n    public IMockitoConfiguration loadConfiguration() {\n        //Trying to get config from classpath\n        Class configClass = null;\n        try {\n            configClass = (Class) Class.forName(\"org.mockito.configuration.MockitoConfiguration\");\n        } catch (ClassNotFoundException e) {\n            //that's ok, it means there is no global config, using default one. \n            return null;\n        }\n        \n        try {\n            return (IMockitoConfiguration) configClass.newInstance();\n        } catch (ClassCastException e) {\n            throw new MockitoConfigurationException(\"\\n\" +\n                    \"MockitoConfiguration class must implement org.mockito.configuration.IMockitoConfiguration interface.\", e);\n        } catch (Exception e) {\n            throw new MockitoConfigurationException(\"\\n\" +\n                    \"Unable to instantianate org.mockito.configuration.MockitoConfiguration class. Does it have a safe, no-arg constructor?\", e);\n        }\n    }",
+    "comment": " @return configuration loaded from classpath or null ",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultAnnotationEngine.createMockFor",
+    "class_name": "org.mockito.internal.configuration.DefaultAnnotationEngine",
+    "signature": "org.mockito.internal.configuration.DefaultAnnotationEngine.createMockFor(Annotation,Field)",
+    "snippet": "    @SuppressWarnings(\"deprecation\")\n    public Object createMockFor(Annotation annotation, Field field) {\n        if (annotation instanceof Mock) {\n            return processAnnotationOn((Mock) annotation, field);\n        }\n        if (annotation instanceof MockitoAnnotations.Mock) {\n            return processAnnotationOn((MockitoAnnotations.Mock) annotation, field);\n        }\n        if (annotation instanceof Captor) {\n            return processAnnotationOn((Captor) annotation, field);\n        }        \n\n        return null;\n    }",
+    "comment": "(non-Javadoc) @see org.mockito.AnnotationEngine#createMockFor(java.lang.annotation.Annotation, java.lang.reflect.Field) ",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultAnnotationEngine.processAnnotationOn",
+    "class_name": "org.mockito.internal.configuration.DefaultAnnotationEngine",
+    "signature": "org.mockito.internal.configuration.DefaultAnnotationEngine.processAnnotationOn(Captor,Field)",
+    "snippet": "    private Object processAnnotationOn(Captor annotation, Field field) {\n        Class<?> type = field.getType();\n        if (!ArgumentCaptor.class.isAssignableFrom(type)) {\n            throw new MockitoException(\"@Captor field must be of the type ArgumentCaptor.\\n\" + \"Field: '\"\n                    + field.getName() + \"' has wrong type\\n\"\n                    + \"For info how to use @Captor annotations see examples in javadoc for MockitoAnnotations class.\");\n        }\n        Class cls = new GenericMaster().getGenericType(field);        \n        return ArgumentCaptor.forClass(cls);    \n    }           ",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultAnnotationEngine.processAnnotationOn",
+    "class_name": "org.mockito.internal.configuration.DefaultAnnotationEngine",
+    "signature": "org.mockito.internal.configuration.DefaultAnnotationEngine.processAnnotationOn(Mock,Field)",
+    "snippet": "    @SuppressWarnings(\"deprecation\")\n    private Object processAnnotationOn(org.mockito.MockitoAnnotations.Mock annotation, Field field) {\n        return Mockito.mock(field.getType(), field.getName());\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "GlobalConfiguration.GlobalConfiguration",
+    "class_name": "org.mockito.internal.configuration.GlobalConfiguration",
+    "signature": "org.mockito.internal.configuration.GlobalConfiguration.GlobalConfiguration()",
+    "snippet": "    public GlobalConfiguration() {\n        //Configuration should be loaded only once but I cannot really test it\n        if (globalConfiguration.get() == null) {\n            globalConfiguration.set(createConfig());\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "GlobalConfiguration.createConfig",
+    "class_name": "org.mockito.internal.configuration.GlobalConfiguration",
+    "signature": "org.mockito.internal.configuration.GlobalConfiguration.createConfig()",
+    "snippet": "    private IMockitoConfiguration createConfig() {\n        IMockitoConfiguration defaultConfiguration = new DefaultMockitoConfiguration();\n        IMockitoConfiguration config = new ClassPathLoader().loadConfiguration();\n        if (config != null) {\n            return config;\n        } else {\n            return defaultConfiguration;\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "GlobalConfiguration.getAnnotationEngine",
+    "class_name": "org.mockito.internal.configuration.GlobalConfiguration",
+    "signature": "org.mockito.internal.configuration.GlobalConfiguration.getAnnotationEngine()",
+    "snippet": "    public AnnotationEngine getAnnotationEngine() {\n        return globalConfiguration.get().getAnnotationEngine();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "GlobalConfiguration.getIt",
+    "class_name": "org.mockito.internal.configuration.GlobalConfiguration",
+    "signature": "org.mockito.internal.configuration.GlobalConfiguration.getIt()",
+    "snippet": "    IMockitoConfiguration getIt() {\n        return globalConfiguration.get();\n    }",
+    "comment": "back door for testing",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "GlobalConfiguration.validate",
+    "class_name": "org.mockito.internal.configuration.GlobalConfiguration",
+    "signature": "org.mockito.internal.configuration.GlobalConfiguration.validate()",
+    "snippet": "    public static void validate() {\n        new GlobalConfiguration();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "InjectingAnnotationEngine.createMockFor",
+    "class_name": "org.mockito.internal.configuration.InjectingAnnotationEngine",
+    "signature": "org.mockito.internal.configuration.InjectingAnnotationEngine.createMockFor(Annotation,Field)",
+    "snippet": "    public Object createMockFor(Annotation annotation, Field field) {\n        return delegate.createMockFor(annotation, field);\n    }",
+    "comment": "(non-Javadoc) @see org.mockito.AnnotationEngine#createMockFor(java.lang.annotation.Annotation, java.lang.reflect.Field) ",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MethodInterceptorFilter.MethodInterceptorFilter",
+    "class_name": "org.mockito.internal.creation.MethodInterceptorFilter",
+    "signature": "org.mockito.internal.creation.MethodInterceptorFilter.MethodInterceptorFilter(MockitoInvocationHandler,MockSettingsImpl)",
+    "snippet": "    public MethodInterceptorFilter(MockitoInvocationHandler handler, MockSettingsImpl mockSettings) {\n        this.handler = handler;\n        this.mockSettings = mockSettings;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockSettingsImpl.defaultAnswer",
+    "class_name": "org.mockito.internal.creation.MockSettingsImpl",
+    "signature": "org.mockito.internal.creation.MockSettingsImpl.defaultAnswer(Answer)",
+    "snippet": "    public MockSettings defaultAnswer(Answer defaultAnswer) {\n        this.defaultAnswer = defaultAnswer;\n        return this;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockSettingsImpl.getExtraInterfaces",
+    "class_name": "org.mockito.internal.creation.MockSettingsImpl",
+    "signature": "org.mockito.internal.creation.MockSettingsImpl.getExtraInterfaces()",
+    "snippet": "    public Class<?>[] getExtraInterfaces() {\n        return extraInterfaces;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockSettingsImpl.getSpiedInstance",
+    "class_name": "org.mockito.internal.creation.MockSettingsImpl",
+    "signature": "org.mockito.internal.creation.MockSettingsImpl.getSpiedInstance()",
+    "snippet": "    public Object getSpiedInstance() {\n        return spiedInstance;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockSettingsImpl.initiateMockName",
+    "class_name": "org.mockito.internal.creation.MockSettingsImpl",
+    "signature": "org.mockito.internal.creation.MockSettingsImpl.initiateMockName(Class)",
+    "snippet": "    public void initiateMockName(Class classToMock) {\n        mockName = new MockName(name, classToMock);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockSettingsImpl.isSerializable",
+    "class_name": "org.mockito.internal.creation.MockSettingsImpl",
+    "signature": "org.mockito.internal.creation.MockSettingsImpl.isSerializable()",
+    "snippet": "    public boolean isSerializable() {\n        return serializable;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockSettingsImpl.name",
+    "class_name": "org.mockito.internal.creation.MockSettingsImpl",
+    "signature": "org.mockito.internal.creation.MockSettingsImpl.name(String)",
+    "snippet": "    public MockSettings name(String name) {\n        this.name = name;\n        return this;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockitoNamingPolicy.getTag",
+    "class_name": "org.mockito.internal.creation.cglib.MockitoNamingPolicy",
+    "signature": "org.mockito.internal.creation.cglib.MockitoNamingPolicy.getTag()",
+    "snippet": "    @Override\n    protected String getTag() {\n        return \"ByMockitoWithCGLIB\";\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ClassImposterizer.canImposterise",
+    "class_name": "org.mockito.internal.creation.jmock.ClassImposterizer",
+    "signature": "org.mockito.internal.creation.jmock.ClassImposterizer.canImposterise(Class)",
+    "snippet": "    public boolean canImposterise(Class<?> type) {\n        return !type.isPrimitive() && !Modifier.isFinal(type.getModifiers());\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ClassImposterizer.createProxy",
+    "class_name": "org.mockito.internal.creation.jmock.ClassImposterizer",
+    "signature": "org.mockito.internal.creation.jmock.ClassImposterizer.createProxy(Class,MethodInterceptor)",
+    "snippet": "    private Object createProxy(Class<?> proxyClass, final MethodInterceptor interceptor) {\n        Factory proxy = (Factory) objenesis.newInstance(proxyClass);\n        proxy.setCallbacks(new Callback[] {interceptor, SerializableNoOp.SERIALIZABLE_INSTANCE });\n        return proxy;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ClassImposterizer.setConstructorsAccessible",
+    "class_name": "org.mockito.internal.creation.jmock.ClassImposterizer",
+    "signature": "org.mockito.internal.creation.jmock.ClassImposterizer.setConstructorsAccessible(Class,boolean)",
+    "snippet": "    private void setConstructorsAccessible(Class<?> mockedType, boolean accessible) {\n        for (Constructor<?> constructor : mockedType.getDeclaredConstructors()) {\n            constructor.setAccessible(accessible);\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SearchingClassLoader.addIfNewElement",
+    "class_name": "org.mockito.internal.creation.jmock.SearchingClassLoader",
+    "signature": "org.mockito.internal.creation.jmock.SearchingClassLoader.addIfNewElement(List,ClassLoader)",
+    "snippet": "    private static void addIfNewElement(List<ClassLoader> loaders, ClassLoader c) {\n        if (c != null && !loaders.contains(c)) {\n            loaders.add(c);\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SearchingClassLoader.combine",
+    "class_name": "org.mockito.internal.creation.jmock.SearchingClassLoader",
+    "signature": "org.mockito.internal.creation.jmock.SearchingClassLoader.combine(List)",
+    "snippet": "    private static ClassLoader combine(List<ClassLoader> parentLoaders) {\n        ClassLoader loader = parentLoaders.get(parentLoaders.size()-1);\n        \n        for (int i = parentLoaders.size()-2; i >= 0; i--) {\n            loader = new SearchingClassLoader(parentLoaders.get(i), loader);\n        }\n        \n        return loader;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ArgumentMatcherStorageImpl.validateState",
+    "class_name": "org.mockito.internal.progress.ArgumentMatcherStorageImpl",
+    "signature": "org.mockito.internal.progress.ArgumentMatcherStorageImpl.validateState()",
+    "snippet": "    public void validateState() {\n        if (!matcherStack.isEmpty()) {\n            LocalizedMatcher lastMatcher = matcherStack.lastElement();\n            matcherStack.clear();\n            new Reporter().misplacedArgumentMatcher(lastMatcher.getLocation());\n        }\n    }",
+    "comment": "(non-Javadoc) @see org.mockito.internal.progress.ArgumentMatcherStorage#validateState() ",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockingProgressImpl.getArgumentMatcherStorage",
+    "class_name": "org.mockito.internal.progress.MockingProgressImpl",
+    "signature": "org.mockito.internal.progress.MockingProgressImpl.getArgumentMatcherStorage()",
+    "snippet": "    public ArgumentMatcherStorage getArgumentMatcherStorage() {\n        return argumentMatcherStorage;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockingProgressImpl.mockingStarted",
+    "class_name": "org.mockito.internal.progress.MockingProgressImpl",
+    "signature": "org.mockito.internal.progress.MockingProgressImpl.mockingStarted(Object,Class,MockSettings)",
+    "snippet": "    public void mockingStarted(Object mock, Class classToMock, MockSettings mockSettings) {\n        if (listener != null && listener instanceof MockingStartedListener) {\n            ((MockingStartedListener) listener).mockingStarted(mock, classToMock, mockSettings);\n        }\n        validateState();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockingProgressImpl.validateState",
+    "class_name": "org.mockito.internal.progress.MockingProgressImpl",
+    "signature": "org.mockito.internal.progress.MockingProgressImpl.validateState()",
+    "snippet": "    public void validateState() {\n        //State is cool when GlobalConfiguration is already loaded\n        //this cannot really be tested functionally because I cannot dynamically mess up org.mockito.configuration.MockitoConfiguration class \n        GlobalConfiguration.validate();\n        \n        if (verificationMode != null) {\n            Location location = verificationMode.getLocation();\n            verificationMode = null;\n            reporter.unfinishedVerificationException(location);\n        }\n        \n        if (stubbingInProgress != null) {\n            Location temp = stubbingInProgress;\n            stubbingInProgress = null;\n            reporter.unfinishedStubbing(temp);\n        }\n      \n        getArgumentMatcherStorage().validateState();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ThreadSafeMockingProgress.mockingStarted",
+    "class_name": "org.mockito.internal.progress.ThreadSafeMockingProgress",
+    "signature": "org.mockito.internal.progress.ThreadSafeMockingProgress.mockingStarted(Object,Class,MockSettings)",
+    "snippet": "    public void mockingStarted(Object mock, Class classToMock, MockSettings mockSettings) {\n        threadSafely().mockingStarted(mock, classToMock, mockSettings);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ThreadSafeMockingProgress.threadSafely",
+    "class_name": "org.mockito.internal.progress.ThreadSafeMockingProgress",
+    "signature": "org.mockito.internal.progress.ThreadSafeMockingProgress.threadSafely()",
+    "snippet": "    static MockingProgress threadSafely() {\n        if (mockingProgress.get() == null) {\n            mockingProgress.set(new MockingProgressImpl());\n        }\n        return mockingProgress.get();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ThreadSafeMockingProgress.validateState",
+    "class_name": "org.mockito.internal.progress.ThreadSafeMockingProgress",
+    "signature": "org.mockito.internal.progress.ThreadSafeMockingProgress.validateState()",
+    "snippet": "    public void validateState() {\n        threadSafely().validateState();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "InvocationContainerImpl.InvocationContainerImpl",
+    "class_name": "org.mockito.internal.stubbing.InvocationContainerImpl",
+    "signature": "org.mockito.internal.stubbing.InvocationContainerImpl.InvocationContainerImpl(MockingProgress)",
+    "snippet": "    public InvocationContainerImpl(MockingProgress mockingProgress) {\n        this.mockingProgress = mockingProgress;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockCreationValidator.isTypeMockable",
+    "class_name": "org.mockito.internal.util.MockCreationValidator",
+    "signature": "org.mockito.internal.util.MockCreationValidator.isTypeMockable(Class)",
+    "snippet": "    public boolean isTypeMockable(Class<?> clz) {\n        return ClassImposterizer.INSTANCE.canImposterise(clz);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockCreationValidator.validateExtraInterfaces",
+    "class_name": "org.mockito.internal.util.MockCreationValidator",
+    "signature": "org.mockito.internal.util.MockCreationValidator.validateExtraInterfaces(Class,Class[])",
+    "snippet": "    public void validateExtraInterfaces(Class classToMock, Class ... extraInterfaces) {\n        if (extraInterfaces == null) {\n            return;\n        }\n        \n        for (Class i : extraInterfaces) {\n            if (classToMock == i) {\n                new Reporter().extraInterfacesCannotContainMockedType(classToMock);\n            }\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockCreationValidator.validateMockedType",
+    "class_name": "org.mockito.internal.util.MockCreationValidator",
+    "signature": "org.mockito.internal.util.MockCreationValidator.validateMockedType(Class,Object)",
+    "snippet": "    public void validateMockedType(Class classToMock, Object spiedInstance) {\n        if (classToMock == null || spiedInstance == null) {\n            return;\n        }\n        if (!classToMock.equals(spiedInstance.getClass())) {\n            new Reporter().mockedTypeIsInconsistentWithSpiedInstanceType(classToMock, spiedInstance);\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockCreationValidator.validateType",
+    "class_name": "org.mockito.internal.util.MockCreationValidator",
+    "signature": "org.mockito.internal.util.MockCreationValidator.validateType(Class)",
+    "snippet": "    public void validateType(Class classToMock) {\n        if (!isTypeMockable(classToMock)) {\n            new Reporter().cannotMockFinalClass(classToMock);\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockName.MockName",
+    "class_name": "org.mockito.internal.util.MockName",
+    "signature": "org.mockito.internal.util.MockName.MockName(String,Class)",
+    "snippet": "    @SuppressWarnings(\"unchecked\")\n    public MockName(String mockName, Class classToMock) {\n        if (mockName == null) {\n            this.mockName = toInstanceName(classToMock);\n            this.surrogate = true;\n        } else {\n            this.mockName = mockName;\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockUtil.MockUtil",
+    "class_name": "org.mockito.internal.util.MockUtil",
+    "signature": "org.mockito.internal.util.MockUtil.MockUtil()",
+    "snippet": "    public MockUtil() {\n        this(new MockCreationValidator());\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockUtil.MockUtil",
+    "class_name": "org.mockito.internal.util.MockUtil",
+    "signature": "org.mockito.internal.util.MockUtil.MockUtil(MockCreationValidator)",
+    "snippet": "    public MockUtil(MockCreationValidator creationValidator) {\n        this.creationValidator = creationValidator;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MockUtil.createMock",
+    "class_name": "org.mockito.internal.util.MockUtil",
+    "signature": "org.mockito.internal.util.MockUtil.createMock(Class,MockSettingsImpl)",
+    "snippet": "    public <T> T createMock(Class<T> classToMock, MockSettingsImpl settings) {\n        creationValidator.validateType(classToMock);\n        creationValidator.validateExtraInterfaces(classToMock, settings.getExtraInterfaces());\n        creationValidator.validateMockedType(classToMock, settings.getSpiedInstance());\n\n        settings.initiateMockName(classToMock);\n\n        MockHandler<T> mockHandler = new MockHandler<T>(settings);\n        MethodInterceptorFilter filter = new MethodInterceptorFilter(mockHandler, settings);\n        Class<?>[] interfaces = settings.getExtraInterfaces();\n\n        Class<?>[] ancillaryTypes;\n        if (settings.isSerializable()) {\n            ancillaryTypes = interfaces == null ? new Class<?>[] {Serializable.class} : new ArrayUtils().concat(interfaces, Serializable.class);\n        } else {\n            ancillaryTypes = interfaces == null ? new Class<?>[0] : interfaces;\n        }\n\n        Object spiedInstance = settings.getSpiedInstance();\n        \n        T mock = ClassImposterizer.INSTANCE.imposterise(filter, classToMock, ancillaryTypes);\n        \n        if (spiedInstance != null) {\n            new LenientCopyTool().copyToMock(spiedInstance, mock);\n        }\n        \n        return mock;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AccessibilityChanger.enableAccess",
+    "class_name": "org.mockito.internal.util.reflection.AccessibilityChanger",
+    "signature": "org.mockito.internal.util.reflection.AccessibilityChanger.enableAccess(Field)",
+    "snippet": "    public void enableAccess(Field field) {\n        wasAccessible = field.isAccessible();\n        field.setAccessible(true);\n    }",
+    "comment": " changes the field accessibility and returns true if accessibility was changed ",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AccessibilityChanger.safelyDisableAccess",
+    "class_name": "org.mockito.internal.util.reflection.AccessibilityChanger",
+    "signature": "org.mockito.internal.util.reflection.AccessibilityChanger.safelyDisableAccess(Field)",
+    "snippet": "    public void safelyDisableAccess(Field field) {\n        assert wasAccessible != null;\n        try {\n            field.setAccessible(wasAccessible);\n        } catch (Throwable t) {\n            //ignore\n        }\n    }",
+    "comment": " safely disables access ",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FieldSetter.FieldSetter",
+    "class_name": "org.mockito.internal.util.reflection.FieldSetter",
+    "signature": "org.mockito.internal.util.reflection.FieldSetter.FieldSetter(Object,Field)",
+    "snippet": "    public FieldSetter(Object target, Field field) {\n        this.target = target;\n        this.field = field;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FieldSetter.set",
+    "class_name": "org.mockito.internal.util.reflection.FieldSetter",
+    "signature": "org.mockito.internal.util.reflection.FieldSetter.set(Object)",
+    "snippet": "    public void set(Object value) {\n        AccessibilityChanger changer = new AccessibilityChanger();\n        changer.enableAccess(field);\n        try {\n            field.set(target, value);\n        } catch (Exception e) {\n            throw new RuntimeException(\"Problems setting value: [\" + value + \"] on object: [\" + target + \"] at field: [\" + field + \"]\");\n        }\n        changer.safelyDisableAccess(field);\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  },
+  {
+    "name": "GenericMaster.getGenericType",
+    "class_name": "org.mockito.internal.util.reflection.GenericMaster",
+    "signature": "org.mockito.internal.util.reflection.GenericMaster.getGenericType(Field)",
+    "snippet": "    public Class getGenericType(Field field) {        \n        Type generic = field.getGenericType();\n        if (generic != null && generic instanceof ParameterizedType) {\n            Type actual = ((ParameterizedType) generic).getActualTypeArguments()[0];\n                return (Class) actual;\n                //in case of nested generics we don't go deep\n        }\n        \n        return Object.class;\n    }",
+    "comment": " Finds the generic type (parametrized type) of the field. If the field is not generic it returns Object.class.   @param field @return ",
+    "is_bug": true,
+    "failing_test_cases": 10,
+    "buggy_methods": 1
+  }
+]

@@ -62,27 +62,75 @@ class CodeModel(nn.Module):
 
 
 class MultiSourceEncoder(nn.Module):
-    def __init__(self, device, code_out_dim=512, comment_out_dim=512, fuse_dim=512, **kwargs):
-        super(MultiSourceEncoder, self).__init__()
 
-        self.code_model = CodeModel(kwargs['code_dim'], code_out_dim)  
-        self.comment_model = CommentModel(kwargs['comment_dim'], comment_out_dim)  
-        fuse_in = code_out_dim + comment_out_dim
+    def __init__(
+        self,
+        device,
+        code_out_dim=512,
+        comment_out_dim=512,
+        fuse_dim=512,
+        debug: bool = False,
+        **kwargs
+    ):
+        super().__init__()
+        self.device = device
+        self.debug = debug
 
-        if not fuse_dim % 2 == 0: fuse_dim += 1
+        # kwargs['code_dim'] / ['comment_dim']: {model_name: input_dim}
+        code_dim = kwargs['code_dim']
+        comment_dim = kwargs['comment_dim']
 
-        self.fuse = nn.Linear(fuse_in, fuse_dim)
-       
+        self.model_names = list(code_dim.keys())
+
+        # per-model encoders
+        self.code_models    = nn.ModuleDict({m: CodeModel(code_dim[m],      code_out_dim)     for m in self.model_names})
+        self.comment_models = nn.ModuleDict({m: CommentModel(comment_dim[m], comment_out_dim) for m in self.model_names})
+
+        # fuse (per model): [code_out + comment_out] → fuse_dim → GLU (halve)
+        if fuse_dim % 2 != 0:
+            fuse_dim += 1  
+        self.fusers   = nn.ModuleDict({m: nn.Linear(code_out_dim + comment_out_dim, fuse_dim) for m in self.model_names})
         self.activate = nn.GLU()
-        self.feat_out_dim = int(fuse_dim // 2)
-    
-    def forward(self, graph):
-        code_embedding = self.code_model(graph.ndata["code_vector"]) 
-        comment_embedding = self.comment_model(graph.ndata["comment_vector"]) 
 
-        feature = self.activate(self.fuse(torch.cat((code_embedding, comment_embedding), dim=-1)))
+        # per-model feature dim after GLU
+        self.per_model_feat_dim = fuse_dim // 2
 
-        return feature
+        # --- Attention pooling over models ---
+        # f_m ∈ R^{N_total × F} → score_m ∈ R^{N_total × 1}, softmax across M
+        self.attn_scorer = nn.Linear(self.per_model_feat_dim, 1, bias=True)
+
+        self.feat_out_dim = self.per_model_feat_dim
+
+    def forward(self, per_model_graphs: dict):
+        """
+        per_model_graphs: { model_name: batched_dgl_graph }
+        """
+        feats = []
+        total_nodes = None
+
+        # 1) per-model feature 추출
+        for m in self.model_names:
+            g = per_model_graphs[m]
+            code = self.code_models[m](g.ndata["code_vector"])        # [N_total, code_out_dim]
+            cmt  = self.comment_models[m](g.ndata["comment_vector"])  # [N_total, comment_out_dim]
+            fused = self.fusers[m](torch.cat([code, cmt], dim=-1))    # [N_total, fuse_dim]
+            fused = self.activate(fused)                              # [N_total, F]
+            feats.append(fused)
+
+        # 2) Attention Pooling over model dimension
+        # feats: list of M tensors [N_total, F] → stack: [M, N_total, F]
+        feats_stacked = torch.stack(feats, dim=0)
+
+        #  [M, N_total, 1]
+        scores = self.attn_scorer(feats_stacked)  #
+        # softmax over model axis (dim=0): [M, N_total, 1]
+        attn = torch.softmax(scores, dim=0)
+
+        # 가중합: (attn * feats_stacked) sum over M → [N_total, F]
+        feat = (attn * feats_stacked).sum(dim=0)
+
+        return feat  # [N_total, F]  (self.feat_out_dim = F)
+
 
 class FullyConnected(nn.Module):
     def __init__(self, in_dim, out_dim, linear_sizes):

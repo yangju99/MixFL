@@ -1,0 +1,242 @@
+[
+  {
+    "name": "FastDateFormat.FastDateFormat",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.FastDateFormat(String,TimeZone,Locale)",
+    "snippet": "    protected FastDateFormat(String pattern, TimeZone timeZone, Locale locale) {\n        super();\n        if (pattern == null) {\n            throw new IllegalArgumentException(\"The pattern must not be null\");\n        }\n        mPattern = pattern;\n        \n        mTimeZoneForced = (timeZone != null);\n        if (timeZone == null) {\n            timeZone = TimeZone.getDefault();\n        }\n        mTimeZone = timeZone;\n        \n        mLocaleForced = (locale != null);\n        if (locale == null) {\n            locale = Locale.getDefault();\n        }\n        mLocale = locale;\n    }",
+    "comment": " <p>Constructs a new FastDateFormat.</p>  @param pattern  {@link java.text.SimpleDateFormat} compatible pattern @param timeZone  time zone to use, <code>null</code> means use default for <code>Date</code> and value within for <code>Calendar</code> @param locale  locale, <code>null</code> means use system default @throws IllegalArgumentException if pattern is invalid or <code>null</code> ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "FastDateFormat.getDateInstance",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.getDateInstance(int)",
+    "snippet": "    public static FastDateFormat getDateInstance(int style) {\n        return getDateInstance(style, null, null);\n    }",
+    "comment": " <p>Gets a date formatter instance using the specified style in the default time zone and locale.</p>  @param style  date style: FULL, LONG, MEDIUM, or SHORT @return a localized standard date formatter @throws IllegalArgumentException if the Locale has no date pattern defined @since 2.1 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "FastDateFormat.getDateInstance",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.getDateInstance(int,Locale)",
+    "snippet": "    public static FastDateFormat getDateInstance(int style, Locale locale) {\n        return getDateInstance(style, null, locale);\n    }",
+    "comment": " <p>Gets a date formatter instance using the specified style and locale in the default time zone.</p>  @param style  date style: FULL, LONG, MEDIUM, or SHORT @param locale  optional locale, overrides system locale @return a localized standard date formatter @throws IllegalArgumentException if the Locale has no date pattern defined @since 2.1 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "FastDateFormat.getDateInstance",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.getDateInstance(int,TimeZone,Locale)",
+    "snippet": "    public static synchronized FastDateFormat getDateInstance(int style, TimeZone timeZone, Locale locale) {\n        Object key = new Integer(style);\n        if (timeZone != null) {\n            key = new Pair(key, timeZone);\n        }\n\n        if (locale != null) {\n            key = new Pair(key, locale);\n        }\n\n\n        FastDateFormat format = (FastDateFormat) cDateInstanceCache.get(key);\n        if (format == null) {\n            if (locale == null) {\n                locale = Locale.getDefault();\n            }\n            try {\n                SimpleDateFormat formatter = (SimpleDateFormat) DateFormat.getDateInstance(style, locale);\n                String pattern = formatter.toPattern();\n                format = getInstance(pattern, timeZone, locale);\n                cDateInstanceCache.put(key, format);\n                \n            } catch (ClassCastException ex) {\n                throw new IllegalArgumentException(\"No date pattern for locale: \" + locale);\n            }\n        }\n        return format;\n    }",
+    "comment": " <p>Gets a date formatter instance using the specified style, time zone and locale.</p>  @param style  date style: FULL, LONG, MEDIUM, or SHORT @param timeZone  optional time zone, overrides time zone of formatted date @param locale  optional locale, overrides system locale @return a localized standard date formatter @throws IllegalArgumentException if the Locale has no date pattern defined ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "FastDateFormat.getDateTimeInstance",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.getDateTimeInstance(int,int)",
+    "snippet": "    public static FastDateFormat getDateTimeInstance(\n            int dateStyle, int timeStyle) {\n        return getDateTimeInstance(dateStyle, timeStyle, null, null);\n    }",
+    "comment": " <p>Gets a date/time formatter instance using the specified style in the default time zone and locale.</p>  @param dateStyle  date style: FULL, LONG, MEDIUM, or SHORT @param timeStyle  time style: FULL, LONG, MEDIUM, or SHORT @return a localized standard date/time formatter @throws IllegalArgumentException if the Locale has no date/time pattern defined @since 2.1 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "FastDateFormat.getDateTimeInstance",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.getDateTimeInstance(int,int,Locale)",
+    "snippet": "    public static FastDateFormat getDateTimeInstance(\n            int dateStyle, int timeStyle, Locale locale) {\n        return getDateTimeInstance(dateStyle, timeStyle, null, locale);\n    }",
+    "comment": " <p>Gets a date/time formatter instance using the specified style and locale in the default time zone.</p>  @param dateStyle  date style: FULL, LONG, MEDIUM, or SHORT @param timeStyle  time style: FULL, LONG, MEDIUM, or SHORT @param locale  optional locale, overrides system locale @return a localized standard date/time formatter @throws IllegalArgumentException if the Locale has no date/time pattern defined @since 2.1 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "FastDateFormat.getDateTimeInstance",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.getDateTimeInstance(int,int,TimeZone,Locale)",
+    "snippet": "    public static synchronized FastDateFormat getDateTimeInstance(int dateStyle, int timeStyle, TimeZone timeZone,\n            Locale locale) {\n\n        Object key = new Pair(new Integer(dateStyle), new Integer(timeStyle));\n        if (timeZone != null) {\n            key = new Pair(key, timeZone);\n        }\n        if (locale != null) {\n            key = new Pair(key, locale);\n        }\n\n        FastDateFormat format = (FastDateFormat) cDateTimeInstanceCache.get(key);\n        if (format == null) {\n            if (locale == null) {\n                locale = Locale.getDefault();\n            }\n            try {\n                SimpleDateFormat formatter = (SimpleDateFormat) DateFormat.getDateTimeInstance(dateStyle, timeStyle,\n                        locale);\n                String pattern = formatter.toPattern();\n                format = getInstance(pattern, timeZone, locale);\n                cDateTimeInstanceCache.put(key, format);\n\n            } catch (ClassCastException ex) {\n                throw new IllegalArgumentException(\"No date time pattern for locale: \" + locale);\n            }\n        }\n        return format;\n    }",
+    "comment": " <p>Gets a date/time formatter instance using the specified style, time zone and locale.</p>  @param dateStyle  date style: FULL, LONG, MEDIUM, or SHORT @param timeStyle  time style: FULL, LONG, MEDIUM, or SHORT @param timeZone  optional time zone, overrides time zone of formatted date @param locale  optional locale, overrides system locale @return a localized standard date/time formatter @throws IllegalArgumentException if the Locale has no date/time pattern defined ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "FastDateFormat.getInstance",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.getInstance(String,TimeZone,Locale)",
+    "snippet": "    public static synchronized FastDateFormat getInstance(String pattern, TimeZone timeZone, Locale locale) {\n        FastDateFormat emptyFormat = new FastDateFormat(pattern, timeZone, locale);\n        FastDateFormat format = (FastDateFormat) cInstanceCache.get(emptyFormat);\n        if (format == null) {\n            format = emptyFormat;\n            format.init();  // convert shell format into usable one\n            cInstanceCache.put(format, format);  // this is OK!\n        }\n        return format;\n    }",
+    "comment": " <p>Gets a formatter instance using the specified pattern, time zone and locale.</p>  @param pattern  {@link java.text.SimpleDateFormat} compatible pattern @param timeZone  optional time zone, overrides time zone of formatted date @param locale  optional locale, overrides system locale @return a pattern based date/time formatter @throws IllegalArgumentException if pattern is invalid or <code>null</code> ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "FastDateFormat.getLocale",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.getLocale()",
+    "snippet": "    public Locale getLocale() {\n        return mLocale;\n    }",
+    "comment": " <p>Gets the locale used by this formatter.</p>  @return the locale ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "FastDateFormat.hashCode",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.hashCode()",
+    "snippet": "    public int hashCode() {\n        int total = 0;\n        total += mPattern.hashCode();\n        total += mTimeZone.hashCode();\n        total += (mTimeZoneForced ? 1 : 0);\n        total += mLocale.hashCode();\n        total += (mLocaleForced ? 1 : 0);\n        return total;\n    }",
+    "comment": " <p>Returns a hashcode compatible with equals.</p>  @return a hashcode compatible with equals ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "FastDateFormat.init",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.init()",
+    "snippet": "    protected void init() {\n        List rulesList = parsePattern();\n        mRules = (Rule[]) rulesList.toArray(new Rule[rulesList.size()]);\n\n        int len = 0;\n        for (int i=mRules.length; --i >= 0; ) {\n            len += mRules[i].estimateLength();\n        }\n\n        mMaxLengthEstimate = len;\n    }",
+    "comment": " <p>Initializes the instance for first use.</p> ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "FastDateFormat.parsePattern",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.parsePattern()",
+    "snippet": "    protected List parsePattern() {\n        DateFormatSymbols symbols = new DateFormatSymbols(mLocale);\n        List rules = new ArrayList();\n\n        String[] ERAs = symbols.getEras();\n        String[] months = symbols.getMonths();\n        String[] shortMonths = symbols.getShortMonths();\n        String[] weekdays = symbols.getWeekdays();\n        String[] shortWeekdays = symbols.getShortWeekdays();\n        String[] AmPmStrings = symbols.getAmPmStrings();\n\n        int length = mPattern.length();\n        int[] indexRef = new int[1];\n\n        for (int i = 0; i < length; i++) {\n            indexRef[0] = i;\n            String token = parseToken(mPattern, indexRef);\n            i = indexRef[0];\n\n            int tokenLen = token.length();\n            if (tokenLen == 0) {\n                break;\n            }\n\n            Rule rule;\n            char c = token.charAt(0);\n\n            switch (c) {\n            case 'G': // era designator (text)\n                rule = new TextField(Calendar.ERA, ERAs);\n                break;\n            case 'y': // year (number)\n                if (tokenLen >= 4) {\n                    rule = selectNumberRule(Calendar.YEAR, tokenLen);\n                } else {\n                    rule = TwoDigitYearField.INSTANCE;\n                }\n                break;\n            case 'M': // month in year (text and number)\n                if (tokenLen >= 4) {\n                    rule = new TextField(Calendar.MONTH, months);\n                } else if (tokenLen == 3) {\n                    rule = new TextField(Calendar.MONTH, shortMonths);\n                } else if (tokenLen == 2) {\n                    rule = TwoDigitMonthField.INSTANCE;\n                } else {\n                    rule = UnpaddedMonthField.INSTANCE;\n                }\n                break;\n            case 'd': // day in month (number)\n                rule = selectNumberRule(Calendar.DAY_OF_MONTH, tokenLen);\n                break;\n            case 'h': // hour in am/pm (number, 1..12)\n                rule = new TwelveHourField(selectNumberRule(Calendar.HOUR, tokenLen));\n                break;\n            case 'H': // hour in day (number, 0..23)\n                rule = selectNumberRule(Calendar.HOUR_OF_DAY, tokenLen);\n                break;\n            case 'm': // minute in hour (number)\n                rule = selectNumberRule(Calendar.MINUTE, tokenLen);\n                break;\n            case 's': // second in minute (number)\n                rule = selectNumberRule(Calendar.SECOND, tokenLen);\n                break;\n            case 'S': // millisecond (number)\n                rule = selectNumberRule(Calendar.MILLISECOND, tokenLen);\n                break;\n            case 'E': // day in week (text)\n                rule = new TextField(Calendar.DAY_OF_WEEK, tokenLen < 4 ? shortWeekdays : weekdays);\n                break;\n            case 'D': // day in year (number)\n                rule = selectNumberRule(Calendar.DAY_OF_YEAR, tokenLen);\n                break;\n            case 'F': // day of week in month (number)\n                rule = selectNumberRule(Calendar.DAY_OF_WEEK_IN_MONTH, tokenLen);\n                break;\n            case 'w': // week in year (number)\n                rule = selectNumberRule(Calendar.WEEK_OF_YEAR, tokenLen);\n                break;\n            case 'W': // week in month (number)\n                rule = selectNumberRule(Calendar.WEEK_OF_MONTH, tokenLen);\n                break;\n            case 'a': // am/pm marker (text)\n                rule = new TextField(Calendar.AM_PM, AmPmStrings);\n                break;\n            case 'k': // hour in day (1..24)\n                rule = new TwentyFourHourField(selectNumberRule(Calendar.HOUR_OF_DAY, tokenLen));\n                break;\n            case 'K': // hour in am/pm (0..11)\n                rule = selectNumberRule(Calendar.HOUR, tokenLen);\n                break;\n            case 'z': // time zone (text)\n                if (tokenLen >= 4) {\n                    rule = new TimeZoneNameRule(mTimeZone, mTimeZoneForced, mLocale, TimeZone.LONG);\n                } else {\n                    rule = new TimeZoneNameRule(mTimeZone, mTimeZoneForced, mLocale, TimeZone.SHORT);\n                }\n                break;\n            case 'Z': // time zone (value)\n                if (tokenLen == 1) {\n                    rule = TimeZoneNumberRule.INSTANCE_NO_COLON;\n                } else {\n                    rule = TimeZoneNumberRule.INSTANCE_COLON;\n                }\n                break;\n            case '\\'': // literal text\n                String sub = token.substring(1);\n                if (sub.length() == 1) {\n                    rule = new CharacterLiteral(sub.charAt(0));\n                } else {\n                    rule = new StringLiteral(sub);\n                }\n                break;\n            default:\n                throw new IllegalArgumentException(\"Illegal pattern component: \" + token);\n            }\n\n            rules.add(rule);\n        }\n\n        return rules;\n    }",
+    "comment": " <p>Returns a list of Rules given a pattern.</p>  @return a <code>List</code> of Rule objects @throws IllegalArgumentException if pattern is invalid ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "FastDateFormat.parseToken",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.parseToken(String,int[])",
+    "snippet": "    protected String parseToken(String pattern, int[] indexRef) {\n        StringBuffer buf = new StringBuffer();\n\n        int i = indexRef[0];\n        int length = pattern.length();\n\n        char c = pattern.charAt(i);\n        if (c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z') {\n            // Scan a run of the same character, which indicates a time\n            // pattern.\n            buf.append(c);\n\n            while (i + 1 < length) {\n                char peek = pattern.charAt(i + 1);\n                if (peek == c) {\n                    buf.append(c);\n                    i++;\n                } else {\n                    break;\n                }\n            }\n        } else {\n            // This will identify token as text.\n            buf.append('\\'');\n\n            boolean inLiteral = false;\n\n            for (; i < length; i++) {\n                c = pattern.charAt(i);\n\n                if (c == '\\'') {\n                    if (i + 1 < length && pattern.charAt(i + 1) == '\\'') {\n                        // '' is treated as escaped '\n                        i++;\n                        buf.append(c);\n                    } else {\n                        inLiteral = !inLiteral;\n                    }\n                } else if (!inLiteral &&\n                         (c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z')) {\n                    i--;\n                    break;\n                } else {\n                    buf.append(c);\n                }\n            }\n        }\n\n        indexRef[0] = i;\n        return buf.toString();\n    }",
+    "comment": " <p>Performs the parsing of tokens.</p>  @param pattern  the pattern @param indexRef  index references @return parsed token ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "FastDateFormat.selectNumberRule",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.selectNumberRule(int,int)",
+    "snippet": "    protected NumberRule selectNumberRule(int field, int padding) {\n        switch (padding) {\n        case 1:\n            return new UnpaddedNumberField(field);\n        case 2:\n            return new TwoDigitNumberField(field);\n        default:\n            return new PaddedNumberField(field, padding);\n        }\n    }",
+    "comment": " <p>Gets an appropriate rule for the padding required.</p>  @param field  the field to get a rule for @param padding  the padding required @return a new rule with the correct padding ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CharacterLiteral.estimateLength",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat$CharacterLiteral",
+    "signature": "org.apache.commons.lang.time.FastDateFormat$CharacterLiteral.estimateLength()",
+    "snippet": "        public int estimateLength() {\n            return 1;\n        }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "PaddedNumberField.estimateLength",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat$PaddedNumberField",
+    "signature": "org.apache.commons.lang.time.FastDateFormat$PaddedNumberField.estimateLength()",
+    "snippet": "        public int estimateLength() {\n            return 4;\n        }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Pair.equals",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat$Pair",
+    "signature": "org.apache.commons.lang.time.FastDateFormat$Pair.equals(Object)",
+    "snippet": "        public boolean equals(Object obj) {\n            if (this == obj) {\n                return true;\n            }\n\n            if (!(obj instanceof Pair)) {\n                return false;\n            }\n\n            Pair key = (Pair)obj;\n\n            return\n                (mObj1 == null ?\n                 key.mObj1 == null : mObj1.equals(key.mObj1)) &&\n                (mObj2 == null ?\n                 key.mObj2 == null : mObj2.equals(key.mObj2));\n        }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Pair.hashCode",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat$Pair",
+    "signature": "org.apache.commons.lang.time.FastDateFormat$Pair.hashCode()",
+    "snippet": "        public int hashCode() {\n            return\n                (mObj1 == null ? 0 : mObj1.hashCode()) +\n                (mObj2 == null ? 0 : mObj2.hashCode());\n        }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "StringLiteral.estimateLength",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat$StringLiteral",
+    "signature": "org.apache.commons.lang.time.FastDateFormat$StringLiteral.estimateLength()",
+    "snippet": "        public int estimateLength() {\n            return mValue.length();\n        }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TextField.estimateLength",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat$TextField",
+    "signature": "org.apache.commons.lang.time.FastDateFormat$TextField.estimateLength()",
+    "snippet": "        public int estimateLength() {\n            int max = 0;\n            for (int i=mValues.length; --i >= 0; ) {\n                int len = mValues[i].length();\n                if (len > max) {\n                    max = len;\n                }\n            }\n            return max;\n        }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TimeZoneNameRule.estimateLength",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat$TimeZoneNameRule",
+    "signature": "org.apache.commons.lang.time.FastDateFormat$TimeZoneNameRule.estimateLength()",
+    "snippet": "        public int estimateLength() {\n            if (mTimeZoneForced) {\n                return Math.max(mStandard.length(), mDaylight.length());\n            } else if (mStyle == TimeZone.SHORT) {\n                return 4;\n            } else {\n                return 40;\n            }\n        }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TwelveHourField.estimateLength",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat$TwelveHourField",
+    "signature": "org.apache.commons.lang.time.FastDateFormat$TwelveHourField.estimateLength()",
+    "snippet": "        public int estimateLength() {\n            return mRule.estimateLength();\n        }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "TwoDigitNumberField.estimateLength",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat$TwoDigitNumberField",
+    "signature": "org.apache.commons.lang.time.FastDateFormat$TwoDigitNumberField.estimateLength()",
+    "snippet": "        public int estimateLength() {\n            return 2;\n        }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "UnpaddedNumberField.estimateLength",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat$UnpaddedNumberField",
+    "signature": "org.apache.commons.lang.time.FastDateFormat$UnpaddedNumberField.estimateLength()",
+    "snippet": "        public int estimateLength() {\n            return 4;\n        }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  }
+]

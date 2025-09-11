@@ -1,0 +1,272 @@
+[
+  {
+    "name": "ConvergenceException.ConvergenceException",
+    "class_name": "org.apache.commons.math.ConvergenceException",
+    "signature": "org.apache.commons.math.ConvergenceException.ConvergenceException(String,Object[])",
+    "snippet": "    public ConvergenceException(String pattern, Object ... arguments) {\n        super(pattern, arguments);\n    }",
+    "comment": " Constructs an exception with specified formatted detail message. Message formatting is delegated to {@link java.text.MessageFormat}. @param pattern format specifier @param arguments format arguments @since 1.2 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathException.MathException",
+    "class_name": "org.apache.commons.math.MathException",
+    "signature": "org.apache.commons.math.MathException.MathException(String,Object[])",
+    "snippet": "    public MathException(String pattern, Object ... arguments) {\n      super(buildMessage(Locale.US, pattern, arguments));\n      this.pattern   = pattern;\n      this.arguments = (arguments == null) ? new Object[0] : arguments.clone();\n    }",
+    "comment": " Constructs a new <code>MathException</code> with specified formatted detail message. Message formatting is delegated to {@link java.text.MessageFormat}. @param pattern format specifier @param arguments format arguments ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathException.MathException",
+    "class_name": "org.apache.commons.math.MathException",
+    "signature": "org.apache.commons.math.MathException.MathException(Throwable)",
+    "snippet": "    public MathException(Throwable rootCause) {\n        super(rootCause);\n        this.pattern   = getMessage();\n        this.arguments = new Object[0];\n    }",
+    "comment": " Constructs a new <code>MathException</code> with specified nested <code>Throwable</code> root cause.  @param rootCause  the exception or error that caused this exception to be thrown. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathException.buildMessage",
+    "class_name": "org.apache.commons.math.MathException",
+    "signature": "org.apache.commons.math.MathException.buildMessage(Locale,String,Object[])",
+    "snippet": "    private static String buildMessage(Locale locale, String pattern, Object ... arguments) {\n        return (pattern == null) ? \"\" : new MessageFormat(translate(pattern, locale), locale).format(arguments);        \n    }",
+    "comment": " Builds a message string by from a pattern and its arguments. @param locale Locale in which the message should be translated @param pattern format specifier @param arguments format arguments @return a message string ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathException.getLocalizedMessage",
+    "class_name": "org.apache.commons.math.MathException",
+    "signature": "org.apache.commons.math.MathException.getLocalizedMessage()",
+    "snippet": "    @Override\n    public String getLocalizedMessage() {\n        return getMessage(Locale.getDefault());\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathException.getMessage",
+    "class_name": "org.apache.commons.math.MathException",
+    "signature": "org.apache.commons.math.MathException.getMessage(Locale)",
+    "snippet": "    public String getMessage(Locale locale) {\n        return buildMessage(locale, pattern, arguments);\n    }",
+    "comment": "Gets the message in a specified locale.  @param locale Locale in which the message should be translated  @return localized message @since 1.2 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathException.printStackTrace",
+    "class_name": "org.apache.commons.math.MathException",
+    "signature": "org.apache.commons.math.MathException.printStackTrace(PrintStream)",
+    "snippet": "    @Override\n    public void printStackTrace(PrintStream out) {\n        synchronized (out) {\n            PrintWriter pw = new PrintWriter(out, false);\n            printStackTrace(pw);\n            // Flush the PrintWriter before it's GC'ed.\n            pw.flush();\n        }\n    }",
+    "comment": " Prints the stack trace of this exception to the specified stream.  @param out  the <code>PrintStream</code> to use for output ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathException.translate",
+    "class_name": "org.apache.commons.math.MathException",
+    "signature": "org.apache.commons.math.MathException.translate(String,Locale)",
+    "snippet": "    private static String translate(String s, Locale locale) {\n        try {\n            ResourceBundle bundle =\n                    ResourceBundle.getBundle(\"org.apache.commons.math.MessagesResources\", locale);\n            if (bundle.getLocale().getLanguage().equals(locale.getLanguage())) {\n                // the value of the resource is the translated string\n                return bundle.getString(s);\n            }\n            \n        } catch (MissingResourceException mre) {\n            // do nothing here\n        }\n\n        // the locale is not supported or the resource is unknown\n        // don't translate and fall back to using the string as is\n        return s;\n\n    }",
+    "comment": " Translate a string to a given locale. @param s string to translate @param locale locale into which to translate the string @return translated string or original string for unsupported locales or unknown strings ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MaxIterationsExceededException.MaxIterationsExceededException",
+    "class_name": "org.apache.commons.math.MaxIterationsExceededException",
+    "signature": "org.apache.commons.math.MaxIterationsExceededException.MaxIterationsExceededException(int)",
+    "snippet": "    public MaxIterationsExceededException(final int maxIterations) {\n        super(\"Maximal number of iterations ({0}) exceeded\", maxIterations);\n        this.maxIterations = maxIterations;\n    }",
+    "comment": " Constructs an exception with specified formatted detail message. Message formatting is delegated to {@link java.text.MessageFormat}. @param maxIterations maximal number of iterations allowed ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "UnivariateRealSolverUtils.bracket",
+    "class_name": "org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils",
+    "signature": "org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils.bracket(UnivariateRealFunction,double,double,double)",
+    "snippet": "    public static double[] bracket(UnivariateRealFunction function, \n            double initial, double lowerBound, double upperBound) \n    throws ConvergenceException, FunctionEvaluationException {\n        return bracket( function, initial, lowerBound, upperBound,\n            Integer.MAX_VALUE ) ;\n    }",
+    "comment": " This method attempts to find two values a and b satisfying <ul> <li> <code> lowerBound <= a < initial < b <= upperBound</code> </li> <li> <code> f(a) * f(b) < 0 </code></li> </ul> If f is continuous on <code>[a,b],</code> this means that <code>a</code> and <code>b</code> bracket a root of f. <p> The algorithm starts by setting  <code>a := initial -1; b := initial +1,</code> examines the value of the function at <code>a</code> and <code>b</code> and keeps moving the endpoints out by one unit each time through a loop that terminates  when one of the following happens: <ul> <li> <code> f(a) * f(b) < 0 </code> --  success!</li> <li> <code> a = lower </code> and <code> b = upper</code>  -- ConvergenceException </li> <li> <code> Integer.MAX_VALUE</code> iterations elapse  -- ConvergenceException </li> </ul></p> <p> <strong>Note: </strong> this method can take  <code>Integer.MAX_VALUE</code> iterations to throw a  <code>ConvergenceException.</code>  Unless you are confident that there is a root between <code>lowerBound</code> and <code>upperBound</code> near <code>initial,</code> it is better to use  {@link #bracket(UnivariateRealFunction, double, double, double, int)},  explicitly specifying the maximum number of iterations.</p>  @param function the function @param initial initial midpoint of interval being expanded to bracket a root @param lowerBound lower bound (a is never lower than this value) @param upperBound upper bound (b never is greater than this value) @return a two element array holding {a, b} @throws ConvergenceException if a root can not be bracketted @throws FunctionEvaluationException if an error occurs evaluating the function @throws IllegalArgumentException if function is null, maximumIterations is not positive, or initial is not between lowerBound and upperBound ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "UnivariateRealSolverUtils.bracket",
+    "class_name": "org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils",
+    "signature": "org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils.bracket(UnivariateRealFunction,double,double,double,int)",
+    "snippet": "    public static double[] bracket(UnivariateRealFunction function,\n            double initial, double lowerBound, double upperBound, \n            int maximumIterations) throws ConvergenceException, \n            FunctionEvaluationException {\n        \n        if (function == null) {\n            throw MathRuntimeException.createIllegalArgumentException(\"function is null\");\n        }\n        if (maximumIterations <= 0)  {\n            throw MathRuntimeException.createIllegalArgumentException(\n                  \"bad value for maximum iterations number: {0}\", maximumIterations);\n        }\n        if (initial < lowerBound || initial > upperBound || lowerBound >= upperBound) {\n            throw MathRuntimeException.createIllegalArgumentException(\n                  \"invalid bracketing parameters:  lower bound={0},  initial={1}, upper bound={2}\",\n                  lowerBound, initial, upperBound);\n        }\n        double a = initial;\n        double b = initial;\n        double fa;\n        double fb;\n        int numIterations = 0 ;\n    \n        do {\n            a = Math.max(a - 1.0, lowerBound);\n            b = Math.min(b + 1.0, upperBound);\n            fa = function.value(a);\n            \n            fb = function.value(b);\n            numIterations++ ;\n        } while ((fa * fb > 0.0) && (numIterations < maximumIterations) && \n                ((a > lowerBound) || (b < upperBound)));\n   \n        if (fa * fb >= 0.0 ) {\n            throw new ConvergenceException(\n                      \"number of iterations={0}, maximum iterations={1}, \" +\n                      \"initial={2}, lower bound={3}, upper bound={4}, final a value={5}, \" +\n                      \"final b value={6}, f(a)={7}, f(b)={8}\",\n                      numIterations, maximumIterations, initial,\n                      lowerBound, upperBound, a, b, fa, fb);\n        }\n        \n        return new double[]{a, b};\n    }",
+    "comment": " This method attempts to find two values a and b satisfying <ul> <li> <code> lowerBound <= a < initial < b <= upperBound</code> </li> <li> <code> f(a) * f(b) <= 0 </code> </li> </ul> If f is continuous on <code>[a,b],</code> this means that <code>a</code> and <code>b</code> bracket a root of f. <p> The algorithm starts by setting  <code>a := initial -1; b := initial +1,</code> examines the value of the function at <code>a</code> and <code>b</code> and keeps moving the endpoints out by one unit each time through a loop that terminates  when one of the following happens: <ul> <li> <code> f(a) * f(b) <= 0 </code> --  success!</li> <li> <code> a = lower </code> and <code> b = upper</code>  -- ConvergenceException </li> <li> <code> maximumIterations</code> iterations elapse  -- ConvergenceException </li></ul></p>  @param function the function @param initial initial midpoint of interval being expanded to bracket a root @param lowerBound lower bound (a is never lower than this value) @param upperBound upper bound (b never is greater than this value) @param maximumIterations maximum number of iterations to perform @return a two element array holding {a, b}. @throws ConvergenceException if the algorithm fails to find a and b satisfying the desired conditions @throws FunctionEvaluationException if an error occurs evaluating the  function @throws IllegalArgumentException if function is null, maximumIterations is not positive, or initial is not between lowerBound and upperBound ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractContinuousDistribution.AbstractContinuousDistribution",
+    "class_name": "org.apache.commons.math.distribution.AbstractContinuousDistribution",
+    "signature": "org.apache.commons.math.distribution.AbstractContinuousDistribution.AbstractContinuousDistribution()",
+    "snippet": "    protected AbstractContinuousDistribution() {\n        super();\n    }",
+    "comment": " Default constructor. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractContinuousDistribution.inverseCumulativeProbability",
+    "class_name": "org.apache.commons.math.distribution.AbstractContinuousDistribution",
+    "signature": "org.apache.commons.math.distribution.AbstractContinuousDistribution.inverseCumulativeProbability(double)",
+    "snippet": "    public double inverseCumulativeProbability(final double p)\n        throws MathException {\n        if (p < 0.0 || p > 1.0) {\n            throw MathRuntimeException.createIllegalArgumentException(\n                  \"{0} out of [{1}, {2}] range\", p, 0.0, 1.0);\n        }\n\n        // by default, do simple root finding using bracketing and default solver.\n        // subclasses can override if there is a better method.\n        UnivariateRealFunction rootFindingFunction =\n            new UnivariateRealFunction() {\n            public double value(double x) throws FunctionEvaluationException {\n                try {\n                    return cumulativeProbability(x) - p;\n                } catch (MathException ex) {\n                    throw new FunctionEvaluationException(ex, x, ex.getPattern(), ex.getArguments());\n                }\n            }\n        };\n              \n        // Try to bracket root, test domain endoints if this fails     \n        double lowerBound = getDomainLowerBound(p);\n        double upperBound = getDomainUpperBound(p);\n        double[] bracket = null;\n        try {\n            bracket = UnivariateRealSolverUtils.bracket(\n                    rootFindingFunction, getInitialDomain(p),\n                    lowerBound, upperBound);\n        }  catch (ConvergenceException ex) {\n            /* \n             * Check domain endpoints to see if one gives value that is within\n             * the default solver's defaultAbsoluteAccuracy of 0 (will be the\n             * case if density has bounded support and p is 0 or 1).\n             * \n             * TODO: expose the default solver, defaultAbsoluteAccuracy as\n             * a constant.\n             */ \n            if (Math.abs(rootFindingFunction.value(lowerBound)) < 1E-6) {\n                return lowerBound;\n            }\n            if (Math.abs(rootFindingFunction.value(upperBound)) < 1E-6) {\n                return upperBound;\n            }     \n            // Failed bracket convergence was not because of corner solution\n            throw new MathException(ex);\n        }\n\n        // find root\n        double root = UnivariateRealSolverUtils.solve(rootFindingFunction,\n                bracket[0],bracket[1]);\n        return root;\n    }",
+    "comment": " For this distribution, X, this method returns the critical point x, such that P(X &lt; x) = <code>p</code>.  @param p the desired probability @return x, such that P(X &lt; x) = <code>p</code> @throws MathException if the inverse cumulative probability can not be computed due to convergence or other numerical errors. @throws IllegalArgumentException if <code>p</code> is not a valid probability. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractDistribution.AbstractDistribution",
+    "class_name": "org.apache.commons.math.distribution.AbstractDistribution",
+    "signature": "org.apache.commons.math.distribution.AbstractDistribution.AbstractDistribution()",
+    "snippet": "    protected AbstractDistribution() {\n        super();\n    }",
+    "comment": " Default constructor. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NormalDistributionImpl.NormalDistributionImpl",
+    "class_name": "org.apache.commons.math.distribution.NormalDistributionImpl",
+    "signature": "org.apache.commons.math.distribution.NormalDistributionImpl.NormalDistributionImpl(double,double)",
+    "snippet": "    public NormalDistributionImpl(double mean, double sd){\n        super();\n        setMean(mean);\n        setStandardDeviation(sd);\n    }",
+    "comment": " Create a normal distribution using the given mean and standard deviation. @param mean mean for this distribution @param sd standard deviation for this distribution ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NormalDistributionImpl.cumulativeProbability",
+    "class_name": "org.apache.commons.math.distribution.NormalDistributionImpl",
+    "signature": "org.apache.commons.math.distribution.NormalDistributionImpl.cumulativeProbability(double)",
+    "snippet": "    public double cumulativeProbability(double x) throws MathException {\n        try {\n            return 0.5 * (1.0 + Erf.erf((x - mean) /\n                    (standardDeviation * Math.sqrt(2.0))));\n        } catch (MaxIterationsExceededException ex) {\n            if (x < (mean - 20 * standardDeviation)) { // JDK 1.5 blows at 38\n                return 0.0d;\n            } else if (x > (mean + 20 * standardDeviation)) {\n                return 1.0d;\n            } else {\n                throw ex;\n            }\n        }\n    }",
+    "comment": " For this distribution, X, this method returns P(X &lt; <code>x</code>). @param x the value at which the CDF is evaluated. @return CDF evaluted at <code>x</code>.  @throws MathException if the algorithm fails to converge; unless x is more than 20 standard deviations from the mean, in which case the convergence exception is caught and 0 or 1 is returned. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NormalDistributionImpl.getDomainLowerBound",
+    "class_name": "org.apache.commons.math.distribution.NormalDistributionImpl",
+    "signature": "org.apache.commons.math.distribution.NormalDistributionImpl.getDomainLowerBound(double)",
+    "snippet": "    @Override\n    protected double getDomainLowerBound(double p) {\n        double ret;\n\n        if (p < .5) {\n            ret = -Double.MAX_VALUE;\n        } else {\n            ret = getMean();\n        }\n        \n        return ret;\n    }",
+    "comment": " Access the domain value lower bound, based on <code>p</code>, used to bracket a CDF root.  This method is used by {@link #inverseCumulativeProbability(double)} to find critical values.  @param p the desired probability for the critical value @return domain value lower bound, i.e. P(X &lt; <i>lower bound</i>) &lt; <code>p</code>  ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NormalDistributionImpl.getDomainUpperBound",
+    "class_name": "org.apache.commons.math.distribution.NormalDistributionImpl",
+    "signature": "org.apache.commons.math.distribution.NormalDistributionImpl.getDomainUpperBound(double)",
+    "snippet": "    @Override\n    protected double getDomainUpperBound(double p) {\n        double ret;\n\n        if (p < .5) {\n            ret = getMean();\n        } else {\n            ret = Double.MAX_VALUE;\n        }\n        \n        return ret;\n    }",
+    "comment": " Access the domain value upper bound, based on <code>p</code>, used to bracket a CDF root.  This method is used by {@link #inverseCumulativeProbability(double)} to find critical values.  @param p the desired probability for the critical value @return domain value upper bound, i.e. P(X &lt; <i>upper bound</i>) &gt; <code>p</code>  ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NormalDistributionImpl.getInitialDomain",
+    "class_name": "org.apache.commons.math.distribution.NormalDistributionImpl",
+    "signature": "org.apache.commons.math.distribution.NormalDistributionImpl.getInitialDomain(double)",
+    "snippet": "    @Override\n    protected double getInitialDomain(double p) {\n        double ret;\n\n        if (p < .5) {\n            ret = getMean() - getStandardDeviation();\n        } else if (p > .5) {\n            ret = getMean() + getStandardDeviation();\n        } else {\n            ret = getMean();\n        }\n        \n        return ret;\n    }",
+    "comment": " Access the initial domain value, based on <code>p</code>, used to bracket a CDF root.  This method is used by {@link #inverseCumulativeProbability(double)} to find critical values.  @param p the desired probability for the critical value @return initial domain value ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NormalDistributionImpl.getMean",
+    "class_name": "org.apache.commons.math.distribution.NormalDistributionImpl",
+    "signature": "org.apache.commons.math.distribution.NormalDistributionImpl.getMean()",
+    "snippet": "    public double getMean() {\n        return mean;\n    }",
+    "comment": " Access the mean. @return mean for this distribution ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NormalDistributionImpl.getStandardDeviation",
+    "class_name": "org.apache.commons.math.distribution.NormalDistributionImpl",
+    "signature": "org.apache.commons.math.distribution.NormalDistributionImpl.getStandardDeviation()",
+    "snippet": "    public double getStandardDeviation() {\n        return standardDeviation;\n    }",
+    "comment": " Access the standard deviation. @return standard deviation for this distribution ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NormalDistributionImpl.inverseCumulativeProbability",
+    "class_name": "org.apache.commons.math.distribution.NormalDistributionImpl",
+    "signature": "org.apache.commons.math.distribution.NormalDistributionImpl.inverseCumulativeProbability(double)",
+    "snippet": "    @Override\n    public double inverseCumulativeProbability(final double p) \n    throws MathException {\n        if (p == 0) {\n            return Double.NEGATIVE_INFINITY;\n        }\n        if (p == 1) {\n            return Double.POSITIVE_INFINITY;\n        }\n        return super.inverseCumulativeProbability(p);\n    }",
+    "comment": " For this distribution, X, this method returns the critical point x, such that P(X &lt; x) = <code>p</code>. <p> Returns <code>Double.NEGATIVE_INFINITY</code> for p=0 and  <code>Double.POSITIVE_INFINITY</code> for p=1.</p>  @param p the desired probability @return x, such that P(X &lt; x) = <code>p</code> @throws MathException if the inverse cumulative probability can not be computed due to convergence or other numerical errors. @throws IllegalArgumentException if <code>p</code> is not a valid probability. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NormalDistributionImpl.setMean",
+    "class_name": "org.apache.commons.math.distribution.NormalDistributionImpl",
+    "signature": "org.apache.commons.math.distribution.NormalDistributionImpl.setMean(double)",
+    "snippet": "    public void setMean(double mean) {\n        this.mean = mean;\n    }",
+    "comment": " Modify the mean. @param mean for this distribution ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NormalDistributionImpl.setStandardDeviation",
+    "class_name": "org.apache.commons.math.distribution.NormalDistributionImpl",
+    "signature": "org.apache.commons.math.distribution.NormalDistributionImpl.setStandardDeviation(double)",
+    "snippet": "    public void setStandardDeviation(double sd) {\n        if (sd <= 0.0) {\n            throw MathRuntimeException.createIllegalArgumentException(\n                  \"standard deviation must be positive ({0})\",\n                  sd);\n        }       \n        standardDeviation = sd;\n    }",
+    "comment": " Modify the standard deviation. @param sd standard deviation for this distribution @throws IllegalArgumentException if <code>sd</code> is not positive. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Erf.erf",
+    "class_name": "org.apache.commons.math.special.Erf",
+    "signature": "org.apache.commons.math.special.Erf.erf(double)",
+    "snippet": "    public static double erf(double x) throws MathException {\n        double ret = Gamma.regularizedGammaP(0.5, x * x, 1.0e-15, 10000);\n        if (x < 0) {\n            ret = -ret;\n        }\n        return ret;\n    }",
+    "comment": " Returns the error function erf(x).  The implementation of this method is based on: <ul> <li> <a href=\"http://mathworld.wolfram.com/Erf.html\"> Erf</a>, equation (3).</li> </ul>  @param x the value. @return the error function erf(x) @throws MathException if the algorithm fails to converge. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Gamma.logGamma",
+    "class_name": "org.apache.commons.math.special.Gamma",
+    "signature": "org.apache.commons.math.special.Gamma.logGamma(double)",
+    "snippet": "    public static double logGamma(double x) {\n        double ret;\n\n        if (Double.isNaN(x) || (x <= 0.0)) {\n            ret = Double.NaN;\n        } else {\n            double g = 607.0 / 128.0;\n            \n            double sum = 0.0;\n            for (int i = lanczos.length - 1; i > 0; --i) {\n                sum = sum + (lanczos[i] / (x + i));\n            }\n            sum = sum + lanczos[0];\n\n            double tmp = x + g + .5;\n            ret = ((x + .5) * Math.log(tmp)) - tmp +\n                HALF_LOG_2_PI + Math.log(sum / x);\n        }\n\n        return ret;\n    }",
+    "comment": " Returns the natural logarithm of the gamma function &#915;(x).  The implementation of this method is based on: <ul> <li><a href=\"http://mathworld.wolfram.com/GammaFunction.html\"> Gamma Function</a>, equation (28).</li> <li><a href=\"http://mathworld.wolfram.com/LanczosApproximation.html\"> Lanczos Approximation</a>, equations (1) through (5).</li> <li><a href=\"http://my.fit.edu/~gabdo/gamma.txt\">Paul Godfrey, A note on the computation of the convergent Lanczos complex Gamma approximation </a></li> </ul>  @param x the value. @return log(&#915;(x)) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Gamma.regularizedGammaP",
+    "class_name": "org.apache.commons.math.special.Gamma",
+    "signature": "org.apache.commons.math.special.Gamma.regularizedGammaP(double,double,double,int)",
+    "snippet": "    public static double regularizedGammaP(double a, \n                                           double x, \n                                           double epsilon, \n                                           int maxIterations) \n        throws MathException\n    {\n        double ret;\n\n        if (Double.isNaN(a) || Double.isNaN(x) || (a <= 0.0) || (x < 0.0)) {\n            ret = Double.NaN;\n        } else if (x == 0.0) {\n            ret = 0.0;\n        } else if (a >= 1.0 && x > a) {\n            // use regularizedGammaQ because it should converge faster in this\n            // case.\n            ret = 1.0 - regularizedGammaQ(a, x, epsilon, maxIterations);\n        } else {\n            // calculate series\n            double n = 0.0; // current element index\n            double an = 1.0 / a; // n-th element in the series\n            double sum = an; // partial sum\n            while (Math.abs(an) > epsilon && n < maxIterations) {\n                // compute next element in the series\n                n = n + 1.0;\n                an = an * (x / (a + n));\n\n                // update partial sum\n                sum = sum + an;\n            }\n            if (n >= maxIterations) {\n                throw new MaxIterationsExceededException(maxIterations);\n            } else {\n                ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a)) * sum;\n            }\n        }\n\n        return ret;\n    }",
+    "comment": " Returns the regularized gamma function P(a, x).  The implementation of this method is based on: <ul> <li> <a href=\"http://mathworld.wolfram.com/RegularizedGammaFunction.html\"> Regularized Gamma Function</a>, equation (1).</li> <li> <a href=\"http://mathworld.wolfram.com/IncompleteGammaFunction.html\"> Incomplete Gamma Function</a>, equation (4).</li> <li> <a href=\"http://mathworld.wolfram.com/ConfluentHypergeometricFunctionoftheFirstKind.html\"> Confluent Hypergeometric Function of the First Kind</a>, equation (1). </li> </ul>  @param a the a parameter. @param x the value. @param epsilon When the absolute value of the nth item in the series is less than epsilon the approximation ceases to calculate further elements in the series. @param maxIterations Maximum number of \"iterations\" to complete.  @return the regularized gamma function P(a, x) @throws MathException if the algorithm fails to converge. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

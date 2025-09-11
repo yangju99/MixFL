@@ -1,0 +1,422 @@
+[
+  {
+    "name": "AbstractRealDistribution.AbstractRealDistribution",
+    "class_name": "org.apache.commons.math3.distribution.AbstractRealDistribution",
+    "signature": "org.apache.commons.math3.distribution.AbstractRealDistribution.AbstractRealDistribution()",
+    "snippet": "    protected AbstractRealDistribution() { }",
+    "comment": "Default constructor. */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NormalDistribution.NormalDistribution",
+    "class_name": "org.apache.commons.math3.distribution.NormalDistribution",
+    "signature": "org.apache.commons.math3.distribution.NormalDistribution.NormalDistribution(double,double)",
+    "snippet": "    public NormalDistribution(double mean, double sd)\n        throws NotStrictlyPositiveException {\n        this(mean, sd, DEFAULT_INVERSE_ABSOLUTE_ACCURACY);\n    }",
+    "comment": " Create a normal distribution using the given mean and standard deviation.  @param mean Mean for this distribution. @param sd Standard deviation for this distribution. @throws NotStrictlyPositiveException if {@code sd <= 0}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NormalDistribution.NormalDistribution",
+    "class_name": "org.apache.commons.math3.distribution.NormalDistribution",
+    "signature": "org.apache.commons.math3.distribution.NormalDistribution.NormalDistribution(double,double,double)",
+    "snippet": "    public NormalDistribution(double mean, double sd, double inverseCumAccuracy)\n        throws NotStrictlyPositiveException {\n        if (sd <= 0) {\n            throw new NotStrictlyPositiveException(LocalizedFormats.STANDARD_DEVIATION, sd);\n        }\n\n        this.mean = mean;\n        standardDeviation = sd;\n        solverAbsoluteAccuracy = inverseCumAccuracy;\n    }",
+    "comment": " Create a normal distribution using the given mean, standard deviation and inverse cumulative distribution accuracy.  @param mean Mean for this distribution. @param sd Standard deviation for this distribution. @param inverseCumAccuracy Inverse cumulative probability accuracy. @throws NotStrictlyPositiveException if {@code sd <= 0}. @since 2.1 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NormalDistribution.cumulativeProbability",
+    "class_name": "org.apache.commons.math3.distribution.NormalDistribution",
+    "signature": "org.apache.commons.math3.distribution.NormalDistribution.cumulativeProbability(double)",
+    "snippet": "    public double cumulativeProbability(double x)  {\n        final double dev = x - mean;\n        if (FastMath.abs(dev) > 40 * standardDeviation) {\n            return dev < 0 ? 0.0d : 1.0d;\n        }\n        return 0.5 * (1 + Erf.erf(dev / (standardDeviation * SQRT2)));\n    }",
+    "comment": " {@inheritDoc}  If {@code x} is more than 40 standard deviations from the mean, 0 or 1 is returned, as in these cases the actual value is within {@code Double.MIN_VALUE} of 0 or 1. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RandomDataImpl.RandomDataImpl",
+    "class_name": "org.apache.commons.math3.random.RandomDataImpl",
+    "signature": "org.apache.commons.math3.random.RandomDataImpl.RandomDataImpl()",
+    "snippet": "    public RandomDataImpl() {\n    }",
+    "comment": " Construct a RandomDataImpl, using a default random generator as the source of randomness.  <p>The default generator is a {@link Well19937c} seeded with {@code System.currentTimeMillis() + System.identityHashCode(this))}. The generator is initialized and seeded on first use.</p> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Erf.erf",
+    "class_name": "org.apache.commons.math3.special.Erf",
+    "signature": "org.apache.commons.math3.special.Erf.erf(double)",
+    "snippet": "    public static double erf(double x) {\n        if (FastMath.abs(x) > 40) {\n            return x > 0 ? 1 : -1;\n        }\n        final double ret = Gamma.regularizedGammaP(0.5, x * x, 1.0e-15, 10000);\n        return x < 0 ? -ret : ret;\n    }",
+    "comment": " Returns the error function.  <p>erf(x) = 2/&radic;&pi; <sub>0</sub>&int;<sup>x</sup> e<sup>-t<sup>2</sup></sup>dt </p>  <p>This implementation computes erf(x) using the {@link Gamma#regularizedGammaP(double, double, double, int) regularized gamma function}, following <a href=\"http://mathworld.wolfram.com/Erf.html\"> Erf</a>, equation (3)</p>  <p>The value returned is always between -1 and 1 (inclusive). If {@code abs(x) > 40}, then {@code erf(x)} is indistinguishable from either 1 or -1 as a double, so the appropriate extreme value is returned. </p>  @param x the value. @return the error function erf(x) @throws org.apache.commons.math3.exception.MaxCountExceededException if the algorithm fails to converge. @see Gamma#regularizedGammaP(double, double, double, int) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Gamma.regularizedGammaP",
+    "class_name": "org.apache.commons.math3.special.Gamma",
+    "signature": "org.apache.commons.math3.special.Gamma.regularizedGammaP(double,double,double,int)",
+    "snippet": "    public static double regularizedGammaP(double a,\n                                           double x,\n                                           double epsilon,\n                                           int maxIterations) {\n        double ret;\n\n        if (Double.isNaN(a) || Double.isNaN(x) || (a <= 0.0) || (x < 0.0)) {\n            ret = Double.NaN;\n        } else if (x == 0.0) {\n            ret = 0.0;\n        } else if (x >= a + 1) {\n            // use regularizedGammaQ because it should converge faster in this\n            // case.\n            ret = 1.0 - regularizedGammaQ(a, x, epsilon, maxIterations);\n        } else {\n            // calculate series\n            double n = 0.0; // current element index\n            double an = 1.0 / a; // n-th element in the series\n            double sum = an; // partial sum\n            while (FastMath.abs(an/sum) > epsilon &&\n                   n < maxIterations &&\n                   sum < Double.POSITIVE_INFINITY) {\n                // compute next element in the series\n                n = n + 1.0;\n                an = an * (x / (a + n));\n\n                // update partial sum\n                sum = sum + an;\n            }\n            if (n >= maxIterations) {\n                throw new MaxCountExceededException(maxIterations);\n            } else if (Double.isInfinite(sum)) {\n                ret = 1.0;\n            } else {\n                ret = FastMath.exp(-x + (a * FastMath.log(x)) - logGamma(a)) * sum;\n            }\n        }\n\n        return ret;\n    }",
+    "comment": " Returns the regularized gamma function P(a, x).  The implementation of this method is based on: <ul> <li> <a href=\"http://mathworld.wolfram.com/RegularizedGammaFunction.html\"> Regularized Gamma Function</a>, equation (1) </li> <li> <a href=\"http://mathworld.wolfram.com/IncompleteGammaFunction.html\"> Incomplete Gamma Function</a>, equation (4). </li> <li> <a href=\"http://mathworld.wolfram.com/ConfluentHypergeometricFunctionoftheFirstKind.html\"> Confluent Hypergeometric Function of the First Kind</a>, equation (1). </li> </ul>  @param a the a parameter. @param x the value. @param epsilon When the absolute value of the nth item in the series is less than epsilon the approximation ceases to calculate further elements in the series. @param maxIterations Maximum number of \"iterations\" to complete. @return the regularized gamma function P(a, x) @throws MaxCountExceededException if the algorithm fails to converge. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MannWhitneyUTest.MannWhitneyUTest",
+    "class_name": "org.apache.commons.math3.stat.inference.MannWhitneyUTest",
+    "signature": "org.apache.commons.math3.stat.inference.MannWhitneyUTest.MannWhitneyUTest()",
+    "snippet": "    public MannWhitneyUTest() {\n        naturalRanking = new NaturalRanking(NaNStrategy.FIXED,\n                TiesStrategy.AVERAGE);\n    }",
+    "comment": " Create a test instance using where NaN's are left in place and ties get the average of applicable ranks. Use this unless you are very sure of what you are doing. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MannWhitneyUTest.calculateAsymptoticPValue",
+    "class_name": "org.apache.commons.math3.stat.inference.MannWhitneyUTest",
+    "signature": "org.apache.commons.math3.stat.inference.MannWhitneyUTest.calculateAsymptoticPValue(double,int,int)",
+    "snippet": "    private double calculateAsymptoticPValue(final double Umin,\n                                             final int n1,\n                                             final int n2)\n        throws ConvergenceException, MaxCountExceededException {\n\n        final int n1n2prod = n1 * n2;\n\n        // http://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U#Normal_approximation\n        final double EU = n1n2prod / 2.0;\n        final double VarU = n1n2prod * (n1 + n2 + 1) / 12.0;\n\n        final double z = (Umin - EU) / FastMath.sqrt(VarU);\n\n        final NormalDistribution standardNormal = new NormalDistribution(0, 1);\n\n        return 2 * standardNormal.cumulativeProbability(z);\n    }",
+    "comment": " @param Umin smallest Mann-Whitney U value @param n1 number of subjects in first sample @param n2 number of subjects in second sample @return two-sided asymptotic p-value @throws ConvergenceException if the p-value can not be computed due to a convergence error @throws MaxCountExceededException if the maximum number of iterations is exceeded ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MannWhitneyUTest.concatenateSamples",
+    "class_name": "org.apache.commons.math3.stat.inference.MannWhitneyUTest",
+    "signature": "org.apache.commons.math3.stat.inference.MannWhitneyUTest.concatenateSamples(double[],double[])",
+    "snippet": "    private double[] concatenateSamples(final double[] x, final double[] y) {\n        final double[] z = new double[x.length + y.length];\n\n        System.arraycopy(x, 0, z, 0, x.length);\n        System.arraycopy(y, 0, z, x.length, y.length);\n\n        return z;\n    }",
+    "comment": "Concatenate the samples into one array. @param x first sample @param y second sample @return concatenated array ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MannWhitneyUTest.ensureDataConformance",
+    "class_name": "org.apache.commons.math3.stat.inference.MannWhitneyUTest",
+    "signature": "org.apache.commons.math3.stat.inference.MannWhitneyUTest.ensureDataConformance(double[],double[])",
+    "snippet": "    private void ensureDataConformance(final double[] x, final double[] y)\n        throws NullArgumentException, NoDataException {\n\n        if (x == null ||\n            y == null) {\n            throw new NullArgumentException();\n        }\n        if (x.length == 0 ||\n            y.length == 0) {\n            throw new NoDataException();\n        }\n    }",
+    "comment": " Ensures that the provided arrays fulfills the assumptions.  @param x first sample @param y second sample @throws NullArgumentException if {@code x} or {@code y} are {@code null}. @throws NoDataException if {@code x} or {@code y} are zero-length. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MannWhitneyUTest.mannWhitneyU",
+    "class_name": "org.apache.commons.math3.stat.inference.MannWhitneyUTest",
+    "signature": "org.apache.commons.math3.stat.inference.MannWhitneyUTest.mannWhitneyU(double[],double[])",
+    "snippet": "    public double mannWhitneyU(final double[] x, final double[] y)\n        throws NullArgumentException, NoDataException {\n\n        ensureDataConformance(x, y);\n\n        final double[] z = concatenateSamples(x, y);\n        final double[] ranks = naturalRanking.rank(z);\n\n        double sumRankX = 0;\n\n        /*\n         * The ranks for x is in the first x.length entries in ranks because x\n         * is in the first x.length entries in z\n         */\n        for (int i = 0; i < x.length; ++i) {\n            sumRankX += ranks[i];\n        }\n\n        /*\n         * U1 = R1 - (n1 * (n1 + 1)) / 2 where R1 is sum of ranks for sample 1,\n         * e.g. x, n1 is the number of observations in sample 1.\n         */\n        final double U1 = sumRankX - (x.length * (x.length + 1)) / 2;\n\n        /*\n         * It can be shown that U1 + U2 = n1 * n2\n         */\n        final double U2 = x.length * y.length - U1;\n\n        return FastMath.max(U1, U2);\n    }",
+    "comment": " Computes the <a href=\"http://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U\"> Mann-Whitney U statistic</a> comparing mean for two independent samples possibly of different length. <p> This statistic can be used to perform a Mann-Whitney U test evaluating the null hypothesis that the two independent samples has equal mean. </p> <p> Let X<sub>i</sub> denote the i'th individual of the first sample and Y<sub>j</sub> the j'th individual in the second sample. Note that the samples would often have different length. </p> <p> <strong>Preconditions</strong>: <ul> <li>All observations in the two samples are independent.</li> <li>The observations are at least ordinal (continuous are also ordinal).</li> </ul> </p>  @param x the first sample @param y the second sample @return Mann-Whitney U statistic (maximum of U<sup>x</sup> and U<sup>y</sup>) @throws NullArgumentException if {@code x} or {@code y} are {@code null}. @throws NoDataException if {@code x} or {@code y} are zero-length. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MannWhitneyUTest.mannWhitneyUTest",
+    "class_name": "org.apache.commons.math3.stat.inference.MannWhitneyUTest",
+    "signature": "org.apache.commons.math3.stat.inference.MannWhitneyUTest.mannWhitneyUTest(double[],double[])",
+    "snippet": "    public double mannWhitneyUTest(final double[] x, final double[] y)\n        throws NullArgumentException, NoDataException,\n        ConvergenceException, MaxCountExceededException {\n\n        ensureDataConformance(x, y);\n\n        final double Umax = mannWhitneyU(x, y);\n\n        /*\n         * It can be shown that U1 + U2 = n1 * n2\n         */\n        final double Umin = x.length * y.length - Umax;\n\n        return calculateAsymptoticPValue(Umin, x.length, y.length);\n    }",
+    "comment": " Returns the asymptotic <i>observed significance level</i>, or <a href= \"http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue\"> p-value</a>, associated with a <a href=\"http://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U\"> Mann-Whitney U statistic</a> comparing mean for two independent samples. <p> Let X<sub>i</sub> denote the i'th individual of the first sample and Y<sub>j</sub> the j'th individual in the second sample. Note that the samples would often have different length. </p> <p> <strong>Preconditions</strong>: <ul> <li>All observations in the two samples are independent.</li> <li>The observations are at least ordinal (continuous are also ordinal).</li> </ul> </p><p> Ties give rise to biased variance at the moment. See e.g. <a href=\"http://mlsc.lboro.ac.uk/resources/statistics/Mannwhitney.pdf\" >http://mlsc.lboro.ac.uk/resources/statistics/Mannwhitney.pdf</a>.</p>  @param x the first sample @param y the second sample @return asymptotic p-value @throws NullArgumentException if {@code x} or {@code y} are {@code null}. @throws NoDataException if {@code x} or {@code y} are zero-length. @throws ConvergenceException if the p-value can not be computed due to a convergence error @throws MaxCountExceededException if the maximum number of iterations is exceeded ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NaturalRanking.NaturalRanking",
+    "class_name": "org.apache.commons.math3.stat.ranking.NaturalRanking",
+    "signature": "org.apache.commons.math3.stat.ranking.NaturalRanking.NaturalRanking(NaNStrategy,TiesStrategy)",
+    "snippet": "    public NaturalRanking(NaNStrategy nanStrategy, TiesStrategy tiesStrategy) {\n        super();\n        this.nanStrategy = nanStrategy;\n        this.tiesStrategy = tiesStrategy;\n        randomData = new RandomDataImpl();\n    }",
+    "comment": " Create a NaturalRanking with the given NaNStrategy and TiesStrategy.  @param nanStrategy NaNStrategy to use @param tiesStrategy TiesStrategy to use ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NaturalRanking.getNanPositions",
+    "class_name": "org.apache.commons.math3.stat.ranking.NaturalRanking",
+    "signature": "org.apache.commons.math3.stat.ranking.NaturalRanking.getNanPositions(IntDoublePair[])",
+    "snippet": "    private List<Integer> getNanPositions(IntDoublePair[] ranks) {\n        ArrayList<Integer> out = new ArrayList<Integer>();\n        for (int i = 0; i < ranks.length; i++) {\n            if (Double.isNaN(ranks[i].getValue())) {\n                out.add(Integer.valueOf(i));\n            }\n        }\n        return out;\n    }",
+    "comment": " Returns a list of indexes where <code>ranks</code> is <code>NaN.</code>  @param ranks array to search for <code>NaNs</code> @return list of indexes i such that <code>ranks[i] = NaN</code> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NaturalRanking.rank",
+    "class_name": "org.apache.commons.math3.stat.ranking.NaturalRanking",
+    "signature": "org.apache.commons.math3.stat.ranking.NaturalRanking.rank(double[])",
+    "snippet": "    public double[] rank(double[] data) {\n\n        // Array recording initial positions of data to be ranked\n        IntDoublePair[] ranks = new IntDoublePair[data.length];\n        for (int i = 0; i < data.length; i++) {\n            ranks[i] = new IntDoublePair(data[i], i);\n        }\n\n        // Recode, remove or record positions of NaNs\n        List<Integer> nanPositions = null;\n        switch (nanStrategy) {\n            case MAXIMAL: // Replace NaNs with +INFs\n                recodeNaNs(ranks, Double.POSITIVE_INFINITY);\n                break;\n            case MINIMAL: // Replace NaNs with -INFs\n                recodeNaNs(ranks, Double.NEGATIVE_INFINITY);\n                break;\n            case REMOVED: // Drop NaNs from data\n                ranks = removeNaNs(ranks);\n                break;\n            case FIXED:   // Record positions of NaNs\n                nanPositions = getNanPositions(ranks);\n                break;\n            default: // this should not happen unless NaNStrategy enum is changed\n                throw new MathInternalError();\n        }\n\n        // Sort the IntDoublePairs\n        Arrays.sort(ranks);\n\n        // Walk the sorted array, filling output array using sorted positions,\n        // resolving ties as we go\n        double[] out = new double[ranks.length];\n        int pos = 1;  // position in sorted array\n        out[ranks[0].getPosition()] = pos;\n        List<Integer> tiesTrace = new ArrayList<Integer>();\n        tiesTrace.add(ranks[0].getPosition());\n        for (int i = 1; i < ranks.length; i++) {\n            if (Double.compare(ranks[i].getValue(), ranks[i - 1].getValue()) > 0) {\n                // tie sequence has ended (or had length 1)\n                pos = i + 1;\n                if (tiesTrace.size() > 1) {  // if seq is nontrivial, resolve\n                    resolveTie(out, tiesTrace);\n                }\n                tiesTrace = new ArrayList<Integer>();\n                tiesTrace.add(ranks[i].getPosition());\n            } else {\n                // tie sequence continues\n                tiesTrace.add(ranks[i].getPosition());\n            }\n            out[ranks[i].getPosition()] = pos;\n        }\n        if (tiesTrace.size() > 1) {  // handle tie sequence at end\n            resolveTie(out, tiesTrace);\n        }\n        if (nanStrategy == NaNStrategy.FIXED) {\n            restoreNaNs(out, nanPositions);\n        }\n        return out;\n    }",
+    "comment": " Rank <code>data</code> using the natural ordering on Doubles, with NaN values handled according to <code>nanStrategy</code> and ties resolved using <code>tiesStrategy.</code>  @param data array to be ranked @return array of ranks ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NaturalRanking.restoreNaNs",
+    "class_name": "org.apache.commons.math3.stat.ranking.NaturalRanking",
+    "signature": "org.apache.commons.math3.stat.ranking.NaturalRanking.restoreNaNs(double[],List)",
+    "snippet": "    private void restoreNaNs(double[] ranks, List<Integer> nanPositions) {\n        if (nanPositions.size() == 0) {\n            return;\n        }\n        Iterator<Integer> iterator = nanPositions.iterator();\n        while (iterator.hasNext()) {\n            ranks[iterator.next().intValue()] = Double.NaN;\n        }\n\n    }",
+    "comment": " Set <code>ranks[i] = Double.NaN</code> for each i in <code>nanPositions.</code>  @param ranks array to modify @param nanPositions list of index values to set to <code>Double.NaN</code> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "IntDoublePair.compareTo",
+    "class_name": "org.apache.commons.math3.stat.ranking.NaturalRanking$IntDoublePair",
+    "signature": "org.apache.commons.math3.stat.ranking.NaturalRanking$IntDoublePair.compareTo(IntDoublePair)",
+    "snippet": "        public int compareTo(IntDoublePair other) {\n            return Double.compare(value, other.value);\n        }",
+    "comment": " Compare this IntDoublePair to another pair. Only the <strong>values</strong> are compared.  @param other the other pair to compare this to @return result of <code>Double.compare(value, other.value)</code> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "IntDoublePair.getPosition",
+    "class_name": "org.apache.commons.math3.stat.ranking.NaturalRanking$IntDoublePair",
+    "signature": "org.apache.commons.math3.stat.ranking.NaturalRanking$IntDoublePair.getPosition()",
+    "snippet": "        public int getPosition() {\n            return position;\n        }",
+    "comment": " Returns the original position of the pair. @return position ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "IntDoublePair.getValue",
+    "class_name": "org.apache.commons.math3.stat.ranking.NaturalRanking$IntDoublePair",
+    "signature": "org.apache.commons.math3.stat.ranking.NaturalRanking$IntDoublePair.getValue()",
+    "snippet": "        public double getValue() {\n            return value;\n        }",
+    "comment": " Returns the value of the pair. @return value ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ArithmeticUtils.factorial",
+    "class_name": "org.apache.commons.math3.util.ArithmeticUtils",
+    "signature": "org.apache.commons.math3.util.ArithmeticUtils.factorial(int)",
+    "snippet": "    public static long factorial(final int n) {\n        if (n < 0) {\n            throw new NotPositiveException(LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER,\n                                           n);\n        }\n        if (n > 20) {\n            throw new MathArithmeticException();\n        }\n        return FACTORIALS[n];\n    }",
+    "comment": " Returns n!. Shorthand for {@code n} <a href=\"http://mathworld.wolfram.com/Factorial.html\"> Factorial</a>, the product of the numbers {@code 1,...,n}. <p> <Strong>Preconditions</strong>: <ul> <li> {@code n >= 0} (otherwise {@code IllegalArgumentException} is thrown)</li> <li> The result is small enough to fit into a {@code long}. The largest value of {@code n} for which {@code n!} < Long.MAX_VALUE} is 20. If the computed value exceeds {@code Long.MAX_VALUE} an {@code ArithMeticException } is thrown.</li> </ul> </p>  @param n argument @return {@code n!} @throws MathArithmeticException if the result is too large to be represented by a {@code long}. @throws NotPositiveException if {@code n < 0}. @throws MathArithmeticException if {@code n > 20}: The factorial value is too large to fit in a {@code long}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.abs",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.abs(double)",
+    "snippet": "    public static double abs(double x) {\n        return (x < 0.0) ? -x : (x == 0.0) ? 0.0 : x; // -0.0 => +0.0\n    }",
+    "comment": " Absolute value. @param x number from which absolute value is requested @return abs(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.ceil",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.ceil(double)",
+    "snippet": "    public static double ceil(double x) {\n        double y;\n\n        if (x != x) { // NaN\n            return x;\n        }\n\n        y = floor(x);\n        if (y == x) {\n            return y;\n        }\n\n        y += 1.0;\n\n        if (y == 0) {\n            return x*y;\n        }\n\n        return y;\n    }",
+    "comment": "Get the smallest whole number larger than x. @param x number from which ceil is requested @return a double number c such that c is an integer c - 1.0 < x <= c ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.exp",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.exp(double,double,double[])",
+    "snippet": "    private static double exp(double x, double extra, double[] hiPrec) {\n        double intPartA;\n        double intPartB;\n        int intVal;\n\n        /* Lookup exp(floor(x)).\n         * intPartA will have the upper 22 bits, intPartB will have the lower\n         * 52 bits.\n         */\n        if (x < 0.0) {\n            intVal = (int) -x;\n\n            if (intVal > 746) {\n                if (hiPrec != null) {\n                    hiPrec[0] = 0.0;\n                    hiPrec[1] = 0.0;\n                }\n                return 0.0;\n            }\n\n            if (intVal > 709) {\n                /* This will produce a subnormal output */\n                final double result = exp(x+40.19140625, extra, hiPrec) / 285040095144011776.0;\n                if (hiPrec != null) {\n                    hiPrec[0] /= 285040095144011776.0;\n                    hiPrec[1] /= 285040095144011776.0;\n                }\n                return result;\n            }\n\n            if (intVal == 709) {\n                /* exp(1.494140625) is nearly a machine number... */\n                final double result = exp(x+1.494140625, extra, hiPrec) / 4.455505956692756620;\n                if (hiPrec != null) {\n                    hiPrec[0] /= 4.455505956692756620;\n                    hiPrec[1] /= 4.455505956692756620;\n                }\n                return result;\n            }\n\n            intVal++;\n\n            intPartA = ExpIntTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX-intVal];\n            intPartB = ExpIntTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX-intVal];\n\n            intVal = -intVal;\n        } else {\n            intVal = (int) x;\n\n            if (intVal > 709) {\n                if (hiPrec != null) {\n                    hiPrec[0] = Double.POSITIVE_INFINITY;\n                    hiPrec[1] = 0.0;\n                }\n                return Double.POSITIVE_INFINITY;\n            }\n\n            intPartA = ExpIntTable.EXP_INT_TABLE_A[EXP_INT_TABLE_MAX_INDEX+intVal];\n            intPartB = ExpIntTable.EXP_INT_TABLE_B[EXP_INT_TABLE_MAX_INDEX+intVal];\n        }\n\n        /* Get the fractional part of x, find the greatest multiple of 2^-10 less than\n         * x and look up the exp function of it.\n         * fracPartA will have the upper 22 bits, fracPartB the lower 52 bits.\n         */\n        final int intFrac = (int) ((x - intVal) * 1024.0);\n        final double fracPartA = ExpFracTable.EXP_FRAC_TABLE_A[intFrac];\n        final double fracPartB = ExpFracTable.EXP_FRAC_TABLE_B[intFrac];\n\n        /* epsilon is the difference in x from the nearest multiple of 2^-10.  It\n         * has a value in the range 0 <= epsilon < 2^-10.\n         * Do the subtraction from x as the last step to avoid possible loss of percison.\n         */\n        final double epsilon = x - (intVal + intFrac / 1024.0);\n\n        /* Compute z = exp(epsilon) - 1.0 via a minimax polynomial.  z has\n       full double precision (52 bits).  Since z < 2^-10, we will have\n       62 bits of precision when combined with the contant 1.  This will be\n       used in the last addition below to get proper rounding. */\n\n        /* Remez generated polynomial.  Converges on the interval [0, 2^-10], error\n       is less than 0.5 ULP */\n        double z = 0.04168701738764507;\n        z = z * epsilon + 0.1666666505023083;\n        z = z * epsilon + 0.5000000000042687;\n        z = z * epsilon + 1.0;\n        z = z * epsilon + -3.940510424527919E-20;\n\n        /* Compute (intPartA+intPartB) * (fracPartA+fracPartB) by binomial\n       expansion.\n       tempA is exact since intPartA and intPartB only have 22 bits each.\n       tempB will have 52 bits of precision.\n         */\n        double tempA = intPartA * fracPartA;\n        double tempB = intPartA * fracPartB + intPartB * fracPartA + intPartB * fracPartB;\n\n        /* Compute the result.  (1+z)(tempA+tempB).  Order of operations is\n       important.  For accuracy add by increasing size.  tempA is exact and\n       much larger than the others.  If there are extra bits specified from the\n       pow() function, use them. */\n        final double tempC = tempB + tempA;\n        final double result;\n        if (extra != 0.0) {\n            result = tempC*extra*z + tempC*extra + tempC*z + tempB + tempA;\n        } else {\n            result = tempC*z + tempB + tempA;\n        }\n\n        if (hiPrec != null) {\n            // If requesting high precision\n            hiPrec[0] = tempA;\n            hiPrec[1] = tempC*extra*z + tempC*extra + tempC*z + tempB;\n        }\n\n        return result;\n    }",
+    "comment": " Internal helper method for exponential function. @param x original argument of the exponential function @param extra extra bits of precision on input (To Be Confirmed) @param hiPrec extra bits of precision on output (To Be Confirmed) @return exp(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.floor",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.floor(double)",
+    "snippet": "    public static double floor(double x) {\n        long y;\n\n        if (x != x) { // NaN\n            return x;\n        }\n\n        if (x >= TWO_POWER_52 || x <= -TWO_POWER_52) {\n            return x;\n        }\n\n        y = (long) x;\n        if (x < 0 && y != x) {\n            y--;\n        }\n\n        if (y == 0) {\n            return x*y;\n        }\n\n        return y;\n    }",
+    "comment": "Get the largest whole number smaller than x. @param x number from which floor is requested @return a double number f such that f is an integer f <= x < f + 1.0 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.log",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.log(double)",
+    "snippet": "    public static double log(final double x) {\n        return log(x, null);\n    }",
+    "comment": " Natural logarithm.  @param x   a double @return log(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.log",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.log(double,double[])",
+    "snippet": "    private static double log(final double x, final double[] hiPrec) {\n        if (x==0) { // Handle special case of +0/-0\n            return Double.NEGATIVE_INFINITY;\n        }\n        long bits = Double.doubleToLongBits(x);\n\n        /* Handle special cases of negative input, and NaN */\n        if ((bits & 0x8000000000000000L) != 0 || x != x) {\n            if (x != 0.0) {\n                if (hiPrec != null) {\n                    hiPrec[0] = Double.NaN;\n                }\n\n                return Double.NaN;\n            }\n        }\n\n        /* Handle special cases of Positive infinity. */\n        if (x == Double.POSITIVE_INFINITY) {\n            if (hiPrec != null) {\n                hiPrec[0] = Double.POSITIVE_INFINITY;\n            }\n\n            return Double.POSITIVE_INFINITY;\n        }\n\n        /* Extract the exponent */\n        int exp = (int)(bits >> 52)-1023;\n\n        if ((bits & 0x7ff0000000000000L) == 0) {\n            // Subnormal!\n            if (x == 0) {\n                // Zero\n                if (hiPrec != null) {\n                    hiPrec[0] = Double.NEGATIVE_INFINITY;\n                }\n\n                return Double.NEGATIVE_INFINITY;\n            }\n\n            /* Normalize the subnormal number. */\n            bits <<= 1;\n            while ( (bits & 0x0010000000000000L) == 0) {\n                exp--;\n                bits <<= 1;\n            }\n        }\n\n\n        if (exp == -1 || exp == 0) {\n            if (x < 1.01 && x > 0.99 && hiPrec == null) {\n                /* The normal method doesn't work well in the range [0.99, 1.01], so call do a straight\n           polynomial expansion in higer precision. */\n\n               /* Compute x - 1.0 and split it */\n                double xa = x - 1.0;\n                double xb = xa - x + 1.0;\n                double tmp = xa * HEX_40000000;\n                double aa = xa + tmp - tmp;\n                double ab = xa - aa;\n                xa = aa;\n                xb = ab;\n\n                double ya = LN_QUICK_COEF[LN_QUICK_COEF.length-1][0];\n                double yb = LN_QUICK_COEF[LN_QUICK_COEF.length-1][1];\n\n                for (int i = LN_QUICK_COEF.length - 2; i >= 0; i--) {\n                    /* Multiply a = y * x */\n                    aa = ya * xa;\n                    ab = ya * xb + yb * xa + yb * xb;\n                    /* split, so now y = a */\n                    tmp = aa * HEX_40000000;\n                    ya = aa + tmp - tmp;\n                    yb = aa - ya + ab;\n\n                    /* Add  a = y + lnQuickCoef */\n                    aa = ya + LN_QUICK_COEF[i][0];\n                    ab = yb + LN_QUICK_COEF[i][1];\n                    /* Split y = a */\n                    tmp = aa * HEX_40000000;\n                    ya = aa + tmp - tmp;\n                    yb = aa - ya + ab;\n                }\n\n                /* Multiply a = y * x */\n                aa = ya * xa;\n                ab = ya * xb + yb * xa + yb * xb;\n                /* split, so now y = a */\n                tmp = aa * HEX_40000000;\n                ya = aa + tmp - tmp;\n                yb = aa - ya + ab;\n\n                return ya + yb;\n            }\n        }\n\n        // lnm is a log of a number in the range of 1.0 - 2.0, so 0 <= lnm < ln(2)\n        double lnm[] = lnMant.LN_MANT[(int)((bits & 0x000ffc0000000000L) >> 42)];\n\n        /*\n    double epsilon = x / Double.longBitsToDouble(bits & 0xfffffc0000000000L);\n\n    epsilon -= 1.0;\n         */\n\n        // y is the most significant 10 bits of the mantissa\n        //double y = Double.longBitsToDouble(bits & 0xfffffc0000000000L);\n        //double epsilon = (x - y) / y;\n        double epsilon = (bits & 0x3ffffffffffL) / (TWO_POWER_52 + (bits & 0x000ffc0000000000L));\n\n        double lnza = 0.0;\n        double lnzb = 0.0;\n\n        if (hiPrec != null) {\n            /* split epsilon -> x */\n            double tmp = epsilon * HEX_40000000;\n            double aa = epsilon + tmp - tmp;\n            double ab = epsilon - aa;\n            double xa = aa;\n            double xb = ab;\n\n            /* Need a more accurate epsilon, so adjust the division. */\n            double numer = bits & 0x3ffffffffffL;\n            double denom = TWO_POWER_52 + (bits & 0x000ffc0000000000L);\n            aa = numer - xa*denom - xb * denom;\n            xb += aa / denom;\n\n            /* Remez polynomial evaluation */\n            double ya = LN_HI_PREC_COEF[LN_HI_PREC_COEF.length-1][0];\n            double yb = LN_HI_PREC_COEF[LN_HI_PREC_COEF.length-1][1];\n\n            for (int i = LN_HI_PREC_COEF.length - 2; i >= 0; i--) {\n                /* Multiply a = y * x */\n                aa = ya * xa;\n                ab = ya * xb + yb * xa + yb * xb;\n                /* split, so now y = a */\n                tmp = aa * HEX_40000000;\n                ya = aa + tmp - tmp;\n                yb = aa - ya + ab;\n\n                /* Add  a = y + lnHiPrecCoef */\n                aa = ya + LN_HI_PREC_COEF[i][0];\n                ab = yb + LN_HI_PREC_COEF[i][1];\n                /* Split y = a */\n                tmp = aa * HEX_40000000;\n                ya = aa + tmp - tmp;\n                yb = aa - ya + ab;\n            }\n\n            /* Multiply a = y * x */\n            aa = ya * xa;\n            ab = ya * xb + yb * xa + yb * xb;\n\n            /* split, so now lnz = a */\n            /*\n      tmp = aa * 1073741824.0;\n      lnza = aa + tmp - tmp;\n      lnzb = aa - lnza + ab;\n             */\n            lnza = aa + ab;\n            lnzb = -(lnza - aa - ab);\n        } else {\n            /* High precision not required.  Eval Remez polynomial\n         using standard double precision */\n            lnza = -0.16624882440418567;\n            lnza = lnza * epsilon + 0.19999954120254515;\n            lnza = lnza * epsilon + -0.2499999997677497;\n            lnza = lnza * epsilon + 0.3333333333332802;\n            lnza = lnza * epsilon + -0.5;\n            lnza = lnza * epsilon + 1.0;\n            lnza = lnza * epsilon;\n        }\n\n        /* Relative sizes:\n         * lnzb     [0, 2.33E-10]\n         * lnm[1]   [0, 1.17E-7]\n         * ln2B*exp [0, 1.12E-4]\n         * lnza      [0, 9.7E-4]\n         * lnm[0]   [0, 0.692]\n         * ln2A*exp [0, 709]\n         */\n\n        /* Compute the following sum:\n         * lnzb + lnm[1] + ln2B*exp + lnza + lnm[0] + ln2A*exp;\n         */\n\n        //return lnzb + lnm[1] + ln2B*exp + lnza + lnm[0] + ln2A*exp;\n        double a = LN_2_A*exp;\n        double b = 0.0;\n        double c = a+lnm[0];\n        double d = -(c-a-lnm[0]);\n        a = c;\n        b = b + d;\n\n        c = a + lnza;\n        d = -(c - a - lnza);\n        a = c;\n        b = b + d;\n\n        c = a + LN_2_B*exp;\n        d = -(c - a - LN_2_B*exp);\n        a = c;\n        b = b + d;\n\n        c = a + lnm[1];\n        d = -(c - a - lnm[1]);\n        a = c;\n        b = b + d;\n\n        c = a + lnzb;\n        d = -(c - a - lnzb);\n        a = c;\n        b = b + d;\n\n        if (hiPrec != null) {\n            hiPrec[0] = a;\n            hiPrec[1] = b;\n        }\n\n        return a + b;\n    }",
+    "comment": " Internal helper method for natural logarithm function. @param x original argument of the natural logarithm function @param hiPrec extra bits of precision on output (To Be Confirmed) @return log(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.max",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.max(double,double)",
+    "snippet": "    public static double max(final double a, final double b) {\n        if (a > b) {\n            return a;\n        }\n        if (a < b) {\n            return b;\n        }\n        /* if either arg is NaN, return NaN */\n        if (a != b) {\n            return Double.NaN;\n        }\n        /* min(+0.0,-0.0) == -0.0 */\n        /* 0x8000000000000000L == Double.doubleToRawLongBits(-0.0d) */\n        long bits = Double.doubleToRawLongBits(a);\n        if (bits == 0x8000000000000000L) {\n            return b;\n        }\n        return a;\n    }",
+    "comment": "Compute the maximum of two values @param a first value @param b second value @return b if a is lesser or equal to b, a otherwise ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.pow",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.pow(double,double)",
+    "snippet": "    public static double pow(double x, double y) {\n        final double lns[] = new double[2];\n\n        if (y == 0.0) {\n            return 1.0;\n        }\n\n        if (x != x) { // X is NaN\n            return x;\n        }\n\n\n        if (x == 0) {\n            long bits = Double.doubleToLongBits(x);\n            if ((bits & 0x8000000000000000L) != 0) {\n                // -zero\n                long yi = (long) y;\n\n                if (y < 0 && y == yi && (yi & 1) == 1) {\n                    return Double.NEGATIVE_INFINITY;\n                }\n\n                if (y > 0 && y == yi && (yi & 1) == 1) {\n                    return -0.0;\n                }\n            }\n\n            if (y < 0) {\n                return Double.POSITIVE_INFINITY;\n            }\n            if (y > 0) {\n                return 0.0;\n            }\n\n            return Double.NaN;\n        }\n\n        if (x == Double.POSITIVE_INFINITY) {\n            if (y != y) { // y is NaN\n                return y;\n            }\n            if (y < 0.0) {\n                return 0.0;\n            } else {\n                return Double.POSITIVE_INFINITY;\n            }\n        }\n\n        if (y == Double.POSITIVE_INFINITY) {\n            if (x * x == 1.0) {\n                return Double.NaN;\n            }\n\n            if (x * x > 1.0) {\n                return Double.POSITIVE_INFINITY;\n            } else {\n                return 0.0;\n            }\n        }\n\n        if (x == Double.NEGATIVE_INFINITY) {\n            if (y != y) { // y is NaN\n                return y;\n            }\n\n            if (y < 0) {\n                long yi = (long) y;\n                if (y == yi && (yi & 1) == 1) {\n                    return -0.0;\n                }\n\n                return 0.0;\n            }\n\n            if (y > 0)  {\n                long yi = (long) y;\n                if (y == yi && (yi & 1) == 1) {\n                    return Double.NEGATIVE_INFINITY;\n                }\n\n                return Double.POSITIVE_INFINITY;\n            }\n        }\n\n        if (y == Double.NEGATIVE_INFINITY) {\n\n            if (x * x == 1.0) {\n                return Double.NaN;\n            }\n\n            if (x * x < 1.0) {\n                return Double.POSITIVE_INFINITY;\n            } else {\n                return 0.0;\n            }\n        }\n\n        /* Handle special case x<0 */\n        if (x < 0) {\n            // y is an even integer in this case\n            if (y >= TWO_POWER_52 || y <= -TWO_POWER_52) {\n                return pow(-x, y);\n            }\n\n            if (y == (long) y) {\n                // If y is an integer\n                return ((long)y & 1) == 0 ? pow(-x, y) : -pow(-x, y);\n            } else {\n                return Double.NaN;\n            }\n        }\n\n        /* Split y into ya and yb such that y = ya+yb */\n        double ya;\n        double yb;\n        if (y < 8e298 && y > -8e298) {\n            double tmp1 = y * HEX_40000000;\n            ya = y + tmp1 - tmp1;\n            yb = y - ya;\n        } else {\n            double tmp1 = y * 9.31322574615478515625E-10;\n            double tmp2 = tmp1 * 9.31322574615478515625E-10;\n            ya = (tmp1 + tmp2 - tmp1) * HEX_40000000 * HEX_40000000;\n            yb = y - ya;\n        }\n\n        /* Compute ln(x) */\n        final double lores = log(x, lns);\n        if (Double.isInfinite(lores)){ // don't allow this to be converted to NaN\n            return lores;\n        }\n\n        double lna = lns[0];\n        double lnb = lns[1];\n\n        /* resplit lns */\n        double tmp1 = lna * HEX_40000000;\n        double tmp2 = lna + tmp1 - tmp1;\n        lnb += lna - tmp2;\n        lna = tmp2;\n\n        // y*ln(x) = (aa+ab)\n        final double aa = lna * ya;\n        final double ab = lna * yb + lnb * ya + lnb * yb;\n\n        lna = aa+ab;\n        lnb = -(lna - aa - ab);\n\n        double z = 1.0 / 120.0;\n        z = z * lnb + (1.0 / 24.0);\n        z = z * lnb + (1.0 / 6.0);\n        z = z * lnb + 0.5;\n        z = z * lnb + 1.0;\n        z = z * lnb;\n\n        final double result = exp(lna, z, null);\n        //result = result + result * z;\n        return result;\n    }",
+    "comment": " Power function.  Compute x^y.  @param x   a double @param y   a double @return double ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.sqrt",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.sqrt(double)",
+    "snippet": "    public static double sqrt(final double a) {\n        return Math.sqrt(a);\n    }",
+    "comment": "Compute the square root of a number. <p><b>Note:</b> this implementation currently delegates to {@link Math#sqrt} @param a number on which evaluation is done @return square root of a ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMathLiteralArrays.loadExpFracA",
+    "class_name": "org.apache.commons.math3.util.FastMathLiteralArrays",
+    "signature": "org.apache.commons.math3.util.FastMathLiteralArrays.loadExpFracA()",
+    "snippet": "    static double[] loadExpFracA() {\n        return EXP_FRAC_A.clone();\n    }",
+    "comment": " Load \"EXP_FRAC_A\".  @return a clone of the data array. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMathLiteralArrays.loadExpFracB",
+    "class_name": "org.apache.commons.math3.util.FastMathLiteralArrays",
+    "signature": "org.apache.commons.math3.util.FastMathLiteralArrays.loadExpFracB()",
+    "snippet": "    static double[] loadExpFracB() {\n        return EXP_FRAC_B.clone();\n    }",
+    "comment": " Load \"EXP_FRAC_B\".  @return a clone of the data array. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMathLiteralArrays.loadExpIntA",
+    "class_name": "org.apache.commons.math3.util.FastMathLiteralArrays",
+    "signature": "org.apache.commons.math3.util.FastMathLiteralArrays.loadExpIntA()",
+    "snippet": "    static double[] loadExpIntA() {\n        return EXP_INT_A.clone();\n    }",
+    "comment": " Load \"EXP_INT_A\".  @return a clone of the data array. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMathLiteralArrays.loadExpIntB",
+    "class_name": "org.apache.commons.math3.util.FastMathLiteralArrays",
+    "signature": "org.apache.commons.math3.util.FastMathLiteralArrays.loadExpIntB()",
+    "snippet": "    static double[] loadExpIntB() {\n        return EXP_INT_B.clone();\n    }",
+    "comment": " Load \"EXP_INT_B\".  @return a clone of the data array. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMathLiteralArrays.loadLnMant",
+    "class_name": "org.apache.commons.math3.util.FastMathLiteralArrays",
+    "signature": "org.apache.commons.math3.util.FastMathLiteralArrays.loadLnMant()",
+    "snippet": "    static double[][] loadLnMant() {\n        return LN_MANT.clone();\n    }",
+    "comment": " Load \"LN_MANT\".  @return a clone of the data array. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ResizableDoubleArray.ResizableDoubleArray",
+    "class_name": "org.apache.commons.math3.util.ResizableDoubleArray",
+    "signature": "org.apache.commons.math3.util.ResizableDoubleArray.ResizableDoubleArray(int)",
+    "snippet": "    public ResizableDoubleArray(int initialCapacity) {\n        setInitialCapacity(initialCapacity);\n        internalArray = new double[this.initialCapacity];\n    }",
+    "comment": " Create a ResizableArray with the specified initial capacity.  Other properties take default values: <ul> <li><code>expansionMode = MULTIPLICATIVE_MODE</code></li> <li><code>expansionFactor = 2.5</code></li> <li><code>contractionFactor = 2.0</code></li> </ul> @param initialCapacity The initial size of the internal storage array @throws IllegalArgumentException if initialCapacity is not > 0 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ResizableDoubleArray.addElement",
+    "class_name": "org.apache.commons.math3.util.ResizableDoubleArray",
+    "signature": "org.apache.commons.math3.util.ResizableDoubleArray.addElement(double)",
+    "snippet": "    public synchronized void addElement(double value) {\n        numElements++;\n        if ((startIndex + numElements) > internalArray.length) {\n            expand();\n        }\n        internalArray[startIndex + (numElements - 1)] = value;\n        if (shouldContract()) {\n            contract();\n        }\n    }",
+    "comment": " Adds an element to the end of this expandable array.  @param value to be added to end of array ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ResizableDoubleArray.contract",
+    "class_name": "org.apache.commons.math3.util.ResizableDoubleArray",
+    "signature": "org.apache.commons.math3.util.ResizableDoubleArray.contract()",
+    "snippet": "    public synchronized void contract() {\n        double[] tempArray = new double[numElements + 1];\n\n        // Copy and swap - copy only the element array from the src array.\n        System.arraycopy(internalArray, startIndex, tempArray, 0, numElements);\n        internalArray = tempArray;\n\n        // Reset the start index to zero\n        startIndex = 0;\n    }",
+    "comment": " Contracts the storage array to the (size of the element set) + 1 - to avoid a zero length array. This function also resets the startIndex to zero. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ResizableDoubleArray.expand",
+    "class_name": "org.apache.commons.math3.util.ResizableDoubleArray",
+    "signature": "org.apache.commons.math3.util.ResizableDoubleArray.expand()",
+    "snippet": "    protected synchronized void expand() {\n\n        // notice the use of FastMath.ceil(), this guarantees that we will always\n        // have an array of at least currentSize + 1.   Assume that the\n        // current initial capacity is 1 and the expansion factor\n        // is 1.000000000000000001.  The newly calculated size will be\n        // rounded up to 2 after the multiplication is performed.\n        int newSize = 0;\n        if (expansionMode == MULTIPLICATIVE_MODE) {\n            newSize = (int) FastMath.ceil(internalArray.length * expansionFactor);\n        } else {\n            newSize = internalArray.length + FastMath.round(expansionFactor);\n        }\n        double[] tempArray = new double[newSize];\n\n        // Copy and swap\n        System.arraycopy(internalArray, 0, tempArray, 0, internalArray.length);\n        internalArray = tempArray;\n    }",
+    "comment": " Expands the internal storage array using the expansion factor. <p> if <code>expansionMode</code> is set to MULTIPLICATIVE_MODE, the new array size will be <code>internalArray.length * expansionFactor.</code> If <code>expansionMode</code> is set to ADDITIVE_MODE,  the length after expansion will be <code>internalArray.length + expansionFactor</code> </p> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ResizableDoubleArray.getElements",
+    "class_name": "org.apache.commons.math3.util.ResizableDoubleArray",
+    "signature": "org.apache.commons.math3.util.ResizableDoubleArray.getElements()",
+    "snippet": "    public synchronized double[] getElements() {\n        double[] elementArray = new double[numElements];\n        System.arraycopy( internalArray, startIndex, elementArray, 0,\n                numElements);\n        return elementArray;\n    }",
+    "comment": " Returns a double array containing the elements of this <code>ResizableArray</code>.  This method returns a copy, not a reference to the underlying array, so that changes made to the returned array have no effect on this <code>ResizableArray.</code> @return the double array. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ResizableDoubleArray.setInitialCapacity",
+    "class_name": "org.apache.commons.math3.util.ResizableDoubleArray",
+    "signature": "org.apache.commons.math3.util.ResizableDoubleArray.setInitialCapacity(int)",
+    "snippet": "    protected void setInitialCapacity(int initialCapacity) {\n        if (initialCapacity > 0) {\n            synchronized(this) {\n                this.initialCapacity = initialCapacity;\n            }\n        } else {\n            throw new MathIllegalArgumentException(\n                    LocalizedFormats.INITIAL_CAPACITY_NOT_POSITIVE,\n                    initialCapacity);\n        }\n    }",
+    "comment": " Sets the initial capacity.  Should only be invoked by constructors.  @param initialCapacity of the array @throws IllegalArgumentException if <code>initialCapacity</code> is not positive. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ResizableDoubleArray.shouldContract",
+    "class_name": "org.apache.commons.math3.util.ResizableDoubleArray",
+    "signature": "org.apache.commons.math3.util.ResizableDoubleArray.shouldContract()",
+    "snippet": "    private synchronized boolean shouldContract() {\n        if (expansionMode == MULTIPLICATIVE_MODE) {\n            return (internalArray.length / ((float) numElements)) > contractionCriteria;\n        } else {\n            return (internalArray.length - numElements) > contractionCriteria;\n        }\n    }",
+    "comment": " Returns true if the internal storage array has too many unused storage positions.  @return true if array satisfies the contraction criteria ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

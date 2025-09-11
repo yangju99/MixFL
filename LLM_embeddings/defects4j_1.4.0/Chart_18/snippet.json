@@ -1,0 +1,202 @@
+[
+  {
+    "name": "DefaultKeyedValues.DefaultKeyedValues",
+    "class_name": "org.jfree.data.DefaultKeyedValues",
+    "signature": "org.jfree.data.DefaultKeyedValues.DefaultKeyedValues()",
+    "snippet": "    public DefaultKeyedValues() {\n        this.keys = new ArrayList();\n        this.values = new ArrayList();\n        this.indexMap = new HashMap();\n    }",
+    "comment": " Creates a new collection (initially empty). ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 3
+  },
+  {
+    "name": "DefaultKeyedValues.getIndex",
+    "class_name": "org.jfree.data.DefaultKeyedValues",
+    "signature": "org.jfree.data.DefaultKeyedValues.getIndex(Comparable)",
+    "snippet": "    public int getIndex(Comparable key) {\n        if (key == null) {\n            throw new IllegalArgumentException(\"Null 'key' argument.\");\n        }\n        final Integer i = (Integer) this.indexMap.get(key);\n        if (i == null) {\n            return -1;  // key not found\n        }\n        return i.intValue();\n    }",
+    "comment": " Returns the index for a given key.  @param key  the key (<code>null</code> not permitted).  @return The index, or <code>-1</code> if the key is not recognised.  @throws IllegalArgumentException if <code>key</code> is  <code>null</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 3
+  },
+  {
+    "name": "DefaultKeyedValues.removeValue",
+    "class_name": "org.jfree.data.DefaultKeyedValues",
+    "signature": "org.jfree.data.DefaultKeyedValues.removeValue(Comparable)",
+    "snippet": "    public void removeValue(Comparable key) {\n        int index = getIndex(key);\n        if (index < 0) {\n\t\t\treturn;\n        }\n        removeValue(index);\n    }",
+    "comment": " Removes a value from the collection.  @param key  the item key (<code>null</code> not permitted).  @throws IllegalArgumentException if <code>key</code> is  <code>null</code>. @throws UnknownKeyException if <code>key</code> is not recognised. ",
+    "is_bug": true,
+    "failing_test_cases": 4,
+    "buggy_methods": 3
+  },
+  {
+    "name": "DefaultKeyedValues.removeValue",
+    "class_name": "org.jfree.data.DefaultKeyedValues",
+    "signature": "org.jfree.data.DefaultKeyedValues.removeValue(int)",
+    "snippet": "    public void removeValue(int index) {\n        this.keys.remove(index);\n        this.values.remove(index);\n        if (index < this.keys.size()) {\n        rebuildIndex();\n        }\n    }",
+    "comment": " Removes a value from the collection.  @param index  the index of the item to remove (in the range  <code>0</code> to <code>getItemCount() - 1</code>).  @throws IndexOutOfBoundsException if <code>index</code> is not within the specified range. ",
+    "is_bug": true,
+    "failing_test_cases": 4,
+    "buggy_methods": 3
+  },
+  {
+    "name": "DefaultKeyedValues.setValue",
+    "class_name": "org.jfree.data.DefaultKeyedValues",
+    "signature": "org.jfree.data.DefaultKeyedValues.setValue(Comparable,Number)",
+    "snippet": "    public void setValue(Comparable key, Number value) {\n        if (key == null) {\n            throw new IllegalArgumentException(\"Null 'key' argument.\");\n        }\n        int keyIndex = getIndex(key);\n        if (keyIndex >= 0) {\n            this.keys.set(keyIndex, key);\n            this.values.set(keyIndex, value);\n        }\n        else {\n            this.keys.add(key);\n            this.values.add(value);\n            this.indexMap.put(key, new Integer(this.keys.size() - 1));\n        }\n    }",
+    "comment": " Updates an existing value, or adds a new value to the collection.  @param key  the key (<code>null</code> not permitted). @param value  the value (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 3
+  },
+  {
+    "name": "DefaultKeyedValues2D.DefaultKeyedValues2D",
+    "class_name": "org.jfree.data.DefaultKeyedValues2D",
+    "signature": "org.jfree.data.DefaultKeyedValues2D.DefaultKeyedValues2D()",
+    "snippet": "    public DefaultKeyedValues2D() {\n        this(false);\n    }",
+    "comment": " Creates a new instance (initially empty). ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 3
+  },
+  {
+    "name": "DefaultKeyedValues2D.DefaultKeyedValues2D",
+    "class_name": "org.jfree.data.DefaultKeyedValues2D",
+    "signature": "org.jfree.data.DefaultKeyedValues2D.DefaultKeyedValues2D(boolean)",
+    "snippet": "    public DefaultKeyedValues2D(boolean sortRowKeys) {\n        this.rowKeys = new java.util.ArrayList();\n        this.columnKeys = new java.util.ArrayList();\n        this.rows = new java.util.ArrayList();\n        this.sortRowKeys = sortRowKeys;\n    }",
+    "comment": " Creates a new instance (initially empty).  @param sortRowKeys  if the row keys should be sorted. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 3
+  },
+  {
+    "name": "DefaultKeyedValues2D.addValue",
+    "class_name": "org.jfree.data.DefaultKeyedValues2D",
+    "signature": "org.jfree.data.DefaultKeyedValues2D.addValue(Number,Comparable,Comparable)",
+    "snippet": "    public void addValue(Number value, Comparable rowKey, \n                         Comparable columnKey) {\n        // defer argument checking\n        setValue(value, rowKey, columnKey);\n    }",
+    "comment": " Adds a value to the table.  Performs the same function as  #setValue(Number, Comparable, Comparable).  @param value  the value (<code>null</code> permitted). @param rowKey  the row key (<code>null</code> not permitted). @param columnKey  the column key (<code>null</code> not permitted).  @see #setValue(Number, Comparable, Comparable) @see #removeValue(Comparable, Comparable) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 3
+  },
+  {
+    "name": "DefaultKeyedValues2D.getRowIndex",
+    "class_name": "org.jfree.data.DefaultKeyedValues2D",
+    "signature": "org.jfree.data.DefaultKeyedValues2D.getRowIndex(Comparable)",
+    "snippet": "    public int getRowIndex(Comparable key) {\n        if (key == null) {\n            throw new IllegalArgumentException(\"Null 'key' argument.\");\n        }\n        if (this.sortRowKeys) {\n            return Collections.binarySearch(this.rowKeys, key);\n        }\n        else {\n            return this.rowKeys.indexOf(key);\n        }\n    }",
+    "comment": " Returns the row index for a given key.  @param key  the key (<code>null</code> not permitted).  @return The row index.  @see #getRowKey(int) @see #getColumnIndex(Comparable) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 3
+  },
+  {
+    "name": "DefaultKeyedValues2D.removeColumn",
+    "class_name": "org.jfree.data.DefaultKeyedValues2D",
+    "signature": "org.jfree.data.DefaultKeyedValues2D.removeColumn(Comparable)",
+    "snippet": "    public void removeColumn(Comparable columnKey) {\n        Iterator iterator = this.rows.iterator();\n        while (iterator.hasNext()) {\n            DefaultKeyedValues rowData = (DefaultKeyedValues) iterator.next();\n                rowData.removeValue(columnKey);\n        }\n        this.columnKeys.remove(columnKey);\n    }",
+    "comment": " Removes a column from the table.  @param columnKey  the column key (<code>null</code> not permitted).  @throws UnknownKeyException if the table does not contain a column with the specified key. @throws IllegalArgumentException if <code>columnKey</code> is  <code>null</code>.  @see #removeColumn(int) @see #removeRow(Comparable) ",
+    "is_bug": true,
+    "failing_test_cases": 4,
+    "buggy_methods": 3
+  },
+  {
+    "name": "DefaultKeyedValues2D.setValue",
+    "class_name": "org.jfree.data.DefaultKeyedValues2D",
+    "signature": "org.jfree.data.DefaultKeyedValues2D.setValue(Number,Comparable,Comparable)",
+    "snippet": "    public void setValue(Number value, Comparable rowKey, \n                         Comparable columnKey) {\n\n        DefaultKeyedValues row;\n        int rowIndex = getRowIndex(rowKey);\n        \n        if (rowIndex >= 0) {\n            row = (DefaultKeyedValues) this.rows.get(rowIndex);\n        }\n        else {\n            row = new DefaultKeyedValues();\n            if (this.sortRowKeys) {\n                rowIndex = -rowIndex - 1;\n                this.rowKeys.add(rowIndex, rowKey);\n                this.rows.add(rowIndex, row);\n            }\n            else {\n                this.rowKeys.add(rowKey);\n                this.rows.add(row);\n            }\n        }\n        row.setValue(columnKey, value);\n        \n        int columnIndex = this.columnKeys.indexOf(columnKey);\n        if (columnIndex < 0) {\n            this.columnKeys.add(columnKey);\n        }\n    }",
+    "comment": " Adds or updates a value.  @param value  the value (<code>null</code> permitted). @param rowKey  the row key (<code>null</code> not permitted). @param columnKey  the column key (<code>null</code> not permitted).  @see #addValue(Number, Comparable, Comparable) @see #removeValue(Comparable, Comparable) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 3
+  },
+  {
+    "name": "DefaultCategoryDataset.DefaultCategoryDataset",
+    "class_name": "org.jfree.data.category.DefaultCategoryDataset",
+    "signature": "org.jfree.data.category.DefaultCategoryDataset.DefaultCategoryDataset()",
+    "snippet": "    public DefaultCategoryDataset() {\n        this.data = new DefaultKeyedValues2D();\n    }",
+    "comment": " Creates a new (empty) dataset. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 3
+  },
+  {
+    "name": "DefaultCategoryDataset.addValue",
+    "class_name": "org.jfree.data.category.DefaultCategoryDataset",
+    "signature": "org.jfree.data.category.DefaultCategoryDataset.addValue(Number,Comparable,Comparable)",
+    "snippet": "    public void addValue(Number value, Comparable rowKey, \n                         Comparable columnKey) {\n        this.data.addValue(value, rowKey, columnKey);\n        fireDatasetChanged();\n    }",
+    "comment": " Adds a value to the table.  Performs the same function as setValue().  @param value  the value. @param rowKey  the row key. @param columnKey  the column key.  @see #getValue(Comparable, Comparable) @see #removeValue(Comparable, Comparable) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 3
+  },
+  {
+    "name": "DefaultCategoryDataset.addValue",
+    "class_name": "org.jfree.data.category.DefaultCategoryDataset",
+    "signature": "org.jfree.data.category.DefaultCategoryDataset.addValue(double,Comparable,Comparable)",
+    "snippet": "    public void addValue(double value, Comparable rowKey, \n                         Comparable columnKey) {\n        addValue(new Double(value), rowKey, columnKey);\n    }",
+    "comment": " Adds a value to the table.  @param value  the value. @param rowKey  the row key. @param columnKey  the column key.  @see #getValue(Comparable, Comparable) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 3
+  },
+  {
+    "name": "DefaultCategoryDataset.removeColumn",
+    "class_name": "org.jfree.data.category.DefaultCategoryDataset",
+    "signature": "org.jfree.data.category.DefaultCategoryDataset.removeColumn(Comparable)",
+    "snippet": "    public void removeColumn(Comparable columnKey) {\n        this.data.removeColumn(columnKey);\n        fireDatasetChanged();\n    }",
+    "comment": " Removes a column from the dataset and sends a {@link DatasetChangeEvent} to all registered listeners.  @param columnKey  the column key.  @see #removeRow(Comparable) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 3
+  },
+  {
+    "name": "AbstractDataset.AbstractDataset",
+    "class_name": "org.jfree.data.general.AbstractDataset",
+    "signature": "org.jfree.data.general.AbstractDataset.AbstractDataset()",
+    "snippet": "    protected AbstractDataset() {\n        this.group = new DatasetGroup();\n        this.listenerList = new EventListenerList();\n    }",
+    "comment": " Constructs a dataset. By default, the dataset is assigned to its own  group. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 3
+  },
+  {
+    "name": "AbstractDataset.fireDatasetChanged",
+    "class_name": "org.jfree.data.general.AbstractDataset",
+    "signature": "org.jfree.data.general.AbstractDataset.fireDatasetChanged()",
+    "snippet": "    protected void fireDatasetChanged() {\n        notifyListeners(new DatasetChangeEvent(this, this));\n    }",
+    "comment": " Notifies all registered listeners that the dataset has changed.  @see #addChangeListener(DatasetChangeListener) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 3
+  },
+  {
+    "name": "AbstractDataset.notifyListeners",
+    "class_name": "org.jfree.data.general.AbstractDataset",
+    "signature": "org.jfree.data.general.AbstractDataset.notifyListeners(DatasetChangeEvent)",
+    "snippet": "    protected void notifyListeners(DatasetChangeEvent event) {\n\n        Object[] listeners = this.listenerList.getListenerList();\n        for (int i = listeners.length - 2; i >= 0; i -= 2) {\n            if (listeners[i] == DatasetChangeListener.class) {\n                ((DatasetChangeListener) listeners[i + 1]).datasetChanged(\n                        event);\n            }\n        }\n\n    }",
+    "comment": " Notifies all registered listeners that the dataset has changed.  @param event  contains information about the event that triggered the  notification.  @see #addChangeListener(DatasetChangeListener) @see #removeChangeListener(DatasetChangeListener) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 3
+  },
+  {
+    "name": "DatasetChangeEvent.DatasetChangeEvent",
+    "class_name": "org.jfree.data.general.DatasetChangeEvent",
+    "signature": "org.jfree.data.general.DatasetChangeEvent.DatasetChangeEvent(Object,Dataset)",
+    "snippet": "    public DatasetChangeEvent(Object source, Dataset dataset) {\n        super(source);\n        this.dataset = dataset;\n    }",
+    "comment": " Constructs a new event.  The source is either the dataset or the  {@link org.jfree.chart.plot.Plot} class.  The dataset can be  <code>null</code> (in this case the source will be the  {@link org.jfree.chart.plot.Plot} class).  @param source  the source of the event. @param dataset  the dataset that generated the event (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 3
+  },
+  {
+    "name": "DatasetGroup.DatasetGroup",
+    "class_name": "org.jfree.data.general.DatasetGroup",
+    "signature": "org.jfree.data.general.DatasetGroup.DatasetGroup()",
+    "snippet": "    public DatasetGroup() {\n        super();\n        this.id = \"NOID\";\n    }",
+    "comment": " Constructs a new group. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 3
+  }
+]

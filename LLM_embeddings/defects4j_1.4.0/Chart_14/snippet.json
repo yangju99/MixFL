@@ -1,0 +1,742 @@
+[
+  {
+    "name": "ChartColor.createDefaultPaintArray",
+    "class_name": "org.jfree.chart.ChartColor",
+    "signature": "org.jfree.chart.ChartColor.createDefaultPaintArray()",
+    "snippet": "    public static Paint[] createDefaultPaintArray() {\n\n        return new Paint[] {\n            new Color(0xFF, 0x55, 0x55),\n            new Color(0x55, 0x55, 0xFF),\n            new Color(0x55, 0xFF, 0x55),\n            new Color(0xFF, 0xFF, 0x55),\n            new Color(0xFF, 0x55, 0xFF),\n            new Color(0x55, 0xFF, 0xFF),\n            Color.pink,\n            Color.gray,\n            ChartColor.DARK_RED,\n            ChartColor.DARK_BLUE,\n            ChartColor.DARK_GREEN,\n            ChartColor.DARK_YELLOW,\n            ChartColor.DARK_MAGENTA,\n            ChartColor.DARK_CYAN,\n            Color.darkGray,\n            ChartColor.LIGHT_RED,\n            ChartColor.LIGHT_BLUE,\n            ChartColor.LIGHT_GREEN,\n            ChartColor.LIGHT_YELLOW,\n            ChartColor.LIGHT_MAGENTA,\n            ChartColor.LIGHT_CYAN,\n            Color.lightGray,\n            ChartColor.VERY_DARK_RED,\n            ChartColor.VERY_DARK_BLUE,\n            ChartColor.VERY_DARK_GREEN,\n            ChartColor.VERY_DARK_YELLOW,\n            ChartColor.VERY_DARK_MAGENTA,\n            ChartColor.VERY_DARK_CYAN,\n            ChartColor.VERY_LIGHT_RED,\n            ChartColor.VERY_LIGHT_BLUE,\n            ChartColor.VERY_LIGHT_GREEN,\n            ChartColor.VERY_LIGHT_YELLOW,\n            ChartColor.VERY_LIGHT_MAGENTA,\n            ChartColor.VERY_LIGHT_CYAN\n        };\n    }",
+    "comment": " Convenience method to return an array of <code>Paint</code> objects that represent the pre-defined colors in the <code>Color<code> and  <code>ChartColor</code> objects.  @return An array of objects with the <code>Paint</code> interface. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ChartChangeEvent.ChartChangeEvent",
+    "class_name": "org.jfree.chart.event.ChartChangeEvent",
+    "signature": "org.jfree.chart.event.ChartChangeEvent.ChartChangeEvent(Object)",
+    "snippet": "    public ChartChangeEvent(Object source) {\n        this(source, null, ChartChangeEventType.GENERAL);\n    }",
+    "comment": " Creates a new chart change event.  @param source  the source of the event (could be the chart, a title,  an axis etc.) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ChartChangeEvent.ChartChangeEvent",
+    "class_name": "org.jfree.chart.event.ChartChangeEvent",
+    "signature": "org.jfree.chart.event.ChartChangeEvent.ChartChangeEvent(Object,JFreeChart,ChartChangeEventType)",
+    "snippet": "    public ChartChangeEvent(Object source, JFreeChart chart, \n                            ChartChangeEventType type) {\n        super(source);\n        this.chart = chart;\n        this.type = type;\n    }",
+    "comment": " Creates a new chart change event.  @param source  the source of the event (could be the chart, a title, an axis etc.) @param chart  the chart that generated the event. @param type  the type of event. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ChartChangeEvent.setType",
+    "class_name": "org.jfree.chart.event.ChartChangeEvent",
+    "signature": "org.jfree.chart.event.ChartChangeEvent.setType(ChartChangeEventType)",
+    "snippet": "    public void setType(ChartChangeEventType type) {\n        this.type = type;\n    }",
+    "comment": " Sets the event type.  @param type  the event type. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "PlotChangeEvent.PlotChangeEvent",
+    "class_name": "org.jfree.chart.event.PlotChangeEvent",
+    "signature": "org.jfree.chart.event.PlotChangeEvent.PlotChangeEvent(Plot)",
+    "snippet": "    public PlotChangeEvent(Plot plot) {\n        super(plot);\n        this.plot = plot;\n    }",
+    "comment": " Creates a new PlotChangeEvent.  @param plot  the plot that generated the event. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.CategoryPlot",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.CategoryPlot()",
+    "snippet": "    public CategoryPlot() {\n        this(null, null, null, null);\n    }",
+    "comment": " Default constructor. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.CategoryPlot",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.CategoryPlot(CategoryDataset,CategoryAxis,ValueAxis,CategoryItemRenderer)",
+    "snippet": "    public CategoryPlot(CategoryDataset dataset,\n                        CategoryAxis domainAxis,\n                        ValueAxis rangeAxis,\n                        CategoryItemRenderer renderer) {\n\n        super();\n\n        this.orientation = PlotOrientation.VERTICAL;\n\n        // allocate storage for dataset, axes and renderers\n        this.domainAxes = new ObjectList();\n        this.domainAxisLocations = new ObjectList();\n        this.rangeAxes = new ObjectList();\n        this.rangeAxisLocations = new ObjectList();\n        \n        this.datasetToDomainAxisMap = new ObjectList();\n        this.datasetToRangeAxisMap = new ObjectList();\n\n        this.renderers = new ObjectList();\n\n        this.datasets = new ObjectList();\n        this.datasets.set(0, dataset);\n        if (dataset != null) {\n            dataset.addChangeListener(this);\n        }\n\n        this.axisOffset = new RectangleInsets(4.0, 4.0, 4.0, 4.0);\n\n        setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT, false);\n        setRangeAxisLocation(AxisLocation.TOP_OR_LEFT, false);\n\n        this.renderers.set(0, renderer);\n        if (renderer != null) {\n            renderer.setPlot(this);\n            renderer.addChangeListener(this);\n        }\n\n        this.domainAxes.set(0, domainAxis);\n        this.mapDatasetToDomainAxis(0, 0);\n        if (domainAxis != null) {\n            domainAxis.setPlot(this);\n            domainAxis.addChangeListener(this);\n        }\n        this.drawSharedDomainAxis = false;\n\n        this.rangeAxes.set(0, rangeAxis);\n        this.mapDatasetToRangeAxis(0, 0);\n        if (rangeAxis != null) {\n            rangeAxis.setPlot(this);\n            rangeAxis.addChangeListener(this);\n        }\n        \n        configureDomainAxes();\n        configureRangeAxes();\n\n        this.domainGridlinesVisible = DEFAULT_DOMAIN_GRIDLINES_VISIBLE;\n        this.domainGridlinePosition = CategoryAnchor.MIDDLE;\n        this.domainGridlineStroke = DEFAULT_GRIDLINE_STROKE;\n        this.domainGridlinePaint = DEFAULT_GRIDLINE_PAINT;\n\n        this.rangeGridlinesVisible = DEFAULT_RANGE_GRIDLINES_VISIBLE;\n        this.rangeGridlineStroke = DEFAULT_GRIDLINE_STROKE;\n        this.rangeGridlinePaint = DEFAULT_GRIDLINE_PAINT;\n\n        this.foregroundDomainMarkers = new HashMap();\n        this.backgroundDomainMarkers = new HashMap();\n        this.foregroundRangeMarkers = new HashMap();\n        this.backgroundRangeMarkers = new HashMap();\n\n        Marker baseline = new ValueMarker(0.0, new Color(0.8f, 0.8f, 0.8f, \n                0.5f), new BasicStroke(1.0f), new Color(0.85f, 0.85f, 0.95f, \n                0.5f), new BasicStroke(1.0f), 0.6f);\n        addRangeMarker(baseline, Layer.BACKGROUND);\n\n        this.anchorValue = 0.0;\n\n        this.rangeCrosshairVisible = DEFAULT_CROSSHAIR_VISIBLE;\n        this.rangeCrosshairValue = 0.0;\n        this.rangeCrosshairStroke = DEFAULT_CROSSHAIR_STROKE;\n        this.rangeCrosshairPaint = DEFAULT_CROSSHAIR_PAINT;\n        \n        this.annotations = new java.util.ArrayList();\n\n    }",
+    "comment": " Creates a new plot.  @param dataset  the dataset (<code>null</code> permitted). @param domainAxis  the domain axis (<code>null</code> permitted). @param rangeAxis  the range axis (<code>null</code> permitted). @param renderer  the item renderer (<code>null</code> permitted).  ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.addRangeMarker",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.addRangeMarker(Marker,Layer)",
+    "snippet": "    public void addRangeMarker(Marker marker, Layer layer) {\n        addRangeMarker(0, marker, layer);\n    }",
+    "comment": " Adds a marker for display against the range axis and sends a  {@link PlotChangeEvent} to all registered listeners.  Typically a marker  will be drawn by the renderer as a line perpendicular to the range axis,  however this is entirely up to the renderer.  @param marker  the marker (<code>null</code> not permitted). @param layer  the layer (foreground or background) (<code>null</code>  not permitted).  @see #removeRangeMarker(Marker, Layer) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.addRangeMarker",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.addRangeMarker(int,Marker,Layer)",
+    "snippet": "    public void addRangeMarker(int index, Marker marker, Layer layer) {\n    \taddRangeMarker(index, marker, layer, true);\n    }",
+    "comment": " Adds a marker for display by a particular renderer and sends a  {@link PlotChangeEvent} to all registered listeners. <P> Typically a marker will be drawn by the renderer as a line perpendicular to a range axis, however this is entirely up to the renderer.  @param index  the renderer index. @param marker  the marker. @param layer  the layer.  @see #removeRangeMarker(int, Marker, Layer) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.addRangeMarker",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.addRangeMarker(int,Marker,Layer,boolean)",
+    "snippet": "    public void addRangeMarker(int index, Marker marker, Layer layer,\n    \t\tboolean notify) {\n        Collection markers;\n        if (layer == Layer.FOREGROUND) {\n            markers = (Collection) this.foregroundRangeMarkers.get(\n                    new Integer(index));\n            if (markers == null) {\n                markers = new java.util.ArrayList();\n                this.foregroundRangeMarkers.put(new Integer(index), markers);\n            }\n            markers.add(marker);\n        }\n        else if (layer == Layer.BACKGROUND) {\n            markers = (Collection) this.backgroundRangeMarkers.get(\n                    new Integer(index));\n            if (markers == null) {\n                markers = new java.util.ArrayList();\n                this.backgroundRangeMarkers.put(new Integer(index), markers);\n            }\n            markers.add(marker);            \n        }\n        marker.addChangeListener(this);\n        if (notify) {\n            fireChangeEvent();\n        }\n    }",
+    "comment": " Adds a marker for display by a particular renderer and sends a  {@link PlotChangeEvent} to all registered listeners. <P> Typically a marker will be drawn by the renderer as a line perpendicular to a range axis, however this is entirely up to the renderer.  @param index  the renderer index. @param marker  the marker. @param layer  the layer. @param notify  notify listeners?  @since 1.0.10  @see #removeRangeMarker(int, Marker, Layer, boolean) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.configureDomainAxes",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.configureDomainAxes()",
+    "snippet": "    public void configureDomainAxes() {\n        for (int i = 0; i < this.domainAxes.size(); i++) {\n            CategoryAxis axis = (CategoryAxis) this.domainAxes.get(i);\n            if (axis != null) {\n                axis.configure();\n            }\n        }\n    }",
+    "comment": " Configures the domain axes. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.configureRangeAxes",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.configureRangeAxes()",
+    "snippet": "    public void configureRangeAxes() {\n        for (int i = 0; i < this.rangeAxes.size(); i++) {\n            ValueAxis axis = (ValueAxis) this.rangeAxes.get(i);\n            if (axis != null) {\n                axis.configure();\n            }\n        }\n    }",
+    "comment": " Configures the range axes. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.datasetChanged",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.datasetChanged(DatasetChangeEvent)",
+    "snippet": "    public void datasetChanged(DatasetChangeEvent event) {\n\n        int count = this.rangeAxes.size();\n        for (int axisIndex = 0; axisIndex < count; axisIndex++) {\n            ValueAxis yAxis = getRangeAxis(axisIndex);\n            if (yAxis != null) {\n                yAxis.configure();\n            }\n        }\n        if (getParent() != null) {\n            getParent().datasetChanged(event);\n        }\n        else {\n            PlotChangeEvent e = new PlotChangeEvent(this);\n            e.setType(ChartChangeEventType.DATASET_UPDATED);\n            notifyListeners(e);\n        }\n\n    }",
+    "comment": " Receives notification of a change to the plot's dataset. <P> The range axis bounds will be recalculated if necessary.  @param event  information about the event (not used here). ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.getDataset",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.getDataset(int)",
+    "snippet": "    public CategoryDataset getDataset(int index) {\n        CategoryDataset result = null;\n        if (this.datasets.size() > index) {\n            result = (CategoryDataset) this.datasets.get(index);\n        }\n        return result;\n    }",
+    "comment": " Returns the dataset at the given index.  @param index  the dataset index.  @return The dataset (possibly <code>null</code>).  @see #setDataset(int, CategoryDataset) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.getRangeAxis",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.getRangeAxis(int)",
+    "snippet": "    public ValueAxis getRangeAxis(int index) {\n        ValueAxis result = null;\n        if (index < this.rangeAxes.size()) {\n            result = (ValueAxis) this.rangeAxes.get(index);\n        }\n        if (result == null) {\n            Plot parent = getParent();\n            if (parent instanceof CategoryPlot) {\n                CategoryPlot cp = (CategoryPlot) parent;\n                result = cp.getRangeAxis(index);\n            }\n        }\n        return result;\n    }",
+    "comment": " Returns a range axis.  @param index  the axis index.  @return The axis (<code>null</code> possible). ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.mapDatasetToDomainAxis",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.mapDatasetToDomainAxis(int,int)",
+    "snippet": "    public void mapDatasetToDomainAxis(int index, int axisIndex) {\n        this.datasetToDomainAxisMap.set(index, new Integer(axisIndex));  \n        // fake a dataset change event to update axes...\n        datasetChanged(new DatasetChangeEvent(this, getDataset(index)));  \n    }",
+    "comment": " Maps a dataset to a particular domain axis.  @param index  the dataset index (zero-based). @param axisIndex  the axis index (zero-based).  @see #getDomainAxisForDataset(int) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.mapDatasetToRangeAxis",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.mapDatasetToRangeAxis(int,int)",
+    "snippet": "    public void mapDatasetToRangeAxis(int index, int axisIndex) {\n        this.datasetToRangeAxisMap.set(index, new Integer(axisIndex));\n        // fake a dataset change event to update axes...\n        datasetChanged(new DatasetChangeEvent(this, getDataset(index)));  \n    }",
+    "comment": " Maps a dataset to a particular range axis.  @param index  the dataset index (zero-based). @param axisIndex  the axis index (zero-based).  @see #getRangeAxisForDataset(int) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.removeDomainMarker",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.removeDomainMarker(Marker)",
+    "snippet": "    public boolean removeDomainMarker(Marker marker) {\n        return removeDomainMarker(marker, Layer.FOREGROUND);\n    }",
+    "comment": " Removes a marker for the domain axis and sends a {@link PlotChangeEvent}  to all registered listeners.  @param marker  the marker.  @return A boolean indicating whether or not the marker was actually  removed.  @since 1.0.7 ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.removeDomainMarker",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.removeDomainMarker(Marker,Layer)",
+    "snippet": "    public boolean removeDomainMarker(Marker marker, Layer layer) {\n        return removeDomainMarker(0, marker, layer);\n    }",
+    "comment": " Removes a marker for the domain axis in the specified layer and sends a {@link PlotChangeEvent} to all registered listeners.  @param marker the marker (<code>null</code> not permitted). @param layer the layer (foreground or background).  @return A boolean indicating whether or not the marker was actually  removed.  @since 1.0.7 ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.removeDomainMarker",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.removeDomainMarker(int,Marker,Layer)",
+    "snippet": "    public boolean removeDomainMarker(int index, Marker marker, Layer layer) {\n    \treturn removeDomainMarker(index, marker, layer, true);\n    }",
+    "comment": " Removes a marker for a specific dataset/renderer and sends a {@link PlotChangeEvent} to all registered listeners.  @param index the dataset/renderer index. @param marker the marker. @param layer the layer (foreground or background).  @return A boolean indicating whether or not the marker was actually  removed.  @since 1.0.7 ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.removeDomainMarker",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.removeDomainMarker(int,Marker,Layer,boolean)",
+    "snippet": "    public boolean removeDomainMarker(int index, Marker marker, Layer layer,\n    \t\tboolean notify) {\n        ArrayList markers;\n        if (layer == Layer.FOREGROUND) {\n            markers = (ArrayList) this.foregroundDomainMarkers.get(new Integer(\n                    index));\n        }\n        else {\n            markers = (ArrayList) this.backgroundDomainMarkers.get(new Integer(\n                    index));\n        }\n        boolean removed = markers.remove(marker);\n        if (removed && notify) {\n            fireChangeEvent();\n        }\n        return removed;\n    }",
+    "comment": " Removes a marker for a specific dataset/renderer and, if requested,  sends a {@link PlotChangeEvent} to all registered listeners.  @param index the dataset/renderer index. @param marker the marker. @param layer the layer (foreground or background).  @return A boolean indicating whether or not the marker was actually  removed.  @since 1.0.10 ",
+    "is_bug": true,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.removeRangeMarker",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.removeRangeMarker(Marker)",
+    "snippet": "    public boolean removeRangeMarker(Marker marker) {\n        return removeRangeMarker(marker, Layer.FOREGROUND);\n    }",
+    "comment": " Removes a marker for the range axis and sends a {@link PlotChangeEvent}  to all registered listeners.  @param marker the marker.  @return A boolean indicating whether or not the marker was actually  removed.  @since 1.0.7  @see #addRangeMarker(Marker) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.removeRangeMarker",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.removeRangeMarker(Marker,Layer)",
+    "snippet": "    public boolean removeRangeMarker(Marker marker, Layer layer) {\n        return removeRangeMarker(0, marker, layer);\n    }",
+    "comment": " Removes a marker for the range axis in the specified layer and sends a {@link PlotChangeEvent} to all registered listeners.  @param marker the marker (<code>null</code> not permitted). @param layer the layer (foreground or background).  @return A boolean indicating whether or not the marker was actually  removed.  @since 1.0.7  @see #addRangeMarker(Marker, Layer) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.removeRangeMarker",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.removeRangeMarker(int,Marker,Layer)",
+    "snippet": "    public boolean removeRangeMarker(int index, Marker marker, Layer layer) {\n    \treturn removeRangeMarker(index, marker, layer, true);\n    }",
+    "comment": " Removes a marker for a specific dataset/renderer and sends a {@link PlotChangeEvent} to all registered listeners.  @param index the dataset/renderer index. @param marker the marker. @param layer the layer (foreground or background).  @return A boolean indicating whether or not the marker was actually  removed.  @since 1.0.7  @see #addRangeMarker(int, Marker, Layer) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.removeRangeMarker",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.removeRangeMarker(int,Marker,Layer,boolean)",
+    "snippet": "    public boolean removeRangeMarker(int index, Marker marker, Layer layer,\n    \t\tboolean notify) {\n        if (marker == null) {\n            throw new IllegalArgumentException(\"Null 'marker' argument.\");\n        }\n        ArrayList markers;\n        if (layer == Layer.FOREGROUND) {\n            markers = (ArrayList) this.foregroundRangeMarkers.get(new Integer(\n                    index));\n        }\n        else {\n            markers = (ArrayList) this.backgroundRangeMarkers.get(new Integer(\n                    index));\n        }\n        boolean removed = markers.remove(marker);\n        if (removed && notify) {\n            fireChangeEvent();\n        }\n        return removed;\n    }",
+    "comment": " Removes a marker for a specific dataset/renderer and sends a {@link PlotChangeEvent} to all registered listeners.  @param index  the dataset/renderer index. @param marker  the marker. @param layer  the layer (foreground or background). @param notify  notify listeners.  @return A boolean indicating whether or not the marker was actually  removed.  @since 1.0.10  @see #addRangeMarker(int, Marker, Layer, boolean) ",
+    "is_bug": true,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.setDomainAxisLocation",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.setDomainAxisLocation(AxisLocation,boolean)",
+    "snippet": "    public void setDomainAxisLocation(AxisLocation location, boolean notify) {\n        // delegate...\n        setDomainAxisLocation(0, location, notify);\n    }",
+    "comment": " Sets the location of the domain axis and, if requested, sends a  {@link PlotChangeEvent} to all registered listeners.  @param location  the axis location (<code>null</code> not permitted). @param notify  a flag that controls whether listeners are notified. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.setDomainAxisLocation",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.setDomainAxisLocation(int,AxisLocation,boolean)",
+    "snippet": "    public void setDomainAxisLocation(int index, AxisLocation location, \n            boolean notify) {\n        if (index == 0 && location == null) {\n            throw new IllegalArgumentException(\n                    \"Null 'location' for index 0 not permitted.\");\n        }\n        this.domainAxisLocations.set(index, location);\n        if (notify) {\n            fireChangeEvent();\n        }\n    }",
+    "comment": " Sets the location for a domain axis and sends a {@link PlotChangeEvent}  to all registered listeners.  @param index  the axis index. @param location  the location. @param notify  notify listeners?  @since 1.0.5  @see #getDomainAxisLocation(int) @see #setRangeAxisLocation(int, AxisLocation, boolean) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.setRangeAxisLocation",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.setRangeAxisLocation(AxisLocation,boolean)",
+    "snippet": "    public void setRangeAxisLocation(AxisLocation location, boolean notify) {\n        setRangeAxisLocation(0, location, notify);\n    }",
+    "comment": " Sets the location of the range axis and, if requested, sends a  {@link PlotChangeEvent} to all registered listeners.  @param location  the location (<code>null</code> not permitted). @param notify  notify listeners?  @see #setDomainAxisLocation(AxisLocation, boolean) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "CategoryPlot.setRangeAxisLocation",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.setRangeAxisLocation(int,AxisLocation,boolean)",
+    "snippet": "    public void setRangeAxisLocation(int index, AxisLocation location, \n                                     boolean notify) {\n        if (index == 0 && location == null) {\n            throw new IllegalArgumentException(\n                    \"Null 'location' for index 0 not permitted.\");\n        }\n        this.rangeAxisLocations.set(index, location);\n        if (notify) {\n            fireChangeEvent();\n        }\n    }",
+    "comment": " Sets the location for a range axis and sends a {@link PlotChangeEvent}  to all registered listeners.  @param index  the axis index. @param location  the location. @param notify  notify listeners?  @see #getRangeAxisLocation(int) @see #setDomainAxisLocation(int, AxisLocation, boolean) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "DefaultDrawingSupplier.DefaultDrawingSupplier",
+    "class_name": "org.jfree.chart.plot.DefaultDrawingSupplier",
+    "signature": "org.jfree.chart.plot.DefaultDrawingSupplier.DefaultDrawingSupplier()",
+    "snippet": "    public DefaultDrawingSupplier() {\n\n        this(DEFAULT_PAINT_SEQUENCE, DEFAULT_FILL_PAINT_SEQUENCE,\n             DEFAULT_OUTLINE_PAINT_SEQUENCE,\n             DEFAULT_STROKE_SEQUENCE,\n             DEFAULT_OUTLINE_STROKE_SEQUENCE,\n             DEFAULT_SHAPE_SEQUENCE);\n\n    }",
+    "comment": " Creates a new supplier, with default sequences for fill paint, outline  paint, stroke and shapes. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "DefaultDrawingSupplier.DefaultDrawingSupplier",
+    "class_name": "org.jfree.chart.plot.DefaultDrawingSupplier",
+    "signature": "org.jfree.chart.plot.DefaultDrawingSupplier.DefaultDrawingSupplier(Paint[],Paint[],Paint[],Stroke[],Stroke[],Shape[])",
+    "snippet": "    public DefaultDrawingSupplier(Paint[] paintSequence, \n            Paint[] fillPaintSequence, Paint[] outlinePaintSequence,\n            Stroke[] strokeSequence, Stroke[] outlineStrokeSequence,\n            Shape[] shapeSequence) {\n\n        this.paintSequence = paintSequence;\n        this.fillPaintSequence = fillPaintSequence;\n        this.outlinePaintSequence = outlinePaintSequence;\n        this.strokeSequence = strokeSequence;\n        this.outlineStrokeSequence = outlineStrokeSequence;\n        this.shapeSequence = shapeSequence;\n    }",
+    "comment": " Creates a new supplier.  @param paintSequence  the paint sequence. @param fillPaintSequence  the fill paint sequence. @param outlinePaintSequence  the outline paint sequence. @param strokeSequence  the stroke sequence. @param outlineStrokeSequence  the outline stroke sequence. @param shapeSequence  the shape sequence.  @since 1.0.6 ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "DefaultDrawingSupplier.createStandardSeriesShapes",
+    "class_name": "org.jfree.chart.plot.DefaultDrawingSupplier",
+    "signature": "org.jfree.chart.plot.DefaultDrawingSupplier.createStandardSeriesShapes()",
+    "snippet": "    public static Shape[] createStandardSeriesShapes() {\n\n        Shape[] result = new Shape[10];\n\n        double size = 6.0;\n        double delta = size / 2.0;\n        int[] xpoints = null;\n        int[] ypoints = null;\n\n        // square\n        result[0] = new Rectangle2D.Double(-delta, -delta, size, size);\n        // circle\n        result[1] = new Ellipse2D.Double(-delta, -delta, size, size);\n\n        // up-pointing triangle\n        xpoints = intArray(0.0, delta, -delta);\n        ypoints = intArray(-delta, delta, delta);\n        result[2] = new Polygon(xpoints, ypoints, 3);\n\n        // diamond\n        xpoints = intArray(0.0, delta, 0.0, -delta);\n        ypoints = intArray(-delta, 0.0, delta, 0.0);\n        result[3] = new Polygon(xpoints, ypoints, 4);\n\n        // horizontal rectangle\n        result[4] = new Rectangle2D.Double(-delta, -delta / 2, size, size / 2);\n\n        // down-pointing triangle\n        xpoints = intArray(-delta, +delta, 0.0);\n        ypoints = intArray(-delta, -delta, delta);\n        result[5] = new Polygon(xpoints, ypoints, 3);\n\n        // horizontal ellipse\n        result[6] = new Ellipse2D.Double(-delta, -delta / 2, size, size / 2);\n\n        // right-pointing triangle\n        xpoints = intArray(-delta, delta, -delta);\n        ypoints = intArray(-delta, 0.0, delta);\n        result[7] = new Polygon(xpoints, ypoints, 3);\n\n        // vertical rectangle\n        result[8] = new Rectangle2D.Double(-delta / 2, -delta, size / 2, size);\n\n        // left-pointing triangle\n        xpoints = intArray(-delta, delta, delta);\n        ypoints = intArray(0.0, -delta, +delta);\n        result[9] = new Polygon(xpoints, ypoints, 3);\n\n        return result;\n\n    }",
+    "comment": " Creates an array of standard shapes to display for the items in series  on charts.  @return The array of shapes. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "DefaultDrawingSupplier.intArray",
+    "class_name": "org.jfree.chart.plot.DefaultDrawingSupplier",
+    "signature": "org.jfree.chart.plot.DefaultDrawingSupplier.intArray(double,double,double)",
+    "snippet": "    private static int[] intArray(double a, double b, double c) {\n        return new int[] {(int) a, (int) b, (int) c};\n    }",
+    "comment": " Helper method to avoid lots of explicit casts in getShape().  Returns an array containing the provided doubles cast to ints.  @param a  x @param b  y @param c  z  @return int[3] with converted params. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "DefaultDrawingSupplier.intArray",
+    "class_name": "org.jfree.chart.plot.DefaultDrawingSupplier",
+    "signature": "org.jfree.chart.plot.DefaultDrawingSupplier.intArray(double,double,double,double)",
+    "snippet": "    private static int[] intArray(double a, double b, double c, double d) {\n        return new int[] {(int) a, (int) b, (int) c, (int) d};\n    }",
+    "comment": " Helper method to avoid lots of explicit casts in getShape().  Returns an array containing the provided doubles cast to ints.  @param a  x @param b  y @param c  z @param d  t  @return int[4] with converted params. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Marker.Marker",
+    "class_name": "org.jfree.chart.plot.Marker",
+    "signature": "org.jfree.chart.plot.Marker.Marker()",
+    "snippet": "    protected Marker() {\n        this(Color.gray);\n    }",
+    "comment": " Creates a new marker with default attributes. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Marker.Marker",
+    "class_name": "org.jfree.chart.plot.Marker",
+    "signature": "org.jfree.chart.plot.Marker.Marker(Paint)",
+    "snippet": "    protected Marker(Paint paint) {\n        this(paint, new BasicStroke(0.5f), Color.gray, new BasicStroke(0.5f), \n                0.80f);\n    }",
+    "comment": " Constructs a new marker.  @param paint  the paint (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Marker.Marker",
+    "class_name": "org.jfree.chart.plot.Marker",
+    "signature": "org.jfree.chart.plot.Marker.Marker(Paint,Stroke,Paint,Stroke,float)",
+    "snippet": "    protected Marker(Paint paint, Stroke stroke, \n                     Paint outlinePaint, Stroke outlineStroke, \n                     float alpha) {\n\n        if (paint == null) {\n            throw new IllegalArgumentException(\"Null 'paint' argument.\");\n        }\n        if (stroke == null) {\n            throw new IllegalArgumentException(\"Null 'stroke' argument.\");\n        }\n        if (alpha < 0.0f || alpha > 1.0f)\n            throw new IllegalArgumentException(\n                    \"The 'alpha' value must be in the range 0.0f to 1.0f\");\n        \n        this.paint = paint;\n        this.stroke = stroke;\n        this.outlinePaint = outlinePaint;\n        this.outlineStroke = outlineStroke;\n        this.alpha = alpha;\n        \n        this.labelFont = new Font(\"SansSerif\", Font.PLAIN, 9);\n        this.labelPaint = Color.black;\n        this.labelAnchor = RectangleAnchor.TOP_LEFT;\n        this.labelOffset = new RectangleInsets(3.0, 3.0, 3.0, 3.0);\n        this.labelOffsetType = LengthAdjustmentType.CONTRACT;\n        this.labelTextAnchor = TextAnchor.CENTER;\n        \n        this.listenerList = new EventListenerList();\n    }",
+    "comment": " Constructs a new marker.  @param paint  the paint (<code>null</code> not permitted). @param stroke  the stroke (<code>null</code> not permitted). @param outlinePaint  the outline paint (<code>null</code> permitted). @param outlineStroke  the outline stroke (<code>null</code> permitted). @param alpha  the alpha transparency (must be in the range 0.0f to  1.0f).  @throws IllegalArgumentException if <code>paint</code> or  <code>stroke</code> is <code>null</code>, or <code>alpha</code> is  not in the specified range. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Marker.addChangeListener",
+    "class_name": "org.jfree.chart.plot.Marker",
+    "signature": "org.jfree.chart.plot.Marker.addChangeListener(MarkerChangeListener)",
+    "snippet": "    public void addChangeListener(MarkerChangeListener listener) {\n        this.listenerList.add(MarkerChangeListener.class, listener);\n    }",
+    "comment": " Registers an object for notification of changes to the marker.  @param listener  the object to be registered.  @see #removeChangeListener(MarkerChangeListener)  @since 1.0.3 ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Marker.notifyListeners",
+    "class_name": "org.jfree.chart.plot.Marker",
+    "signature": "org.jfree.chart.plot.Marker.notifyListeners(MarkerChangeEvent)",
+    "snippet": "    public void notifyListeners(MarkerChangeEvent event) {\n\n        Object[] listeners = this.listenerList.getListenerList();\n        for (int i = listeners.length - 2; i >= 0; i -= 2) {\n            if (listeners[i] == MarkerChangeListener.class) {\n                ((MarkerChangeListener) listeners[i + 1]).markerChanged(event);\n            }\n        }\n\n    }",
+    "comment": " Notifies all registered listeners that the marker has been modified.  @param event  information about the change event.  @since 1.0.3 ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Marker.setLabelOffsetType",
+    "class_name": "org.jfree.chart.plot.Marker",
+    "signature": "org.jfree.chart.plot.Marker.setLabelOffsetType(LengthAdjustmentType)",
+    "snippet": "    public void setLabelOffsetType(LengthAdjustmentType adj) {\n        if (adj == null) {\n            throw new IllegalArgumentException(\"Null 'adj' argument.\");\n        }\n        this.labelOffsetType = adj;    \n        notifyListeners(new MarkerChangeEvent(this));\n    }",
+    "comment": " Sets the label offset type and sends a {@link MarkerChangeEvent} to all registered listeners.  @param adj  the type (<code>null</code> not permitted).  @see #getLabelOffsetType() ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Plot.Plot",
+    "class_name": "org.jfree.chart.plot.Plot",
+    "signature": "org.jfree.chart.plot.Plot.Plot()",
+    "snippet": "    protected Plot() {\n\n        this.parent = null;\n        this.insets = DEFAULT_INSETS;\n        this.backgroundPaint = DEFAULT_BACKGROUND_PAINT;\n        this.backgroundAlpha = DEFAULT_BACKGROUND_ALPHA;\n        this.backgroundImage = null;\n        this.outlineVisible = true;\n        this.outlineStroke = DEFAULT_OUTLINE_STROKE;\n        this.outlinePaint = DEFAULT_OUTLINE_PAINT;\n        this.foregroundAlpha = DEFAULT_FOREGROUND_ALPHA;\n\n        this.noDataMessage = null;\n        this.noDataMessageFont = new Font(\"SansSerif\", Font.PLAIN, 12);\n        this.noDataMessagePaint = Color.black;\n\n        this.drawingSupplier = new DefaultDrawingSupplier();\n\n        this.listenerList = new EventListenerList();\n\n    }",
+    "comment": " Creates a new plot. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Plot.fireChangeEvent",
+    "class_name": "org.jfree.chart.plot.Plot",
+    "signature": "org.jfree.chart.plot.Plot.fireChangeEvent()",
+    "snippet": "    protected void fireChangeEvent() {\n        notifyListeners(new PlotChangeEvent(this));\n    }",
+    "comment": " Sends a {@link PlotChangeEvent} to all registered listeners.  @since 1.0.10 ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Plot.getParent",
+    "class_name": "org.jfree.chart.plot.Plot",
+    "signature": "org.jfree.chart.plot.Plot.getParent()",
+    "snippet": "    public Plot getParent() {\n        return this.parent;\n    }",
+    "comment": " Returns the parent plot (or <code>null</code> if this plot is not part  of a combined plot).  @return The parent plot.  @see #setParent(Plot) @see #getRootPlot() ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "Plot.notifyListeners",
+    "class_name": "org.jfree.chart.plot.Plot",
+    "signature": "org.jfree.chart.plot.Plot.notifyListeners(PlotChangeEvent)",
+    "snippet": "    public void notifyListeners(PlotChangeEvent event) {\n        Object[] listeners = this.listenerList.getListenerList();\n        for (int i = listeners.length - 2; i >= 0; i -= 2) {\n            if (listeners[i] == PlotChangeListener.class) {\n                ((PlotChangeListener) listeners[i + 1]).plotChanged(event);\n            }\n        }\n    }",
+    "comment": " Notifies all registered listeners that the plot has been modified.  @param event  information about the change event. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ValueMarker.ValueMarker",
+    "class_name": "org.jfree.chart.plot.ValueMarker",
+    "signature": "org.jfree.chart.plot.ValueMarker.ValueMarker(double)",
+    "snippet": "    public ValueMarker(double value) {\n        super();\n        this.value = value;\n    }",
+    "comment": " Creates a new marker.  @param value  the value. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ValueMarker.ValueMarker",
+    "class_name": "org.jfree.chart.plot.ValueMarker",
+    "signature": "org.jfree.chart.plot.ValueMarker.ValueMarker(double,Paint,Stroke,Paint,Stroke,float)",
+    "snippet": "    public ValueMarker(double value, Paint paint, Stroke stroke, \n                       Paint outlinePaint, Stroke outlineStroke, float alpha) {\n        super(paint, stroke, outlinePaint, outlineStroke, alpha);\n        this.value = value;\n    }",
+    "comment": " Creates a new value marker.  @param value  the value. @param paint  the paint (<code>null</code> not permitted). @param stroke  the stroke (<code>null</code> not permitted). @param outlinePaint  the outline paint (<code>null</code> permitted). @param outlineStroke  the outline stroke (<code>null</code> permitted). @param alpha  the alpha transparency (in the range 0.0f to 1.0f). ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "XYPlot.XYPlot",
+    "class_name": "org.jfree.chart.plot.XYPlot",
+    "signature": "org.jfree.chart.plot.XYPlot.XYPlot()",
+    "snippet": "    public XYPlot() {\n        this(null, null, null, null);\n    }",
+    "comment": " Creates a new <code>XYPlot</code> instance with no dataset, no axes and no renderer.  You should specify these items before using the plot. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "XYPlot.XYPlot",
+    "class_name": "org.jfree.chart.plot.XYPlot",
+    "signature": "org.jfree.chart.plot.XYPlot.XYPlot(XYDataset,ValueAxis,ValueAxis,XYItemRenderer)",
+    "snippet": "    public XYPlot(XYDataset dataset,\n                  ValueAxis domainAxis,\n                  ValueAxis rangeAxis,\n                  XYItemRenderer renderer) {\n\n        super();\n\n        this.orientation = PlotOrientation.VERTICAL;\n        this.weight = 1;  // only relevant when this is a subplot\n        this.axisOffset = new RectangleInsets(4.0, 4.0, 4.0, 4.0);\n\n        // allocate storage for datasets, axes and renderers (all optional)\n        this.domainAxes = new ObjectList();\n        this.domainAxisLocations = new ObjectList();\n        this.foregroundDomainMarkers = new HashMap();\n        this.backgroundDomainMarkers = new HashMap();\n\n        this.rangeAxes = new ObjectList();\n        this.rangeAxisLocations = new ObjectList();\n        this.foregroundRangeMarkers = new HashMap();\n        this.backgroundRangeMarkers = new HashMap();\n\n        this.datasets = new ObjectList();\n        this.renderers = new ObjectList();\n\n        this.datasetToDomainAxisMap = new TreeMap();\n        this.datasetToRangeAxisMap = new TreeMap();\n\n        this.datasets.set(0, dataset);\n        if (dataset != null) {\n            dataset.addChangeListener(this);\n        }\n\n        this.renderers.set(0, renderer);\n        if (renderer != null) {\n            renderer.setPlot(this);\n            renderer.addChangeListener(this);\n        }\n\n        this.domainAxes.set(0, domainAxis);\n        this.mapDatasetToDomainAxis(0, 0);\n        if (domainAxis != null) {\n            domainAxis.setPlot(this);\n            domainAxis.addChangeListener(this);\n        }\n        this.domainAxisLocations.set(0, AxisLocation.BOTTOM_OR_LEFT);\n\n        this.rangeAxes.set(0, rangeAxis);\n        this.mapDatasetToRangeAxis(0, 0);\n        if (rangeAxis != null) {\n            rangeAxis.setPlot(this);\n            rangeAxis.addChangeListener(this);\n        }\n        this.rangeAxisLocations.set(0, AxisLocation.BOTTOM_OR_LEFT);\n\n        configureDomainAxes();\n        configureRangeAxes();\n\n        this.domainGridlinesVisible = true;\n        this.domainGridlineStroke = DEFAULT_GRIDLINE_STROKE;\n        this.domainGridlinePaint = DEFAULT_GRIDLINE_PAINT;\n\n        this.domainZeroBaselineVisible = false;\n        this.domainZeroBaselinePaint = Color.black;\n        this.domainZeroBaselineStroke = new BasicStroke(0.5f);\n\n        this.rangeGridlinesVisible = true;\n        this.rangeGridlineStroke = DEFAULT_GRIDLINE_STROKE;\n        this.rangeGridlinePaint = DEFAULT_GRIDLINE_PAINT;\n\n        this.rangeZeroBaselineVisible = false;\n        this.rangeZeroBaselinePaint = Color.black;\n        this.rangeZeroBaselineStroke = new BasicStroke(0.5f);\n\n        this.domainCrosshairVisible = false;\n        this.domainCrosshairValue = 0.0;\n        this.domainCrosshairStroke = DEFAULT_CROSSHAIR_STROKE;\n        this.domainCrosshairPaint = DEFAULT_CROSSHAIR_PAINT;\n\n        this.rangeCrosshairVisible = false;\n        this.rangeCrosshairValue = 0.0;\n        this.rangeCrosshairStroke = DEFAULT_CROSSHAIR_STROKE;\n        this.rangeCrosshairPaint = DEFAULT_CROSSHAIR_PAINT;\n\n        this.annotations = new java.util.ArrayList();\n\n    }",
+    "comment": " Creates a new plot with the specified dataset, axes and renderer.  Any of the arguments can be <code>null</code>, but in that case you should take care to specify the value before using the plot (otherwise a <code>NullPointerException</code> may be thrown).  @param dataset  the dataset (<code>null</code> permitted). @param domainAxis  the domain axis (<code>null</code> permitted). @param rangeAxis  the range axis (<code>null</code> permitted). @param renderer  the renderer (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "XYPlot.configureDomainAxes",
+    "class_name": "org.jfree.chart.plot.XYPlot",
+    "signature": "org.jfree.chart.plot.XYPlot.configureDomainAxes()",
+    "snippet": "    public void configureDomainAxes() {\n        for (int i = 0; i < this.domainAxes.size(); i++) {\n            ValueAxis axis = (ValueAxis) this.domainAxes.get(i);\n            if (axis != null) {\n                axis.configure();\n            }\n        }\n    }",
+    "comment": " Configures the domain axes.  ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "XYPlot.configureRangeAxes",
+    "class_name": "org.jfree.chart.plot.XYPlot",
+    "signature": "org.jfree.chart.plot.XYPlot.configureRangeAxes()",
+    "snippet": "    public void configureRangeAxes() {\n        for (int i = 0; i < this.rangeAxes.size(); i++) {\n            ValueAxis axis = (ValueAxis) this.rangeAxes.get(i);\n            if (axis != null) {\n                axis.configure();\n            }\n        }\n    }",
+    "comment": " Configures the range axes.  @see #configureDomainAxes() ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "XYPlot.datasetChanged",
+    "class_name": "org.jfree.chart.plot.XYPlot",
+    "signature": "org.jfree.chart.plot.XYPlot.datasetChanged(DatasetChangeEvent)",
+    "snippet": "    public void datasetChanged(DatasetChangeEvent event) {\n        configureDomainAxes();\n        configureRangeAxes();\n        if (getParent() != null) {\n            getParent().datasetChanged(event);\n        }\n        else {\n            PlotChangeEvent e = new PlotChangeEvent(this);\n            e.setType(ChartChangeEventType.DATASET_UPDATED);\n            notifyListeners(e);\n        }\n    }",
+    "comment": " Receives notification of a change to the plot's dataset. <P> The axis ranges are updated if necessary.  @param event  information about the event (not used here). ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "XYPlot.getDataset",
+    "class_name": "org.jfree.chart.plot.XYPlot",
+    "signature": "org.jfree.chart.plot.XYPlot.getDataset(int)",
+    "snippet": "    public XYDataset getDataset(int index) {\n        XYDataset result = null;\n        if (this.datasets.size() > index) {\n            result = (XYDataset) this.datasets.get(index);\n        }\n        return result;\n    }",
+    "comment": " Returns a dataset.  @param index  the dataset index.  @return The dataset (possibly <code>null</code>).  @see #setDataset(int, XYDataset) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "XYPlot.mapDatasetToDomainAxis",
+    "class_name": "org.jfree.chart.plot.XYPlot",
+    "signature": "org.jfree.chart.plot.XYPlot.mapDatasetToDomainAxis(int,int)",
+    "snippet": "    public void mapDatasetToDomainAxis(int index, int axisIndex) {\n        this.datasetToDomainAxisMap.put(new Integer(index), \n                new Integer(axisIndex));\n        // fake a dataset change event to update axes...\n        datasetChanged(new DatasetChangeEvent(this, getDataset(index)));\n    }",
+    "comment": " Maps a dataset to a particular domain axis.  All data will be plotted against axis zero by default, no mapping is required for this case.  @param index  the dataset index (zero-based). @param axisIndex  the axis index.  @see #mapDatasetToRangeAxis(int, int) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "XYPlot.mapDatasetToRangeAxis",
+    "class_name": "org.jfree.chart.plot.XYPlot",
+    "signature": "org.jfree.chart.plot.XYPlot.mapDatasetToRangeAxis(int,int)",
+    "snippet": "    public void mapDatasetToRangeAxis(int index, int axisIndex) {\n        this.datasetToRangeAxisMap.put(new Integer(index), \n                new Integer(axisIndex));\n        // fake a dataset change event to update axes...\n        datasetChanged(new DatasetChangeEvent(this, getDataset(index)));\n    }",
+    "comment": " Maps a dataset to a particular range axis.  All data will be plotted against axis zero by default, no mapping is required for this case.  @param index  the dataset index (zero-based). @param axisIndex  the axis index.  @see #mapDatasetToDomainAxis(int, int) ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "XYPlot.removeDomainMarker",
+    "class_name": "org.jfree.chart.plot.XYPlot",
+    "signature": "org.jfree.chart.plot.XYPlot.removeDomainMarker(Marker)",
+    "snippet": "    public boolean removeDomainMarker(Marker marker) {\n        return removeDomainMarker(marker, Layer.FOREGROUND);\n    }",
+    "comment": " Removes a marker for the domain axis and sends a {@link PlotChangeEvent}  to all registered listeners.  @param marker  the marker.  @return A boolean indicating whether or not the marker was actually  removed.  @since 1.0.7 ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "XYPlot.removeDomainMarker",
+    "class_name": "org.jfree.chart.plot.XYPlot",
+    "signature": "org.jfree.chart.plot.XYPlot.removeDomainMarker(Marker,Layer)",
+    "snippet": "    public boolean removeDomainMarker(Marker marker, Layer layer) {\n        return removeDomainMarker(0, marker, layer);\n    }",
+    "comment": " Removes a marker for the domain axis in the specified layer and sends a {@link PlotChangeEvent} to all registered listeners.  @param marker the marker (<code>null</code> not permitted). @param layer the layer (foreground or background).  @return A boolean indicating whether or not the marker was actually  removed.  @since 1.0.7 ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "XYPlot.removeDomainMarker",
+    "class_name": "org.jfree.chart.plot.XYPlot",
+    "signature": "org.jfree.chart.plot.XYPlot.removeDomainMarker(int,Marker,Layer)",
+    "snippet": "    public boolean removeDomainMarker(int index, Marker marker, Layer layer) {\n    \treturn removeDomainMarker(index, marker, layer, true);\n    }",
+    "comment": " Removes a marker for a specific dataset/renderer and sends a {@link PlotChangeEvent} to all registered listeners.  @param index the dataset/renderer index. @param marker the marker. @param layer the layer (foreground or background).  @return A boolean indicating whether or not the marker was actually  removed.  @since 1.0.7 ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "XYPlot.removeDomainMarker",
+    "class_name": "org.jfree.chart.plot.XYPlot",
+    "signature": "org.jfree.chart.plot.XYPlot.removeDomainMarker(int,Marker,Layer,boolean)",
+    "snippet": "    public boolean removeDomainMarker(int index, Marker marker, Layer layer,\n    \t\tboolean notify) {\n        ArrayList markers;\n        if (layer == Layer.FOREGROUND) {\n            markers = (ArrayList) this.foregroundDomainMarkers.get(new Integer(\n                    index));\n        }\n        else {\n            markers = (ArrayList) this.backgroundDomainMarkers.get(new Integer(\n                    index));\n        }\n        boolean removed = markers.remove(marker);\n        if (removed && notify) {\n            fireChangeEvent();\n        }\n        return removed;\n    }",
+    "comment": " Removes a marker for a specific dataset/renderer and, if requested,  sends a {@link PlotChangeEvent} to all registered listeners.  @param index  the dataset/renderer index. @param marker  the marker. @param layer  the layer (foreground or background). @param notify  notify listeners?  @return A boolean indicating whether or not the marker was actually  removed.  @since 1.0.10 ",
+    "is_bug": true,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "XYPlot.removeRangeMarker",
+    "class_name": "org.jfree.chart.plot.XYPlot",
+    "signature": "org.jfree.chart.plot.XYPlot.removeRangeMarker(Marker)",
+    "snippet": "    public boolean removeRangeMarker(Marker marker) {\n        return removeRangeMarker(marker, Layer.FOREGROUND);\n    }",
+    "comment": " Removes a marker for the range axis and sends a {@link PlotChangeEvent}  to all registered listeners.  @param marker the marker.  @return A boolean indicating whether or not the marker was actually  removed.  @since 1.0.7 ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "XYPlot.removeRangeMarker",
+    "class_name": "org.jfree.chart.plot.XYPlot",
+    "signature": "org.jfree.chart.plot.XYPlot.removeRangeMarker(Marker,Layer)",
+    "snippet": "    public boolean removeRangeMarker(Marker marker, Layer layer) {\n        return removeRangeMarker(0, marker, layer);\n    }",
+    "comment": " Removes a marker for the range axis in the specified layer and sends a {@link PlotChangeEvent} to all registered listeners.  @param marker the marker (<code>null</code> not permitted). @param layer the layer (foreground or background).  @return A boolean indicating whether or not the marker was actually  removed.  @since 1.0.7 ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "XYPlot.removeRangeMarker",
+    "class_name": "org.jfree.chart.plot.XYPlot",
+    "signature": "org.jfree.chart.plot.XYPlot.removeRangeMarker(int,Marker,Layer)",
+    "snippet": "    public boolean removeRangeMarker(int index, Marker marker, Layer layer) {\n    \treturn removeRangeMarker(index, marker, layer, true);\n    }",
+    "comment": " Removes a marker for a specific dataset/renderer and sends a {@link PlotChangeEvent} to all registered listeners.  @param index the dataset/renderer index. @param marker the marker. @param layer the layer (foreground or background).  @return A boolean indicating whether or not the marker was actually  removed.  @since 1.0.7 ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "XYPlot.removeRangeMarker",
+    "class_name": "org.jfree.chart.plot.XYPlot",
+    "signature": "org.jfree.chart.plot.XYPlot.removeRangeMarker(int,Marker,Layer,boolean)",
+    "snippet": "    public boolean removeRangeMarker(int index, Marker marker, Layer layer,\n    \t\tboolean notify) {\n        if (marker == null) {\n            throw new IllegalArgumentException(\"Null 'marker' argument.\");\n        }\n        ArrayList markers;\n        if (layer == Layer.FOREGROUND) {\n            markers = (ArrayList) this.foregroundRangeMarkers.get(new Integer(\n                    index));\n        }\n        else {\n            markers = (ArrayList) this.backgroundRangeMarkers.get(new Integer(\n                    index));\n        }\n        boolean removed = markers.remove(marker);\n        if (removed && notify) {\n            fireChangeEvent();\n        }\n        return removed;\n    }",
+    "comment": " Removes a marker for a specific dataset/renderer and sends a {@link PlotChangeEvent} to all registered listeners.  @param index  the dataset/renderer index. @param marker  the marker. @param layer  the layer (foreground or background). @param notify  notify listeners?  @return A boolean indicating whether or not the marker was actually  removed.  @since 1.0.10 ",
+    "is_bug": true,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "AbstractObjectList.AbstractObjectList",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.AbstractObjectList()",
+    "snippet": "    protected AbstractObjectList() {\n        this(DEFAULT_INITIAL_CAPACITY);\n    }",
+    "comment": " Creates a new list with the default initial capacity. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "AbstractObjectList.AbstractObjectList",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.AbstractObjectList(int)",
+    "snippet": "    protected AbstractObjectList(int initialCapacity) {\n        this (initialCapacity, initialCapacity);\n    }",
+    "comment": " Creates a new list.  @param initialCapacity  the initial capacity. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "AbstractObjectList.AbstractObjectList",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.AbstractObjectList(int,int)",
+    "snippet": "    protected AbstractObjectList(int initialCapacity, int increment) {\n        this.objects = new Object[initialCapacity];\n        this.increment = increment;\n    }",
+    "comment": " Creates a new list.  @param initialCapacity  the initial capacity. @param increment  the increment. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "AbstractObjectList.get",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.get(int)",
+    "snippet": "    protected Object get(int index) {\n        Object result = null;\n        if (index >= 0 && index < this.size) {\n            result = this.objects[index];\n        }\n        return result;\n    }",
+    "comment": " Returns the object at the specified index, if there is one, or  <code>null</code>.  @param index  the object index.  @return The object or <code>null</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "AbstractObjectList.set",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.set(int,Object)",
+    "snippet": "    protected void set(int index, Object object) {\n        if (index < 0) {\n            throw new IllegalArgumentException(\"Requires index >= 0.\");\n        }\n        if (index >= this.objects.length) {\n            Object[] enlarged = new Object[index + this.increment];\n            System.arraycopy(this.objects, 0, enlarged, 0, this.objects.length);\n            this.objects = enlarged;\n        }\n        this.objects[index] = object;\n        this.size = Math.max(this.size, index + 1);\n    }",
+    "comment": " Sets an object reference (overwriting any existing object).  @param index  the object index. @param object  the object (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "AbstractObjectList.size",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.size()",
+    "snippet": "    public int size() {\n        return this.size;\n    }",
+    "comment": " Returns the size of the list.  @return The size of the list. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ObjectList.ObjectList",
+    "class_name": "org.jfree.chart.util.ObjectList",
+    "signature": "org.jfree.chart.util.ObjectList.ObjectList()",
+    "snippet": "    public ObjectList() {\n    }",
+    "comment": " Default constructor. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ObjectList.get",
+    "class_name": "org.jfree.chart.util.ObjectList",
+    "signature": "org.jfree.chart.util.ObjectList.get(int)",
+    "snippet": "    public Object get(int index) {         \n        return super.get(index);         \n    }    ",
+    "comment": " Returns the object at the specified index, if there is one, or  <code>null</code>.           @param index  the object index.     @return The object or <code>null</code>.           ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "ObjectList.set",
+    "class_name": "org.jfree.chart.util.ObjectList",
+    "signature": "org.jfree.chart.util.ObjectList.set(int,Object)",
+    "snippet": "    public void set(int index, Object object) {      \n        super.set(index, object);        \n    }    ",
+    "comment": " Sets an object reference (overwriting any existing object).         @param index  the object index.    @param object  the object (<code>null</code> permitted).           ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "RectangleInsets.RectangleInsets",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.RectangleInsets(UnitType,double,double,double,double)",
+    "snippet": "    public RectangleInsets(UnitType unitType, double top, double left, \n                           double bottom, double right) {\n        if (unitType == null) {\n            throw new IllegalArgumentException(\"Null 'unitType' argument.\");\n        }\n        this.unitType = unitType;\n        this.top = top;\n        this.bottom = bottom;\n        this.left = left;\n        this.right = right;\n    }",
+    "comment": " Creates a new instance.  @param unitType  absolute or relative units (<code>null</code> not  permitted). @param top  the top insets. @param left  the left insets. @param bottom  the bottom insets. @param right  the right insets. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "RectangleInsets.RectangleInsets",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.RectangleInsets(double,double,double,double)",
+    "snippet": "    public RectangleInsets(double top, double left, double bottom, \n            double right) {\n        this(UnitType.ABSOLUTE, top, left, bottom, right);   \n    }",
+    "comment": " Creates a new instance with the specified insets (as 'absolute' units).  @param top  the top insets. @param left  the left insets. @param bottom  the bottom insets. @param right  the right insets. ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  },
+  {
+    "name": "DatasetChangeEvent.DatasetChangeEvent",
+    "class_name": "org.jfree.data.general.DatasetChangeEvent",
+    "signature": "org.jfree.data.general.DatasetChangeEvent.DatasetChangeEvent(Object,Dataset)",
+    "snippet": "    public DatasetChangeEvent(Object source, Dataset dataset) {\n        super(source);\n        this.dataset = dataset;\n    }",
+    "comment": " Constructs a new event.  The source is either the dataset or the  {@link org.jfree.chart.plot.Plot} class.  The dataset can be  <code>null</code> (in this case the source will be the  {@link org.jfree.chart.plot.Plot} class).  @param source  the source of the event. @param dataset  the dataset that generated the event (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 4,
+    "buggy_methods": 4
+  }
+]

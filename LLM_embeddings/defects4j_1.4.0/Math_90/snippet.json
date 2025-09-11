@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Frequency.Frequency",
+    "class_name": "org.apache.commons.math.stat.Frequency",
+    "signature": "org.apache.commons.math.stat.Frequency.Frequency()",
+    "snippet": "    public Frequency() {\n        freqTable = new TreeMap();\n    }",
+    "comment": " Default constructor. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Frequency.addValue",
+    "class_name": "org.apache.commons.math.stat.Frequency",
+    "signature": "org.apache.commons.math.stat.Frequency.addValue(Object)",
+    "snippet": "    @Deprecated\n    public void addValue(Object v) {\n    \n    /**\n     * Adds 1 to the frequency count for v.\n     * <p>\n     * If other objects have already been added to this Frequency, v must\n     * be comparable to those that have already been added.\n     * </p>\n     * \n     * @param v the value to add.\n     * @throws IllegalArgumentException if <code>v</code> is not comparable with previous entries\n     */\n        Object obj = v;\n        if (v instanceof Integer) {\n           obj = Long.valueOf(((Integer) v).longValue());\n        }\n        try {\n            Long count = (Long) freqTable.get(obj);\n            if (count == null) {\n                freqTable.put(obj, Long.valueOf(1));\n            } else {\n                freqTable.put(obj, Long.valueOf(count.longValue() + 1));\n            }\n        } catch (ClassCastException ex) {   \n            //TreeMap will throw ClassCastException if v is not comparable\n            throw new IllegalArgumentException(\"Value not comparable to existing values.\");\n        }\n    }",
+    "comment": " Adds 1 to the frequency count for v. <p> If other objects have already been added to this Frequency, v must be comparable to those that have already been added. </p>  @param v the value to add. @throws IllegalArgumentException if <code>v</code> is not comparable with previous entries @throws ClassCastException if <code>v</code> is not Comparable @deprecated use {@link #addValue(Comparable)} instead ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

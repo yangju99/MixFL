@@ -1,0 +1,22 @@
+[
+  {
+    "name": "ClassUtils.addAbbreviation",
+    "class_name": "org.apache.commons.lang3.ClassUtils",
+    "signature": "org.apache.commons.lang3.ClassUtils.addAbbreviation(String,String)",
+    "snippet": "    private static void addAbbreviation(String primitive, String abbreviation) {\n        abbreviationMap.put(primitive, abbreviation);\n        reverseAbbreviationMap.put(abbreviation, primitive);\n    }",
+    "comment": " Add primitive type abbreviation to maps of abbreviations.  @param primitive Canonical name of primitive type @param abbreviation Corresponding abbreviation of primitive type ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ClassUtils.toClass",
+    "class_name": "org.apache.commons.lang3.ClassUtils",
+    "signature": "org.apache.commons.lang3.ClassUtils.toClass(Object[])",
+    "snippet": "    public static Class<?>[] toClass(Object[] array) {\n        if (array == null) {\n            return null;\n        } else if (array.length == 0) {\n            return ArrayUtils.EMPTY_CLASS_ARRAY;\n        }\n        Class<?>[] classes = new Class[array.length];\n        for (int i = 0; i < array.length; i++) {\n            classes[i] = array[i].getClass();\n        }\n        return classes;\n    }",
+    "comment": " <p>Converts an array of <code>Object</code> in to an array of <code>Class</code> objects. If any of these objects is null, a null element will be inserted into the array.</p>  <p>This method returns <code>null</code> for a <code>null</code> input array.</p>  @param array an <code>Object</code> array @return a <code>Class</code> array, <code>null</code> if null array input @since 2.4 ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

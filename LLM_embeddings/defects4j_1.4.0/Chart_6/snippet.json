@@ -1,0 +1,182 @@
+[
+  {
+    "name": "AbstractObjectList.AbstractObjectList",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.AbstractObjectList()",
+    "snippet": "    protected AbstractObjectList() {\n        this(DEFAULT_INITIAL_CAPACITY);\n    }",
+    "comment": " Creates a new list with the default initial capacity. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractObjectList.AbstractObjectList",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.AbstractObjectList(int)",
+    "snippet": "    protected AbstractObjectList(int initialCapacity) {\n        this (initialCapacity, initialCapacity);\n    }",
+    "comment": " Creates a new list.  @param initialCapacity  the initial capacity. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractObjectList.AbstractObjectList",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.AbstractObjectList(int,int)",
+    "snippet": "    protected AbstractObjectList(int initialCapacity, int increment) {\n        this.objects = new Object[initialCapacity];\n        this.increment = increment;\n    }",
+    "comment": " Creates a new list.  @param initialCapacity  the initial capacity. @param increment  the increment. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractObjectList.equals",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.equals(Object)",
+    "snippet": "    public boolean equals(Object obj) {\n\n        if (obj == null) {\n            return false;\n        }\n\n        if (obj == this) {\n            return true;\n        }\n\n        if (!(obj instanceof AbstractObjectList)) {\n            return false;\n        }\n\n        AbstractObjectList other = (AbstractObjectList) obj;\n        int listSize = size();\n        for (int i = 0; i < listSize; i++) {\n           if (!ObjectUtilities.equal(get(i), other.get(i))) {\n               return false;\n           }\n        }\n        return true;\n    }",
+    "comment": " Tests this list for equality with another object.  @param obj  the object to test.  @return A boolean. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractObjectList.get",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.get(int)",
+    "snippet": "    protected Object get(int index) {\n        Object result = null;\n        if (index >= 0 && index < this.size) {\n            result = this.objects[index];\n        }\n        return result;\n    }",
+    "comment": " Returns the object at the specified index, if there is one, or  <code>null</code>.  @param index  the object index.  @return The object or <code>null</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractObjectList.hashCode",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.hashCode()",
+    "snippet": "    public int hashCode() {\n    \tint result = 127;\n    \tint size = size();\n    \tresult = HashUtilities.hashCode(result, size());\n        // for efficiency, we just use the first, last and middle items to\n        // compute a hashCode...\n        if (size > 0) {\n            result = HashUtilities.hashCode(result, this.objects[0]);\n            if (size > 1) {\n                result = HashUtilities.hashCode(result, this.objects[size - 1]);\n                if (size > 2) {\n                    result = HashUtilities.hashCode(result, \n                    \t\tthis.objects[size / 2]);\n                }\n            }\n        }\n        return result;\n    }",
+    "comment": " Returns a hash code value for the object.  @return The hashcode. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractObjectList.readObject",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.readObject(ObjectInputStream)",
+    "snippet": "    private void readObject(ObjectInputStream stream) \n            throws IOException, ClassNotFoundException {\n\n        stream.defaultReadObject();\n        this.objects = new Object[this.size];\n        int count = stream.readInt();\n        for (int i = 0; i < count; i++) {\n            int index = stream.readInt();\n            if (index != -1) {\n                set(index, stream.readObject());\n            }\n        }\n        \n    }",
+    "comment": " Provides serialization support.  @param stream  the input stream.  @throws IOException  if there is an I/O error. @throws ClassNotFoundException  if there is a classpath problem. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractObjectList.set",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.set(int,Object)",
+    "snippet": "    protected void set(int index, Object object) {\n        if (index < 0) {\n            throw new IllegalArgumentException(\"Requires index >= 0.\");\n        }\n        if (index >= this.objects.length) {\n            Object[] enlarged = new Object[index + this.increment];\n            System.arraycopy(this.objects, 0, enlarged, 0, this.objects.length);\n            this.objects = enlarged;\n        }\n        this.objects[index] = object;\n        this.size = Math.max(this.size, index + 1);\n    }",
+    "comment": " Sets an object reference (overwriting any existing object).  @param index  the object index. @param object  the object (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractObjectList.size",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.size()",
+    "snippet": "    public int size() {\n        return this.size;\n    }",
+    "comment": " Returns the size of the list.  @return The size of the list. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractObjectList.writeObject",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.writeObject(ObjectOutputStream)",
+    "snippet": "    private void writeObject(ObjectOutputStream stream) \n            throws IOException {\n\n        stream.defaultWriteObject();\n        int count = size();\n        stream.writeInt(count);\n        for (int i = 0; i < count; i++) {\n            final Object object = get(i);\n            if (object != null && object instanceof Serializable) {\n                stream.writeInt(i);\n                stream.writeObject(object);\n            }\n            else {\n                stream.writeInt(-1);\n            }\n        }\n\n    }",
+    "comment": " Provides serialization support.  @param stream  the output stream.  @throws IOException  if there is an I/O error. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ObjectUtilities.equal",
+    "class_name": "org.jfree.chart.util.ObjectUtilities",
+    "signature": "org.jfree.chart.util.ObjectUtilities.equal(Object,Object)",
+    "snippet": "    public static boolean equal(final Object o1, final Object o2) {\n        if (o1 == o2) {\n            return true;\n        }\n        if (o1 != null) {\n            return o1.equals(o2);\n        }\n        else {\n            return false;\n        }\n    }",
+    "comment": " Returns <code>true</code> if the two objects are equal OR both  <code>null</code>.  @param o1 object 1 (<code>null</code> permitted). @param o2 object 2 (<code>null</code> permitted). @return <code>true</code> or <code>false</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ShapeList.ShapeList",
+    "class_name": "org.jfree.chart.util.ShapeList",
+    "signature": "org.jfree.chart.util.ShapeList.ShapeList()",
+    "snippet": "    public ShapeList() {\n        super();\n    }",
+    "comment": " Creates a new list. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ShapeList.equals",
+    "class_name": "org.jfree.chart.util.ShapeList",
+    "signature": "org.jfree.chart.util.ShapeList.equals(Object)",
+    "snippet": "    public boolean equals(Object obj) {\n\n        if (obj == this) {\n            return true;\n        }\n        if (!(obj instanceof ShapeList)) {\n            return false;\n        }\n        return super.equals(obj);\n\n    }",
+    "comment": " Tests the list for equality with another object (typically also a list).  @param obj  the other object (<code>null</code> permitted).  @return A boolean. ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ShapeList.getShape",
+    "class_name": "org.jfree.chart.util.ShapeList",
+    "signature": "org.jfree.chart.util.ShapeList.getShape(int)",
+    "snippet": "    public Shape getShape(int index) {\n        return (Shape) get(index);\n    }",
+    "comment": " Returns a {@link Shape} object from the list.  @param index the index (zero-based).  @return The object. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ShapeList.hashCode",
+    "class_name": "org.jfree.chart.util.ShapeList",
+    "signature": "org.jfree.chart.util.ShapeList.hashCode()",
+    "snippet": "    public int hashCode() {\n        return super.hashCode();\n    }",
+    "comment": " Returns a hash code value for the object.  @return the hashcode ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ShapeList.readObject",
+    "class_name": "org.jfree.chart.util.ShapeList",
+    "signature": "org.jfree.chart.util.ShapeList.readObject(ObjectInputStream)",
+    "snippet": "    private void readObject(ObjectInputStream stream) throws IOException,\n            ClassNotFoundException {\n\n        stream.defaultReadObject();\n        int count = stream.readInt();\n        for (int i = 0; i < count; i++) {\n            int index = stream.readInt();\n            if (index != -1) {\n                setShape(index, SerialUtilities.readShape(stream));\n            }\n        }\n\n    }",
+    "comment": " Provides serialization support.  @param stream  the input stream.  @throws IOException  if there is an I/O error. @throws ClassNotFoundException  if there is a classpath problem. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ShapeList.setShape",
+    "class_name": "org.jfree.chart.util.ShapeList",
+    "signature": "org.jfree.chart.util.ShapeList.setShape(int,Shape)",
+    "snippet": "    public void setShape(int index, Shape shape) {\n        set(index, shape);\n    }",
+    "comment": " Sets the {@link Shape} for an item in the list.  The list is expanded  if necessary.  @param index  the index (zero-based). @param shape  the {@link Shape}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ShapeList.writeObject",
+    "class_name": "org.jfree.chart.util.ShapeList",
+    "signature": "org.jfree.chart.util.ShapeList.writeObject(ObjectOutputStream)",
+    "snippet": "    private void writeObject(ObjectOutputStream stream) throws IOException {\n\n        stream.defaultWriteObject();\n        int count = size();\n        stream.writeInt(count);\n        for (int i = 0; i < count; i++) {\n            Shape shape = getShape(i);\n            if (shape != null) {\n                stream.writeInt(i);\n                SerialUtilities.writeShape(shape, stream);\n            }\n            else {\n                stream.writeInt(-1);\n            }\n        }\n\n    }",
+    "comment": " Provides serialization support.  @param stream  the output stream.  @throws IOException  if there is an I/O error. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  }
+]

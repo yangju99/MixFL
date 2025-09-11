@@ -1,0 +1,292 @@
+[
+  {
+    "name": "ArrayRealVector.ArrayRealVector",
+    "class_name": "org.apache.commons.math.linear.ArrayRealVector",
+    "signature": "org.apache.commons.math.linear.ArrayRealVector.ArrayRealVector(double[])",
+    "snippet": "    public ArrayRealVector(double[] d) {\n        data = d.clone();\n    }",
+    "comment": " Construct a vector from an array, copying the input array. @param d array of doubles. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ArrayRealVector.getL1Norm",
+    "class_name": "org.apache.commons.math.linear.ArrayRealVector",
+    "signature": "org.apache.commons.math.linear.ArrayRealVector.getL1Norm()",
+    "snippet": "    @Override\n    public double getL1Norm() {\n        double sum = 0;\n        for (double a : data) {\n            sum += Math.abs(a);\n        }\n        return sum;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ArrayRealVector.getLInfNorm",
+    "class_name": "org.apache.commons.math.linear.ArrayRealVector",
+    "signature": "org.apache.commons.math.linear.ArrayRealVector.getLInfNorm()",
+    "snippet": "    @Override\n    public double getLInfNorm() {\n        double max = 0;\n        for (double a : data) {\n            max += Math.max(max, Math.abs(a));\n        }\n        return max;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ArrayRealVector.getNorm",
+    "class_name": "org.apache.commons.math.linear.ArrayRealVector",
+    "signature": "org.apache.commons.math.linear.ArrayRealVector.getNorm()",
+    "snippet": "    @Override\n    public double getNorm() {\n        double sum = 0;\n        for (double a : data) {\n            sum += a * a;\n        }\n        return Math.sqrt(sum);\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "OpenMapRealVector.OpenMapRealVector",
+    "class_name": "org.apache.commons.math.linear.OpenMapRealVector",
+    "signature": "org.apache.commons.math.linear.OpenMapRealVector.OpenMapRealVector(double[])",
+    "snippet": "    public OpenMapRealVector(double[] values) {\n        this(values, DEFAULT_ZERO_TOLERANCE);\n    }",
+    "comment": " Create from a double array. Only non-zero entries will be stored @param values The set of values to create from ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "OpenMapRealVector.OpenMapRealVector",
+    "class_name": "org.apache.commons.math.linear.OpenMapRealVector",
+    "signature": "org.apache.commons.math.linear.OpenMapRealVector.OpenMapRealVector(double[],double)",
+    "snippet": "    public OpenMapRealVector(double[] values, double epsilon) {\n        virtualSize = values.length;\n        entries = new OpenIntToDoubleHashMap(0.0);\n        this.epsilon = epsilon;\n        for (int key = 0; key < values.length; key++) {\n            double value = values[key];\n            if (!isDefaultValue(value)) {\n                entries.put(key, value);\n            }\n        }\n    }",
+    "comment": " Create from a double array, specifying zero tolerance. Only non-zero entries will be stored @param values The set of values to create from @param epsilon The tolerance for having a value considered zero ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "OpenMapRealVector.getLInfNorm",
+    "class_name": "org.apache.commons.math.linear.OpenMapRealVector",
+    "signature": "org.apache.commons.math.linear.OpenMapRealVector.getLInfNorm()",
+    "snippet": "    public double getLInfNorm() {\n        double max = 0;\n        Iterator iter = entries.iterator();\n        while (iter.hasNext()) {\n            iter.advance();\n            max += iter.value();\n        }\n        return max;\n    }",
+    "comment": "",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "OpenMapRealVector.isDefaultValue",
+    "class_name": "org.apache.commons.math.linear.OpenMapRealVector",
+    "signature": "org.apache.commons.math.linear.OpenMapRealVector.isDefaultValue(double)",
+    "snippet": "    protected boolean isDefaultValue(double value) {\n        return Math.abs(value) < epsilon;\n    }",
+    "comment": " Determine if this value is within epsilon of zero. @param value The value to test @return <code>true</code> if this value is within epsilon to zero, <code>false</code> otherwise ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "OpenMapRealVector.sparseIterator",
+    "class_name": "org.apache.commons.math.linear.OpenMapRealVector",
+    "signature": "org.apache.commons.math.linear.OpenMapRealVector.sparseIterator()",
+    "snippet": "    public java.util.Iterator<Entry> sparseIterator() {\n        return new OpenMapSparseIterator();\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "OpenMapEntry.getValue",
+    "class_name": "org.apache.commons.math.linear.OpenMapRealVector$OpenMapEntry",
+    "signature": "org.apache.commons.math.linear.OpenMapRealVector$OpenMapEntry.getValue()",
+    "snippet": "        @Override\n        public double getValue() {\n            return iter.value();\n        }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "OpenMapSparseIterator.hasNext",
+    "class_name": "org.apache.commons.math.linear.OpenMapRealVector$OpenMapSparseIterator",
+    "signature": "org.apache.commons.math.linear.OpenMapRealVector$OpenMapSparseIterator.hasNext()",
+    "snippet": "        public boolean hasNext() {\n            return iter.hasNext();\n        }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "OpenMapSparseIterator.next",
+    "class_name": "org.apache.commons.math.linear.OpenMapRealVector$OpenMapSparseIterator",
+    "signature": "org.apache.commons.math.linear.OpenMapRealVector$OpenMapSparseIterator.next()",
+    "snippet": "        public Entry next() {\n            iter.advance();\n            return current;\n        }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "RealVectorFormat.RealVectorFormat",
+    "class_name": "org.apache.commons.math.linear.RealVectorFormat",
+    "signature": "org.apache.commons.math.linear.RealVectorFormat.RealVectorFormat(NumberFormat)",
+    "snippet": "    public RealVectorFormat(final NumberFormat format) {\n        this(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_SEPARATOR, format);\n    }",
+    "comment": " Create an instance with a custom number format for components. @param format the custom format for components. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "RealVectorFormat.RealVectorFormat",
+    "class_name": "org.apache.commons.math.linear.RealVectorFormat",
+    "signature": "org.apache.commons.math.linear.RealVectorFormat.RealVectorFormat(String,String,String,NumberFormat)",
+    "snippet": "    public RealVectorFormat(final String prefix, final String suffix,\n                            final String separator, final NumberFormat format) {\n        this.prefix      = prefix;\n        this.suffix      = suffix;\n        this.separator   = separator;\n        trimmedPrefix    = prefix.trim();\n        trimmedSuffix    = suffix.trim();\n        trimmedSeparator = separator.trim();\n        this.format      = format;\n    }",
+    "comment": " Create an instance with custom prefix, suffix, separator and format for components. @param prefix prefix to use instead of the default \"{\" @param suffix suffix to use instead of the default \"}\" @param separator separator to use instead of the default \"; \" @param format the custom format for components. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "RealVectorFormat.getInstance",
+    "class_name": "org.apache.commons.math.linear.RealVectorFormat",
+    "signature": "org.apache.commons.math.linear.RealVectorFormat.getInstance()",
+    "snippet": "    public static RealVectorFormat getInstance() {\n        return getInstance(Locale.getDefault());\n    }",
+    "comment": " Returns the default real vector format for the current locale. @return the default real vector format. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "RealVectorFormat.getInstance",
+    "class_name": "org.apache.commons.math.linear.RealVectorFormat",
+    "signature": "org.apache.commons.math.linear.RealVectorFormat.getInstance(Locale)",
+    "snippet": "    public static RealVectorFormat getInstance(final Locale locale) {\n        return new RealVectorFormat(getDefaultNumberFormat(locale));\n    }",
+    "comment": " Returns the default real vector format for the given locale. @param locale the specific locale used by the format. @return the real vector format specific to the given locale. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "CompositeFormat.getDefaultNumberFormat",
+    "class_name": "org.apache.commons.math.util.CompositeFormat",
+    "signature": "org.apache.commons.math.util.CompositeFormat.getDefaultNumberFormat(Locale)",
+    "snippet": "    protected static NumberFormat getDefaultNumberFormat(final Locale locale) {\n        final NumberFormat nf = NumberFormat.getInstance(locale);\n        nf.setMaximumFractionDigits(2);\n        return nf;\n    }",
+    "comment": " Create a default number format.  The default number format is based on {@link NumberFormat#getInstance(java.util.Locale)} with the only customizing that the maximum number of fraction digits is set to 2. @param locale the specific locale used by the format. @return the default number format specific to the given locale. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "OpenIntToDoubleHashMap.OpenIntToDoubleHashMap",
+    "class_name": "org.apache.commons.math.util.OpenIntToDoubleHashMap",
+    "signature": "org.apache.commons.math.util.OpenIntToDoubleHashMap.OpenIntToDoubleHashMap(double)",
+    "snippet": "    public OpenIntToDoubleHashMap(final double missingEntries) {\n        this(DEFAULT_EXPECTED_SIZE, missingEntries);\n    }",
+    "comment": " Build an empty map with default size @param missingEntries value to return when a missing entry is fetched ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "OpenIntToDoubleHashMap.OpenIntToDoubleHashMap",
+    "class_name": "org.apache.commons.math.util.OpenIntToDoubleHashMap",
+    "signature": "org.apache.commons.math.util.OpenIntToDoubleHashMap.OpenIntToDoubleHashMap(int,double)",
+    "snippet": "    public OpenIntToDoubleHashMap(final int expectedSize,\n                                  final double missingEntries) {\n        final int capacity = computeCapacity(expectedSize);\n        keys   = new int[capacity];\n        values = new double[capacity];\n        states = new byte[capacity];\n        this.missingEntries = missingEntries;\n        mask   = capacity - 1;\n    }",
+    "comment": " Build an empty map with specified size. @param expectedSize expected number of elements in the map @param missingEntries value to return when a missing entry is fetched ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "OpenIntToDoubleHashMap.computeCapacity",
+    "class_name": "org.apache.commons.math.util.OpenIntToDoubleHashMap",
+    "signature": "org.apache.commons.math.util.OpenIntToDoubleHashMap.computeCapacity(int)",
+    "snippet": "    private static int computeCapacity(final int expectedSize) {\n        if (expectedSize == 0) {\n            return 1;\n        }\n        final int capacity   = (int) Math.ceil(expectedSize / LOAD_FACTOR);\n        final int powerOfTwo = Integer.highestOneBit(capacity);\n        if (powerOfTwo == capacity) {\n            return capacity;\n        }\n        return nextPowerOfTwo(capacity);\n    }",
+    "comment": " Compute the capacity needed for a given size. @param expectedSize expected size of the map @return capacity to use for the specified size ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "OpenIntToDoubleHashMap.findInsertionIndex",
+    "class_name": "org.apache.commons.math.util.OpenIntToDoubleHashMap",
+    "signature": "org.apache.commons.math.util.OpenIntToDoubleHashMap.findInsertionIndex(int)",
+    "snippet": "    private int findInsertionIndex(final int key) {\n        return findInsertionIndex(keys, states, key, mask);\n    }",
+    "comment": " Find the index at which a key should be inserted @param key key to lookup @return index at which key should be inserted ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "OpenIntToDoubleHashMap.findInsertionIndex",
+    "class_name": "org.apache.commons.math.util.OpenIntToDoubleHashMap",
+    "signature": "org.apache.commons.math.util.OpenIntToDoubleHashMap.findInsertionIndex(int[],byte[],int,int)",
+    "snippet": "    private static int findInsertionIndex(final int[] keys, final byte[] states,\n                                          final int key, final int mask) {\n        final int hash = hashOf(key);\n        int index = hash & mask;\n        if (states[index] == FREE) {\n            return index;\n        } else if (states[index] == FULL && keys[index] == key) {\n            return changeIndexSign(index);\n        }\n\n        int perturb = perturb(hash);\n        int j = index;\n        if (states[index] == FULL) {\n            while (true) {\n                j = probe(perturb, j);\n                index = j & mask;\n                perturb >>= PERTURB_SHIFT;\n\n                if (states[index] != FULL || keys[index] == key) {\n                    break;\n                }\n            }\n        }\n\n        if (states[index] == FREE) {\n            return index;\n        } else if (states[index] == FULL) {\n            // due to the loop exit condition,\n            // if (states[index] == FULL) then keys[index] == key\n            return changeIndexSign(index);\n        }\n\n        final int firstRemoved = index;\n        while (true) {\n            j = probe(perturb, j);\n            index = j & mask;\n\n            if (states[index] == FREE) {\n                return firstRemoved;\n            } else if (states[index] == FULL && keys[index] == key) {\n                return changeIndexSign(index);\n            }\n\n            perturb >>= PERTURB_SHIFT;\n\n        }\n\n    }",
+    "comment": " Find the index at which a key should be inserted @param keys keys table @param states states table @param key key to lookup @param mask bit mask for hash values @return index at which key should be inserted ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "OpenIntToDoubleHashMap.hashOf",
+    "class_name": "org.apache.commons.math.util.OpenIntToDoubleHashMap",
+    "signature": "org.apache.commons.math.util.OpenIntToDoubleHashMap.hashOf(int)",
+    "snippet": "    private static int hashOf(final int key) {\n        final int h = key ^ ((key >>> 20) ^ (key >>> 12));\n        return h ^ (h >>> 7) ^ (h >>> 4);\n    }",
+    "comment": " Compute the hash value of a key @param key key to hash @return hash value of the key ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "OpenIntToDoubleHashMap.iterator",
+    "class_name": "org.apache.commons.math.util.OpenIntToDoubleHashMap",
+    "signature": "org.apache.commons.math.util.OpenIntToDoubleHashMap.iterator()",
+    "snippet": "    public Iterator iterator() {\n        return new Iterator();\n    }",
+    "comment": " Get an iterator over map elements. <p>The specialized iterators returned are fail-fast: they throw a <code>ConcurrentModificationException</code> when they detect the map has been modified during iteration.</p> @return iterator over the map elements ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "OpenIntToDoubleHashMap.put",
+    "class_name": "org.apache.commons.math.util.OpenIntToDoubleHashMap",
+    "signature": "org.apache.commons.math.util.OpenIntToDoubleHashMap.put(int,double)",
+    "snippet": "    public double put(final int key, final double value) {\n        int index = findInsertionIndex(key);\n        double previous = missingEntries;\n        boolean newMapping = true;\n        if (index < 0) {\n            index = changeIndexSign(index);\n            previous = values[index];\n            newMapping = false;\n        }\n        keys[index]   = key;\n        states[index] = FULL;\n        values[index] = value;\n        if (newMapping) {\n            ++size;\n            if (shouldGrowTable()) {\n                growTable();\n            }\n            ++count;\n        }\n        return previous;\n\n    }",
+    "comment": " Put a value associated with a key in the map. @param key key to which value is associated @param value value to put in the map @return previous value associated with the key ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "OpenIntToDoubleHashMap.shouldGrowTable",
+    "class_name": "org.apache.commons.math.util.OpenIntToDoubleHashMap",
+    "signature": "org.apache.commons.math.util.OpenIntToDoubleHashMap.shouldGrowTable()",
+    "snippet": "    private boolean shouldGrowTable() {\n        return size > (mask + 1) * LOAD_FACTOR;\n    }",
+    "comment": " Check if tables should grow due to increased size. @return true if  tables should grow ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Iterator.advance",
+    "class_name": "org.apache.commons.math.util.OpenIntToDoubleHashMap$Iterator",
+    "signature": "org.apache.commons.math.util.OpenIntToDoubleHashMap$Iterator.advance()",
+    "snippet": "        public void advance()\n            throws ConcurrentModificationException, NoSuchElementException {\n\n            if (referenceCount != count) {\n                throw MathRuntimeException.createConcurrentModificationException(\n                      CONCURRENT_MODIFICATION_MESSAGE);\n            }\n\n            // advance on step\n            current = next;\n\n            // prepare next step\n            try {\n                while (states[++next] != FULL) {\n                    // nothing to do\n                }\n            } catch (ArrayIndexOutOfBoundsException e) {\n                next = -2;\n                if (current < 0) {\n                    throw MathRuntimeException.createNoSuchElementException(EXHAUSTED_ITERATOR_MESSAGE);\n                }\n            }\n\n        }",
+    "comment": " Advance iterator one step further. @exception ConcurrentModificationException if the map is modified during iteration @exception NoSuchElementException if there is no element left in the map ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Iterator.hasNext",
+    "class_name": "org.apache.commons.math.util.OpenIntToDoubleHashMap$Iterator",
+    "signature": "org.apache.commons.math.util.OpenIntToDoubleHashMap$Iterator.hasNext()",
+    "snippet": "        public boolean hasNext() {\n            return next >= 0;\n        }",
+    "comment": " Check if there is a next element in the map. @return true if there is a next element ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Iterator.value",
+    "class_name": "org.apache.commons.math.util.OpenIntToDoubleHashMap$Iterator",
+    "signature": "org.apache.commons.math.util.OpenIntToDoubleHashMap$Iterator.value()",
+    "snippet": "        public double value()\n            throws ConcurrentModificationException, NoSuchElementException {\n            if (referenceCount != count) {\n                throw MathRuntimeException.createConcurrentModificationException(\n                      CONCURRENT_MODIFICATION_MESSAGE);\n            }\n            if (current < 0) {\n                throw MathRuntimeException.createNoSuchElementException(EXHAUSTED_ITERATOR_MESSAGE);\n            }\n            return values[current];\n        }",
+    "comment": " Get the value of current entry. @return value of current entry @exception ConcurrentModificationException if the map is modified during iteration @exception NoSuchElementException if there is no element left in the map ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "name": "MathUtils.equals",
+    "class_name": "org.apache.commons.math.util.MathUtils",
+    "signature": "org.apache.commons.math.util.MathUtils.equals(double,double)",
+    "snippet": "    public static boolean equals(double x, double y) {\n        return (Double.isNaN(x) && Double.isNaN(y)) || x == y;\n    }",
+    "comment": " Returns true iff they are equal as defined by {@link #equals(double,double,int) equals(x, y, 1)}.  @param x first value @param y second value @return {@code true} if the values are equal. ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathUtils.equals",
+    "class_name": "org.apache.commons.math.util.MathUtils",
+    "signature": "org.apache.commons.math.util.MathUtils.equals(double[],double[])",
+    "snippet": "    public static boolean equals(double[] x, double[] y) {\n        if ((x == null) || (y == null)) {\n            return !((x == null) ^ (y == null));\n        }\n        if (x.length != y.length) {\n            return false;\n        }\n        for (int i = 0; i < x.length; ++i) {\n            if (!equals(x[i], y[i])) {\n                return false;\n            }\n        }\n        return true;\n    }",
+    "comment": " Returns true iff both arguments are null or have same dimensions and all their elements are equal as defined by {@link #equals(double,double) this method}.  @param x first array @param y second array @return true if the values are both null or have same dimension and equal elements. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

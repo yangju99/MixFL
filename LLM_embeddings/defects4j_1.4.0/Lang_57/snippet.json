@@ -1,0 +1,12 @@
+[
+  {
+    "name": "LocaleUtils.isAvailableLocale",
+    "class_name": "org.apache.commons.lang.LocaleUtils",
+    "signature": "org.apache.commons.lang.LocaleUtils.isAvailableLocale(Locale)",
+    "snippet": "    public static boolean isAvailableLocale(Locale locale) {\n        return cAvailableLocaleSet.contains(locale);\n    }",
+    "comment": " <p>Checks if the locale specified is in the list of available locales.</p>  @param locale the Locale object to check if it is available @return true if the locale is a known locale ",
+    "is_bug": true,
+    "failing_test_cases": 11,
+    "buggy_methods": 1
+  }
+]

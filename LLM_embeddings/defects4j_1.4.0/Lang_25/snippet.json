@@ -1,0 +1,22 @@
+[
+  {
+    "name": "EntityArrays.ISO8859_1_ESCAPE",
+    "class_name": "org.apache.commons.lang3.text.translate.EntityArrays",
+    "signature": "org.apache.commons.lang3.text.translate.EntityArrays.ISO8859_1_ESCAPE()",
+    "snippet": "    public static String[][] ISO8859_1_ESCAPE() { return ISO8859_1_ESCAPE.clone(); }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "EntityArrays.invert",
+    "class_name": "org.apache.commons.lang3.text.translate.EntityArrays",
+    "signature": "org.apache.commons.lang3.text.translate.EntityArrays.invert(String[][])",
+    "snippet": "    public static String[][] invert(String[][] array) {\n        String[][] newarray = new String[array.length][2];\n        for(int i = 0; i<array.length; i++) {\n            newarray[i][0] = array[i][1];\n            newarray[i][1] = array[i][0];\n        }\n        return newarray;\n    }",
+    "comment": " Used to invert an escape array into an unescape array @param array String[][] to be inverted @return String[][] inverted array ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  }
+]

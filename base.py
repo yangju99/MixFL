@@ -52,8 +52,10 @@ class BaseModel(nn.Module):
         with torch.no_grad():
             for batched_graph, fault_gts, node_counts in test_loader: 
 
+                per_model_graphs = graphs_to_device(batched_graph, self.device)
+
                 # start_time = time.time() 
-                res = self.model.forward(batched_graph.to(self.device), fault_gts, node_counts)
+                res = self.model.forward(per_model_graphs, fault_gts, node_counts)
                 # end_time = time.time() 
                 # execution_time = end_time - start_time
                 # print(f"Execution time: {execution_time:.6f} seconds")
@@ -100,8 +102,11 @@ class BaseModel(nn.Module):
             epoch_time_start = time.time()
 
             for batched_graph, fault_gts, node_counts in train_loader: 
+
+                per_model_graphs = graphs_to_device(batched_graph, self.device)
+                
                 optimizer.zero_grad()
-                res = self.model.forward(batched_graph.to(self.device), fault_gts, node_counts)
+                res = self.model.forward(per_model_graphs, fault_gts, node_counts)
                 loss = res['loss']
                 loss.backward()
                 optimizer.step()
@@ -124,10 +129,10 @@ class BaseModel(nn.Module):
             if (epoch+1) % evaluation_epoch == 0:
                 test_results = self.evaluate(test_loader, datatype="Test")
 
-                current_topn_sum = sum(test_results["top_n"])  
-
-                if current_topn_sum  > best_value:
-                    best_value, eval_res, coverage  = current_topn_sum , test_results, epoch
+                current_score = sum(test_results["top_n"])
+                
+                if current_score > best_value:
+                    best_value, eval_res, coverage = current_score, test_results, epoch
 
         logging.info("* Best result got at epoch {} with Top-n: {}".format(
             coverage, 

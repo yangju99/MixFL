@@ -1,0 +1,222 @@
+[
+  {
+    "name": "AbstractRealDistribution.AbstractRealDistribution",
+    "class_name": "org.apache.commons.math3.distribution.AbstractRealDistribution",
+    "signature": "org.apache.commons.math3.distribution.AbstractRealDistribution.AbstractRealDistribution(RandomGenerator)",
+    "snippet": "    protected AbstractRealDistribution(RandomGenerator rng) {\n        random = rng;\n    }",
+    "comment": " @param rng Random number generator. @since 3.1 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiscreteDistribution.DiscreteDistribution",
+    "class_name": "org.apache.commons.math3.distribution.DiscreteDistribution",
+    "signature": "org.apache.commons.math3.distribution.DiscreteDistribution.DiscreteDistribution(List)",
+    "snippet": "    public DiscreteDistribution(final List<Pair<T, Double>> samples)\n        throws NotPositiveException, MathArithmeticException, MathIllegalArgumentException {\n        this(new Well19937c(), samples);\n    }",
+    "comment": " Create a discrete distribution using the given probability mass function definition.  @param samples definition of probability mass function in the format of list of pairs. @throws NotPositiveException if probability of at least one value is negative. @throws MathArithmeticException if the probabilities sum to zero. @throws MathIllegalArgumentException if probability of at least one value is infinite. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiscreteDistribution.DiscreteDistribution",
+    "class_name": "org.apache.commons.math3.distribution.DiscreteDistribution",
+    "signature": "org.apache.commons.math3.distribution.DiscreteDistribution.DiscreteDistribution(RandomGenerator,List)",
+    "snippet": "    public DiscreteDistribution(final RandomGenerator rng, final List<Pair<T, Double>> samples)\n        throws NotPositiveException, MathArithmeticException, MathIllegalArgumentException {\n        random = rng;\n\n        singletons = new ArrayList<T>(samples.size());\n        final double[] probs = new double[samples.size()];\n\n        for (int i = 0; i < samples.size(); i++) {\n            final Pair<T, Double> sample = samples.get(i);\n            singletons.add(sample.getKey());\n            if (sample.getValue() < 0) {\n                throw new NotPositiveException(sample.getValue());\n            }\n            probs[i] = sample.getValue();\n        }\n\n        probabilities = MathArrays.normalizeArray(probs, 1.0);\n    }",
+    "comment": " Create a discrete distribution using the given random number generator and probability mass function definition.  @param rng random number generator. @param samples definition of probability mass function in the format of list of pairs. @throws NotPositiveException if probability of at least one value is negative. @throws MathArithmeticException if the probabilities sum to zero. @throws MathIllegalArgumentException if probability of at least one value is infinite. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiscreteDistribution.sample",
+    "class_name": "org.apache.commons.math3.distribution.DiscreteDistribution",
+    "signature": "org.apache.commons.math3.distribution.DiscreteDistribution.sample()",
+    "snippet": "    public T sample() {\n        final double randomValue = random.nextDouble();\n        double sum = 0;\n\n        for (int i = 0; i < probabilities.length; i++) {\n            sum += probabilities[i];\n            if (randomValue < sum) {\n                return singletons.get(i);\n            }\n        }\n\n        /* This should never happen, but it ensures we will return a correct\n         * object in case the loop above has some floating point inequality\n         * problem on the final iteration. */\n        return singletons.get(singletons.size() - 1);\n    }",
+    "comment": " Generate a random value sampled from this distribution.  @return a random value. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiscreteDistribution.sample",
+    "class_name": "org.apache.commons.math3.distribution.DiscreteDistribution",
+    "signature": "org.apache.commons.math3.distribution.DiscreteDistribution.sample(int)",
+    "snippet": "    public T[] sample(int sampleSize) throws NotStrictlyPositiveException {\n        if (sampleSize <= 0) {\n            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,\n                    sampleSize);\n        }\n\n        final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);\n\n        for (int i = 0; i < sampleSize; i++) {\n            out[i] = sample();\n        }\n\n        return out;\n\n    }",
+    "comment": " Generate a random sample from the distribution.  @param sampleSize the number of random values to generate. @return an array representing the random sample. @throws NotStrictlyPositiveException if {@code sampleSize} is not positive. ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiscreteRealDistribution.DiscreteRealDistribution",
+    "class_name": "org.apache.commons.math3.distribution.DiscreteRealDistribution",
+    "signature": "org.apache.commons.math3.distribution.DiscreteRealDistribution.DiscreteRealDistribution(RandomGenerator,double[],double[])",
+    "snippet": "    public DiscreteRealDistribution(final RandomGenerator rng,\n                                    final double[] singletons, final double[] probabilities)\n        throws DimensionMismatchException, NotPositiveException, MathArithmeticException, MathIllegalArgumentException {\n        super(rng);\n        if (singletons.length != probabilities.length) {\n            throw new DimensionMismatchException(probabilities.length, singletons.length);\n        }\n\n        List<Pair<Double, Double>> samples = new ArrayList<Pair<Double, Double>>(singletons.length);\n\n        for (int i = 0; i < singletons.length; i++) {\n            samples.add(new Pair<Double, Double>(singletons[i], probabilities[i]));\n        }\n\n        innerDistribution = new DiscreteDistribution<Double>(rng, samples);\n    }",
+    "comment": " Create a discrete distribution using the given random number generator and probability mass function definition.  @param rng random number generator. @param singletons array of random variable values. @param probabilities array of probabilities. @throws DimensionMismatchException if {@code singletons.length != probabilities.length} @throws NotPositiveException if probability of at least one value is negative. @throws MathArithmeticException if the probabilities sum to zero. @throws MathIllegalArgumentException if probability of at least one value is infinite. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DiscreteRealDistribution.DiscreteRealDistribution",
+    "class_name": "org.apache.commons.math3.distribution.DiscreteRealDistribution",
+    "signature": "org.apache.commons.math3.distribution.DiscreteRealDistribution.DiscreteRealDistribution(double[],double[])",
+    "snippet": "    public DiscreteRealDistribution(final double[] singletons, final double[] probabilities)\n        throws DimensionMismatchException, NotPositiveException, MathArithmeticException, MathIllegalArgumentException {\n        this(new Well19937c(), singletons, probabilities);\n    }",
+    "comment": " Create a discrete distribution using the given probability mass function definition.  @param singletons array of random variable values. @param probabilities array of probabilities. @throws DimensionMismatchException if {@code singletons.length != probabilities.length} @throws NotPositiveException if probability of at least one value is negative. @throws MathArithmeticException if the probabilities sum to zero. @throws MathIllegalArgumentException if probability of at least one value is infinite. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractWell.AbstractWell",
+    "class_name": "org.apache.commons.math3.random.AbstractWell",
+    "signature": "org.apache.commons.math3.random.AbstractWell.AbstractWell(int,int,int,int)",
+    "snippet": "    protected AbstractWell(final int k, final int m1, final int m2, final int m3) {\n        this(k, m1, m2, m3, null);\n    }",
+    "comment": "Creates a new random number generator. <p>The instance is initialized using the current time plus the system identity hash code of this instance as the seed.</p> @param k number of bits in the pool (not necessarily a multiple of 32) @param m1 first parameter of the algorithm @param m2 second parameter of the algorithm @param m3 third parameter of the algorithm ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractWell.AbstractWell",
+    "class_name": "org.apache.commons.math3.random.AbstractWell",
+    "signature": "org.apache.commons.math3.random.AbstractWell.AbstractWell(int,int,int,int,int[])",
+    "snippet": "    protected AbstractWell(final int k, final int m1, final int m2, final int m3, final int[] seed) {\n\n        // the bits pool contains k bits, k = r w - p where r is the number\n        // of w bits blocks, w is the block size (always 32 in the original paper)\n        // and p is the number of unused bits in the last block\n        final int w = 32;\n        final int r = (k + w - 1) / w;\n        this.v      = new int[r];\n        this.index  = 0;\n\n        // precompute indirection index tables. These tables are used for optimizing access\n        // they allow saving computations like \"(j + r - 2) % r\" with costly modulo operations\n        iRm1 = new int[r];\n        iRm2 = new int[r];\n        i1   = new int[r];\n        i2   = new int[r];\n        i3   = new int[r];\n        for (int j = 0; j < r; ++j) {\n            iRm1[j] = (j + r - 1) % r;\n            iRm2[j] = (j + r - 2) % r;\n            i1[j]   = (j + m1)    % r;\n            i2[j]   = (j + m2)    % r;\n            i3[j]   = (j + m3)    % r;\n        }\n\n        // initialize the pool content\n        setSeed(seed);\n\n    }",
+    "comment": "Creates a new random number generator using an int array seed. @param k number of bits in the pool (not necessarily a multiple of 32) @param m1 first parameter of the algorithm @param m2 second parameter of the algorithm @param m3 third parameter of the algorithm @param seed the initial seed (32 bits integers array), if null the seed of the generator will be related to the current time ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractWell.setSeed",
+    "class_name": "org.apache.commons.math3.random.AbstractWell",
+    "signature": "org.apache.commons.math3.random.AbstractWell.setSeed(int[])",
+    "snippet": "    @Override\n    public void setSeed(final int[] seed) {\n        if (seed == null) {\n            setSeed(System.currentTimeMillis() + System.identityHashCode(this));\n            return;\n        }\n\n        System.arraycopy(seed, 0, v, 0, Math.min(seed.length, v.length));\n\n        if (seed.length < v.length) {\n            for (int i = seed.length; i < v.length; ++i) {\n                final long l = v[i - seed.length];\n                v[i] = (int) ((1812433253l * (l ^ (l >> 30)) + i) & 0xffffffffL);\n            }\n        }\n\n        index = 0;\n        clear();  // Clear normal deviate cache\n    }",
+    "comment": "Reinitialize the generator as if just built with the given int array seed. <p>The state of the generator is exactly the same as a new generator built with the same seed.</p> @param seed the initial seed (32 bits integers array). If null the seed of the generator will be the system time plus the system identity hash code of the instance. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractWell.setSeed",
+    "class_name": "org.apache.commons.math3.random.AbstractWell",
+    "signature": "org.apache.commons.math3.random.AbstractWell.setSeed(long)",
+    "snippet": "    @Override\n    public void setSeed(final long seed) {\n        setSeed(new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffl) });\n    }",
+    "comment": "Reinitialize the generator as if just built with the given long seed. <p>The state of the generator is exactly the same as a new generator built with the same seed.</p> @param seed the initial seed (64 bits integer) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BitsStreamGenerator.BitsStreamGenerator",
+    "class_name": "org.apache.commons.math3.random.BitsStreamGenerator",
+    "signature": "org.apache.commons.math3.random.BitsStreamGenerator.BitsStreamGenerator()",
+    "snippet": "    public BitsStreamGenerator() {\n        nextGaussian = Double.NaN;\n    }",
+    "comment": " Creates a new random number generator. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BitsStreamGenerator.clear",
+    "class_name": "org.apache.commons.math3.random.BitsStreamGenerator",
+    "signature": "org.apache.commons.math3.random.BitsStreamGenerator.clear()",
+    "snippet": "    public void clear() {\n        nextGaussian = Double.NaN;\n    }",
+    "comment": " Clears the cache used by the default implementation of {@link #nextGaussian}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BitsStreamGenerator.nextDouble",
+    "class_name": "org.apache.commons.math3.random.BitsStreamGenerator",
+    "signature": "org.apache.commons.math3.random.BitsStreamGenerator.nextDouble()",
+    "snippet": "    public double nextDouble() {\n        final long high = ((long) next(26)) << 26;\n        final int  low  = next(26);\n        return (high | low) * 0x1.0p-52d;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RandomDataGenerator.RandomDataGenerator",
+    "class_name": "org.apache.commons.math3.random.RandomDataGenerator",
+    "signature": "org.apache.commons.math3.random.RandomDataGenerator.RandomDataGenerator()",
+    "snippet": "    public RandomDataGenerator() {\n    }",
+    "comment": " Construct a RandomDataGenerator, using a default random generator as the source of randomness.  <p>The default generator is a {@link Well19937c} seeded with {@code System.currentTimeMillis() + System.identityHashCode(this))}. The generator is initialized and seeded on first use.</p> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RandomDataImpl.RandomDataImpl",
+    "class_name": "org.apache.commons.math3.random.RandomDataImpl",
+    "signature": "org.apache.commons.math3.random.RandomDataImpl.RandomDataImpl()",
+    "snippet": "    public RandomDataImpl() {\n        delegate = new RandomDataGenerator();\n    }",
+    "comment": " Construct a RandomDataImpl, using a default random generator as the source of randomness.  <p>The default generator is a {@link Well19937c} seeded with {@code System.currentTimeMillis() + System.identityHashCode(this))}. The generator is initialized and seeded on first use.</p> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Well19937c.Well19937c",
+    "class_name": "org.apache.commons.math3.random.Well19937c",
+    "signature": "org.apache.commons.math3.random.Well19937c.Well19937c()",
+    "snippet": "    public Well19937c() {\n        super(K, M1, M2, M3);\n    }",
+    "comment": "Creates a new random number generator. <p>The instance is initialized using the current time as the seed.</p> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Well19937c.next",
+    "class_name": "org.apache.commons.math3.random.Well19937c",
+    "signature": "org.apache.commons.math3.random.Well19937c.next(int)",
+    "snippet": "    @Override\n    protected int next(final int bits) {\n\n        final int indexRm1 = iRm1[index];\n        final int indexRm2 = iRm2[index];\n\n        final int v0       = v[index];\n        final int vM1      = v[i1[index]];\n        final int vM2      = v[i2[index]];\n        final int vM3      = v[i3[index]];\n\n        final int z0 = (0x80000000 & v[indexRm1]) ^ (0x7FFFFFFF & v[indexRm2]);\n        final int z1 = (v0 ^ (v0 << 25))  ^ (vM1 ^ (vM1 >>> 27));\n        final int z2 = (vM2 >>> 9) ^ (vM3 ^ (vM3 >>> 1));\n        final int z3 = z1      ^ z2;\n        int z4 = z0 ^ (z1 ^ (z1 << 9)) ^ (z2 ^ (z2 << 21)) ^ (z3 ^ (z3 >>> 21));\n\n        v[index]     = z3;\n        v[indexRm1]  = z4;\n        v[indexRm2] &= 0x80000000;\n        index        = indexRm1;\n\n\n        // add Matsumoto-Kurita tempering\n        // to get a maximally-equidistributed generator\n        z4 = z4 ^ ((z4 <<  7) & 0xe46e1700);\n        z4 = z4 ^ ((z4 << 15) & 0x9b868000);\n\n        return z4 >>> (32 - bits);\n\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathArrays.normalizeArray",
+    "class_name": "org.apache.commons.math3.util.MathArrays",
+    "signature": "org.apache.commons.math3.util.MathArrays.normalizeArray(double[],double)",
+    "snippet": "     public static double[] normalizeArray(double[] values, double normalizedSum)\n         throws MathIllegalArgumentException, MathArithmeticException {\n         if (Double.isInfinite(normalizedSum)) {\n             throw new MathIllegalArgumentException(LocalizedFormats.NORMALIZE_INFINITE);\n         }\n         if (Double.isNaN(normalizedSum)) {\n             throw new MathIllegalArgumentException(LocalizedFormats.NORMALIZE_NAN);\n         }\n         double sum = 0d;\n         final int len = values.length;\n         double[] out = new double[len];\n         for (int i = 0; i < len; i++) {\n             if (Double.isInfinite(values[i])) {\n                 throw new MathIllegalArgumentException(LocalizedFormats.INFINITE_ARRAY_ELEMENT, values[i], i);\n             }\n             if (!Double.isNaN(values[i])) {\n                 sum += values[i];\n             }\n         }\n         if (sum == 0) {\n             throw new MathArithmeticException(LocalizedFormats.ARRAY_SUMS_TO_ZERO);\n         }\n         for (int i = 0; i < len; i++) {\n             if (Double.isNaN(values[i])) {\n                 out[i] = Double.NaN;\n             } else {\n                 out[i] = values[i] * normalizedSum / sum;\n             }\n         }\n         return out;\n     }",
+    "comment": " Normalizes an array to make it sum to a specified value. Returns the result of the transformation <pre> x |-> x * normalizedSum / sum </pre> applied to each non-NaN element x of the input array, where sum is the sum of the non-NaN entries in the input array.</p>  <p>Throws IllegalArgumentException if {@code normalizedSum} is infinite or NaN and ArithmeticException if the input array contains any infinite elements or sums to 0.</p>  <p>Ignores (i.e., copies unchanged to the output array) NaNs in the input array.</p>  @param values Input array to be normalized @param normalizedSum Target sum for the normalized array @return the normalized array. @throws MathArithmeticException if the input array contains infinite elements or sums to zero. @throws MathIllegalArgumentException if the target sum is infinite or {@code NaN}. @since 2.1 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Pair.Pair",
+    "class_name": "org.apache.commons.math3.util.Pair",
+    "signature": "org.apache.commons.math3.util.Pair.Pair(K,V)",
+    "snippet": "    public Pair(K k, V v) {\n        key = k;\n        value = v;\n    }",
+    "comment": " Create an entry representing a mapping from the specified key to the specified value.  @param k Key (first element of the pair). @param v Value (second element of the pair). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Pair.getKey",
+    "class_name": "org.apache.commons.math3.util.Pair",
+    "signature": "org.apache.commons.math3.util.Pair.getKey()",
+    "snippet": "    public K getKey() {\n        return key;\n    }",
+    "comment": " Get the key.  @return the key (first element of the pair). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Pair.getValue",
+    "class_name": "org.apache.commons.math3.util.Pair",
+    "signature": "org.apache.commons.math3.util.Pair.getValue()",
+    "snippet": "    public V getValue() {\n        return value;\n    }",
+    "comment": " Get the value.  @return the value (second element of the pair). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

@@ -1,0 +1,152 @@
+[
+  {
+    "name": "DataUtilities.createNumberArray2D",
+    "class_name": "org.jfree.data.DataUtilities",
+    "signature": "org.jfree.data.DataUtilities.createNumberArray2D(double[][])",
+    "snippet": "    public static Number[][] createNumberArray2D(double[][] data) {\n        if (data == null) {\n            throw new IllegalArgumentException(\"Null 'data' argument.\");   \n        }\n        int l1 = data.length;\n        Number[][] result = new Number[l1][];\n        for (int i = 0; i < l1; i++) {\n            result[i] = createNumberArray(data[i]);\n        }\n        return result;\n    }",
+    "comment": " Constructs an array of arrays of <code>Number</code> objects from a  corresponding structure containing <code>double</code> primitives.  @param data  the data (<code>null</code> not permitted).  @return An array of <code>Double</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 8,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DefaultIntervalCategoryDataset.DefaultIntervalCategoryDataset",
+    "class_name": "org.jfree.data.category.DefaultIntervalCategoryDataset",
+    "signature": "org.jfree.data.category.DefaultIntervalCategoryDataset.DefaultIntervalCategoryDataset(Comparable[],Comparable[],Number[][],Number[][])",
+    "snippet": "    public DefaultIntervalCategoryDataset(Comparable[] seriesKeys,\n                                          Comparable[] categoryKeys,\n                                          Number[][] starts,\n                                          Number[][] ends) {\n\n        this.startData = starts;\n        this.endData = ends;\n\n        if (starts != null && ends != null) {\n\n            String baseName = \"org.jfree.data.resources.DataPackageResources\";\n            ResourceBundle resources = ResourceBundle.getBundle(baseName);\n\n            int seriesCount = starts.length;\n            if (seriesCount != ends.length) {\n                String errMsg = \"DefaultIntervalCategoryDataset: the number \"\n                    + \"of series in the start value dataset does \"\n                    + \"not match the number of series in the end \"\n                    + \"value dataset.\";\n                throw new IllegalArgumentException(errMsg);\n            }\n            if (seriesCount > 0) {\n\n                // set up the series names...\n                if (seriesKeys != null) {\n\n                    if (seriesKeys.length != seriesCount) {\n                        throw new IllegalArgumentException(\n                                \"The number of series keys does not \"\n                                + \"match the number of series in the data.\");\n                    }\n\n                    this.seriesKeys = seriesKeys;\n                }\n                else {\n                    String prefix = resources.getString(\n                            \"series.default-prefix\") + \" \";\n                    this.seriesKeys = generateKeys(seriesCount, prefix);\n                }\n\n                // set up the category names...\n                int categoryCount = starts[0].length;\n                if (categoryCount != ends[0].length) {\n                    String errMsg = \"DefaultIntervalCategoryDataset: the \"\n                                + \"number of categories in the start value \"\n                                + \"dataset does not match the number of \"\n                                + \"categories in the end value dataset.\";\n                    throw new IllegalArgumentException(errMsg);\n                }\n                if (categoryKeys != null) {\n                    if (categoryKeys.length != categoryCount) {\n                        throw new IllegalArgumentException(\n                                \"The number of category keys does not match \"\n                                + \"the number of categories in the data.\");\n                    }\n                    this.categoryKeys = categoryKeys;\n                }\n                else {\n                    String prefix = resources.getString(\n                            \"categories.default-prefix\") + \" \";\n                    this.categoryKeys = generateKeys(categoryCount, prefix);\n                }\n\n            }\n            else {\n                this.seriesKeys = null;\n                this.categoryKeys = null;\n            }\n        }\n\n    }",
+    "comment": " Constructs a DefaultIntervalCategoryDataset, populates it with data from the arrays, and uses the supplied names for the series and the supplied objects for the categories.  @param seriesKeys  the series keys (if <code>null</code>, series keys will be generated automatically). @param categoryKeys  the category keys (if <code>null</code>, category  keys will be generated automatically). @param starts  the start values data, indexed as data[series][category]. @param ends  the end values data, indexed as data[series][category]. ",
+    "is_bug": true,
+    "failing_test_cases": 8,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DefaultIntervalCategoryDataset.DefaultIntervalCategoryDataset",
+    "class_name": "org.jfree.data.category.DefaultIntervalCategoryDataset",
+    "signature": "org.jfree.data.category.DefaultIntervalCategoryDataset.DefaultIntervalCategoryDataset(Number[][],Number[][])",
+    "snippet": "    public DefaultIntervalCategoryDataset(Number[][] starts, Number[][] ends) {\n        this(null, null, starts, ends);\n    }",
+    "comment": " Constructs a dataset and populates it with data from the array. <p> The arrays are indexed as data[series][category].  Series and category names are automatically generated - you can change them using the {@link #setSeriesKeys(Comparable[])} and  {@link #setCategoryKeys(Comparable[])} methods.  @param starts  the start values data. @param ends  the end values data. ",
+    "is_bug": false,
+    "failing_test_cases": 8,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DefaultIntervalCategoryDataset.DefaultIntervalCategoryDataset",
+    "class_name": "org.jfree.data.category.DefaultIntervalCategoryDataset",
+    "signature": "org.jfree.data.category.DefaultIntervalCategoryDataset.DefaultIntervalCategoryDataset(double[][],double[][])",
+    "snippet": "    public DefaultIntervalCategoryDataset(double[][] starts, double[][] ends) {\n        this(DataUtilities.createNumberArray2D(starts),\n                DataUtilities.createNumberArray2D(ends));\n    }",
+    "comment": " Creates a new dataset using the specified data values and automatically generated series and category keys.  @param starts  the starting values for the intervals (<code>null</code> not permitted). @param ends  the ending values for the intervals (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 8,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DefaultIntervalCategoryDataset.clone",
+    "class_name": "org.jfree.data.category.DefaultIntervalCategoryDataset",
+    "signature": "org.jfree.data.category.DefaultIntervalCategoryDataset.clone()",
+    "snippet": "    public Object clone() throws CloneNotSupportedException {\n        DefaultIntervalCategoryDataset clone \n                = (DefaultIntervalCategoryDataset) super.clone();\n        clone.categoryKeys = (Comparable[]) this.categoryKeys.clone();\n        clone.seriesKeys = (Comparable[]) this.seriesKeys.clone();\n        clone.startData = clone(this.startData);\n        clone.endData = clone(this.endData);\n        return clone;\n    }",
+    "comment": " Returns a clone of this dataset.  @return A clone.  @throws CloneNotSupportedException if there is a problem cloning the dataset. ",
+    "is_bug": false,
+    "failing_test_cases": 8,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DefaultIntervalCategoryDataset.getCategoryIndex",
+    "class_name": "org.jfree.data.category.DefaultIntervalCategoryDataset",
+    "signature": "org.jfree.data.category.DefaultIntervalCategoryDataset.getCategoryIndex(Comparable)",
+    "snippet": "    public int getCategoryIndex(Comparable category) {\n        int result = -1;\n        for (int i = 0; i < this.categoryKeys.length; i++) {\n            if (category.equals(this.categoryKeys[i])) {\n                result = i;\n                break;\n            }\n        }\n        return result;\n    }",
+    "comment": " Returns the index for the given category.  @param category  the category (<code>null</code> not permitted).  @return The index.  @see #getColumnIndex(Comparable) ",
+    "is_bug": false,
+    "failing_test_cases": 8,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DefaultIntervalCategoryDataset.getColumnCount",
+    "class_name": "org.jfree.data.category.DefaultIntervalCategoryDataset",
+    "signature": "org.jfree.data.category.DefaultIntervalCategoryDataset.getColumnCount()",
+    "snippet": "    public int getColumnCount() {\n        return this.categoryKeys.length;\n    }",
+    "comment": " Returns the number of categories in the dataset.  This method is part of  the {@link CategoryDataset} interface.  @return The number of categories in the dataset.  @see #getCategoryCount() @see #getRowCount() ",
+    "is_bug": false,
+    "failing_test_cases": 8,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DefaultIntervalCategoryDataset.getColumnIndex",
+    "class_name": "org.jfree.data.category.DefaultIntervalCategoryDataset",
+    "signature": "org.jfree.data.category.DefaultIntervalCategoryDataset.getColumnIndex(Comparable)",
+    "snippet": "    public int getColumnIndex(Comparable columnKey) {\n        if (columnKey == null) {\n            throw new IllegalArgumentException(\"Null 'columnKey' argument.\");\n        }\n        return getCategoryIndex(columnKey);\n    }",
+    "comment": " Returns a column index.  @param columnKey  the column key (<code>null</code> not permitted).  @return The column index.  @see #getCategoryIndex(Comparable) ",
+    "is_bug": false,
+    "failing_test_cases": 8,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DefaultIntervalCategoryDataset.getRowIndex",
+    "class_name": "org.jfree.data.category.DefaultIntervalCategoryDataset",
+    "signature": "org.jfree.data.category.DefaultIntervalCategoryDataset.getRowIndex(Comparable)",
+    "snippet": "    public int getRowIndex(Comparable rowKey) {\n        return getSeriesIndex(rowKey);\n    }",
+    "comment": " Returns a row index.  @param rowKey  the row key.  @return The row index.  @see #getSeriesIndex(Comparable) ",
+    "is_bug": false,
+    "failing_test_cases": 8,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DefaultIntervalCategoryDataset.getSeriesIndex",
+    "class_name": "org.jfree.data.category.DefaultIntervalCategoryDataset",
+    "signature": "org.jfree.data.category.DefaultIntervalCategoryDataset.getSeriesIndex(Comparable)",
+    "snippet": "    public int getSeriesIndex(Comparable seriesKey) {\n        int result = -1;\n        for (int i = 0; i < this.seriesKeys.length; i++) {\n            if (seriesKey.equals(this.seriesKeys[i])) {\n                result = i;\n                break;\n            }\n        }\n        return result;\n    }",
+    "comment": " Returns a series index.  @param seriesKey  the series key.  @return The series index.  @see #getRowIndex(Comparable) @see #getSeriesKey(int) ",
+    "is_bug": false,
+    "failing_test_cases": 8,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DefaultIntervalCategoryDataset.setCategoryKeys",
+    "class_name": "org.jfree.data.category.DefaultIntervalCategoryDataset",
+    "signature": "org.jfree.data.category.DefaultIntervalCategoryDataset.setCategoryKeys(Comparable[])",
+    "snippet": "    public void setCategoryKeys(Comparable[] categoryKeys) {\n        if (categoryKeys == null) {\n            throw new IllegalArgumentException(\"Null 'categoryKeys' argument.\");\n        }\n        if (categoryKeys.length != this.startData[0].length) {\n            throw new IllegalArgumentException(\n                    \"The number of categories does not match the data.\");\n        }\n        for (int i = 0; i < categoryKeys.length; i++) {\n            if (categoryKeys[i] == null) {\n                throw new IllegalArgumentException(\n                    \"DefaultIntervalCategoryDataset.setCategoryKeys(): \"\n                    + \"null category not permitted.\");\n            }\n        }\n        this.categoryKeys = categoryKeys;\n        fireDatasetChanged();\n    }",
+    "comment": " Sets the categories for the dataset.  @param categoryKeys  an array of objects representing the categories in  the dataset.  @see #getRowKeys() @see #setSeriesKeys(Comparable[]) ",
+    "is_bug": true,
+    "failing_test_cases": 8,
+    "buggy_methods": 2
+  },
+  {
+    "name": "AbstractDataset.AbstractDataset",
+    "class_name": "org.jfree.data.general.AbstractDataset",
+    "signature": "org.jfree.data.general.AbstractDataset.AbstractDataset()",
+    "snippet": "    protected AbstractDataset() {\n        this.group = new DatasetGroup();\n        this.listenerList = new EventListenerList();\n    }",
+    "comment": " Constructs a dataset. By default, the dataset is assigned to its own  group. ",
+    "is_bug": false,
+    "failing_test_cases": 8,
+    "buggy_methods": 2
+  },
+  {
+    "name": "AbstractDataset.clone",
+    "class_name": "org.jfree.data.general.AbstractDataset",
+    "signature": "org.jfree.data.general.AbstractDataset.clone()",
+    "snippet": "    public Object clone() throws CloneNotSupportedException {\n        AbstractDataset clone = (AbstractDataset) super.clone();\n        clone.listenerList = new EventListenerList();\n        return clone;    \n    }",
+    "comment": " Returns a clone of the dataset. The cloned dataset will NOT include the  {@link DatasetChangeListener} references that have been registered with  this dataset.  @return A clone.  @throws CloneNotSupportedException  if the dataset does not support  cloning. ",
+    "is_bug": false,
+    "failing_test_cases": 8,
+    "buggy_methods": 2
+  },
+  {
+    "name": "AbstractSeriesDataset.AbstractSeriesDataset",
+    "class_name": "org.jfree.data.general.AbstractSeriesDataset",
+    "signature": "org.jfree.data.general.AbstractSeriesDataset.AbstractSeriesDataset()",
+    "snippet": "    protected AbstractSeriesDataset() {\n        super();\n    }",
+    "comment": " Creates a new dataset. ",
+    "is_bug": false,
+    "failing_test_cases": 8,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DatasetGroup.DatasetGroup",
+    "class_name": "org.jfree.data.general.DatasetGroup",
+    "signature": "org.jfree.data.general.DatasetGroup.DatasetGroup()",
+    "snippet": "    public DatasetGroup() {\n        super();\n        this.id = \"NOID\";\n    }",
+    "comment": " Constructs a new group. ",
+    "is_bug": false,
+    "failing_test_cases": 8,
+    "buggy_methods": 2
+  }
+]

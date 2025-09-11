@@ -1,0 +1,192 @@
+[
+  {
+    "name": "Entities.addEntities",
+    "class_name": "org.apache.commons.lang.Entities",
+    "signature": "org.apache.commons.lang.Entities.addEntities(String[][])",
+    "snippet": "    public void addEntities(String[][] entityArray) {\n        for (int i = 0; i < entityArray.length; ++i) {\n            addEntity(entityArray[i][0], Integer.parseInt(entityArray[i][1]));\n        }\n    }",
+    "comment": " <p> Adds entities to this entity. </p>  @param entityArray array of entities to be added ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Entities.addEntity",
+    "class_name": "org.apache.commons.lang.Entities",
+    "signature": "org.apache.commons.lang.Entities.addEntity(String,int)",
+    "snippet": "    public void addEntity(String name, int value) {\n        map.add(name, value);\n    }",
+    "comment": " <p> Add an entity to this entity. </p>  @param name name of the entity @param value vale of the entity ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Entities.doUnescape",
+    "class_name": "org.apache.commons.lang.Entities",
+    "signature": "org.apache.commons.lang.Entities.doUnescape(Writer,String,int)",
+    "snippet": "    private void doUnescape(Writer writer, String str, int firstAmp) throws IOException {\n        writer.write(str, 0, firstAmp);\n        int len = str.length();\n        for (int i = firstAmp; i < len; i++) {\n            char c = str.charAt(i);\n            if (c == '&') {\n                int nextIdx = i + 1;\n                int semiColonIdx = str.indexOf(';', nextIdx);\n                if (semiColonIdx == -1) {\n                    writer.write(c);\n                    continue;\n                }\n                int amphersandIdx = str.indexOf('&', i + 1);\n                if (amphersandIdx != -1 && amphersandIdx < semiColonIdx) {\n                    // Then the text looks like &...&...;\n                    writer.write(c);\n                    continue;\n                }\n                String entityContent = str.substring(nextIdx, semiColonIdx);\n                int entityValue = -1;\n                int entityContentLen = entityContent.length();\n                if (entityContentLen > 0) {\n                    if (entityContent.charAt(0) == '#') { // escaped value content is an integer (decimal or\n                        // hexidecimal)\n                        if (entityContentLen > 1) {\n                            char isHexChar = entityContent.charAt(1);\n                            try {\n                                switch (isHexChar) {\n                                    case 'X' :\n                                    case 'x' : {\n                                        entityValue = Integer.parseInt(entityContent.substring(2), 16);\n                                        break;\n                                    }\n                                    default : {\n                                        entityValue = Integer.parseInt(entityContent.substring(1), 10);\n                                    }\n                                }\n                                if (entityValue > 0xFFFF) {\n                                    entityValue = -1;\n                                }\n                            } catch (NumberFormatException e) {\n                                entityValue = -1;\n                            }\n                        }\n                    } else { // escaped value content is an entity name\n                        entityValue = this.entityValue(entityContent);\n                    }\n                }\n\n                if (entityValue == -1) {\n                    writer.write('&');\n                    writer.write(entityContent);\n                    writer.write(';');\n                } else {\n                    writer.write(entityValue);\n                }\n                i = semiColonIdx; // move index up to the semi-colon\n            } else {\n                writer.write(c);\n            }\n        }\n    }",
+    "comment": " Underlying unescape method that allows the optimisation of not starting from the 0 index again.  @param writer The <code>Writer</code> to write the results to; assumed to be non-null. @param str The source <code>String</code> to unescape; assumed to be non-null. @param firstAmp The <code>int</code> index of the first ampersand in the source String. @throws IOException when <code>Writer</code> passed throws the exception from calls to the {@link Writer#write(int)} methods. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Entities.entityName",
+    "class_name": "org.apache.commons.lang.Entities",
+    "signature": "org.apache.commons.lang.Entities.entityName(int)",
+    "snippet": "    public String entityName(int value) {\n        return map.name(value);\n    }",
+    "comment": " <p> Returns the name of the entity identified by the specified value. </p>  @param value the value to locate @return entity name associated with the specified value ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Entities.escape",
+    "class_name": "org.apache.commons.lang.Entities",
+    "signature": "org.apache.commons.lang.Entities.escape(Writer,String)",
+    "snippet": "    public void escape(Writer writer, String str) throws IOException {\n        int len = str.length();\n        for (int i = 0; i < len; i++) {\n            char c = str.charAt(i);\n            String entityName = this.entityName(c);\n            if (entityName == null) {\n                if (c > 0x7F) {\n                    writer.write(\"&#\");\n                    writer.write(Integer.toString(c, 10));\n                    writer.write(';');\n                } else {\n                    writer.write(c);\n                }\n            } else {\n                writer.write('&');\n                writer.write(entityName);\n                writer.write(';');\n            }\n        }\n    }",
+    "comment": " <p> Escapes the characters in the <code>String</code> passed and writes the result to the <code>Writer</code> passed. </p>  @param writer The <code>Writer</code> to write the results of the escaping to. Assumed to be a non-null value. @param str The <code>String</code> to escape. Assumed to be a non-null value. @throws IOException when <code>Writer</code> passed throws the exception from calls to the {@link Writer#write(int)} methods.  @see #escape(String) @see Writer ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Entities.fillWithHtml40Entities",
+    "class_name": "org.apache.commons.lang.Entities",
+    "signature": "org.apache.commons.lang.Entities.fillWithHtml40Entities(Entities)",
+    "snippet": "    static void fillWithHtml40Entities(Entities entities) {\n        entities.addEntities(BASIC_ARRAY);\n        entities.addEntities(ISO8859_1_ARRAY);\n        entities.addEntities(HTML40_ARRAY);\n    }",
+    "comment": " <p> Fills the specified entities instance with HTML 40 entities. </p>  @param entities the instance to be filled. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Entities.unescape",
+    "class_name": "org.apache.commons.lang.Entities",
+    "signature": "org.apache.commons.lang.Entities.unescape(Writer,String)",
+    "snippet": "    public void unescape(Writer writer, String str) throws IOException {\n        int firstAmp = str.indexOf('&');\n        if (firstAmp < 0) {\n            writer.write(str);\n            return;\n        } else {\n            doUnescape(writer, str, firstAmp);\n        }\n    }",
+    "comment": " <p> Unescapes the escaped entities in the <code>String</code> passed and writes the result to the <code>Writer</code> passed. </p>  @param writer The <code>Writer</code> to write the results to; assumed to be non-null. @param str The source <code>String</code> to unescape; assumed to be non-null. @throws IOException when <code>Writer</code> passed throws the exception from calls to the {@link Writer#write(int)} methods.  @see #escape(String) @see Writer ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LookupEntityMap.name",
+    "class_name": "org.apache.commons.lang.Entities$LookupEntityMap",
+    "signature": "org.apache.commons.lang.Entities$LookupEntityMap.name(int)",
+    "snippet": "        public String name(int value) {\n            if (value < LOOKUP_TABLE_SIZE) {\n                return lookupTable()[value];\n            }\n            return super.name(value);\n        }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "PrimitiveEntityMap.add",
+    "class_name": "org.apache.commons.lang.Entities$PrimitiveEntityMap",
+    "signature": "org.apache.commons.lang.Entities$PrimitiveEntityMap.add(String,int)",
+    "snippet": "        public void add(String name, int value) {\n            mapNameToValue.put(name, new Integer(value));\n            mapValueToName.put(value, name);\n        }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "PrimitiveEntityMap.name",
+    "class_name": "org.apache.commons.lang.Entities$PrimitiveEntityMap",
+    "signature": "org.apache.commons.lang.Entities$PrimitiveEntityMap.name(int)",
+    "snippet": "        public String name(int value) {\n            return (String) mapValueToName.get(value);\n        }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "IntHashMap.IntHashMap",
+    "class_name": "org.apache.commons.lang.IntHashMap",
+    "signature": "org.apache.commons.lang.IntHashMap.IntHashMap()",
+    "snippet": "    public IntHashMap() {\n        this(20, 0.75f);\n    }",
+    "comment": " <p>Constructs a new, empty hashtable with a default capacity and load factor, which is <code>20</code> and <code>0.75</code> respectively.</p> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "IntHashMap.IntHashMap",
+    "class_name": "org.apache.commons.lang.IntHashMap",
+    "signature": "org.apache.commons.lang.IntHashMap.IntHashMap(int,float)",
+    "snippet": "    public IntHashMap(int initialCapacity, float loadFactor) {\n        super();\n        if (initialCapacity < 0) {\n            throw new IllegalArgumentException(\"Illegal Capacity: \" + initialCapacity);\n        }\n        if (loadFactor <= 0) {\n            throw new IllegalArgumentException(\"Illegal Load: \" + loadFactor);\n        }\n        if (initialCapacity == 0) {\n            initialCapacity = 1;\n        }\n\n        this.loadFactor = loadFactor;\n        table = new Entry[initialCapacity];\n        threshold = (int) (initialCapacity * loadFactor);\n    }",
+    "comment": " <p>Constructs a new, empty hashtable with the specified initial capacity and the specified load factor.</p>  @param initialCapacity the initial capacity of the hashtable. @param loadFactor the load factor of the hashtable. @throws IllegalArgumentException  if the initial capacity is less than zero, or if the load factor is nonpositive. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "IntHashMap.get",
+    "class_name": "org.apache.commons.lang.IntHashMap",
+    "signature": "org.apache.commons.lang.IntHashMap.get(int)",
+    "snippet": "    public Object get(int key) {\n        Entry tab[] = table;\n        int hash = key;\n        int index = (hash & 0x7FFFFFFF) % tab.length;\n        for (Entry e = tab[index]; e != null; e = e.next) {\n            if (e.hash == hash) {\n                return e.value;\n            }\n        }\n        return null;\n    }",
+    "comment": " <p>Returns the value to which the specified key is mapped in this map.</p>  @param   key   a key in the hashtable. @return  the value to which the key is mapped in this hashtable; <code>null</code> if the key is not mapped to any value in this hashtable. @see     #put(int, Object) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "IntHashMap.put",
+    "class_name": "org.apache.commons.lang.IntHashMap",
+    "signature": "org.apache.commons.lang.IntHashMap.put(int,Object)",
+    "snippet": "    public Object put(int key, Object value) {\n        // Makes sure the key is not already in the hashtable.\n        Entry tab[] = table;\n        int hash = key;\n        int index = (hash & 0x7FFFFFFF) % tab.length;\n        for (Entry e = tab[index]; e != null; e = e.next) {\n            if (e.hash == hash) {\n                Object old = e.value;\n                e.value = value;\n                return old;\n            }\n        }\n\n        if (count >= threshold) {\n            // Rehash the table if the threshold is exceeded\n            rehash();\n\n            tab = table;\n            index = (hash & 0x7FFFFFFF) % tab.length;\n        }\n\n        // Creates the new entry.\n        Entry e = new Entry(hash, key, value, tab[index]);\n        tab[index] = e;\n        count++;\n        return null;\n    }",
+    "comment": " <p>Maps the specified <code>key</code> to the specified <code>value</code> in this hashtable. The key cannot be <code>null</code>. </p>  <p>The value can be retrieved by calling the <code>get</code> method with a key that is equal to the original key.</p>  @param key     the hashtable key. @param value   the value. @return the previous value of the specified key in this hashtable, or <code>null</code> if it did not have one. @throws  NullPointerException  if the key is <code>null</code>. @see     #get(int) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "IntHashMap.rehash",
+    "class_name": "org.apache.commons.lang.IntHashMap",
+    "signature": "org.apache.commons.lang.IntHashMap.rehash()",
+    "snippet": "    protected void rehash() {\n        int oldCapacity = table.length;\n        Entry oldMap[] = table;\n\n        int newCapacity = oldCapacity * 2 + 1;\n        Entry newMap[] = new Entry[newCapacity];\n\n        threshold = (int) (newCapacity * loadFactor);\n        table = newMap;\n\n        for (int i = oldCapacity; i-- > 0;) {\n            for (Entry old = oldMap[i]; old != null;) {\n                Entry e = old;\n                old = old.next;\n\n                int index = (e.hash & 0x7FFFFFFF) % newCapacity;\n                e.next = newMap[index];\n                newMap[index] = e;\n            }\n        }\n    }",
+    "comment": " <p>Increases the capacity of and internally reorganizes this hashtable, in order to accommodate and access its entries more efficiently.</p>  <p>This method is called automatically when the number of keys in the hashtable exceeds this hashtable's capacity and load factor.</p> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StringEscapeUtils.escapeHtml",
+    "class_name": "org.apache.commons.lang.StringEscapeUtils",
+    "signature": "org.apache.commons.lang.StringEscapeUtils.escapeHtml(String)",
+    "snippet": "    public static String escapeHtml(String str) {\n        if (str == null) {\n            return null;\n        }\n        try {\n            StringWriter writer = new StringWriter ((int)(str.length() * 1.5));\n            escapeHtml(writer, str);\n            return writer.toString();\n        } catch (IOException ioe) {\n            //should be impossible\n            throw new UnhandledException(ioe);\n        }\n    }",
+    "comment": " <p>Escapes the characters in a <code>String</code> using HTML entities.</p>  <p> For example: </p>  <p><code>\"bread\" & \"butter\"</code></p> becomes: <p> <code>&amp;quot;bread&amp;quot; &amp;amp; &amp;quot;butter&amp;quot;</code>. </p>  <p>Supports all known HTML 4.0 entities, including funky accents. Note that the commonly used apostrophe escape character (&amp;apos;) is not a legal entity and so is not supported). </p>  @param str  the <code>String</code> to escape, may be null @return a new escaped <code>String</code>, <code>null</code> if null string input  @see #unescapeHtml(String) @see <a href=\"http://hotwired.lycos.com/webmonkey/reference/special_characters/\">ISO Entities</a> @see <a href=\"http://www.w3.org/TR/REC-html32#latin1\">HTML 3.2 Character Entities for ISO Latin-1</a> @see <a href=\"http://www.w3.org/TR/REC-html40/sgml/entities.html\">HTML 4.0 Character entity references</a> @see <a href=\"http://www.w3.org/TR/html401/charset.html#h-5.3\">HTML 4.01 Character References</a> @see <a href=\"http://www.w3.org/TR/html401/charset.html#code-position\">HTML 4.01 Code positions</a> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StringEscapeUtils.escapeHtml",
+    "class_name": "org.apache.commons.lang.StringEscapeUtils",
+    "signature": "org.apache.commons.lang.StringEscapeUtils.escapeHtml(Writer,String)",
+    "snippet": "    public static void escapeHtml(Writer writer, String string) throws IOException {\n        if (writer == null ) {\n            throw new IllegalArgumentException (\"The Writer must not be null.\");\n        }\n        if (string == null) {\n            return;\n        }\n        Entities.HTML40.escape(writer, string);\n    }",
+    "comment": " <p>Escapes the characters in a <code>String</code> using HTML entities and writes them to a <code>Writer</code>.</p>  <p> For example: </p>  <code>\"bread\" & \"butter\"</code> <p>becomes:</p> <code>&amp;quot;bread&amp;quot; &amp;amp; &amp;quot;butter&amp;quot;</code>.  <p>Supports all known HTML 4.0 entities, including funky accents. Note that the commonly used apostrophe escape character (&amp;apos;) is not a legal entity and so is not supported). </p>  @param writer  the writer receiving the escaped string, not null @param string  the <code>String</code> to escape, may be null @throws IllegalArgumentException if the writer is null @throws IOException when <code>Writer</code> passed throws the exception from calls to the {@link Writer#write(int)} methods.  @see #escapeHtml(String) @see #unescapeHtml(String) @see <a href=\"http://hotwired.lycos.com/webmonkey/reference/special_characters/\">ISO Entities</a> @see <a href=\"http://www.w3.org/TR/REC-html32#latin1\">HTML 3.2 Character Entities for ISO Latin-1</a> @see <a href=\"http://www.w3.org/TR/REC-html40/sgml/entities.html\">HTML 4.0 Character entity references</a> @see <a href=\"http://www.w3.org/TR/html401/charset.html#h-5.3\">HTML 4.01 Character References</a> @see <a href=\"http://www.w3.org/TR/html401/charset.html#code-position\">HTML 4.01 Code positions</a> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StringEscapeUtils.unescapeHtml",
+    "class_name": "org.apache.commons.lang.StringEscapeUtils",
+    "signature": "org.apache.commons.lang.StringEscapeUtils.unescapeHtml(String)",
+    "snippet": "    public static String unescapeHtml(String str) {\n        if (str == null) {\n            return null;\n        }\n        try {\n            StringWriter writer = new StringWriter ((int)(str.length() * 1.5));\n            unescapeHtml(writer, str);\n            return writer.toString();\n        } catch (IOException ioe) {\n            //should be impossible\n            throw new UnhandledException(ioe);\n        }\n    }",
+    "comment": " <p>Unescapes a string containing entity escapes to a string containing the actual Unicode characters corresponding to the escapes. Supports HTML 4.0 entities.</p>  <p>For example, the string \"&amp;lt;Fran&amp;ccedil;ais&amp;gt;\" will become \"&lt;Fran&ccedil;ais&gt;\"</p>  <p>If an entity is unrecognized, it is left alone, and inserted verbatim into the result string. e.g. \"&amp;gt;&amp;zzzz;x\" will become \"&gt;&amp;zzzz;x\".</p>  @param str  the <code>String</code> to unescape, may be null @return a new unescaped <code>String</code>, <code>null</code> if null string input @see #escapeHtml(Writer, String) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StringEscapeUtils.unescapeHtml",
+    "class_name": "org.apache.commons.lang.StringEscapeUtils",
+    "signature": "org.apache.commons.lang.StringEscapeUtils.unescapeHtml(Writer,String)",
+    "snippet": "    public static void unescapeHtml(Writer writer, String string) throws IOException {\n        if (writer == null ) {\n            throw new IllegalArgumentException (\"The Writer must not be null.\");\n        }\n        if (string == null) {\n            return;\n        }\n        Entities.HTML40.unescape(writer, string);\n    }",
+    "comment": " <p>Unescapes a string containing entity escapes to a string containing the actual Unicode characters corresponding to the escapes. Supports HTML 4.0 entities.</p>  <p>For example, the string \"&amp;lt;Fran&amp;ccedil;ais&amp;gt;\" will become \"&lt;Fran&ccedil;ais&gt;\"</p>  <p>If an entity is unrecognized, it is left alone, and inserted verbatim into the result string. e.g. \"&amp;gt;&amp;zzzz;x\" will become \"&gt;&amp;zzzz;x\".</p>  @param writer  the writer receiving the unescaped string, not null @param string  the <code>String</code> to unescape, may be null @throws IllegalArgumentException if the writer is null @throws IOException if an IOException occurs @see #escapeHtml(String) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

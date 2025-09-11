@@ -1,0 +1,852 @@
+[
+  {
+    "name": "ChartColor.createDefaultPaintArray",
+    "class_name": "org.jfree.chart.ChartColor",
+    "signature": "org.jfree.chart.ChartColor.createDefaultPaintArray()",
+    "snippet": "    public static Paint[] createDefaultPaintArray() {\n\n        return new Paint[] {\n            new Color(0xFF, 0x55, 0x55),\n            new Color(0x55, 0x55, 0xFF),\n            new Color(0x55, 0xFF, 0x55),\n            new Color(0xFF, 0xFF, 0x55),\n            new Color(0xFF, 0x55, 0xFF),\n            new Color(0x55, 0xFF, 0xFF),\n            Color.pink,\n            Color.gray,\n            ChartColor.DARK_RED,\n            ChartColor.DARK_BLUE,\n            ChartColor.DARK_GREEN,\n            ChartColor.DARK_YELLOW,\n            ChartColor.DARK_MAGENTA,\n            ChartColor.DARK_CYAN,\n            Color.darkGray,\n            ChartColor.LIGHT_RED,\n            ChartColor.LIGHT_BLUE,\n            ChartColor.LIGHT_GREEN,\n            ChartColor.LIGHT_YELLOW,\n            ChartColor.LIGHT_MAGENTA,\n            ChartColor.LIGHT_CYAN,\n            Color.lightGray,\n            ChartColor.VERY_DARK_RED,\n            ChartColor.VERY_DARK_BLUE,\n            ChartColor.VERY_DARK_GREEN,\n            ChartColor.VERY_DARK_YELLOW,\n            ChartColor.VERY_DARK_MAGENTA,\n            ChartColor.VERY_DARK_CYAN,\n            ChartColor.VERY_LIGHT_RED,\n            ChartColor.VERY_LIGHT_BLUE,\n            ChartColor.VERY_LIGHT_GREEN,\n            ChartColor.VERY_LIGHT_YELLOW,\n            ChartColor.VERY_LIGHT_MAGENTA,\n            ChartColor.VERY_LIGHT_CYAN\n        };\n    }",
+    "comment": " Convenience method to return an array of <code>Paint</code> objects that represent the pre-defined colors in the <code>Color<code> and  <code>ChartColor</code> objects.  @return An array of objects with the <code>Paint</code> interface. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JFreeChart.JFreeChart",
+    "class_name": "org.jfree.chart.JFreeChart",
+    "signature": "org.jfree.chart.JFreeChart.JFreeChart(Plot)",
+    "snippet": "    public JFreeChart(Plot plot) {\n        this(null, null, plot, true);\n    }",
+    "comment": " Creates a new chart based on the supplied plot.  The chart will have a legend added automatically, but no title (although you can easily add one later).   <br><br> Note that the  {@link ChartFactory} class contains a range  of static methods that will return ready-made charts, and often this is a more convenient way to create charts than using this constructor.  @param plot  the plot (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JFreeChart.JFreeChart",
+    "class_name": "org.jfree.chart.JFreeChart",
+    "signature": "org.jfree.chart.JFreeChart.JFreeChart(String,Font,Plot,boolean)",
+    "snippet": "    public JFreeChart(String title, Font titleFont, Plot plot, \n                      boolean createLegend) {\n\n        if (plot == null) {\n            throw new NullPointerException(\"Null 'plot' argument.\");\n        }\n\n        // create storage for listeners...\n        this.progressListeners = new EventListenerList();\n        this.changeListeners = new EventListenerList();\n        this.notify = true;  // default is to notify listeners when the \n                             // chart changes\n\n        this.renderingHints = new RenderingHints(\n                RenderingHints.KEY_ANTIALIASING, \n                RenderingHints.VALUE_ANTIALIAS_ON);\n\n        this.borderVisible = false;\n        this.borderStroke = new BasicStroke(1.0f);\n        this.borderPaint = Color.black;\n\n        this.padding = RectangleInsets.ZERO_INSETS;\n        \n        this.plot = plot;\n        plot.addChangeListener(this);\n\n        this.subtitles = new ArrayList();\n\n        // create a legend, if requested...\n        if (createLegend) {\n            LegendTitle legend = new LegendTitle(this.plot);\n            legend.setMargin(new RectangleInsets(1.0, 1.0, 1.0, 1.0));\n            legend.setFrame(new LineBorder());\n            legend.setBackgroundPaint(Color.white);\n            legend.setPosition(RectangleEdge.BOTTOM);\n            this.subtitles.add(legend);\n            legend.addChangeListener(this);\n        }\n\n        // add the chart title, if one has been specified...\n        if (title != null) {\n            if (titleFont == null) {\n                titleFont = DEFAULT_TITLE_FONT;\n            }\n            this.title = new TextTitle(title, titleFont);\n            this.title.addChangeListener(this);\n        }\n\n        this.backgroundPaint = DEFAULT_BACKGROUND_PAINT;\n\n        this.backgroundImage = DEFAULT_BACKGROUND_IMAGE;\n        this.backgroundImageAlignment = DEFAULT_BACKGROUND_IMAGE_ALIGNMENT;\n        this.backgroundImageAlpha = DEFAULT_BACKGROUND_IMAGE_ALPHA;\n\n    }",
+    "comment": " Creates a new chart with the given title and plot.  The  <code>createLegend</code> argument specifies whether or not a legend should be added to the chart.   <br><br> Note that the  {@link ChartFactory} class contains a range  of static methods that will return ready-made charts, and often this is a more convenient way to create charts than using this constructor.  @param title  the chart title (<code>null</code> permitted). @param titleFont  the font for displaying the chart title  (<code>null</code> permitted). @param plot  controller of the visual representation of the data  (<code>null</code> not permitted). @param createLegend  a flag indicating whether or not a legend should    be created for the chart. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JFreeChart.fireChartChanged",
+    "class_name": "org.jfree.chart.JFreeChart",
+    "signature": "org.jfree.chart.JFreeChart.fireChartChanged()",
+    "snippet": "    public void fireChartChanged() {\n        ChartChangeEvent event = new ChartChangeEvent(this);\n        notifyListeners(event);\n    }",
+    "comment": " Sends a default {@link ChartChangeEvent} to all registered listeners. <P> This method is for convenience only. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JFreeChart.getLegend",
+    "class_name": "org.jfree.chart.JFreeChart",
+    "signature": "org.jfree.chart.JFreeChart.getLegend()",
+    "snippet": "    public LegendTitle getLegend() {\n        return getLegend(0);\n    }",
+    "comment": " Returns the legend for the chart, if there is one.  Note that a chart can have more than one legend - this method returns the first.  @return The legend (possibly <code>null</code>).  @see #getLegend(int) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JFreeChart.getLegend",
+    "class_name": "org.jfree.chart.JFreeChart",
+    "signature": "org.jfree.chart.JFreeChart.getLegend(int)",
+    "snippet": "    public LegendTitle getLegend(int index) {\n        int seen = 0;\n        Iterator iterator = this.subtitles.iterator();\n        while (iterator.hasNext()) {\n            Title subtitle = (Title) iterator.next();\n            if (subtitle instanceof LegendTitle) {\n                if (seen == index) {\n                    return (LegendTitle) subtitle;\n                }\n                else {\n                    seen++;   \n                }\n            }\n        }\n        return null;        \n    }",
+    "comment": " Returns the nth legend for a chart, or <code>null</code>.  @param index  the legend index (zero-based).  @return The legend (possibly <code>null</code>).  @see #addLegend(LegendTitle) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JFreeChart.notifyListeners",
+    "class_name": "org.jfree.chart.JFreeChart",
+    "signature": "org.jfree.chart.JFreeChart.notifyListeners(ChartChangeEvent)",
+    "snippet": "    protected void notifyListeners(ChartChangeEvent event) {\n        if (this.notify) {\n            Object[] listeners = this.changeListeners.getListenerList();\n            for (int i = listeners.length - 2; i >= 0; i -= 2) {\n                if (listeners[i] == ChartChangeListener.class) {\n                    ((ChartChangeListener) listeners[i + 1]).chartChanged(\n                            event);\n                }\n            }\n        }\n    }",
+    "comment": " Sends a {@link ChartChangeEvent} to all registered listeners.  @param event  information about the event that triggered the  notification. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JFreeChart.removeLegend",
+    "class_name": "org.jfree.chart.JFreeChart",
+    "signature": "org.jfree.chart.JFreeChart.removeLegend()",
+    "snippet": "    public void removeLegend() {\n        removeSubtitle(getLegend());\n    }",
+    "comment": " Removes the first legend in the chart and sends a  {@link ChartChangeEvent} to all registered listeners.  @see #getLegend() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JFreeChart.removeSubtitle",
+    "class_name": "org.jfree.chart.JFreeChart",
+    "signature": "org.jfree.chart.JFreeChart.removeSubtitle(Title)",
+    "snippet": "    public void removeSubtitle(Title title) {\n        this.subtitles.remove(title);\n        fireChartChanged();\n    }",
+    "comment": " Removes the specified subtitle and sends a {@link ChartChangeEvent} to all registered listeners.  @param title  the title.  @see #addSubtitle(Title) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JFreeChart.setBackgroundPaint",
+    "class_name": "org.jfree.chart.JFreeChart",
+    "signature": "org.jfree.chart.JFreeChart.setBackgroundPaint(Paint)",
+    "snippet": "    public void setBackgroundPaint(Paint paint) {\n\n        if (this.backgroundPaint != null) {\n            if (!this.backgroundPaint.equals(paint)) {\n                this.backgroundPaint = paint;\n                fireChartChanged();\n            }\n        }\n        else {\n            if (paint != null) {\n                this.backgroundPaint = paint;\n                fireChartChanged();\n            }\n        }\n\n    }",
+    "comment": " Sets the paint used to fill the chart background and sends a  {@link ChartChangeEvent} to all registered listeners.  @param paint  the paint (<code>null</code> permitted).  @see #getBackgroundPaint() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JFreeChart.setTitle",
+    "class_name": "org.jfree.chart.JFreeChart",
+    "signature": "org.jfree.chart.JFreeChart.setTitle(TextTitle)",
+    "snippet": "    public void setTitle(TextTitle title) {\n        if (this.title != null) {\n            this.title.removeChangeListener(this);\n        }\n        this.title = title;\n        if (title != null) {\n            title.addChangeListener(this);\n        }\n        fireChartChanged();\n    }",
+    "comment": " Sets the main title for the chart and sends a {@link ChartChangeEvent}  to all registered listeners.  If you do not want a title for the  chart, set it to <code>null</code>.  If you want more than one title on a chart, use the {@link #addSubtitle(Title)} method.  @param title  the title (<code>null</code> permitted).  @see #getTitle() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "PaintMap.PaintMap",
+    "class_name": "org.jfree.chart.PaintMap",
+    "signature": "org.jfree.chart.PaintMap.PaintMap()",
+    "snippet": "    public PaintMap() {\n        this.store = new HashMap();    \n    }",
+    "comment": " Creates a new (empty) map. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StrokeMap.StrokeMap",
+    "class_name": "org.jfree.chart.StrokeMap",
+    "signature": "org.jfree.chart.StrokeMap.StrokeMap()",
+    "snippet": "    public StrokeMap() {\n        this.store = new TreeMap();    \n    }",
+    "comment": " Creates a new (empty) map. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractBlock.AbstractBlock",
+    "class_name": "org.jfree.chart.block.AbstractBlock",
+    "signature": "org.jfree.chart.block.AbstractBlock.AbstractBlock()",
+    "snippet": "    protected AbstractBlock() {\n        this.id = null;\n        this.width = 0.0;\n        this.height = 0.0;\n        this.bounds = new Rectangle2D.Float();\n        this.margin = RectangleInsets.ZERO_INSETS;\n        this.frame = BlockBorder.NONE; \n        this.padding = RectangleInsets.ZERO_INSETS;\n    }",
+    "comment": " Creates a new block. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractBlock.setFrame",
+    "class_name": "org.jfree.chart.block.AbstractBlock",
+    "signature": "org.jfree.chart.block.AbstractBlock.setFrame(BlockFrame)",
+    "snippet": "    public void setFrame(BlockFrame frame) {\n        if (frame == null) {\n            throw new IllegalArgumentException(\"Null 'frame' argument.\");   \n        }\n        this.frame = frame;\n    }",
+    "comment": " Sets the frame (or border).  @param frame  the frame (<code>null</code> not permitted).  @since 1.0.5 @see #getFrame() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractBlock.setMargin",
+    "class_name": "org.jfree.chart.block.AbstractBlock",
+    "signature": "org.jfree.chart.block.AbstractBlock.setMargin(RectangleInsets)",
+    "snippet": "    public void setMargin(RectangleInsets margin) {\n        if (margin == null) {\n            throw new IllegalArgumentException(\"Null 'margin' argument.\");   \n        }\n        this.margin = margin;\n    }",
+    "comment": " Sets the margin (use {@link RectangleInsets#ZERO_INSETS} for no  padding).  @param margin  the margin (<code>null</code> not permitted).  @see #getMargin() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractBlock.setPadding",
+    "class_name": "org.jfree.chart.block.AbstractBlock",
+    "signature": "org.jfree.chart.block.AbstractBlock.setPadding(RectangleInsets)",
+    "snippet": "    public void setPadding(RectangleInsets padding) {\n        if (padding == null) {\n            throw new IllegalArgumentException(\"Null 'padding' argument.\");   \n        }\n        this.padding = padding;\n    }",
+    "comment": " Sets the padding (use {@link RectangleInsets#ZERO_INSETS} for no  padding).  @param padding  the padding (<code>null</code> not permitted).  @see #getPadding() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BlockBorder.BlockBorder",
+    "class_name": "org.jfree.chart.block.BlockBorder",
+    "signature": "org.jfree.chart.block.BlockBorder.BlockBorder(RectangleInsets,Paint)",
+    "snippet": "    public BlockBorder(RectangleInsets insets, Paint paint) {\n        if (insets == null) {\n            throw new IllegalArgumentException(\"Null 'insets' argument.\");\n        }\n        if (paint == null) {\n            throw new IllegalArgumentException(\"Null 'paint' argument.\");   \n        }\n        this.insets = insets;\n        this.paint = paint;\n    }",
+    "comment": " Creates a new border.  @param insets  the border insets (<code>null</code> not permitted). @param paint  the paint (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BlockContainer.BlockContainer",
+    "class_name": "org.jfree.chart.block.BlockContainer",
+    "signature": "org.jfree.chart.block.BlockContainer.BlockContainer(Arrangement)",
+    "snippet": "    public BlockContainer(Arrangement arrangement) {\n        if (arrangement == null) {\n            throw new IllegalArgumentException(\"Null 'arrangement' argument.\");\n        }\n        this.arrangement = arrangement;\n        this.blocks = new ArrayList();\n    }    ",
+    "comment": " Creates a new instance with the specified arrangement.  @param arrangement  the arrangement manager (<code>null</code> not  permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ColumnArrangement.ColumnArrangement",
+    "class_name": "org.jfree.chart.block.ColumnArrangement",
+    "signature": "org.jfree.chart.block.ColumnArrangement.ColumnArrangement()",
+    "snippet": "    public ColumnArrangement() {   \n    }",
+    "comment": " Creates a new instance. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FlowArrangement.FlowArrangement",
+    "class_name": "org.jfree.chart.block.FlowArrangement",
+    "signature": "org.jfree.chart.block.FlowArrangement.FlowArrangement()",
+    "snippet": "    public FlowArrangement() {   \n        this(HorizontalAlignment.CENTER, VerticalAlignment.CENTER, 2.0, 2.0);\n    }",
+    "comment": " Creates a new instance. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FlowArrangement.FlowArrangement",
+    "class_name": "org.jfree.chart.block.FlowArrangement",
+    "signature": "org.jfree.chart.block.FlowArrangement.FlowArrangement(HorizontalAlignment,VerticalAlignment,double,double)",
+    "snippet": "    public FlowArrangement(HorizontalAlignment hAlign, VerticalAlignment vAlign,\n                           double hGap, double vGap) {   \n        this.horizontalAlignment = hAlign;\n        this.verticalAlignment = vAlign;\n        this.horizontalGap = hGap;\n        this.verticalGap = vGap;\n    }",
+    "comment": " Creates a new instance.  @param hAlign  the horizontal alignment (currently ignored). @param vAlign  the vertical alignment (currently ignored). @param hGap  the horizontal gap. @param vGap  the vertical gap. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LineBorder.LineBorder",
+    "class_name": "org.jfree.chart.block.LineBorder",
+    "signature": "org.jfree.chart.block.LineBorder.LineBorder()",
+    "snippet": "    public LineBorder() {\n        this(Color.black, new BasicStroke(1.0f), new RectangleInsets(1.0, 1.0, \n                1.0, 1.0));\n    }",
+    "comment": " Creates a default border. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LineBorder.LineBorder",
+    "class_name": "org.jfree.chart.block.LineBorder",
+    "signature": "org.jfree.chart.block.LineBorder.LineBorder(Paint,Stroke,RectangleInsets)",
+    "snippet": "    public LineBorder(Paint paint, Stroke stroke, RectangleInsets insets) {\n        if (paint == null) {\n            throw new IllegalArgumentException(\"Null 'paint' argument.\");\n        }\n        if (stroke == null) {\n            throw new IllegalArgumentException(\"Null 'stroke' argument.\");\n        }\n        if (insets == null) {\n            throw new IllegalArgumentException(\"Null 'insets' argument.\");\n        }\n        this.paint = paint;\n        this.stroke = stroke;\n        this.insets = insets;\n    }  ",
+    "comment": " Creates a new border with the specified color.  @param paint  the color (<code>null</code> not permitted). @param stroke  the border stroke (<code>null</code> not permitted). @param insets  the insets (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ChartChangeEvent.ChartChangeEvent",
+    "class_name": "org.jfree.chart.event.ChartChangeEvent",
+    "signature": "org.jfree.chart.event.ChartChangeEvent.ChartChangeEvent(Object)",
+    "snippet": "    public ChartChangeEvent(Object source) {\n        this(source, null, ChartChangeEventType.GENERAL);\n    }",
+    "comment": " Creates a new chart change event.  @param source  the source of the event (could be the chart, a title,  an axis etc.) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ChartChangeEvent.ChartChangeEvent",
+    "class_name": "org.jfree.chart.event.ChartChangeEvent",
+    "signature": "org.jfree.chart.event.ChartChangeEvent.ChartChangeEvent(Object,JFreeChart,ChartChangeEventType)",
+    "snippet": "    public ChartChangeEvent(Object source, JFreeChart chart, \n                            ChartChangeEventType type) {\n        super(source);\n        this.chart = chart;\n        this.type = type;\n    }",
+    "comment": " Creates a new chart change event.  @param source  the source of the event (could be the chart, a title, an axis etc.) @param chart  the chart that generated the event. @param type  the type of event. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TitleChangeEvent.TitleChangeEvent",
+    "class_name": "org.jfree.chart.event.TitleChangeEvent",
+    "signature": "org.jfree.chart.event.TitleChangeEvent.TitleChangeEvent(Title)",
+    "snippet": "    public TitleChangeEvent(Title title) {\n        super(title);\n        this.title = title;\n    }",
+    "comment": " Default constructor.  @param title  the chart title that generated the event. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractPieItemLabelGenerator.AbstractPieItemLabelGenerator",
+    "class_name": "org.jfree.chart.labels.AbstractPieItemLabelGenerator",
+    "signature": "org.jfree.chart.labels.AbstractPieItemLabelGenerator.AbstractPieItemLabelGenerator(String,NumberFormat,NumberFormat)",
+    "snippet": "    protected AbstractPieItemLabelGenerator(String labelFormat,\n                                            NumberFormat numberFormat, \n                                            NumberFormat percentFormat) {\n\n        if (labelFormat == null) {\n            throw new IllegalArgumentException(\"Null 'labelFormat' argument.\");\n        }\n        if (numberFormat == null) {\n            throw new IllegalArgumentException(\"Null 'numberFormat' argument.\");\n        }\n        if (percentFormat == null) {\n            throw new IllegalArgumentException(\n                \"Null 'percentFormat' argument.\"\n            );   \n        }\n        this.labelFormat = labelFormat;\n        this.numberFormat = numberFormat;\n        this.percentFormat = percentFormat;\n\n    }",
+    "comment": " Creates an item label generator using the specified number formatters.  @param labelFormat  the label format string (<code>null</code> not permitted). @param numberFormat  the format object for the values (<code>null</code> not permitted). @param percentFormat  the format object for the percentages (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StandardPieSectionLabelGenerator.StandardPieSectionLabelGenerator",
+    "class_name": "org.jfree.chart.labels.StandardPieSectionLabelGenerator",
+    "signature": "org.jfree.chart.labels.StandardPieSectionLabelGenerator.StandardPieSectionLabelGenerator()",
+    "snippet": "    public StandardPieSectionLabelGenerator() {\n        this(DEFAULT_SECTION_LABEL_FORMAT, NumberFormat.getNumberInstance(), \n                NumberFormat.getPercentInstance());\n    }",
+    "comment": " Creates a new section label generator using  {@link #DEFAULT_SECTION_LABEL_FORMAT} as the label format string, and  platform default number and percentage formatters. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StandardPieSectionLabelGenerator.StandardPieSectionLabelGenerator",
+    "class_name": "org.jfree.chart.labels.StandardPieSectionLabelGenerator",
+    "signature": "org.jfree.chart.labels.StandardPieSectionLabelGenerator.StandardPieSectionLabelGenerator(String,NumberFormat,NumberFormat)",
+    "snippet": "    public StandardPieSectionLabelGenerator(String labelFormat,\n            NumberFormat numberFormat, NumberFormat percentFormat) {\n        super(labelFormat, numberFormat, percentFormat);\n        this.attributedLabels = new ObjectList();\n    }",
+    "comment": " Creates an item label generator using the specified number formatters.  @param labelFormat  the label format string (<code>null</code> not  permitted). @param numberFormat  the format object for the values (<code>null</code> not permitted). @param percentFormat  the format object for the percentages  (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractPieLabelDistributor.AbstractPieLabelDistributor",
+    "class_name": "org.jfree.chart.plot.AbstractPieLabelDistributor",
+    "signature": "org.jfree.chart.plot.AbstractPieLabelDistributor.AbstractPieLabelDistributor()",
+    "snippet": "    public AbstractPieLabelDistributor() {\n        this.labels = new java.util.ArrayList();\n    }",
+    "comment": " Creates a new instance. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultDrawingSupplier.DefaultDrawingSupplier",
+    "class_name": "org.jfree.chart.plot.DefaultDrawingSupplier",
+    "signature": "org.jfree.chart.plot.DefaultDrawingSupplier.DefaultDrawingSupplier()",
+    "snippet": "    public DefaultDrawingSupplier() {\n\n        this(DEFAULT_PAINT_SEQUENCE, DEFAULT_FILL_PAINT_SEQUENCE,\n             DEFAULT_OUTLINE_PAINT_SEQUENCE,\n             DEFAULT_STROKE_SEQUENCE,\n             DEFAULT_OUTLINE_STROKE_SEQUENCE,\n             DEFAULT_SHAPE_SEQUENCE);\n\n    }",
+    "comment": " Creates a new supplier, with default sequences for fill paint, outline  paint, stroke and shapes. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultDrawingSupplier.DefaultDrawingSupplier",
+    "class_name": "org.jfree.chart.plot.DefaultDrawingSupplier",
+    "signature": "org.jfree.chart.plot.DefaultDrawingSupplier.DefaultDrawingSupplier(Paint[],Paint[],Paint[],Stroke[],Stroke[],Shape[])",
+    "snippet": "    public DefaultDrawingSupplier(Paint[] paintSequence, \n            Paint[] fillPaintSequence, Paint[] outlinePaintSequence,\n            Stroke[] strokeSequence, Stroke[] outlineStrokeSequence,\n            Shape[] shapeSequence) {\n\n        this.paintSequence = paintSequence;\n        this.fillPaintSequence = fillPaintSequence;\n        this.outlinePaintSequence = outlinePaintSequence;\n        this.strokeSequence = strokeSequence;\n        this.outlineStrokeSequence = outlineStrokeSequence;\n        this.shapeSequence = shapeSequence;\n    }",
+    "comment": " Creates a new supplier.  @param paintSequence  the paint sequence. @param fillPaintSequence  the fill paint sequence. @param outlinePaintSequence  the outline paint sequence. @param strokeSequence  the stroke sequence. @param outlineStrokeSequence  the outline stroke sequence. @param shapeSequence  the shape sequence.  @since 1.0.6 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultDrawingSupplier.createStandardSeriesShapes",
+    "class_name": "org.jfree.chart.plot.DefaultDrawingSupplier",
+    "signature": "org.jfree.chart.plot.DefaultDrawingSupplier.createStandardSeriesShapes()",
+    "snippet": "    public static Shape[] createStandardSeriesShapes() {\n\n        Shape[] result = new Shape[10];\n\n        double size = 6.0;\n        double delta = size / 2.0;\n        int[] xpoints = null;\n        int[] ypoints = null;\n\n        // square\n        result[0] = new Rectangle2D.Double(-delta, -delta, size, size);\n        // circle\n        result[1] = new Ellipse2D.Double(-delta, -delta, size, size);\n\n        // up-pointing triangle\n        xpoints = intArray(0.0, delta, -delta);\n        ypoints = intArray(-delta, delta, delta);\n        result[2] = new Polygon(xpoints, ypoints, 3);\n\n        // diamond\n        xpoints = intArray(0.0, delta, 0.0, -delta);\n        ypoints = intArray(-delta, 0.0, delta, 0.0);\n        result[3] = new Polygon(xpoints, ypoints, 4);\n\n        // horizontal rectangle\n        result[4] = new Rectangle2D.Double(-delta, -delta / 2, size, size / 2);\n\n        // down-pointing triangle\n        xpoints = intArray(-delta, +delta, 0.0);\n        ypoints = intArray(-delta, -delta, delta);\n        result[5] = new Polygon(xpoints, ypoints, 3);\n\n        // horizontal ellipse\n        result[6] = new Ellipse2D.Double(-delta, -delta / 2, size, size / 2);\n\n        // right-pointing triangle\n        xpoints = intArray(-delta, delta, -delta);\n        ypoints = intArray(-delta, 0.0, delta);\n        result[7] = new Polygon(xpoints, ypoints, 3);\n\n        // vertical rectangle\n        result[8] = new Rectangle2D.Double(-delta / 2, -delta, size / 2, size);\n\n        // left-pointing triangle\n        xpoints = intArray(-delta, delta, delta);\n        ypoints = intArray(0.0, -delta, +delta);\n        result[9] = new Polygon(xpoints, ypoints, 3);\n\n        return result;\n\n    }",
+    "comment": " Creates an array of standard shapes to display for the items in series  on charts.  @return The array of shapes. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultDrawingSupplier.intArray",
+    "class_name": "org.jfree.chart.plot.DefaultDrawingSupplier",
+    "signature": "org.jfree.chart.plot.DefaultDrawingSupplier.intArray(double,double,double)",
+    "snippet": "    private static int[] intArray(double a, double b, double c) {\n        return new int[] {(int) a, (int) b, (int) c};\n    }",
+    "comment": " Helper method to avoid lots of explicit casts in getShape().  Returns an array containing the provided doubles cast to ints.  @param a  x @param b  y @param c  z  @return int[3] with converted params. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultDrawingSupplier.intArray",
+    "class_name": "org.jfree.chart.plot.DefaultDrawingSupplier",
+    "signature": "org.jfree.chart.plot.DefaultDrawingSupplier.intArray(double,double,double,double)",
+    "snippet": "    private static int[] intArray(double a, double b, double c, double d) {\n        return new int[] {(int) a, (int) b, (int) c, (int) d};\n    }",
+    "comment": " Helper method to avoid lots of explicit casts in getShape().  Returns an array containing the provided doubles cast to ints.  @param a  x @param b  y @param c  z @param d  t  @return int[4] with converted params. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MultiplePiePlot.MultiplePiePlot",
+    "class_name": "org.jfree.chart.plot.MultiplePiePlot",
+    "signature": "org.jfree.chart.plot.MultiplePiePlot.MultiplePiePlot()",
+    "snippet": "    public MultiplePiePlot() {\n        this(null);\n    }",
+    "comment": " Creates a new plot with no data. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MultiplePiePlot.MultiplePiePlot",
+    "class_name": "org.jfree.chart.plot.MultiplePiePlot",
+    "signature": "org.jfree.chart.plot.MultiplePiePlot.MultiplePiePlot(CategoryDataset)",
+    "snippet": "    public MultiplePiePlot(CategoryDataset dataset) {\n        super();\n        this.dataset = dataset;\n        PiePlot piePlot = new PiePlot(null);\n        this.pieChart = new JFreeChart(piePlot);\n        this.pieChart.removeLegend();\n        this.dataExtractOrder = TableOrder.BY_COLUMN;\n        this.pieChart.setBackgroundPaint(null);\n        TextTitle seriesTitle = new TextTitle(\"Series Title\",\n                new Font(\"SansSerif\", Font.BOLD, 12));\n        seriesTitle.setPosition(RectangleEdge.BOTTOM);\n        this.pieChart.setTitle(seriesTitle);\n        this.aggregatedItemsKey = \"Other\";\n        this.aggregatedItemsPaint = Color.lightGray;\n        this.sectionPaints = new HashMap();\n    }",
+    "comment": " Creates a new plot.  @param dataset  the dataset (<code>null</code> permitted). ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MultiplePiePlot.getDataset",
+    "class_name": "org.jfree.chart.plot.MultiplePiePlot",
+    "signature": "org.jfree.chart.plot.MultiplePiePlot.getDataset()",
+    "snippet": "    public CategoryDataset getDataset() {\n        return this.dataset;\n    }",
+    "comment": " Returns the dataset used by the plot.  @return The dataset (possibly <code>null</code>). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "PieLabelDistributor.PieLabelDistributor",
+    "class_name": "org.jfree.chart.plot.PieLabelDistributor",
+    "signature": "org.jfree.chart.plot.PieLabelDistributor.PieLabelDistributor(int)",
+    "snippet": "    public PieLabelDistributor(int labelCount) {\n        super();\n    }",
+    "comment": " Creates a new distributor.  @param labelCount  the number of labels (ignored). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "PiePlot.PiePlot",
+    "class_name": "org.jfree.chart.plot.PiePlot",
+    "signature": "org.jfree.chart.plot.PiePlot.PiePlot(PieDataset)",
+    "snippet": "    public PiePlot(PieDataset dataset) {\n        super();\n        this.dataset = dataset;\n        if (dataset != null) {\n            dataset.addChangeListener(this);\n        }\n        this.pieIndex = 0;\n        \n        this.interiorGap = DEFAULT_INTERIOR_GAP;\n        this.circular = true;\n        this.startAngle = DEFAULT_START_ANGLE;\n        this.direction = Rotation.CLOCKWISE;\n        this.minimumArcAngleToDraw = DEFAULT_MINIMUM_ARC_ANGLE_TO_DRAW;\n\n        this.sectionPaintMap = new PaintMap();\n        this.baseSectionPaint = Color.gray;\n\n        this.sectionOutlinesVisible = true;\n        this.sectionOutlinePaintMap = new PaintMap();\n        this.baseSectionOutlinePaint = DEFAULT_OUTLINE_PAINT;\n\n        this.sectionOutlineStrokeMap = new StrokeMap();\n        this.baseSectionOutlineStroke = DEFAULT_OUTLINE_STROKE;\n        \n        this.explodePercentages = new TreeMap();\n\n        this.labelGenerator = new StandardPieSectionLabelGenerator();\n        this.labelFont = DEFAULT_LABEL_FONT;\n        this.labelPaint = DEFAULT_LABEL_PAINT;\n        this.labelBackgroundPaint = DEFAULT_LABEL_BACKGROUND_PAINT;\n        this.labelOutlinePaint = DEFAULT_LABEL_OUTLINE_PAINT;\n        this.labelOutlineStroke = DEFAULT_LABEL_OUTLINE_STROKE;\n        this.labelShadowPaint = DEFAULT_LABEL_SHADOW_PAINT;\n        this.labelLinksVisible = true;\n        this.labelDistributor = new PieLabelDistributor(0);\n        \n        this.simpleLabels = false;\n        this.simpleLabelOffset = new RectangleInsets(UnitType.RELATIVE, 0.18, \n                0.18, 0.18, 0.18);\n        this.labelPadding = new RectangleInsets(2, 2, 2, 2);\n        \n        this.toolTipGenerator = null;\n        this.urlGenerator = null;\n        this.legendLabelGenerator = new StandardPieSectionLabelGenerator();\n        this.legendLabelToolTipGenerator = null;\n        this.legendLabelURLGenerator = null;\n        this.legendItemShape = Plot.DEFAULT_LEGEND_ITEM_CIRCLE;\n        \n        this.ignoreNullValues = false;\n        this.ignoreZeroValues = false;\n    }",
+    "comment": " Creates a plot that will draw a pie chart for the specified dataset.  @param dataset  the dataset (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Plot.Plot",
+    "class_name": "org.jfree.chart.plot.Plot",
+    "signature": "org.jfree.chart.plot.Plot.Plot()",
+    "snippet": "    protected Plot() {\n\n        this.parent = null;\n        this.insets = DEFAULT_INSETS;\n        this.backgroundPaint = DEFAULT_BACKGROUND_PAINT;\n        this.backgroundAlpha = DEFAULT_BACKGROUND_ALPHA;\n        this.backgroundImage = null;\n        this.outlineVisible = true;\n        this.outlineStroke = DEFAULT_OUTLINE_STROKE;\n        this.outlinePaint = DEFAULT_OUTLINE_PAINT;\n        this.foregroundAlpha = DEFAULT_FOREGROUND_ALPHA;\n\n        this.noDataMessage = null;\n        this.noDataMessageFont = new Font(\"SansSerif\", Font.PLAIN, 12);\n        this.noDataMessagePaint = Color.black;\n\n        this.drawingSupplier = new DefaultDrawingSupplier();\n\n        this.listenerList = new EventListenerList();\n\n    }",
+    "comment": " Creates a new plot. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Plot.addChangeListener",
+    "class_name": "org.jfree.chart.plot.Plot",
+    "signature": "org.jfree.chart.plot.Plot.addChangeListener(PlotChangeListener)",
+    "snippet": "    public void addChangeListener(PlotChangeListener listener) {\n        this.listenerList.add(PlotChangeListener.class, listener);\n    }",
+    "comment": " Registers an object for notification of changes to the plot.  @param listener  the object to be registered.  @see #removeChangeListener(PlotChangeListener) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "JFreeChartResources.getContents",
+    "class_name": "org.jfree.chart.resources.JFreeChartResources",
+    "signature": "org.jfree.chart.resources.JFreeChartResources.getContents()",
+    "snippet": "    public Object[][] getContents() {\n        return CONTENTS;\n    }",
+    "comment": " Returns the array of strings in the resource bundle.  @return The resources. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LegendTitle.LegendTitle",
+    "class_name": "org.jfree.chart.title.LegendTitle",
+    "signature": "org.jfree.chart.title.LegendTitle.LegendTitle(LegendItemSource)",
+    "snippet": "    public LegendTitle(LegendItemSource source) {\n        this(source, new FlowArrangement(), new ColumnArrangement());\n    }",
+    "comment": " Constructs a new (empty) legend for the specified source.  @param source  the source. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LegendTitle.LegendTitle",
+    "class_name": "org.jfree.chart.title.LegendTitle",
+    "signature": "org.jfree.chart.title.LegendTitle.LegendTitle(LegendItemSource,Arrangement,Arrangement)",
+    "snippet": "    public LegendTitle(LegendItemSource source, \n                       Arrangement hLayout, Arrangement vLayout) {\n        this.sources = new LegendItemSource[] {source};\n        this.items = new BlockContainer(hLayout);\n        this.hLayout = hLayout;\n        this.vLayout = vLayout;\n        this.backgroundPaint = null;  \n        this.legendItemGraphicEdge = RectangleEdge.LEFT;\n        this.legendItemGraphicAnchor = RectangleAnchor.CENTER;\n        this.legendItemGraphicLocation = RectangleAnchor.CENTER;\n        this.legendItemGraphicPadding = new RectangleInsets(2.0, 2.0, 2.0, 2.0);\n        this.itemFont = DEFAULT_ITEM_FONT;\n        this.itemPaint = DEFAULT_ITEM_PAINT;\n        this.itemLabelPadding = new RectangleInsets(2.0, 2.0, 2.0, 2.0);\n    }",
+    "comment": " Creates a new legend title with the specified arrangement.  @param source  the source. @param hLayout  the horizontal item arrangement (<code>null</code> not permitted). @param vLayout  the vertical item arrangement (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LegendTitle.equals",
+    "class_name": "org.jfree.chart.title.LegendTitle",
+    "signature": "org.jfree.chart.title.LegendTitle.equals(Object)",
+    "snippet": "    public boolean equals(Object obj) {\n        if (obj == this) {\n            return true;   \n        }\n        if (!(obj instanceof LegendTitle)) {\n            return false;   \n        }\n        if (!super.equals(obj)) {\n            return false;   \n        }\n        LegendTitle that = (LegendTitle) obj;\n        if (!PaintUtilities.equal(this.backgroundPaint, that.backgroundPaint)) {\n            return false;   \n        }\n        if (this.legendItemGraphicEdge != that.legendItemGraphicEdge) {\n            return false;   \n        }\n        if (this.legendItemGraphicAnchor != that.legendItemGraphicAnchor) {\n            return false;   \n        }\n        if (this.legendItemGraphicLocation != that.legendItemGraphicLocation) {\n            return false;   \n        }\n        if (!this.itemFont.equals(that.itemFont)) {\n            return false;   \n        }\n        if (!this.itemPaint.equals(that.itemPaint)) {\n            return false;   \n        }\n        if (!this.hLayout.equals(that.hLayout)) {\n            return false;   \n        }\n        if (!this.vLayout.equals(that.vLayout)) {\n            return false;   \n        }\n        return true;\n    }",
+    "comment": " Tests this title for equality with an arbitrary object.  @param obj  the object (<code>null</code> permitted).  @return A boolean. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LegendTitle.setBackgroundPaint",
+    "class_name": "org.jfree.chart.title.LegendTitle",
+    "signature": "org.jfree.chart.title.LegendTitle.setBackgroundPaint(Paint)",
+    "snippet": "    public void setBackgroundPaint(Paint paint) {\n        this.backgroundPaint = paint;   \n        notifyListeners(new TitleChangeEvent(this));\n    }",
+    "comment": " Sets the background paint for the legend and sends a  {@link TitleChangeEvent} to all registered listeners.  @param paint  the paint (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TextTitle.TextTitle",
+    "class_name": "org.jfree.chart.title.TextTitle",
+    "signature": "org.jfree.chart.title.TextTitle.TextTitle(String,Font)",
+    "snippet": "    public TextTitle(String text, Font font) {\n        this(text, font, TextTitle.DEFAULT_TEXT_PAINT, Title.DEFAULT_POSITION,\n                Title.DEFAULT_HORIZONTAL_ALIGNMENT, \n                Title.DEFAULT_VERTICAL_ALIGNMENT, Title.DEFAULT_PADDING);\n    }",
+    "comment": " Creates a new title, using default attributes where necessary.  @param text  the title text (<code>null</code> not permitted). @param font  the title font (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TextTitle.TextTitle",
+    "class_name": "org.jfree.chart.title.TextTitle",
+    "signature": "org.jfree.chart.title.TextTitle.TextTitle(String,Font,Paint,RectangleEdge,HorizontalAlignment,VerticalAlignment,RectangleInsets)",
+    "snippet": "    public TextTitle(String text, Font font, Paint paint, \n                     RectangleEdge position, \n                     HorizontalAlignment horizontalAlignment, \n                     VerticalAlignment verticalAlignment,\n                     RectangleInsets padding) {\n\n        super(position, horizontalAlignment, verticalAlignment, padding);\n        \n        if (text == null) {\n            throw new NullPointerException(\"Null 'text' argument.\");\n        }\n        if (font == null) {\n            throw new NullPointerException(\"Null 'font' argument.\");\n        }\n        if (paint == null) {\n            throw new NullPointerException(\"Null 'paint' argument.\");\n        }\n        this.text = text;\n        this.font = font;\n        this.paint = paint;\n        // the textAlignment and the horizontalAlignment are separate things,\n        // but it makes sense for the default textAlignment to match the\n        // title's horizontal alignment...\n        this.textAlignment = horizontalAlignment;\n        this.backgroundPaint = null;\n        this.content = null;\n        this.toolTipText = null;\n        this.urlText = null;\n        \n    }",
+    "comment": " Creates a new title.  @param text  the text for the title (<code>null</code> not permitted). @param font  the title font (<code>null</code> not permitted). @param paint  the title paint (<code>null</code> not permitted). @param position  the title position (<code>null</code> not permitted). @param horizontalAlignment  the horizontal alignment (<code>null</code>  not permitted). @param verticalAlignment  the vertical alignment (<code>null</code> not  permitted). @param padding  the space to leave around the outside of the title. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Title.Title",
+    "class_name": "org.jfree.chart.title.Title",
+    "signature": "org.jfree.chart.title.Title.Title()",
+    "snippet": "    protected Title() {\n        this(Title.DEFAULT_POSITION,\n                Title.DEFAULT_HORIZONTAL_ALIGNMENT,\n                Title.DEFAULT_VERTICAL_ALIGNMENT, Title.DEFAULT_PADDING);\n    }",
+    "comment": " Creates a new title, using default attributes where necessary. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Title.Title",
+    "class_name": "org.jfree.chart.title.Title",
+    "signature": "org.jfree.chart.title.Title.Title(RectangleEdge,HorizontalAlignment,VerticalAlignment,RectangleInsets)",
+    "snippet": "    protected Title(RectangleEdge position,\n                    HorizontalAlignment horizontalAlignment, \n                    VerticalAlignment verticalAlignment,\n                    RectangleInsets padding) {\n\n        // check arguments...\n        if (position == null) {\n            throw new IllegalArgumentException(\"Null 'position' argument.\");\n        }\n        if (horizontalAlignment == null) {\n            throw new IllegalArgumentException(\n                    \"Null 'horizontalAlignment' argument.\");\n        }\n\n        if (verticalAlignment == null) {\n            throw new IllegalArgumentException(\n                    \"Null 'verticalAlignment' argument.\");\n        }\n        if (padding == null) {\n            throw new IllegalArgumentException(\"Null 'spacer' argument.\");\n        }\n\n        this.position = position;\n        this.horizontalAlignment = horizontalAlignment;\n        this.verticalAlignment = verticalAlignment;\n        setPadding(padding);\n        this.listenerList = new EventListenerList();\n        this.notify = true;\n\n    }",
+    "comment": " Creates a new title.  @param position  the position of the title (<code>null</code> not  permitted). @param horizontalAlignment  the horizontal alignment of the title (LEFT, CENTER or RIGHT, <code>null</code> not  permitted). @param verticalAlignment  the vertical alignment of the title (TOP,  MIDDLE or BOTTOM, <code>null</code> not  permitted). @param padding  the amount of space to leave around the outside of the  title (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Title.addChangeListener",
+    "class_name": "org.jfree.chart.title.Title",
+    "signature": "org.jfree.chart.title.Title.addChangeListener(TitleChangeListener)",
+    "snippet": "    public void addChangeListener(TitleChangeListener listener) {\n        this.listenerList.add(TitleChangeListener.class, listener);\n    }",
+    "comment": " Registers an object for notification of changes to the title.  @param listener  the object that is being registered. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Title.notifyListeners",
+    "class_name": "org.jfree.chart.title.Title",
+    "signature": "org.jfree.chart.title.Title.notifyListeners(TitleChangeEvent)",
+    "snippet": "    protected void notifyListeners(TitleChangeEvent event) {\n        if (this.notify) {\n            Object[] listeners = this.listenerList.getListenerList();\n            for (int i = listeners.length - 2; i >= 0; i -= 2) {\n                if (listeners[i] == TitleChangeListener.class) {\n                    ((TitleChangeListener) listeners[i + 1]).titleChanged(\n                            event);\n                }\n            }\n        }\n    }",
+    "comment": " Notifies all registered listeners that the chart title has changed in  some way.  @param event  an object that contains information about the change to  the title. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Title.setPosition",
+    "class_name": "org.jfree.chart.title.Title",
+    "signature": "org.jfree.chart.title.Title.setPosition(RectangleEdge)",
+    "snippet": "    public void setPosition(RectangleEdge position) {\n        if (position == null) {\n            throw new IllegalArgumentException(\"Null 'position' argument.\");\n        }\n        if (this.position != position) {\n            this.position = position;\n            notifyListeners(new TitleChangeEvent(this));\n        }\n    }",
+    "comment": " Sets the position for the title and sends a {@link TitleChangeEvent} to  all registered listeners.  @param position  the position (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BasicProjectInfo.BasicProjectInfo",
+    "class_name": "org.jfree.chart.ui.BasicProjectInfo",
+    "signature": "org.jfree.chart.ui.BasicProjectInfo.BasicProjectInfo()",
+    "snippet": "    public BasicProjectInfo() {\n        this.libraries = new ArrayList();\n        this.optionalLibraries = new ArrayList();\n    }",
+    "comment": " Default constructor. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BasicProjectInfo.setCopyright",
+    "class_name": "org.jfree.chart.ui.BasicProjectInfo",
+    "signature": "org.jfree.chart.ui.BasicProjectInfo.setCopyright(String)",
+    "snippet": "    public void setCopyright(String copyright) {\n        this.copyright = copyright;\n    }",
+    "comment": " Sets the project copyright statement.  @param copyright  the project copyright statement. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BasicProjectInfo.setInfo",
+    "class_name": "org.jfree.chart.ui.BasicProjectInfo",
+    "signature": "org.jfree.chart.ui.BasicProjectInfo.setInfo(String)",
+    "snippet": "    public void setInfo(String info) {\n        super.setInfo(info);\n    }",
+    "comment": " Sets the project info string (for example, this could be the project URL).  @param info  the info string. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BasicProjectInfo.setLicenceName",
+    "class_name": "org.jfree.chart.ui.BasicProjectInfo",
+    "signature": "org.jfree.chart.ui.BasicProjectInfo.setLicenceName(String)",
+    "snippet": "    public void setLicenceName(String licence) {\n        super.setLicenceName(licence);\n    }",
+    "comment": " Sets the license name.  @param licence  the license name. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BasicProjectInfo.setName",
+    "class_name": "org.jfree.chart.ui.BasicProjectInfo",
+    "signature": "org.jfree.chart.ui.BasicProjectInfo.setName(String)",
+    "snippet": "    public void setName(String name) {\n        super.setName(name);\n    }",
+    "comment": " Sets the project name.  @param name  the project name. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BasicProjectInfo.setVersion",
+    "class_name": "org.jfree.chart.ui.BasicProjectInfo",
+    "signature": "org.jfree.chart.ui.BasicProjectInfo.setVersion(String)",
+    "snippet": "    public void setVersion(String version) {\n        super.setVersion(version);\n    }",
+    "comment": " Sets the project version number.  @param version  the version number. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Contributor.Contributor",
+    "class_name": "org.jfree.chart.ui.Contributor",
+    "signature": "org.jfree.chart.ui.Contributor.Contributor(String,String)",
+    "snippet": "    public Contributor(String name, String email) {\n        this.name = name;\n        this.email = email;\n    }",
+    "comment": " Creates a new contributor.  @param name  the name. @param email  the e-mail address. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Library.Library",
+    "class_name": "org.jfree.chart.ui.Library",
+    "signature": "org.jfree.chart.ui.Library.Library()",
+    "snippet": "    protected Library() {\n        // nothing required\n    }",
+    "comment": " Creates a new library reference. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Library.setInfo",
+    "class_name": "org.jfree.chart.ui.Library",
+    "signature": "org.jfree.chart.ui.Library.setInfo(String)",
+    "snippet": "    protected void setInfo(String info) {\n        this.info = info;\n    }",
+    "comment": " Sets the project info.  @param info  the project info. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Library.setLicenceName",
+    "class_name": "org.jfree.chart.ui.Library",
+    "signature": "org.jfree.chart.ui.Library.setLicenceName(String)",
+    "snippet": "    protected void setLicenceName(String licenceName) {\n        this.licenceName = licenceName;\n    }",
+    "comment": " Sets the licence name.  @param licenceName  the licence name. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Library.setName",
+    "class_name": "org.jfree.chart.ui.Library",
+    "signature": "org.jfree.chart.ui.Library.setName(String)",
+    "snippet": "    protected void setName(String name) {\n        this.name = name;\n    }",
+    "comment": " Sets the project name.  @param name  the project name. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Library.setVersion",
+    "class_name": "org.jfree.chart.ui.Library",
+    "signature": "org.jfree.chart.ui.Library.setVersion(String)",
+    "snippet": "    protected void setVersion(String version) {\n        this.version = version;\n    }",
+    "comment": " Sets the version identifier.  @param version  the version identifier. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Licences.getInstance",
+    "class_name": "org.jfree.chart.ui.Licences",
+    "signature": "org.jfree.chart.ui.Licences.getInstance()",
+    "snippet": "    public static Licences getInstance() {\n        if (singleton == null) {\n            singleton = new Licences();\n        }\n        return singleton;\n    }",
+    "comment": " Returns a reference to this class.  @return the instance reference. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Licences.getLGPL",
+    "class_name": "org.jfree.chart.ui.Licences",
+    "signature": "org.jfree.chart.ui.Licences.getLGPL()",
+    "snippet": "    public String getLGPL() {\n        return LGPL;\n    }",
+    "comment": " Returns the LGPL text in a non static way to prevent the compiler to copy the contents of the field.  @return the LGPL licence text. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ProjectInfo.ProjectInfo",
+    "class_name": "org.jfree.chart.ui.ProjectInfo",
+    "signature": "org.jfree.chart.ui.ProjectInfo.ProjectInfo()",
+    "snippet": "    public ProjectInfo() {\n        // nothing required\n    }",
+    "comment": " Constructs an empty project info object. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ProjectInfo.setContributors",
+    "class_name": "org.jfree.chart.ui.ProjectInfo",
+    "signature": "org.jfree.chart.ui.ProjectInfo.setContributors(List)",
+    "snippet": "    public void setContributors(final List contributors) {\n        this.contributors = contributors;\n    }",
+    "comment": " Sets the list of contributors.  @param contributors  the list of contributors. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ProjectInfo.setLicenceText",
+    "class_name": "org.jfree.chart.ui.ProjectInfo",
+    "signature": "org.jfree.chart.ui.ProjectInfo.setLicenceText(String)",
+    "snippet": "    public void setLicenceText(final String licenceText) {\n        this.licenceText = licenceText;\n    }",
+    "comment": " Sets the project licence text.  @param licenceText  the licence text. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ProjectInfo.setLogo",
+    "class_name": "org.jfree.chart.ui.ProjectInfo",
+    "signature": "org.jfree.chart.ui.ProjectInfo.setLogo(Image)",
+    "snippet": "    public void setLogo(final Image logo) {\n        this.logo = logo;\n    }",
+    "comment": " Sets the project logo.  @param logo  the project logo. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractObjectList.AbstractObjectList",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.AbstractObjectList()",
+    "snippet": "    protected AbstractObjectList() {\n        this(DEFAULT_INITIAL_CAPACITY);\n    }",
+    "comment": " Creates a new list with the default initial capacity. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractObjectList.AbstractObjectList",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.AbstractObjectList(int)",
+    "snippet": "    protected AbstractObjectList(int initialCapacity) {\n        this (initialCapacity, initialCapacity);\n    }",
+    "comment": " Creates a new list.  @param initialCapacity  the initial capacity. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractObjectList.AbstractObjectList",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.AbstractObjectList(int,int)",
+    "snippet": "    protected AbstractObjectList(int initialCapacity, int increment) {\n        this.objects = new Object[initialCapacity];\n        this.increment = increment;\n    }",
+    "comment": " Creates a new list.  @param initialCapacity  the initial capacity. @param increment  the increment. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ObjectList.ObjectList",
+    "class_name": "org.jfree.chart.util.ObjectList",
+    "signature": "org.jfree.chart.util.ObjectList.ObjectList()",
+    "snippet": "    public ObjectList() {\n    }",
+    "comment": " Default constructor. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleInsets.RectangleInsets",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.RectangleInsets(UnitType,double,double,double,double)",
+    "snippet": "    public RectangleInsets(UnitType unitType, double top, double left, \n                           double bottom, double right) {\n        if (unitType == null) {\n            throw new IllegalArgumentException(\"Null 'unitType' argument.\");\n        }\n        this.unitType = unitType;\n        this.top = top;\n        this.bottom = bottom;\n        this.left = left;\n        this.right = right;\n    }",
+    "comment": " Creates a new instance.  @param unitType  absolute or relative units (<code>null</code> not  permitted). @param top  the top insets. @param left  the left insets. @param bottom  the bottom insets. @param right  the right insets. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleInsets.RectangleInsets",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.RectangleInsets(double,double,double,double)",
+    "snippet": "    public RectangleInsets(double top, double left, double bottom, \n            double right) {\n        this(UnitType.ABSOLUTE, top, left, bottom, right);   \n    }",
+    "comment": " Creates a new instance with the specified insets (as 'absolute' units).  @param top  the top insets. @param left  the left insets. @param bottom  the bottom insets. @param right  the right insets. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultKeyedValues2D.DefaultKeyedValues2D",
+    "class_name": "org.jfree.data.DefaultKeyedValues2D",
+    "signature": "org.jfree.data.DefaultKeyedValues2D.DefaultKeyedValues2D()",
+    "snippet": "    public DefaultKeyedValues2D() {\n        this(false);\n    }",
+    "comment": " Creates a new instance (initially empty). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultKeyedValues2D.DefaultKeyedValues2D",
+    "class_name": "org.jfree.data.DefaultKeyedValues2D",
+    "signature": "org.jfree.data.DefaultKeyedValues2D.DefaultKeyedValues2D(boolean)",
+    "snippet": "    public DefaultKeyedValues2D(boolean sortRowKeys) {\n        this.rowKeys = new java.util.ArrayList();\n        this.columnKeys = new java.util.ArrayList();\n        this.rows = new java.util.ArrayList();\n        this.sortRowKeys = sortRowKeys;\n    }",
+    "comment": " Creates a new instance (initially empty).  @param sortRowKeys  if the row keys should be sorted. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultCategoryDataset.DefaultCategoryDataset",
+    "class_name": "org.jfree.data.category.DefaultCategoryDataset",
+    "signature": "org.jfree.data.category.DefaultCategoryDataset.DefaultCategoryDataset()",
+    "snippet": "    public DefaultCategoryDataset() {\n        this.data = new DefaultKeyedValues2D();\n    }",
+    "comment": " Creates a new (empty) dataset. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractDataset.AbstractDataset",
+    "class_name": "org.jfree.data.general.AbstractDataset",
+    "signature": "org.jfree.data.general.AbstractDataset.AbstractDataset()",
+    "snippet": "    protected AbstractDataset() {\n        this.group = new DatasetGroup();\n        this.listenerList = new EventListenerList();\n    }",
+    "comment": " Constructs a dataset. By default, the dataset is assigned to its own  group. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractDataset.hasListener",
+    "class_name": "org.jfree.data.general.AbstractDataset",
+    "signature": "org.jfree.data.general.AbstractDataset.hasListener(EventListener)",
+    "snippet": "    public boolean hasListener(EventListener listener) {\n        List list = Arrays.asList(this.listenerList.getListenerList());\n        return list.contains(listener);\n    }",
+    "comment": " Returns <code>true</code> if the specified object is registered with the dataset as a listener.  Most applications won't need to call this  method, it exists mainly for use by unit testing code.  @param listener  the listener.  @return A boolean.  @see #addChangeListener(DatasetChangeListener) @see #removeChangeListener(DatasetChangeListener) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DatasetGroup.DatasetGroup",
+    "class_name": "org.jfree.data.general.DatasetGroup",
+    "signature": "org.jfree.data.general.DatasetGroup.DatasetGroup()",
+    "snippet": "    public DatasetGroup() {\n        super();\n        this.id = \"NOID\";\n    }",
+    "comment": " Constructs a new group. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

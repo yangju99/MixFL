@@ -1,0 +1,42 @@
+[
+  {
+    "name": "StringEscapeUtils.escapeJavaScript",
+    "class_name": "org.apache.commons.lang.StringEscapeUtils",
+    "signature": "org.apache.commons.lang.StringEscapeUtils.escapeJavaScript(String)",
+    "snippet": "    public static String escapeJavaScript(String str) {\n        return escapeJavaStyleString(str, true);\n    }",
+    "comment": " <p>Escapes the characters in a <code>String</code> using JavaScript String rules.</p> <p>Escapes any values it finds into their JavaScript String form. Deals correctly with quotes and control-chars (tab, backslash, cr, ff, etc.) </p>  <p>So a tab becomes the characters <code>'\\\\'</code> and <code>'t'</code>.</p>  <p>The only difference between Java strings and JavaScript strings is that in JavaScript, a single quote must be escaped.</p>  <p>Example: <pre> input string: He didn't say, \"Stop!\" output string: He didn\\'t say, \\\"Stop!\\\" </pre> </p>  @param str  String to escape values in, may be null @return String with escaped values, <code>null</code> if null string input ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StringEscapeUtils.escapeJavaScript",
+    "class_name": "org.apache.commons.lang.StringEscapeUtils",
+    "signature": "org.apache.commons.lang.StringEscapeUtils.escapeJavaScript(Writer,String)",
+    "snippet": "    public static void escapeJavaScript(Writer out, String str) throws IOException {\n        escapeJavaStyleString(out, str, true);\n    }",
+    "comment": " <p>Escapes the characters in a <code>String</code> using JavaScript String rules to a <code>Writer</code>.</p>  <p>A <code>null</code> string input has no effect.</p>  @see #escapeJavaScript(java.lang.String) @param out  Writer to write escaped string into @param str  String to escape values in, may be null @throws IllegalArgumentException if the Writer is <code>null</code> @throws IOException if error occurs on underlying Writer ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StringEscapeUtils.escapeJavaStyleString",
+    "class_name": "org.apache.commons.lang.StringEscapeUtils",
+    "signature": "org.apache.commons.lang.StringEscapeUtils.escapeJavaStyleString(String,boolean)",
+    "snippet": "    private static String escapeJavaStyleString(String str, boolean escapeSingleQuotes) {\n        if (str == null) {\n            return null;\n        }\n        try {\n            StringWriter writer = new StringWriter(str.length() * 2);\n            escapeJavaStyleString(writer, str, escapeSingleQuotes);\n            return writer.toString();\n        } catch (IOException ioe) {\n            // this should never ever happen while writing to a StringWriter\n            ioe.printStackTrace();\n            return null;\n        }\n    }",
+    "comment": " <p>Worker method for the {@link #escapeJavaScript(String)} method.</p>  @param str String to escape values in, may be null @param escapeSingleQuotes escapes single quotes if <code>true</code> @return the escaped string ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StringEscapeUtils.escapeJavaStyleString",
+    "class_name": "org.apache.commons.lang.StringEscapeUtils",
+    "signature": "org.apache.commons.lang.StringEscapeUtils.escapeJavaStyleString(Writer,String,boolean)",
+    "snippet": "    private static void escapeJavaStyleString(Writer out, String str, boolean escapeSingleQuote) throws IOException {\n        if (out == null) {\n            throw new IllegalArgumentException(\"The Writer must not be null\");\n        }\n        if (str == null) {\n            return;\n        }\n        int sz;\n        sz = str.length();\n        for (int i = 0; i < sz; i++) {\n            char ch = str.charAt(i);\n\n            // handle unicode\n            if (ch > 0xfff) {\n                out.write(\"\\\\u\" + hex(ch));\n            } else if (ch > 0xff) {\n                out.write(\"\\\\u0\" + hex(ch));\n            } else if (ch > 0x7f) {\n                out.write(\"\\\\u00\" + hex(ch));\n            } else if (ch < 32) {\n                switch (ch) {\n                    case '\\b':\n                        out.write('\\\\');\n                        out.write('b');\n                        break;\n                    case '\\n':\n                        out.write('\\\\');\n                        out.write('n');\n                        break;\n                    case '\\t':\n                        out.write('\\\\');\n                        out.write('t');\n                        break;\n                    case '\\f':\n                        out.write('\\\\');\n                        out.write('f');\n                        break;\n                    case '\\r':\n                        out.write('\\\\');\n                        out.write('r');\n                        break;\n                    default :\n                        if (ch > 0xf) {\n                            out.write(\"\\\\u00\" + hex(ch));\n                        } else {\n                            out.write(\"\\\\u000\" + hex(ch));\n                        }\n                        break;\n                }\n            } else {\n                switch (ch) {\n                    case '\\'':\n                        if (escapeSingleQuote) {\n                          out.write('\\\\');\n                        }\n                        out.write('\\'');\n                        break;\n                    case '\"':\n                        out.write('\\\\');\n                        out.write('\"');\n                        break;\n                    case '\\\\':\n                        out.write('\\\\');\n                        out.write('\\\\');\n                        break;\n                    default :\n                        out.write(ch);\n                        break;\n                }\n            }\n        }\n    }",
+    "comment": " <p>Worker method for the {@link #escapeJavaScript(String)} method.</p>  @param out write to receieve the escaped string @param str String to escape values in, may be null @param escapeSingleQuote escapes single quotes if <code>true</code> @throws IOException if an IOException occurs ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

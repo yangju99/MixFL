@@ -1,0 +1,202 @@
+[
+  {
+    "name": "Fraction.Fraction",
+    "class_name": "org.apache.commons.math.fraction.Fraction",
+    "signature": "org.apache.commons.math.fraction.Fraction.Fraction(int,int)",
+    "snippet": "    public Fraction(int num, int den) {\n        super();\n        if (den == 0) {\n            throw new ArithmeticException(\"The denominator must not be zero\");\n        }\n        if (den < 0) {\n            if (num == Integer.MIN_VALUE ||\n                    den == Integer.MIN_VALUE) {\n                throw new ArithmeticException(\"overflow: can't negate\");\n            }\n            num = -num;\n            den = -den;\n        }\n        this.numerator = num;\n        this.denominator = den;\n        reduce();\n    }",
+    "comment": " Create a fraction given the numerator and denominator.  The fraction is reduced to lowest terms. @param num the numerator. @param den the denominator. @throws ArithmeticException if the denomiator is <code>zero</code> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Fraction.reduce",
+    "class_name": "org.apache.commons.math.fraction.Fraction",
+    "signature": "org.apache.commons.math.fraction.Fraction.reduce()",
+    "snippet": "    private void reduce() {\n        // reduce numerator and denominator by greatest common denominator.\n        int d = MathUtils.gcd(numerator, denominator);\n        if (d > 1) {\n            numerator /= d;\n            denominator /= d;\n        }\n\n        // move sign to numerator.\n        if (denominator < 0) {\n            numerator *= -1;\n            denominator *= -1;\n        }\n    }",
+    "comment": " Reduce this fraction to lowest terms.  This is accomplished by dividing both numerator and denominator by their greatest common divisor. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FractionFormat.FractionFormat",
+    "class_name": "org.apache.commons.math.fraction.FractionFormat",
+    "signature": "org.apache.commons.math.fraction.FractionFormat.FractionFormat(NumberFormat)",
+    "snippet": "    public FractionFormat(NumberFormat format) {\n        this(format, (NumberFormat)format.clone());\n    }",
+    "comment": " Create an improper formatting instance with a custom number format for both the numerator and denominator. @param format the custom format for both the numerator and denominator. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FractionFormat.FractionFormat",
+    "class_name": "org.apache.commons.math.fraction.FractionFormat",
+    "signature": "org.apache.commons.math.fraction.FractionFormat.FractionFormat(NumberFormat,NumberFormat)",
+    "snippet": "    public FractionFormat(NumberFormat numeratorFormat,\n            NumberFormat denominatorFormat)\n    {\n        super();\n        this.numeratorFormat = numeratorFormat;\n        this.denominatorFormat = denominatorFormat;\n    }",
+    "comment": " Create an improper formatting instance with a custom number format for the numerator and a custom number format for the denominator. @param numeratorFormat the custom format for the numerator. @param denominatorFormat the custom format for the denominator. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FractionFormat.getDefaultNumberFormat",
+    "class_name": "org.apache.commons.math.fraction.FractionFormat",
+    "signature": "org.apache.commons.math.fraction.FractionFormat.getDefaultNumberFormat(Locale)",
+    "snippet": "    private static NumberFormat getDefaultNumberFormat(Locale locale) {\n        NumberFormat nf = NumberFormat.getNumberInstance(locale);\n        nf.setMaximumFractionDigits(0);\n        nf.setParseIntegerOnly(true);\n        return nf;\n    }",
+    "comment": " Create a default number format.  The default number format is based on {@link NumberFormat#getNumberInstance(java.util.Locale)} with the only customizing is the maximum number of fraction digits, which is set to 0.   @param locale the specific locale used by the format. @return the default number format specific to the given locale. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FractionFormat.getDenominatorFormat",
+    "class_name": "org.apache.commons.math.fraction.FractionFormat",
+    "signature": "org.apache.commons.math.fraction.FractionFormat.getDenominatorFormat()",
+    "snippet": "    public NumberFormat getDenominatorFormat() {\n        return denominatorFormat;\n    }",
+    "comment": " Access the denominator format. @return the denominator format. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FractionFormat.getImproperInstance",
+    "class_name": "org.apache.commons.math.fraction.FractionFormat",
+    "signature": "org.apache.commons.math.fraction.FractionFormat.getImproperInstance(Locale)",
+    "snippet": "    public static FractionFormat getImproperInstance(Locale locale) {\n        NumberFormat f = getDefaultNumberFormat(locale);\n        return new FractionFormat(f);\n    }",
+    "comment": " Returns the default complex format for the given locale. @param locale the specific locale used by the format. @return the complex format specific to the given locale. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FractionFormat.getNumeratorFormat",
+    "class_name": "org.apache.commons.math.fraction.FractionFormat",
+    "signature": "org.apache.commons.math.fraction.FractionFormat.getNumeratorFormat()",
+    "snippet": "    public NumberFormat getNumeratorFormat() {\n        return numeratorFormat;\n    }",
+    "comment": " Access the numerator format. @return the numerator format. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FractionFormat.getProperInstance",
+    "class_name": "org.apache.commons.math.fraction.FractionFormat",
+    "signature": "org.apache.commons.math.fraction.FractionFormat.getProperInstance(Locale)",
+    "snippet": "    public static FractionFormat getProperInstance(Locale locale) {\n        NumberFormat f = getDefaultNumberFormat(locale);\n        return new ProperFractionFormat(f);\n    }",
+    "comment": " Returns the default complex format for the given locale. @param locale the specific locale used by the format. @return the complex format specific to the given locale. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FractionFormat.parse",
+    "class_name": "org.apache.commons.math.fraction.FractionFormat",
+    "signature": "org.apache.commons.math.fraction.FractionFormat.parse(String)",
+    "snippet": "    public Fraction parse(String source) throws ParseException {\n        ParsePosition parsePosition = new ParsePosition(0);\n        Fraction result = parse(source, parsePosition);\n        if (parsePosition.getIndex() == 0) {\n            throw new ParseException(\"Unparseable fraction number: \\\"\" +\n                source + \"\\\"\", parsePosition.getErrorIndex());\n        }\n        return result;\n    }",
+    "comment": " Parses a string to produce a {@link Fraction} object. @param source the string to parse @return the parsed {@link Fraction} object. @exception ParseException if the beginning of the specified string cannot be parsed. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FractionFormat.parse",
+    "class_name": "org.apache.commons.math.fraction.FractionFormat",
+    "signature": "org.apache.commons.math.fraction.FractionFormat.parse(String,ParsePosition)",
+    "snippet": "    public Fraction parse(String source, ParsePosition pos) {\n        int initialIndex = pos.getIndex();\n\n        // parse whitespace\n        parseAndIgnoreWhitespace(source, pos);\n\n        // parse numerator\n        Number num = getNumeratorFormat().parse(source, pos);\n        if (num == null) {\n            // invalid integer number\n            // set index back to initial, error index should already be set\n            // character examined.\n            pos.setIndex(initialIndex);\n            return null;\n        }\n\n        // parse '/'\n        int startIndex = pos.getIndex();\n        char c = parseNextCharacter(source, pos);\n        switch (c) {\n        case 0 :\n            // no '/'\n            // return num as a fraction\n            return new Fraction(num.intValue(), 1);\n        case '/' :\n            // found '/', continue parsing denominator\n            break;\n        default :\n            // invalid '/'\n            // set index back to initial, error index should be the last\n            // character examined.\n            pos.setIndex(initialIndex);\n            pos.setErrorIndex(startIndex);\n            return null;\n        }\n\n        // parse whitespace\n        parseAndIgnoreWhitespace(source, pos);\n\n        // parse denominator\n        Number den = getDenominatorFormat().parse(source, pos);\n        if (den == null) {\n            // invalid integer number\n            // set index back to initial, error index should already be set\n            // character examined.\n            pos.setIndex(initialIndex);\n            return null;\n        }\n\n        return new Fraction(num.intValue(), den.intValue());\n    }",
+    "comment": " Parses a string to produce a {@link Fraction} object.  This method expects the string to be formatted as an improper fraction.   @param source the string to parse @param pos input/ouput parsing parameter. @return the parsed {@link Fraction} object. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FractionFormat.parseAndIgnoreWhitespace",
+    "class_name": "org.apache.commons.math.fraction.FractionFormat",
+    "signature": "org.apache.commons.math.fraction.FractionFormat.parseAndIgnoreWhitespace(String,ParsePosition)",
+    "snippet": "    protected static void parseAndIgnoreWhitespace(\n        String source, ParsePosition pos)\n    {\n        parseNextCharacter(source, pos);\n        pos.setIndex(pos.getIndex() - 1);\n    }",
+    "comment": " Parses <code>source</code> until a non-whitespace character is found. @param source the string to parse @param pos input/ouput parsing parameter.  On output, <code>pos</code> holds the index of the next non-whitespace character. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FractionFormat.parseNextCharacter",
+    "class_name": "org.apache.commons.math.fraction.FractionFormat",
+    "signature": "org.apache.commons.math.fraction.FractionFormat.parseNextCharacter(String,ParsePosition)",
+    "snippet": "    protected static char parseNextCharacter(String source, ParsePosition pos) {\n         int index = pos.getIndex();\n         int n = source.length();\n         char ret = 0;\n\n         if (index < n) {\n             char c;\n             do {\n                 c = source.charAt(index++);\n             } while (Character.isWhitespace(c) && index < n);\n             pos.setIndex(index);\n         \n             if (index < n) {\n                 ret = c;\n             }\n         }\n         \n         return ret;\n    }",
+    "comment": " Parses <code>source</code> until a non-whitespace character is found. @param source the string to parse @param pos input/ouput parsing parameter. @return the first non-whitespace character. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ProperFractionFormat.ProperFractionFormat",
+    "class_name": "org.apache.commons.math.fraction.ProperFractionFormat",
+    "signature": "org.apache.commons.math.fraction.ProperFractionFormat.ProperFractionFormat(NumberFormat)",
+    "snippet": "    public ProperFractionFormat(NumberFormat format) {\n        this(format, (NumberFormat)format.clone(), (NumberFormat)format.clone());\n    }",
+    "comment": " Create a proper formatting instance with a custom number format for the whole, numerator, and denominator. @param format the custom format for the whole, numerator, and denominator. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ProperFractionFormat.ProperFractionFormat",
+    "class_name": "org.apache.commons.math.fraction.ProperFractionFormat",
+    "signature": "org.apache.commons.math.fraction.ProperFractionFormat.ProperFractionFormat(NumberFormat,NumberFormat,NumberFormat)",
+    "snippet": "    public ProperFractionFormat(NumberFormat wholeFormat,\n            NumberFormat numeratorFormat,\n            NumberFormat denominatorFormat)\n    {\n        super(numeratorFormat, denominatorFormat);\n        setWholeFormat(wholeFormat);\n    }",
+    "comment": " Create a proper formatting instance with a custom number format for each of the whole, numerator, and denominator. @param wholeFormat the custom format for the whole. @param numeratorFormat the custom format for the numerator. @param denominatorFormat the custom format for the denominator. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ProperFractionFormat.getWholeFormat",
+    "class_name": "org.apache.commons.math.fraction.ProperFractionFormat",
+    "signature": "org.apache.commons.math.fraction.ProperFractionFormat.getWholeFormat()",
+    "snippet": "    public NumberFormat getWholeFormat() {\n        return wholeFormat;\n    }",
+    "comment": " Access the whole format. @return the whole format. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ProperFractionFormat.parse",
+    "class_name": "org.apache.commons.math.fraction.ProperFractionFormat",
+    "signature": "org.apache.commons.math.fraction.ProperFractionFormat.parse(String,ParsePosition)",
+    "snippet": "    public Fraction parse(String source, ParsePosition pos) {\n        // try to parse improper fraction\n        Fraction ret = super.parse(source, pos);\n        if (ret != null) {\n            return ret;\n        }\n        \n        int initialIndex = pos.getIndex();\n\n        // parse whitespace\n        parseAndIgnoreWhitespace(source, pos);\n\n        // parse whole\n        Number whole = getWholeFormat().parse(source, pos);\n        if (whole == null) {\n            // invalid integer number\n            // set index back to initial, error index should already be set\n            // character examined.\n            pos.setIndex(initialIndex);\n            return null;\n        }\n\n        // parse whitespace\n        parseAndIgnoreWhitespace(source, pos);\n        \n        // parse numerator\n        Number num = getNumeratorFormat().parse(source, pos);\n        if (num == null) {\n            // invalid integer number\n            // set index back to initial, error index should already be set\n            // character examined.\n            pos.setIndex(initialIndex);\n            return null;\n        }\n        \n            // minus signs should be leading, invalid expression\n\n        // parse '/'\n        int startIndex = pos.getIndex();\n        char c = parseNextCharacter(source, pos);\n        switch (c) {\n        case 0 :\n            // no '/'\n            // return num as a fraction\n            return new Fraction(num.intValue(), 1);\n        case '/' :\n            // found '/', continue parsing denominator\n            break;\n        default :\n            // invalid '/'\n            // set index back to initial, error index should be the last\n            // character examined.\n            pos.setIndex(initialIndex);\n            pos.setErrorIndex(startIndex);\n            return null;\n        }\n\n        // parse whitespace\n        parseAndIgnoreWhitespace(source, pos);\n\n        // parse denominator\n        Number den = getDenominatorFormat().parse(source, pos);\n        if (den == null) {\n            // invalid integer number\n            // set index back to initial, error index should already be set\n            // character examined.\n            pos.setIndex(initialIndex);\n            return null;\n        }\n        \n            // minus signs must be leading, invalid\n\n        int w = whole.intValue();\n        int n = num.intValue();\n        int d = den.intValue();\n        return new Fraction(((Math.abs(w) * d) + n) * MathUtils.sign(w), d);\n    }",
+    "comment": " Parses a string to produce a {@link Fraction} object.  This method expects the string to be formatted as a proper fraction. <p> Minus signs are only allowed in the whole number part - i.e., \"-3 1/2\" is legitimate and denotes -7/2, but \"-3 -1/2\" is invalid and will result in a <code>ParseException</code>.  @param source the string to parse @param pos input/ouput parsing parameter. @return the parsed {@link Fraction} object. ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ProperFractionFormat.setWholeFormat",
+    "class_name": "org.apache.commons.math.fraction.ProperFractionFormat",
+    "signature": "org.apache.commons.math.fraction.ProperFractionFormat.setWholeFormat(NumberFormat)",
+    "snippet": "    public void setWholeFormat(NumberFormat format) {\n        if (format == null) {\n            throw new IllegalArgumentException(\n                \"whole format can not be null.\");\n        }\n        this.wholeFormat = format;\n    }",
+    "comment": " Modify the whole format. @param format The new whole format value. @throws IllegalArgumentException if <code>format</code> is <code>null</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathUtils.gcd",
+    "class_name": "org.apache.commons.math.util.MathUtils",
+    "signature": "org.apache.commons.math.util.MathUtils.gcd(int,int)",
+    "snippet": "    public static int gcd(int u, int v) {\n        if (u * v == 0) {\n            return (Math.abs(u) + Math.abs(v));\n        }\n        // keep u and v negative, as negative integers range down to\n        // -2^31, while positive numbers can only be as large as 2^31-1\n        // (i.e. we can't necessarily negate a negative number without\n        // overflow)\n        /* assert u!=0 && v!=0; */\n        if (u > 0) {\n            u = -u;\n        } // make u negative\n        if (v > 0) {\n            v = -v;\n        } // make v negative\n        // B1. [Find power of 2]\n        int k = 0;\n        while ((u & 1) == 0 && (v & 1) == 0 && k < 31) { // while u and v are\n                                                            // both even...\n            u /= 2;\n            v /= 2;\n            k++; // cast out twos.\n        }\n        if (k == 31) {\n            throw new ArithmeticException(\"overflow: gcd is 2^31\");\n        }\n        // B2. Initialize: u and v have been divided by 2^k and at least\n        // one is odd.\n        int t = ((u & 1) == 1) ? v : -(u / 2)/* B3 */;\n        // t negative: u was odd, v may be even (t replaces v)\n        // t positive: u was even, v is odd (t replaces u)\n        do {\n            /* assert u<0 && v<0; */\n            // B4/B3: cast out twos from t.\n            while ((t & 1) == 0) { // while t is even..\n                t /= 2; // cast out twos\n            }\n            // B5 [reset max(u,v)]\n            if (t > 0) {\n                u = -t;\n            } else {\n                v = t;\n            }\n            // B6/B3. at this point both u and v should be odd.\n            t = (v - u) / 2;\n            // |u| larger: t positive (replace u)\n            // |v| larger: t negative (replace v)\n        } while (t != 0);\n        return -u * (1 << k); // gcd is u*2^k\n    }",
+    "comment": " <p> Gets the greatest common divisor of the absolute value of two numbers, using the \"binary gcd\" method which avoids division and modulo operations. See Knuth 4.5.2 algorithm B. This algorithm is due to Josef Stein (1961). </p>  @param u a non-zero number @param v a non-zero number @return the greatest common divisor, never zero @since 1.1 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathUtils.sign",
+    "class_name": "org.apache.commons.math.util.MathUtils",
+    "signature": "org.apache.commons.math.util.MathUtils.sign(int)",
+    "snippet": "    public static int sign(final int x) {\n        return (x == 0) ? 0 : (x > 0) ? 1 : -1;\n    }",
+    "comment": " Returns the <a href=\"http://mathworld.wolfram.com/Sign.html\"> sign</a> for int value <code>x</code>. <p> For an int value x, this method returns +1 if x > 0, 0 if x = 0, and -1 if x < 0.  @param x the value, an int @return +1, 0, or -1, depending on the sign of x ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

@@ -1,0 +1,222 @@
+[
+  {
+    "name": "RealPointValuePair.RealPointValuePair",
+    "class_name": "org.apache.commons.math.optimization.RealPointValuePair",
+    "signature": "org.apache.commons.math.optimization.RealPointValuePair.RealPointValuePair(double[],double)",
+    "snippet": "    public RealPointValuePair(final double[] point, final double value) {\n        this.point = point.clone();\n        this.value  = value;\n    }",
+    "comment": "Build a point/objective function value pair. @param point point coordinates (the built instance will store a copy of the array, not the array passed as argument) @param value value of an objective function at the point ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealPointValuePair.RealPointValuePair",
+    "class_name": "org.apache.commons.math.optimization.RealPointValuePair",
+    "signature": "org.apache.commons.math.optimization.RealPointValuePair.RealPointValuePair(double[],double,boolean)",
+    "snippet": "    public RealPointValuePair(final double[] point, final double value,\n                                final boolean copyArray) {\n        this.point = copyArray ? point.clone() : point;\n        this.value  = value;\n    }",
+    "comment": "Build a point/objective function value pair. @param point point coordinates (the built instance will store a copy of the array, not the array passed as argument) @param value value of an objective function at the point @param copyArray if true, the input array will be copied, otherwise it will be referenced ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealPointValuePair.getPoint",
+    "class_name": "org.apache.commons.math.optimization.RealPointValuePair",
+    "signature": "org.apache.commons.math.optimization.RealPointValuePair.getPoint()",
+    "snippet": "    public double[] getPoint() {\n        return point.clone();\n    }",
+    "comment": "Get the point. @return a copy of the stored point ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealPointValuePair.getPointRef",
+    "class_name": "org.apache.commons.math.optimization.RealPointValuePair",
+    "signature": "org.apache.commons.math.optimization.RealPointValuePair.getPointRef()",
+    "snippet": "    public double[] getPointRef() {\n        return point;\n    }",
+    "comment": "Get a reference to the point. <p>This method is provided as a convenience to avoid copying the array, the elements of the array should <em>not</em> be modified.</p> @return a reference to the internal array storing the point ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealPointValuePair.getValue",
+    "class_name": "org.apache.commons.math.optimization.RealPointValuePair",
+    "signature": "org.apache.commons.math.optimization.RealPointValuePair.getValue()",
+    "snippet": "    public double getValue() {\n        return value;\n    }",
+    "comment": "Get the value of the objective function. @return the stored value of the objective function ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimpleScalarValueChecker.SimpleScalarValueChecker",
+    "class_name": "org.apache.commons.math.optimization.SimpleScalarValueChecker",
+    "signature": "org.apache.commons.math.optimization.SimpleScalarValueChecker.SimpleScalarValueChecker()",
+    "snippet": "    public SimpleScalarValueChecker() {\n        this.relativeThreshold = DEFAULT_RELATIVE_THRESHOLD;\n        this.absoluteThreshold = DEFAULT_ABSOLUTE_THRESHOLD;\n    }",
+    "comment": "Build an instance with default threshold. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimpleScalarValueChecker.SimpleScalarValueChecker",
+    "class_name": "org.apache.commons.math.optimization.SimpleScalarValueChecker",
+    "signature": "org.apache.commons.math.optimization.SimpleScalarValueChecker.SimpleScalarValueChecker(double,double)",
+    "snippet": "    public SimpleScalarValueChecker(final double relativeThreshold,\n                                 final double absoluteThreshold) {\n        this.relativeThreshold = relativeThreshold;\n        this.absoluteThreshold = absoluteThreshold;\n    }",
+    "comment": "Build an instance with a specified threshold. <p> In order to perform only relative checks, the absolute tolerance must be set to a negative value. In order to perform only absolute checks, the relative tolerance must be set to a negative value. </p> @param relativeThreshold relative tolerance threshold @param absoluteThreshold absolute tolerance threshold ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimpleScalarValueChecker.converged",
+    "class_name": "org.apache.commons.math.optimization.SimpleScalarValueChecker",
+    "signature": "org.apache.commons.math.optimization.SimpleScalarValueChecker.converged(int,RealPointValuePair,RealPointValuePair)",
+    "snippet": "    public boolean converged(final int iteration,\n                             final RealPointValuePair previous,\n                             final RealPointValuePair current) {\n        final double p          = previous.getValue();\n        final double c          = current.getValue();\n        final double difference = Math.abs(p - c);\n        final double size       = Math.max(Math.abs(p), Math.abs(c));\n        return (difference <= (size * relativeThreshold)) || (difference <= absoluteThreshold);\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DirectSearchOptimizer.DirectSearchOptimizer",
+    "class_name": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer",
+    "signature": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer.DirectSearchOptimizer()",
+    "snippet": "    protected DirectSearchOptimizer() {\n        setConvergenceChecker(new SimpleScalarValueChecker());\n        setMaxIterations(Integer.MAX_VALUE);\n        setMaxEvaluations(Integer.MAX_VALUE);\n    }",
+    "comment": "Simple constructor. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DirectSearchOptimizer.buildSimplex",
+    "class_name": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer",
+    "signature": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer.buildSimplex(double[])",
+    "snippet": "    private void buildSimplex(final double[] startPoint)\n        throws IllegalArgumentException {\n\n        final int n = startPoint.length;\n        if (n != startConfiguration.length) {\n            throw MathRuntimeException.createIllegalArgumentException(\n                    \"dimension mismatch {0} != {1}\",\n                    n, startConfiguration.length);\n        }\n\n        // set first vertex\n        simplex = new RealPointValuePair[n + 1];\n        simplex[0] = new RealPointValuePair(startPoint, Double.NaN);\n\n        // set remaining vertices\n        for (int i = 0; i < n; ++i) {\n            final double[] confI   = startConfiguration[i];\n            final double[] vertexI = new double[n];\n            for (int k = 0; k < n; ++k) {\n                vertexI[k] = startPoint[k] + confI[k];\n            }\n            simplex[i + 1] = new RealPointValuePair(vertexI, Double.NaN);\n        }\n\n    }",
+    "comment": "Build an initial simplex. @param startPoint the start point for optimization @exception IllegalArgumentException if the start point does not match simplex dimension ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DirectSearchOptimizer.evaluate",
+    "class_name": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer",
+    "signature": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer.evaluate(double[])",
+    "snippet": "    protected double evaluate(final double[] x)\n        throws FunctionEvaluationException, IllegalArgumentException {\n        if (++evaluations > maxEvaluations) {\n            throw new FunctionEvaluationException(new MaxEvaluationsExceededException(maxEvaluations),\n                                                  x);\n        }\n        return f.value(x);\n    }",
+    "comment": "Evaluate the objective function on one point. <p>A side effect of this method is to count the number of function evaluations</p> @param x point on which the objective function should be evaluated @return objective function value at the given point @exception FunctionEvaluationException if no value can be computed for the parameters or if the maximal number of evaluations is exceeded @exception IllegalArgumentException if the start point dimension is wrong ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DirectSearchOptimizer.evaluateSimplex",
+    "class_name": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer",
+    "signature": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer.evaluateSimplex(Comparator)",
+    "snippet": "    protected void evaluateSimplex(final Comparator<RealPointValuePair> comparator)\n        throws FunctionEvaluationException, OptimizationException {\n\n        // evaluate the objective function at all non-evaluated simplex points\n        for (int i = 0; i < simplex.length; ++i) {\n            final RealPointValuePair vertex = simplex[i];\n            final double[] point = vertex.getPointRef();\n            if (Double.isNaN(vertex.getValue())) {\n                simplex[i] = new RealPointValuePair(point, evaluate(point), false);\n            }\n        }\n\n        // sort the simplex from best to worst\n        Arrays.sort(simplex, comparator);\n\n    }",
+    "comment": "Evaluate all the non-evaluated points of the simplex. @param comparator comparator to use to sort simplex vertices from best to worst @exception FunctionEvaluationException if no value can be computed for the parameters @exception OptimizationException if the maximal number of evaluations is exceeded ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DirectSearchOptimizer.getEvaluations",
+    "class_name": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer",
+    "signature": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer.getEvaluations()",
+    "snippet": "    public int getEvaluations() {\n        return evaluations;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DirectSearchOptimizer.incrementIterationsCounter",
+    "class_name": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer",
+    "signature": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer.incrementIterationsCounter()",
+    "snippet": "    protected void incrementIterationsCounter()\n        throws OptimizationException {\n        if (++iterations > maxIterations) {\n            throw new OptimizationException(new MaxIterationsExceededException(maxIterations));\n        }\n    }",
+    "comment": "Increment the iterations counter by 1. @exception OptimizationException if the maximal number of iterations is exceeded ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DirectSearchOptimizer.optimize",
+    "class_name": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer",
+    "signature": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer.optimize(MultivariateRealFunction,GoalType,double[])",
+    "snippet": "    public RealPointValuePair optimize(final MultivariateRealFunction f,\n                                         final GoalType goalType,\n                                         final double[] startPoint)\n        throws FunctionEvaluationException, OptimizationException,\n        IllegalArgumentException {\n\n        if (startConfiguration == null) {\n            // no initial configuration has been set up for simplex\n            // build a default one from a unit hypercube\n            final double[] unit = new double[startPoint.length];\n            Arrays.fill(unit, 1.0);\n            setStartConfiguration(unit);\n        }\n\n        this.f = f;\n        final Comparator<RealPointValuePair> comparator =\n            new Comparator<RealPointValuePair>() {\n                public int compare(final RealPointValuePair o1,\n                                   final RealPointValuePair o2) {\n                    final double v1 = o1.getValue();\n                    final double v2 = o2.getValue();\n                    return (goalType == GoalType.MINIMIZE) ?\n                            Double.compare(v1, v2) : Double.compare(v2, v1);\n                }\n            };\n\n        // initialize search\n        iterations  = 0;\n        evaluations = 0;\n        buildSimplex(startPoint);\n        evaluateSimplex(comparator);\n\n        RealPointValuePair[] previous = new RealPointValuePair[simplex.length];\n        while (true) {\n\n            if (iterations > 0) {\n                boolean converged = true;\n                for (int i = 0; i < simplex.length; ++i) {\n                    converged &= checker.converged(iterations, previous[i], simplex[i]);\n                }\n                if (converged) {\n                    // we have found an optimum\n                    return simplex[0];\n                }\n            }\n\n            // we still need to search\n            System.arraycopy(simplex, 0, previous, 0, simplex.length);\n            iterateSimplex(comparator);\n\n        }\n\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DirectSearchOptimizer.setConvergenceChecker",
+    "class_name": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer",
+    "signature": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer.setConvergenceChecker(RealConvergenceChecker)",
+    "snippet": "    public void setConvergenceChecker(RealConvergenceChecker checker) {\n        this.checker = checker;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DirectSearchOptimizer.setMaxEvaluations",
+    "class_name": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer",
+    "signature": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer.setMaxEvaluations(int)",
+    "snippet": "    public void setMaxEvaluations(int maxEvaluations) {\n        this.maxEvaluations = maxEvaluations;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DirectSearchOptimizer.setMaxIterations",
+    "class_name": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer",
+    "signature": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer.setMaxIterations(int)",
+    "snippet": "    public void setMaxIterations(int maxIterations) {\n        this.maxIterations = maxIterations;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DirectSearchOptimizer.setStartConfiguration",
+    "class_name": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer",
+    "signature": "org.apache.commons.math.optimization.direct.DirectSearchOptimizer.setStartConfiguration(double[])",
+    "snippet": "    public void setStartConfiguration(final double[] steps)\n        throws IllegalArgumentException {\n        // only the relative position of the n final vertices with respect\n        // to the first one are stored\n        final int n = steps.length;\n        startConfiguration = new double[n][n];\n        for (int i = 0; i < n; ++i) {\n            final double[] vertexI = startConfiguration[i];\n            for (int j = 0; j < i + 1; ++j) {\n                if (steps[j] == 0.0) {\n                    throw MathRuntimeException.createIllegalArgumentException(\n                            \"equals vertices {0} and {1} in simplex configuration\",\n                            j, j + 1);\n                }\n                System.arraycopy(steps, 0, vertexI, 0, j + 1);\n            }\n        }\n    }",
+    "comment": "Set start configuration for simplex. <p>The start configuration for simplex is built from a box parallel to the canonical axes of the space. The simplex is the subset of vertices of a box parallel to the canonical axes. It is built as the path followed while traveling from one vertex of the box to the diagonally opposite vertex moving only along the box edges. The first vertex of the box will be located at the start point of the optimization.</p> <p>As an example, in dimension 3 a simplex has 4 vertices. Setting the steps to (1, 10, 2) and the start point to (1, 1, 1) would imply the start simplex would be: { (1, 1, 1), (2, 1, 1), (2, 11, 1), (2, 11, 3) }. The first vertex would be set to the start point at (1, 1, 1) and the last vertex would be set to the diagonally opposite vertex at (2, 11, 3).</p> @param steps steps along the canonical axes representing box edges, they may be negative but not null @exception IllegalArgumentException if one step is null ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MultiDirectional.MultiDirectional",
+    "class_name": "org.apache.commons.math.optimization.direct.MultiDirectional",
+    "signature": "org.apache.commons.math.optimization.direct.MultiDirectional.MultiDirectional()",
+    "snippet": "    public MultiDirectional() {\n        this.khi   = 2.0;\n        this.gamma = 0.5;\n    }",
+    "comment": "Build a multi-directional optimizer with default coefficients. <p>The default values are 2.0 for khi and 0.5 for gamma.</p> ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MultiDirectional.evaluateNewSimplex",
+    "class_name": "org.apache.commons.math.optimization.direct.MultiDirectional",
+    "signature": "org.apache.commons.math.optimization.direct.MultiDirectional.evaluateNewSimplex(RealPointValuePair[],double,Comparator)",
+    "snippet": "    private RealPointValuePair evaluateNewSimplex(final RealPointValuePair[] original,\n                                              final double coeff,\n                                              final Comparator<RealPointValuePair> comparator)\n        throws FunctionEvaluationException, OptimizationException {\n\n        final double[] xSmallest = original[0].getPointRef();\n        final int n = xSmallest.length;\n\n        // create the linearly transformed simplex\n        simplex = new RealPointValuePair[n + 1];\n        simplex[0] = original[0];\n        for (int i = 1; i <= n; ++i) {\n            final double[] xOriginal    = original[i].getPointRef();\n            final double[] xTransformed = new double[n];\n            for (int j = 0; j < n; ++j) {\n                xTransformed[j] = xSmallest[j] + coeff * (xSmallest[j] - xOriginal[j]);\n            }\n            simplex[i] = new RealPointValuePair(xTransformed, Double.NaN, false);\n        }\n\n        // evaluate it\n        evaluateSimplex(comparator);\n        return simplex[0];\n\n    }",
+    "comment": "Compute and evaluate a new simplex. @param original original simplex (to be preserved) @param coeff linear coefficient @param comparator comparator to use to sort simplex vertices from best to poorest @return best point in the transformed simplex @exception FunctionEvaluationException if the function cannot be evaluated at some point @exception OptimizationException if the maximal number of evaluations is exceeded ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MultiDirectional.iterateSimplex",
+    "class_name": "org.apache.commons.math.optimization.direct.MultiDirectional",
+    "signature": "org.apache.commons.math.optimization.direct.MultiDirectional.iterateSimplex(Comparator)",
+    "snippet": "    @Override\n    protected void iterateSimplex(final Comparator<RealPointValuePair> comparator)\n        throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {\n\n        while (true) {\n\n            incrementIterationsCounter();\n\n            // save the original vertex\n            final RealPointValuePair[] original = simplex;\n            final RealPointValuePair best = original[0];\n\n            // perform a reflection step\n            final RealPointValuePair reflected = evaluateNewSimplex(original, 1.0, comparator);\n            if (comparator.compare(reflected, best) < 0) {\n\n                // compute the expanded simplex\n                final RealPointValuePair[] reflectedSimplex = simplex;\n                final RealPointValuePair expanded = evaluateNewSimplex(original, khi, comparator);\n                if (comparator.compare(reflected, expanded) <= 0) {\n                    // accept the reflected simplex\n                    simplex = reflectedSimplex;\n                }\n\n                return;\n\n            }\n\n            // compute the contracted simplex\n            final RealPointValuePair contracted = evaluateNewSimplex(original, gamma, comparator);\n            if (comparator.compare(contracted, best) < 0) {\n                // accept the contracted simplex\n\n            // check convergence\n                return;\n            }\n\n        }\n\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  }
+]

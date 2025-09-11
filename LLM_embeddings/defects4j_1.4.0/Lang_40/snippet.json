@@ -1,0 +1,22 @@
+[
+  {
+    "name": "StringUtils.contains",
+    "class_name": "org.apache.commons.lang.StringUtils",
+    "signature": "org.apache.commons.lang.StringUtils.contains(String,String)",
+    "snippet": "    public static boolean contains(String str, String searchStr) {\n        if (str == null || searchStr == null) {\n            return false;\n        }\n        return str.indexOf(searchStr) >= 0;\n    }",
+    "comment": " <p>Checks if String contains a search String, handling <code>null</code>. This method uses {@link String#indexOf(String)}.</p>  <p>A <code>null</code> String will return <code>false</code>.</p>  <pre> StringUtils.contains(null, *)     = false StringUtils.contains(*, null)     = false StringUtils.contains(\"\", \"\")      = true StringUtils.contains(\"abc\", \"\")   = true StringUtils.contains(\"abc\", \"a\")  = true StringUtils.contains(\"abc\", \"z\")  = false </pre>  @param str  the String to check, may be null @param searchStr  the String to find, may be null @return true if the String contains the search String, false if not or <code>null</code> string input @since 2.0 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StringUtils.containsIgnoreCase",
+    "class_name": "org.apache.commons.lang.StringUtils",
+    "signature": "org.apache.commons.lang.StringUtils.containsIgnoreCase(String,String)",
+    "snippet": "    public static boolean containsIgnoreCase(String str, String searchStr) {\n        if (str == null || searchStr == null) {\n            return false;\n        }\n        return contains(str.toUpperCase(), searchStr.toUpperCase());\n    }",
+    "comment": " <p>Checks if String contains a search String irrespective of case, handling <code>null</code>. Case-insensitivity is defined as by {@link String#equalsIgnoreCase(String)}.  <p>A <code>null</code> String will return <code>false</code>.</p>  <pre> StringUtils.contains(null, *) = false StringUtils.contains(*, null) = false StringUtils.contains(\"\", \"\") = true StringUtils.contains(\"abc\", \"\") = true StringUtils.contains(\"abc\", \"a\") = true StringUtils.contains(\"abc\", \"z\") = false StringUtils.contains(\"abc\", \"A\") = true StringUtils.contains(\"abc\", \"Z\") = false </pre>  @param str  the String to check, may be null @param searchStr  the String to find, may be null @return true if the String contains the search String irrespective of case or false if not or <code>null</code> string input ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

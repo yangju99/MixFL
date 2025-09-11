@@ -1,0 +1,52 @@
+[
+  {
+    "name": "StopWatch.StopWatch",
+    "class_name": "org.apache.commons.lang.time.StopWatch",
+    "signature": "org.apache.commons.lang.time.StopWatch.StopWatch()",
+    "snippet": "    public StopWatch() {\n        super();\n    }",
+    "comment": " <p>Constructor.</p> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StopWatch.getTime",
+    "class_name": "org.apache.commons.lang.time.StopWatch",
+    "signature": "org.apache.commons.lang.time.StopWatch.getTime()",
+    "snippet": "    public long getTime() {\n        if(this.runningState == STATE_STOPPED || this.runningState == STATE_SUSPENDED) {\n            return this.stopTime - this.startTime;\n        } else\n        if(this.runningState == STATE_UNSTARTED) {\n            return 0;\n        } else\n        if(this.runningState == STATE_RUNNING) {\n            return System.currentTimeMillis() - this.startTime;\n        }\n        throw new RuntimeException(\"Illegal running state has occured. \");\n    }",
+    "comment": " <p>Get the time on the stopwatch.</p>  <p>This is either the time between the start and the moment this method  is called, or the amount of time between start and stop.</p>  @return the time in milliseconds ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StopWatch.start",
+    "class_name": "org.apache.commons.lang.time.StopWatch",
+    "signature": "org.apache.commons.lang.time.StopWatch.start()",
+    "snippet": "    public void start() {\n        if(this.runningState == STATE_STOPPED) {\n            throw new IllegalStateException(\"Stopwatch must be reset before being restarted. \");\n        }\n        if(this.runningState != STATE_UNSTARTED) {\n            throw new IllegalStateException(\"Stopwatch already started. \");\n        }\n        stopTime = -1;\n        startTime = System.currentTimeMillis();\n        this.runningState = STATE_RUNNING;\n    }",
+    "comment": " <p>Start the stopwatch.</p>  <p>This method starts a new timing session, clearing any previous values.</p>  @throws IllegalStateException if the StopWatch is already running. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StopWatch.stop",
+    "class_name": "org.apache.commons.lang.time.StopWatch",
+    "signature": "org.apache.commons.lang.time.StopWatch.stop()",
+    "snippet": "    public void stop() {\n        if(this.runningState != STATE_RUNNING && this.runningState != STATE_SUSPENDED) {\n            throw new IllegalStateException(\"Stopwatch is not running. \");\n        }\n            stopTime = System.currentTimeMillis();\n        this.runningState = STATE_STOPPED;\n    }",
+    "comment": " <p>Stop the stopwatch.</p>  <p>This method ends a new timing session, allowing the time to be retrieved.</p>  @throws IllegalStateException if the StopWatch is not running. ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StopWatch.suspend",
+    "class_name": "org.apache.commons.lang.time.StopWatch",
+    "signature": "org.apache.commons.lang.time.StopWatch.suspend()",
+    "snippet": "    public void suspend() {\n        if(this.runningState != STATE_RUNNING) {\n            throw new IllegalStateException(\"Stopwatch must be running to suspend. \");\n        }\n        stopTime = System.currentTimeMillis();\n        this.runningState = STATE_SUSPENDED;\n    }",
+    "comment": " <p>Suspend the stopwatch for later resumption.</p>  <p>This method suspends the watch until it is resumed. The watch will not include time between the suspend and resume calls in the total time.</p>  @throws IllegalStateException if the StopWatch is not currently running. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

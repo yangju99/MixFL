@@ -1,0 +1,912 @@
+[
+  {
+    "name": "ChartColor.createDefaultPaintArray",
+    "class_name": "org.jfree.chart.ChartColor",
+    "signature": "org.jfree.chart.ChartColor.createDefaultPaintArray()",
+    "snippet": "    public static Paint[] createDefaultPaintArray() {\n\n        return new Paint[] {\n            new Color(0xFF, 0x55, 0x55),\n            new Color(0x55, 0x55, 0xFF),\n            new Color(0x55, 0xFF, 0x55),\n            new Color(0xFF, 0xFF, 0x55),\n            new Color(0xFF, 0x55, 0xFF),\n            new Color(0x55, 0xFF, 0xFF),\n            Color.pink,\n            Color.gray,\n            ChartColor.DARK_RED,\n            ChartColor.DARK_BLUE,\n            ChartColor.DARK_GREEN,\n            ChartColor.DARK_YELLOW,\n            ChartColor.DARK_MAGENTA,\n            ChartColor.DARK_CYAN,\n            Color.darkGray,\n            ChartColor.LIGHT_RED,\n            ChartColor.LIGHT_BLUE,\n            ChartColor.LIGHT_GREEN,\n            ChartColor.LIGHT_YELLOW,\n            ChartColor.LIGHT_MAGENTA,\n            ChartColor.LIGHT_CYAN,\n            Color.lightGray,\n            ChartColor.VERY_DARK_RED,\n            ChartColor.VERY_DARK_BLUE,\n            ChartColor.VERY_DARK_GREEN,\n            ChartColor.VERY_DARK_YELLOW,\n            ChartColor.VERY_DARK_MAGENTA,\n            ChartColor.VERY_DARK_CYAN,\n            ChartColor.VERY_LIGHT_RED,\n            ChartColor.VERY_LIGHT_BLUE,\n            ChartColor.VERY_LIGHT_GREEN,\n            ChartColor.VERY_LIGHT_YELLOW,\n            ChartColor.VERY_LIGHT_MAGENTA,\n            ChartColor.VERY_LIGHT_CYAN\n        };\n    }",
+    "comment": " Convenience method to return an array of <code>Paint</code> objects that represent the pre-defined colors in the <code>Color<code> and <code>ChartColor</code> objects.  @return An array of objects with the <code>Paint</code> interface. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LegendItemCollection.LegendItemCollection",
+    "class_name": "org.jfree.chart.LegendItemCollection",
+    "signature": "org.jfree.chart.LegendItemCollection.LegendItemCollection()",
+    "snippet": "    public LegendItemCollection() {\n        this.items = new java.util.ArrayList();\n    }",
+    "comment": " Constructs a new legend item collection, initially empty. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LegendItemCollection.getItemCount",
+    "class_name": "org.jfree.chart.LegendItemCollection",
+    "signature": "org.jfree.chart.LegendItemCollection.getItemCount()",
+    "snippet": "    public int getItemCount() {\n        return this.items.size();\n    }",
+    "comment": " Returns the number of legend items in the collection.  @return The item count. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ChartChangeEvent.ChartChangeEvent",
+    "class_name": "org.jfree.chart.event.ChartChangeEvent",
+    "signature": "org.jfree.chart.event.ChartChangeEvent.ChartChangeEvent(Object)",
+    "snippet": "    public ChartChangeEvent(Object source) {\n        this(source, null, ChartChangeEventType.GENERAL);\n    }",
+    "comment": " Creates a new chart change event.  @param source  the source of the event (could be the chart, a title, an axis etc.) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ChartChangeEvent.ChartChangeEvent",
+    "class_name": "org.jfree.chart.event.ChartChangeEvent",
+    "signature": "org.jfree.chart.event.ChartChangeEvent.ChartChangeEvent(Object,JFreeChart,ChartChangeEventType)",
+    "snippet": "    public ChartChangeEvent(Object source, JFreeChart chart,\n                            ChartChangeEventType type) {\n        super(source);\n        this.chart = chart;\n        this.type = type;\n    }",
+    "comment": " Creates a new chart change event.  @param source  the source of the event (could be the chart, a title, an axis etc.) @param chart  the chart that generated the event. @param type  the type of event. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ChartChangeEvent.setType",
+    "class_name": "org.jfree.chart.event.ChartChangeEvent",
+    "signature": "org.jfree.chart.event.ChartChangeEvent.setType(ChartChangeEventType)",
+    "snippet": "    public void setType(ChartChangeEventType type) {\n        this.type = type;\n    }",
+    "comment": " Sets the event type.  @param type  the event type. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "PlotChangeEvent.PlotChangeEvent",
+    "class_name": "org.jfree.chart.event.PlotChangeEvent",
+    "signature": "org.jfree.chart.event.PlotChangeEvent.PlotChangeEvent(Plot)",
+    "snippet": "    public PlotChangeEvent(Plot plot) {\n        super(plot);\n        this.plot = plot;\n    }",
+    "comment": " Creates a new PlotChangeEvent.  @param plot  the plot that generated the event. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ItemLabelPosition.ItemLabelPosition",
+    "class_name": "org.jfree.chart.labels.ItemLabelPosition",
+    "signature": "org.jfree.chart.labels.ItemLabelPosition.ItemLabelPosition(ItemLabelAnchor,TextAnchor)",
+    "snippet": "    public ItemLabelPosition(ItemLabelAnchor itemLabelAnchor,\n                             TextAnchor textAnchor) {\n        this(itemLabelAnchor, textAnchor, TextAnchor.CENTER, 0.0);\n    }",
+    "comment": " Creates a new position record (with zero rotation).  @param itemLabelAnchor  the item label anchor (<code>null</code> not permitted). @param textAnchor  the text anchor (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ItemLabelPosition.ItemLabelPosition",
+    "class_name": "org.jfree.chart.labels.ItemLabelPosition",
+    "signature": "org.jfree.chart.labels.ItemLabelPosition.ItemLabelPosition(ItemLabelAnchor,TextAnchor,TextAnchor,double)",
+    "snippet": "    public ItemLabelPosition(ItemLabelAnchor itemLabelAnchor,\n                             TextAnchor textAnchor,\n                             TextAnchor rotationAnchor,\n                             double angle) {\n\n        if (itemLabelAnchor == null) {\n            throw new IllegalArgumentException(\n                    \"Null 'itemLabelAnchor' argument.\");\n        }\n        if (textAnchor == null) {\n            throw new IllegalArgumentException(\"Null 'textAnchor' argument.\");\n        }\n        if (rotationAnchor == null) {\n            throw new IllegalArgumentException(\n                    \"Null 'rotationAnchor' argument.\");\n        }\n\n        this.itemLabelAnchor = itemLabelAnchor;\n        this.textAnchor = textAnchor;\n        this.rotationAnchor = rotationAnchor;\n        this.angle = angle;\n\n    }",
+    "comment": " Creates a new position record.  The item label anchor is a point relative to the data item (dot, bar or other visual item) on a chart. The item label is aligned by aligning the text anchor with the item label anchor.  @param itemLabelAnchor  the item label anchor (<code>null</code> not permitted). @param textAnchor  the text anchor (<code>null</code> not permitted). @param rotationAnchor  the rotation anchor (<code>null</code> not permitted). @param angle  the rotation angle (in radians). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StandardCategorySeriesLabelGenerator.StandardCategorySeriesLabelGenerator",
+    "class_name": "org.jfree.chart.labels.StandardCategorySeriesLabelGenerator",
+    "signature": "org.jfree.chart.labels.StandardCategorySeriesLabelGenerator.StandardCategorySeriesLabelGenerator()",
+    "snippet": "    public StandardCategorySeriesLabelGenerator() {\n        this(DEFAULT_LABEL_FORMAT);\n    }",
+    "comment": " Creates a default series label generator (uses {@link #DEFAULT_LABEL_FORMAT}). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StandardCategorySeriesLabelGenerator.StandardCategorySeriesLabelGenerator",
+    "class_name": "org.jfree.chart.labels.StandardCategorySeriesLabelGenerator",
+    "signature": "org.jfree.chart.labels.StandardCategorySeriesLabelGenerator.StandardCategorySeriesLabelGenerator(String)",
+    "snippet": "    public StandardCategorySeriesLabelGenerator(String format) {\n        if (format == null) {\n            throw new IllegalArgumentException(\"Null 'format' argument.\");\n        }\n        this.formatPattern = format;\n    }",
+    "comment": " Creates a new series label generator.  @param format  the format pattern (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.CategoryPlot",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.CategoryPlot()",
+    "snippet": "    public CategoryPlot() {\n        this(null, null, null, null);\n    }",
+    "comment": " Default constructor. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.CategoryPlot",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.CategoryPlot(CategoryDataset,CategoryAxis,ValueAxis,CategoryItemRenderer)",
+    "snippet": "    public CategoryPlot(CategoryDataset dataset,\n                        CategoryAxis domainAxis,\n                        ValueAxis rangeAxis,\n                        CategoryItemRenderer renderer) {\n\n        super();\n\n        this.orientation = PlotOrientation.VERTICAL;\n\n        // allocate storage for dataset, axes and renderers\n        this.domainAxes = new ObjectList();\n        this.domainAxisLocations = new ObjectList();\n        this.rangeAxes = new ObjectList();\n        this.rangeAxisLocations = new ObjectList();\n\n        this.datasetToDomainAxesMap = new TreeMap();\n        this.datasetToRangeAxesMap = new TreeMap();\n\n        this.renderers = new ObjectList();\n\n        this.datasets = new ObjectList();\n        this.datasets.set(0, dataset);\n        if (dataset != null) {\n            dataset.addChangeListener(this);\n        }\n\n        this.axisOffset = new RectangleInsets(4.0, 4.0, 4.0, 4.0);\n\n        setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT, false);\n        setRangeAxisLocation(AxisLocation.TOP_OR_LEFT, false);\n\n        this.renderers.set(0, renderer);\n        if (renderer != null) {\n            renderer.setPlot(this);\n            renderer.addChangeListener(this);\n        }\n\n        this.domainAxes.set(0, domainAxis);\n        this.mapDatasetToDomainAxis(0, 0);\n        if (domainAxis != null) {\n            domainAxis.setPlot(this);\n            domainAxis.addChangeListener(this);\n        }\n        this.drawSharedDomainAxis = false;\n\n        this.rangeAxes.set(0, rangeAxis);\n        this.mapDatasetToRangeAxis(0, 0);\n        if (rangeAxis != null) {\n            rangeAxis.setPlot(this);\n            rangeAxis.addChangeListener(this);\n        }\n\n        configureDomainAxes();\n        configureRangeAxes();\n\n        this.domainGridlinesVisible = DEFAULT_DOMAIN_GRIDLINES_VISIBLE;\n        this.domainGridlinePosition = CategoryAnchor.MIDDLE;\n        this.domainGridlineStroke = DEFAULT_GRIDLINE_STROKE;\n        this.domainGridlinePaint = DEFAULT_GRIDLINE_PAINT;\n\n        this.rangeZeroBaselineVisible = false;\n        this.rangeZeroBaselinePaint = Color.black;\n        this.rangeZeroBaselineStroke = new BasicStroke(0.5f);\n\n        this.rangeGridlinesVisible = DEFAULT_RANGE_GRIDLINES_VISIBLE;\n        this.rangeGridlineStroke = DEFAULT_GRIDLINE_STROKE;\n        this.rangeGridlinePaint = DEFAULT_GRIDLINE_PAINT;\n\n        this.rangeMinorGridlinesVisible = false;\n        this.rangeMinorGridlineStroke = DEFAULT_GRIDLINE_STROKE;\n        this.rangeMinorGridlinePaint = Color.white;\n\n        this.foregroundDomainMarkers = new HashMap();\n        this.backgroundDomainMarkers = new HashMap();\n        this.foregroundRangeMarkers = new HashMap();\n        this.backgroundRangeMarkers = new HashMap();\n\n        this.anchorValue = 0.0;\n\n        this.domainCrosshairVisible = false;\n        this.domainCrosshairStroke = DEFAULT_CROSSHAIR_STROKE;\n        this.domainCrosshairPaint = DEFAULT_CROSSHAIR_PAINT;\n\n        this.rangeCrosshairVisible = DEFAULT_CROSSHAIR_VISIBLE;\n        this.rangeCrosshairValue = 0.0;\n        this.rangeCrosshairStroke = DEFAULT_CROSSHAIR_STROKE;\n        this.rangeCrosshairPaint = DEFAULT_CROSSHAIR_PAINT;\n\n        this.annotations = new java.util.ArrayList();\n\n        this.rangePannable = false;\n        this.shadowGenerator = new DefaultShadowGenerator();\n    }",
+    "comment": " Creates a new plot.  @param dataset  the dataset (<code>null</code> permitted). @param domainAxis  the domain axis (<code>null</code> permitted). @param rangeAxis  the range axis (<code>null</code> permitted). @param renderer  the item renderer (<code>null</code> permitted).  ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.checkAxisIndices",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.checkAxisIndices(List)",
+    "snippet": "    private void checkAxisIndices(List indices) {\n        // axisIndices can be:\n        // 1.  null;\n        // 2.  non-empty, containing only Integer objects that are unique.\n        if (indices == null) {\n            return;  // OK\n        }\n        int count = indices.size();\n        if (count == 0) {\n            throw new IllegalArgumentException(\"Empty list not permitted.\");\n        }\n        HashSet set = new HashSet();\n        for (int i = 0; i < count; i++) {\n            Object item = indices.get(i);\n            if (!(item instanceof Integer)) {\n                throw new IllegalArgumentException(\n                        \"Indices must be Integer instances.\");\n            }\n            if (set.contains(item)) {\n                throw new IllegalArgumentException(\"Indices must be unique.\");\n            }\n            set.add(item);\n        }\n    }",
+    "comment": " This method is used to perform argument checking on the list of axis indices passed to mapDatasetToDomainAxes() and mapDatasetToRangeAxes().  @param indices  the list of indices (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.configureDomainAxes",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.configureDomainAxes()",
+    "snippet": "    public void configureDomainAxes() {\n        for (int i = 0; i < this.domainAxes.size(); i++) {\n            CategoryAxis axis = (CategoryAxis) this.domainAxes.get(i);\n            if (axis != null) {\n                axis.configure();\n            }\n        }\n    }",
+    "comment": " Configures the domain axes. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.configureRangeAxes",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.configureRangeAxes()",
+    "snippet": "    public void configureRangeAxes() {\n        for (int i = 0; i < this.rangeAxes.size(); i++) {\n            ValueAxis axis = (ValueAxis) this.rangeAxes.get(i);\n            if (axis != null) {\n                axis.configure();\n            }\n        }\n    }",
+    "comment": " Configures the range axes. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.datasetChanged",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.datasetChanged(DatasetChangeEvent)",
+    "snippet": "    public void datasetChanged(DatasetChangeEvent event) {\n\n        int count = this.rangeAxes.size();\n        for (int axisIndex = 0; axisIndex < count; axisIndex++) {\n            ValueAxis yAxis = getRangeAxis(axisIndex);\n            if (yAxis != null) {\n                yAxis.configure();\n            }\n        }\n        if (getParent() != null) {\n            getParent().datasetChanged(event);\n        }\n        else {\n            PlotChangeEvent e = new PlotChangeEvent(this);\n            e.setType(ChartChangeEventType.DATASET_UPDATED);\n            notifyListeners(e);\n        }\n\n    }",
+    "comment": " Receives notification of a change to the plot's dataset. <P> The range axis bounds will be recalculated if necessary.  @param event  information about the event (not used here). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.getDataset",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.getDataset(int)",
+    "snippet": "    public CategoryDataset getDataset(int index) {\n        CategoryDataset result = null;\n        if (this.datasets.size() > index) {\n            result = (CategoryDataset) this.datasets.get(index);\n        }\n        return result;\n    }",
+    "comment": " Returns the dataset at the given index.  @param index  the dataset index.  @return The dataset (possibly <code>null</code>).  @see #setDataset(int, CategoryDataset) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.getIndexOf",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.getIndexOf(CategoryItemRenderer)",
+    "snippet": "    public int getIndexOf(CategoryItemRenderer renderer) {\n        return this.renderers.indexOf(renderer);\n    }",
+    "comment": " Returns the index of the specified renderer, or <code>-1</code> if the renderer is not assigned to this plot.  @param renderer  the renderer (<code>null</code> permitted).  @return The renderer index. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.getRangeAxis",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.getRangeAxis(int)",
+    "snippet": "    public ValueAxis getRangeAxis(int index) {\n        ValueAxis result = null;\n        if (index < this.rangeAxes.size()) {\n            result = (ValueAxis) this.rangeAxes.get(index);\n        }\n        if (result == null) {\n            Plot parent = getParent();\n            if (parent instanceof CategoryPlot) {\n                CategoryPlot cp = (CategoryPlot) parent;\n                result = cp.getRangeAxis(index);\n            }\n        }\n        return result;\n    }",
+    "comment": " Returns a range axis.  @param index  the axis index.  @return The axis (<code>null</code> possible). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.mapDatasetToDomainAxes",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.mapDatasetToDomainAxes(int,List)",
+    "snippet": "    public void mapDatasetToDomainAxes(int index, List axisIndices) {\n        if (index < 0) {\n            throw new IllegalArgumentException(\"Requires 'index' >= 0.\");\n        }\n        checkAxisIndices(axisIndices);\n        Integer key = new Integer(index);\n        this.datasetToDomainAxesMap.put(key, new ArrayList(axisIndices));\n        // fake a dataset change event to update axes...\n        datasetChanged(new DatasetChangeEvent(this, getDataset(index),\n                new DatasetChangeInfo()));\n        // TODO: fill in real dataset change info\n    }",
+    "comment": " Maps the specified dataset to the axes in the list.  Note that the conversion of data values into Java2D space is always performed using the first axis in the list.  @param index  the dataset index (zero-based). @param axisIndices  the axis indices (<code>null</code> permitted).  @since 1.0.12 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.mapDatasetToDomainAxis",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.mapDatasetToDomainAxis(int,int)",
+    "snippet": "    public void mapDatasetToDomainAxis(int index, int axisIndex) {\n        List axisIndices = new java.util.ArrayList(1);\n        axisIndices.add(new Integer(axisIndex));\n        mapDatasetToDomainAxes(index, axisIndices);\n    }",
+    "comment": " Maps a dataset to a particular domain axis.  @param index  the dataset index (zero-based). @param axisIndex  the axis index (zero-based).  @see #getDomainAxisForDataset(int) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.mapDatasetToRangeAxes",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.mapDatasetToRangeAxes(int,List)",
+    "snippet": "    public void mapDatasetToRangeAxes(int index, List axisIndices) {\n        if (index < 0) {\n            throw new IllegalArgumentException(\"Requires 'index' >= 0.\");\n        }\n        checkAxisIndices(axisIndices);\n        Integer key = new Integer(index);\n        this.datasetToRangeAxesMap.put(key, new ArrayList(axisIndices));\n        // fake a dataset change event to update axes...\n        datasetChanged(new DatasetChangeEvent(this, getDataset(index),\n                new DatasetChangeInfo()));\n\n        // TODO: fill in real dataset change info\n    }",
+    "comment": " Maps the specified dataset to the axes in the list.  Note that the conversion of data values into Java2D space is always performed using the first axis in the list.  @param index  the dataset index (zero-based). @param axisIndices  the axis indices (<code>null</code> permitted).  @since 1.0.12 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.mapDatasetToRangeAxis",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.mapDatasetToRangeAxis(int,int)",
+    "snippet": "    public void mapDatasetToRangeAxis(int index, int axisIndex) {\n        List axisIndices = new java.util.ArrayList(1);\n        axisIndices.add(new Integer(axisIndex));\n        mapDatasetToRangeAxes(index, axisIndices);\n    }",
+    "comment": " Maps a dataset to a particular range axis.  @param index  the dataset index (zero-based). @param axisIndex  the axis index (zero-based).  @see #getRangeAxisForDataset(int) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.setDataset",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.setDataset(CategoryDataset)",
+    "snippet": "    public void setDataset(CategoryDataset dataset) {\n        setDataset(0, dataset);\n    }",
+    "comment": " Sets the dataset for the plot, replacing the existing dataset, if there is one.  This method also calls the {@link #datasetChanged(DatasetChangeEvent)} method, which adjusts the axis ranges if necessary and sends a {@link PlotChangeEvent} to all registered listeners.  @param dataset  the dataset (<code>null</code> permitted).  @see #getDataset() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.setDataset",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.setDataset(int,CategoryDataset)",
+    "snippet": "    public void setDataset(int index, CategoryDataset dataset) {\n\n        CategoryDataset existing = (CategoryDataset) this.datasets.get(index);\n        if (existing != null) {\n            existing.removeChangeListener(this);\n        }\n        this.datasets.set(index, dataset);\n        if (dataset != null) {\n            dataset.addChangeListener(this);\n        }\n\n        // send a dataset change event to self...\n        DatasetChangeEvent event = new DatasetChangeEvent(this, dataset,\n                new DatasetChangeInfo());\n        // TODO: fill in real dataset change info\n        datasetChanged(event);\n\n    }",
+    "comment": " Sets a dataset for the plot.  @param index  the dataset index. @param dataset  the dataset (<code>null</code> permitted).  @see #getDataset(int) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.setDomainAxisLocation",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.setDomainAxisLocation(AxisLocation,boolean)",
+    "snippet": "    public void setDomainAxisLocation(AxisLocation location, boolean notify) {\n        // delegate...\n        setDomainAxisLocation(0, location, notify);\n    }",
+    "comment": " Sets the location of the domain axis and, if requested, sends a {@link PlotChangeEvent} to all registered listeners.  @param location  the axis location (<code>null</code> not permitted). @param notify  a flag that controls whether listeners are notified. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.setDomainAxisLocation",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.setDomainAxisLocation(int,AxisLocation,boolean)",
+    "snippet": "    public void setDomainAxisLocation(int index, AxisLocation location,\n            boolean notify) {\n        if (index == 0 && location == null) {\n            throw new IllegalArgumentException(\n                    \"Null 'location' for index 0 not permitted.\");\n        }\n        this.domainAxisLocations.set(index, location);\n        if (notify) {\n            fireChangeEvent();\n        }\n    }",
+    "comment": " Sets the location for a domain axis and sends a {@link PlotChangeEvent} to all registered listeners.  @param index  the axis index. @param location  the location. @param notify  notify listeners?  @since 1.0.5  @see #getDomainAxisLocation(int) @see #setRangeAxisLocation(int, AxisLocation, boolean) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.setRangeAxisLocation",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.setRangeAxisLocation(AxisLocation,boolean)",
+    "snippet": "    public void setRangeAxisLocation(AxisLocation location, boolean notify) {\n        setRangeAxisLocation(0, location, notify);\n    }",
+    "comment": " Sets the location of the range axis and, if requested, sends a {@link PlotChangeEvent} to all registered listeners.  @param location  the location (<code>null</code> not permitted). @param notify  notify listeners?  @see #setDomainAxisLocation(AxisLocation, boolean) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.setRangeAxisLocation",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.setRangeAxisLocation(int,AxisLocation,boolean)",
+    "snippet": "    public void setRangeAxisLocation(int index, AxisLocation location,\n                                     boolean notify) {\n        if (index == 0 && location == null) {\n            throw new IllegalArgumentException(\n                    \"Null 'location' for index 0 not permitted.\");\n        }\n        this.rangeAxisLocations.set(index, location);\n        if (notify) {\n            fireChangeEvent();\n        }\n    }",
+    "comment": " Sets the location for a range axis and sends a {@link PlotChangeEvent} to all registered listeners.  @param index  the axis index. @param location  the location. @param notify  notify listeners?  @see #getRangeAxisLocation(int) @see #setDomainAxisLocation(int, AxisLocation, boolean) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.setRenderer",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.setRenderer(CategoryItemRenderer)",
+    "snippet": "    public void setRenderer(CategoryItemRenderer renderer) {\n        setRenderer(0, renderer, true);\n    }",
+    "comment": " Sets the renderer at index 0 (sometimes referred to as the \"primary\" renderer) and sends a {@link PlotChangeEvent} to all registered listeners.  @param renderer  the renderer (<code>null</code> permitted.  @see #getRenderer() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CategoryPlot.setRenderer",
+    "class_name": "org.jfree.chart.plot.CategoryPlot",
+    "signature": "org.jfree.chart.plot.CategoryPlot.setRenderer(int,CategoryItemRenderer,boolean)",
+    "snippet": "    public void setRenderer(int index, CategoryItemRenderer renderer,\n                            boolean notify) {\n\n        // stop listening to the existing renderer...\n        CategoryItemRenderer existing\n            = (CategoryItemRenderer) this.renderers.get(index);\n        if (existing != null) {\n            existing.removeChangeListener(this);\n        }\n\n        // register the new renderer...\n        this.renderers.set(index, renderer);\n        if (renderer != null) {\n            renderer.setPlot(this);\n            renderer.addChangeListener(this);\n        }\n\n        configureDomainAxes();\n        configureRangeAxes();\n\n        if (notify) {\n            fireChangeEvent();\n        }\n    }",
+    "comment": " Sets a renderer.  A {@link PlotChangeEvent} is sent to all registered listeners.  @param index  the index. @param renderer  the renderer (<code>null</code> permitted). @param notify  notify listeners?  @see #getRenderer(int) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultDrawingSupplier.DefaultDrawingSupplier",
+    "class_name": "org.jfree.chart.plot.DefaultDrawingSupplier",
+    "signature": "org.jfree.chart.plot.DefaultDrawingSupplier.DefaultDrawingSupplier()",
+    "snippet": "    public DefaultDrawingSupplier() {\n\n        this(DEFAULT_PAINT_SEQUENCE, DEFAULT_FILL_PAINT_SEQUENCE,\n             DEFAULT_OUTLINE_PAINT_SEQUENCE,\n             DEFAULT_STROKE_SEQUENCE,\n             DEFAULT_OUTLINE_STROKE_SEQUENCE,\n             DEFAULT_SHAPE_SEQUENCE);\n\n    }",
+    "comment": " Creates a new supplier, with default sequences for fill paint, outline paint, stroke and shapes. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultDrawingSupplier.DefaultDrawingSupplier",
+    "class_name": "org.jfree.chart.plot.DefaultDrawingSupplier",
+    "signature": "org.jfree.chart.plot.DefaultDrawingSupplier.DefaultDrawingSupplier(Paint[],Paint[],Paint[],Stroke[],Stroke[],Shape[])",
+    "snippet": "    public DefaultDrawingSupplier(Paint[] paintSequence,\n            Paint[] fillPaintSequence, Paint[] outlinePaintSequence,\n            Stroke[] strokeSequence, Stroke[] outlineStrokeSequence,\n            Shape[] shapeSequence) {\n\n        this.paintSequence = paintSequence;\n        this.fillPaintSequence = fillPaintSequence;\n        this.outlinePaintSequence = outlinePaintSequence;\n        this.strokeSequence = strokeSequence;\n        this.outlineStrokeSequence = outlineStrokeSequence;\n        this.shapeSequence = shapeSequence;\n    }",
+    "comment": " Creates a new supplier.  @param paintSequence  the paint sequence. @param fillPaintSequence  the fill paint sequence. @param outlinePaintSequence  the outline paint sequence. @param strokeSequence  the stroke sequence. @param outlineStrokeSequence  the outline stroke sequence. @param shapeSequence  the shape sequence.  @since 1.0.6 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultDrawingSupplier.createStandardSeriesShapes",
+    "class_name": "org.jfree.chart.plot.DefaultDrawingSupplier",
+    "signature": "org.jfree.chart.plot.DefaultDrawingSupplier.createStandardSeriesShapes()",
+    "snippet": "    public static Shape[] createStandardSeriesShapes() {\n\n        Shape[] result = new Shape[10];\n\n        double size = 6.0;\n        double delta = size / 2.0;\n        int[] xpoints = null;\n        int[] ypoints = null;\n\n        // square\n        result[0] = new Rectangle2D.Double(-delta, -delta, size, size);\n        // circle\n        result[1] = new Ellipse2D.Double(-delta, -delta, size, size);\n\n        // up-pointing triangle\n        xpoints = intArray(0.0, delta, -delta);\n        ypoints = intArray(-delta, delta, delta);\n        result[2] = new Polygon(xpoints, ypoints, 3);\n\n        // diamond\n        xpoints = intArray(0.0, delta, 0.0, -delta);\n        ypoints = intArray(-delta, 0.0, delta, 0.0);\n        result[3] = new Polygon(xpoints, ypoints, 4);\n\n        // horizontal rectangle\n        result[4] = new Rectangle2D.Double(-delta, -delta / 2, size, size / 2);\n\n        // down-pointing triangle\n        xpoints = intArray(-delta, +delta, 0.0);\n        ypoints = intArray(-delta, -delta, delta);\n        result[5] = new Polygon(xpoints, ypoints, 3);\n\n        // horizontal ellipse\n        result[6] = new Ellipse2D.Double(-delta, -delta / 2, size, size / 2);\n\n        // right-pointing triangle\n        xpoints = intArray(-delta, delta, -delta);\n        ypoints = intArray(-delta, 0.0, delta);\n        result[7] = new Polygon(xpoints, ypoints, 3);\n\n        // vertical rectangle\n        result[8] = new Rectangle2D.Double(-delta / 2, -delta, size / 2, size);\n\n        // left-pointing triangle\n        xpoints = intArray(-delta, delta, delta);\n        ypoints = intArray(0.0, -delta, +delta);\n        result[9] = new Polygon(xpoints, ypoints, 3);\n\n        return result;\n\n    }",
+    "comment": " Creates an array of standard shapes to display for the items in series on charts.  @return The array of shapes. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultDrawingSupplier.intArray",
+    "class_name": "org.jfree.chart.plot.DefaultDrawingSupplier",
+    "signature": "org.jfree.chart.plot.DefaultDrawingSupplier.intArray(double,double,double)",
+    "snippet": "    private static int[] intArray(double a, double b, double c) {\n        return new int[] {(int) a, (int) b, (int) c};\n    }",
+    "comment": " Helper method to avoid lots of explicit casts in getShape().  Returns an array containing the provided doubles cast to ints.  @param a  x @param b  y @param c  z  @return int[3] with converted params. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultDrawingSupplier.intArray",
+    "class_name": "org.jfree.chart.plot.DefaultDrawingSupplier",
+    "signature": "org.jfree.chart.plot.DefaultDrawingSupplier.intArray(double,double,double,double)",
+    "snippet": "    private static int[] intArray(double a, double b, double c, double d) {\n        return new int[] {(int) a, (int) b, (int) c, (int) d};\n    }",
+    "comment": " Helper method to avoid lots of explicit casts in getShape().  Returns an array containing the provided doubles cast to ints.  @param a  x @param b  y @param c  z @param d  t  @return int[4] with converted params. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Plot.Plot",
+    "class_name": "org.jfree.chart.plot.Plot",
+    "signature": "org.jfree.chart.plot.Plot.Plot()",
+    "snippet": "    protected Plot() {\n\n        this.parent = null;\n        this.insets = DEFAULT_INSETS;\n        this.backgroundPaint = DEFAULT_BACKGROUND_PAINT;\n        this.backgroundAlpha = DEFAULT_BACKGROUND_ALPHA;\n        this.backgroundImage = null;\n        this.outlineVisible = true;\n        this.outlineStroke = DEFAULT_OUTLINE_STROKE;\n        this.outlinePaint = DEFAULT_OUTLINE_PAINT;\n        this.foregroundAlpha = DEFAULT_FOREGROUND_ALPHA;\n\n        this.noDataMessage = null;\n        this.noDataMessageFont = new Font(\"Tahoma\", Font.PLAIN, 12);\n        this.noDataMessagePaint = Color.black;\n\n        this.drawingSupplier = new DefaultDrawingSupplier();\n\n        this.notify = true;\n        this.listenerList = new EventListenerList();\n\n    }",
+    "comment": " Creates a new plot. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Plot.fireChangeEvent",
+    "class_name": "org.jfree.chart.plot.Plot",
+    "signature": "org.jfree.chart.plot.Plot.fireChangeEvent()",
+    "snippet": "    protected void fireChangeEvent() {\n        notifyListeners(new PlotChangeEvent(this));\n    }",
+    "comment": " Sends a {@link PlotChangeEvent} to all registered listeners.  @since 1.0.10 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Plot.getParent",
+    "class_name": "org.jfree.chart.plot.Plot",
+    "signature": "org.jfree.chart.plot.Plot.getParent()",
+    "snippet": "    public Plot getParent() {\n        return this.parent;\n    }",
+    "comment": " Returns the parent plot (or <code>null</code> if this plot is not part of a combined plot).  @return The parent plot.  @see #setParent(Plot) @see #getRootPlot() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Plot.notifyListeners",
+    "class_name": "org.jfree.chart.plot.Plot",
+    "signature": "org.jfree.chart.plot.Plot.notifyListeners(PlotChangeEvent)",
+    "snippet": "    public void notifyListeners(PlotChangeEvent event) {\n        // if the 'notify' flag has been switched to false, we don't notify\n        // the listeners\n        if (!this.notify) {\n            return;\n        }\n        Object[] listeners = this.listenerList.getListenerList();\n        for (int i = listeners.length - 2; i >= 0; i -= 2) {\n            if (listeners[i] == PlotChangeListener.class) {\n                ((PlotChangeListener) listeners[i + 1]).plotChanged(event);\n            }\n        }\n    }",
+    "comment": " Notifies all registered listeners that the plot has been modified.  @param event  information about the change event. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractRenderer.AbstractRenderer",
+    "class_name": "org.jfree.chart.renderer.AbstractRenderer",
+    "signature": "org.jfree.chart.renderer.AbstractRenderer.AbstractRenderer()",
+    "snippet": "    public AbstractRenderer() {\n\n        this.seriesVisibleList = new BooleanList();\n        this.baseSeriesVisible = true;\n\n        this.seriesVisibleInLegendList = new BooleanList();\n        this.baseSeriesVisibleInLegend = true;\n\n        this.paintList = new PaintList();\n        this.basePaint = DEFAULT_PAINT;\n        this.autoPopulateSeriesPaint = true;\n\n        this.fillPaintList = new PaintList();\n        this.baseFillPaint = Color.white;\n        this.autoPopulateSeriesFillPaint = false;\n\n        this.outlinePaintList = new PaintList();\n        this.baseOutlinePaint = DEFAULT_OUTLINE_PAINT;\n        this.autoPopulateSeriesOutlinePaint = false;\n\n        this.strokeList = new StrokeList();\n        this.baseStroke = DEFAULT_STROKE;\n        this.autoPopulateSeriesStroke = true;\n\n        this.outlineStrokeList = new StrokeList();\n        this.baseOutlineStroke = DEFAULT_OUTLINE_STROKE;\n        this.autoPopulateSeriesOutlineStroke = false;\n\n        this.shapeList = new ShapeList();\n        this.baseShape = DEFAULT_SHAPE;\n        this.autoPopulateSeriesShape = true;\n\n        this.itemLabelsVisibleList = new BooleanList();\n        this.baseItemLabelsVisible = false;\n\n        this.itemLabelFontList = new ObjectList();\n        this.baseItemLabelFont = new Font(\"Tahoma\", Font.PLAIN, 10);\n\n        this.itemLabelPaintList = new PaintList();\n        this.baseItemLabelPaint = Color.black;\n\n        this.positiveItemLabelPositionList = new ObjectList();\n        this.basePositiveItemLabelPosition = new ItemLabelPosition(\n                ItemLabelAnchor.OUTSIDE12, TextAnchor.BOTTOM_CENTER);\n\n        this.negativeItemLabelPositionList = new ObjectList();\n        this.baseNegativeItemLabelPosition = new ItemLabelPosition(\n                ItemLabelAnchor.OUTSIDE6, TextAnchor.TOP_CENTER);\n\n        this.createEntitiesList = new BooleanList();\n        this.baseCreateEntities = true;\n\n        this.defaultEntityRadius = 3;\n\n        this.legendShapeList = new ShapeList();\n        this.baseLegendShape = null;\n\n        this.treatLegendShapeAsLine = false;\n\n        this.legendTextFont = new ObjectList();\n        this.baseLegendTextFont = null;\n\n        this.legendTextPaint = new PaintList();\n        this.baseLegendTextPaint = null;\n\n        this.listenerList = new EventListenerList();\n\n        this.selectedItemAttributes = new RenderAttributes();\n        this.selectedItemAttributes.setDefaultFillPaint(Color.WHITE);\n    }",
+    "comment": " Default constructor. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractRenderer.addChangeListener",
+    "class_name": "org.jfree.chart.renderer.AbstractRenderer",
+    "signature": "org.jfree.chart.renderer.AbstractRenderer.addChangeListener(RendererChangeListener)",
+    "snippet": "    public void addChangeListener(RendererChangeListener listener) {\n        if (listener == null) {\n            throw new IllegalArgumentException(\"Null 'listener' argument.\");\n        }\n        this.listenerList.add(RendererChangeListener.class, listener);\n    }",
+    "comment": " Registers an object to receive notification of changes to the renderer.  @param listener  the listener (<code>null</code> not permitted).  @see #removeChangeListener(RendererChangeListener) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RenderAttributes.RenderAttributes",
+    "class_name": "org.jfree.chart.renderer.RenderAttributes",
+    "signature": "org.jfree.chart.renderer.RenderAttributes.RenderAttributes()",
+    "snippet": "    public RenderAttributes() {\n        this(true);\n    }",
+    "comment": " Creates a new instance. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RenderAttributes.RenderAttributes",
+    "class_name": "org.jfree.chart.renderer.RenderAttributes",
+    "signature": "org.jfree.chart.renderer.RenderAttributes.RenderAttributes(boolean)",
+    "snippet": "    public RenderAttributes(boolean allowNull) {\n        this.paintList = new PaintList();\n        this.defaultPaint = allowNull ? null : Color.BLACK;\n        this.strokeList = new StrokeList();\n        this.defaultStroke = allowNull ? null : new BasicStroke(1.0f);\n        this.fillPaintList = new PaintList();\n        this.defaultFillPaint = allowNull ? null : Color.BLACK;\n        this.outlinePaintList = new PaintList();\n        this.defaultOutlinePaint = allowNull ? null : Color.BLACK;\n        this.shapeList = new ShapeList();\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RenderAttributes.setDefaultFillPaint",
+    "class_name": "org.jfree.chart.renderer.RenderAttributes",
+    "signature": "org.jfree.chart.renderer.RenderAttributes.setDefaultFillPaint(Paint)",
+    "snippet": "    public void setDefaultFillPaint(Paint paint) {\n        if (paint == null && !this.allowNull) {\n            throw new IllegalArgumentException(\"Null 'paint' argument.\");\n        }\n        this.defaultFillPaint = paint;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractCategoryItemRenderer.AbstractCategoryItemRenderer",
+    "class_name": "org.jfree.chart.renderer.category.AbstractCategoryItemRenderer",
+    "signature": "org.jfree.chart.renderer.category.AbstractCategoryItemRenderer.AbstractCategoryItemRenderer()",
+    "snippet": "    protected AbstractCategoryItemRenderer() {\n        this.itemLabelGeneratorList = new ObjectList();\n        this.toolTipGeneratorList = new ObjectList();\n        this.urlGeneratorList = new ObjectList();\n        this.legendItemLabelGenerator\n                = new StandardCategorySeriesLabelGenerator();\n        this.backgroundAnnotations = new ArrayList();\n        this.foregroundAnnotations = new ArrayList();\n    }",
+    "comment": " Creates a new renderer with no tool tip generator and no URL generator. The defaults (no tool tip or URL generators) have been chosen to minimise the processing required to generate a default chart.  If you require tool tips or URLs, then you can easily add the required generators. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractCategoryItemRenderer.getLegendItems",
+    "class_name": "org.jfree.chart.renderer.category.AbstractCategoryItemRenderer",
+    "signature": "org.jfree.chart.renderer.category.AbstractCategoryItemRenderer.getLegendItems()",
+    "snippet": "    public LegendItemCollection getLegendItems() {\n        LegendItemCollection result = new LegendItemCollection();\n        if (this.plot == null) {\n            return result;\n        }\n        int index = this.plot.getIndexOf(this);\n        CategoryDataset dataset = this.plot.getDataset(index);\n        if (dataset != null) {\n            return result;\n        }\n        int seriesCount = dataset.getRowCount();\n        if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {\n            for (int i = 0; i < seriesCount; i++) {\n                if (isSeriesVisibleInLegend(i)) {\n                    LegendItem item = getLegendItem(index, i);\n                    if (item != null) {\n                        result.add(item);\n                    }\n                }\n            }\n        }\n        else {\n            for (int i = seriesCount - 1; i >= 0; i--) {\n                if (isSeriesVisibleInLegend(i)) {\n                    LegendItem item = getLegendItem(index, i);\n                    if (item != null) {\n                        result.add(item);\n                    }\n                }\n            }\n        }\n        return result;\n    }",
+    "comment": " Returns a (possibly empty) collection of legend items for the series that this renderer is responsible for drawing.  @return The legend item collection (never <code>null</code>).  @see #getLegendItem(int, int) ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractCategoryItemRenderer.setPlot",
+    "class_name": "org.jfree.chart.renderer.category.AbstractCategoryItemRenderer",
+    "signature": "org.jfree.chart.renderer.category.AbstractCategoryItemRenderer.setPlot(CategoryPlot)",
+    "snippet": "    public void setPlot(CategoryPlot plot) {\n        if (plot == null) {\n            throw new IllegalArgumentException(\"Null 'plot' argument.\");\n        }\n        this.plot = plot;\n    }",
+    "comment": " Sets the plot that the renderer has been assigned to.  This method is usually called by the {@link CategoryPlot}, in normal usage you shouldn't need to call this method directly.  @param plot  the plot (<code>null</code> not permitted).  @see #getPlot() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LineAndShapeRenderer.LineAndShapeRenderer",
+    "class_name": "org.jfree.chart.renderer.category.LineAndShapeRenderer",
+    "signature": "org.jfree.chart.renderer.category.LineAndShapeRenderer.LineAndShapeRenderer()",
+    "snippet": "    public LineAndShapeRenderer() {\n        this(true, true);\n    }",
+    "comment": " Creates a renderer with both lines and shapes visible by default. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LineAndShapeRenderer.LineAndShapeRenderer",
+    "class_name": "org.jfree.chart.renderer.category.LineAndShapeRenderer",
+    "signature": "org.jfree.chart.renderer.category.LineAndShapeRenderer.LineAndShapeRenderer(boolean,boolean)",
+    "snippet": "    public LineAndShapeRenderer(boolean lines, boolean shapes) {\n        super();\n        this.seriesLinesVisible = new BooleanList();\n        this.baseLinesVisible = lines;\n        this.seriesShapesVisible = new BooleanList();\n        this.baseShapesVisible = shapes;\n        this.seriesShapesFilled = new BooleanList();\n        this.baseShapesFilled = true;\n        this.useFillPaint = false;\n        this.drawOutlines = true;\n        this.useOutlinePaint = false;\n        this.useSeriesOffset = false;  // preserves old behaviour\n        this.itemMargin = 0.0;\n    }",
+    "comment": " Creates a new renderer with lines and/or shapes visible.  @param lines  draw lines? @param shapes  draw shapes? ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractObjectList.AbstractObjectList",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.AbstractObjectList()",
+    "snippet": "    protected AbstractObjectList() {\n        this(DEFAULT_INITIAL_CAPACITY);\n    }",
+    "comment": " Creates a new list with the default initial capacity. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractObjectList.AbstractObjectList",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.AbstractObjectList(int)",
+    "snippet": "    protected AbstractObjectList(int initialCapacity) {\n        this (initialCapacity, initialCapacity);\n    }",
+    "comment": " Creates a new list.  @param initialCapacity  the initial capacity. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractObjectList.AbstractObjectList",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.AbstractObjectList(int,int)",
+    "snippet": "    protected AbstractObjectList(int initialCapacity, int increment) {\n        this.objects = new Object[initialCapacity];\n        this.increment = increment;\n    }",
+    "comment": " Creates a new list.  @param initialCapacity  the initial capacity. @param increment  the increment. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractObjectList.get",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.get(int)",
+    "snippet": "    protected Object get(int index) {\n        Object result = null;\n        if (index >= 0 && index < this.size) {\n            result = this.objects[index];\n        }\n        return result;\n    }",
+    "comment": " Returns the object at the specified index, if there is one, or <code>null</code>.  @param index  the object index.  @return The object or <code>null</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractObjectList.indexOf",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.indexOf(Object)",
+    "snippet": "    protected int indexOf(Object object) {\n        for (int index = 0; index < this.size; index++) {\n            if (this.objects[index] == object) {\n                return (index);\n            }\n        }\n        return -1;\n    }",
+    "comment": " Returns the index of the specified object, or -1 if the object is not in the list.  @param object  the object.  @return The index or -1. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractObjectList.set",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.set(int,Object)",
+    "snippet": "    protected void set(int index, Object object) {\n        if (index < 0) {\n            throw new IllegalArgumentException(\"Requires index >= 0.\");\n        }\n        if (index >= this.objects.length) {\n            Object[] enlarged = new Object[index + this.increment];\n            System.arraycopy(this.objects, 0, enlarged, 0, this.objects.length);\n            this.objects = enlarged;\n        }\n        this.objects[index] = object;\n        this.size = Math.max(this.size, index + 1);\n    }",
+    "comment": " Sets an object reference (overwriting any existing object).  @param index  the object index. @param object  the object (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractObjectList.size",
+    "class_name": "org.jfree.chart.util.AbstractObjectList",
+    "signature": "org.jfree.chart.util.AbstractObjectList.size()",
+    "snippet": "    public int size() {\n        return this.size;\n    }",
+    "comment": " Returns the size of the list.  @return The size of the list. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BooleanList.BooleanList",
+    "class_name": "org.jfree.chart.util.BooleanList",
+    "signature": "org.jfree.chart.util.BooleanList.BooleanList()",
+    "snippet": "    public BooleanList() {\n    }",
+    "comment": " Creates a new list. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultShadowGenerator.DefaultShadowGenerator",
+    "class_name": "org.jfree.chart.util.DefaultShadowGenerator",
+    "signature": "org.jfree.chart.util.DefaultShadowGenerator.DefaultShadowGenerator()",
+    "snippet": "    public DefaultShadowGenerator() {\n        this(5, Color.black, 0.5f, 5, -Math.PI / 4);\n    }",
+    "comment": " Creates a new instance with default attributes. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultShadowGenerator.DefaultShadowGenerator",
+    "class_name": "org.jfree.chart.util.DefaultShadowGenerator",
+    "signature": "org.jfree.chart.util.DefaultShadowGenerator.DefaultShadowGenerator(int,Color,float,int,double)",
+    "snippet": "    public DefaultShadowGenerator(int size, Color color, float opacity,\n            int distance, double angle) {\n        if (color == null) {\n            throw new IllegalArgumentException(\"Null 'color' argument.\");\n        }\n        this.shadowSize = size;\n        this.shadowColor = color;\n        this.shadowOpacity = opacity;\n        this.distance = distance;\n        this.angle = angle;\n    }",
+    "comment": " Creates a new instance with the specified attributes.  @param size  the shadow size. @param color  the shadow color. @param opacity  the shadow opacity. @param distance  the shadow offset distance. @param angle  the shadow offset angle (in radians). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ObjectList.ObjectList",
+    "class_name": "org.jfree.chart.util.ObjectList",
+    "signature": "org.jfree.chart.util.ObjectList.ObjectList()",
+    "snippet": "    public ObjectList() {\n    }",
+    "comment": " Default constructor. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ObjectList.get",
+    "class_name": "org.jfree.chart.util.ObjectList",
+    "signature": "org.jfree.chart.util.ObjectList.get(int)",
+    "snippet": "    public Object get(int index) {\n        return super.get(index);\n    }",
+    "comment": " Returns the object at the specified index, if there is one, or <code>null</code>.  @param index  the object index.  @return The object or <code>null</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ObjectList.indexOf",
+    "class_name": "org.jfree.chart.util.ObjectList",
+    "signature": "org.jfree.chart.util.ObjectList.indexOf(Object)",
+    "snippet": "    public int indexOf(Object object) {\n        return super.indexOf(object);\n    }",
+    "comment": " Returns the index of the specified object, or -1 if the object is not in the list.  @param object  the object.  @return The index or -1. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ObjectList.set",
+    "class_name": "org.jfree.chart.util.ObjectList",
+    "signature": "org.jfree.chart.util.ObjectList.set(int,Object)",
+    "snippet": "    public void set(int index, Object object) {\n        super.set(index, object);\n    }",
+    "comment": " Sets an object reference (overwriting any existing object).  @param index  the object index. @param object  the object (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "PaintList.PaintList",
+    "class_name": "org.jfree.chart.util.PaintList",
+    "signature": "org.jfree.chart.util.PaintList.PaintList()",
+    "snippet": "    public PaintList() {\n        super();\n    }",
+    "comment": " Creates a new list. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleInsets.RectangleInsets",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.RectangleInsets(UnitType,double,double,double,double)",
+    "snippet": "    public RectangleInsets(UnitType unitType, double top, double left,\n                           double bottom, double right) {\n        if (unitType == null) {\n            throw new IllegalArgumentException(\"Null 'unitType' argument.\");\n        }\n        this.unitType = unitType;\n        this.top = top;\n        this.bottom = bottom;\n        this.left = left;\n        this.right = right;\n    }",
+    "comment": " Creates a new instance.  @param unitType  absolute or relative units (<code>null</code> not permitted). @param top  the top insets. @param left  the left insets. @param bottom  the bottom insets. @param right  the right insets. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleInsets.RectangleInsets",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.RectangleInsets(double,double,double,double)",
+    "snippet": "    public RectangleInsets(double top, double left, double bottom,\n            double right) {\n        this(UnitType.ABSOLUTE, top, left, bottom, right);\n    }",
+    "comment": " Creates a new instance with the specified insets (as 'absolute' units).  @param top  the top insets. @param left  the left insets. @param bottom  the bottom insets. @param right  the right insets. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ResourceBundleWrapper.getBundle",
+    "class_name": "org.jfree.chart.util.ResourceBundleWrapper",
+    "signature": "org.jfree.chart.util.ResourceBundleWrapper.getBundle(String)",
+    "snippet": "    public static final ResourceBundle getBundle(String baseName) {\n        // the noCodeBaseClassLoader is configured by a call to the\n        // removeCodeBase() method, typically in the init() method of an\n        // applet...\n        if (noCodeBaseClassLoader != null) {\n            return ResourceBundle.getBundle(baseName, Locale.getDefault(),\n                    noCodeBaseClassLoader);\n        }\n        else {\n            // standard ResourceBundle behaviour\n            return ResourceBundle.getBundle(baseName);\n        }\n    }",
+    "comment": " Finds and returns the specified resource bundle.  @param baseName  the base name.  @return The resource bundle. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ShapeList.ShapeList",
+    "class_name": "org.jfree.chart.util.ShapeList",
+    "signature": "org.jfree.chart.util.ShapeList.ShapeList()",
+    "snippet": "    public ShapeList() {\n        super();\n    }",
+    "comment": " Creates a new list. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "StrokeList.StrokeList",
+    "class_name": "org.jfree.chart.util.StrokeList",
+    "signature": "org.jfree.chart.util.StrokeList.StrokeList()",
+    "snippet": "    public StrokeList() {\n        super();\n    }",
+    "comment": " Creates a new list. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "KeyedObject.KeyedObject",
+    "class_name": "org.jfree.data.KeyedObject",
+    "signature": "org.jfree.data.KeyedObject.KeyedObject(Comparable,Object)",
+    "snippet": "    public KeyedObject(Comparable key, Object object) {\n        this.key = key;\n        this.object = object;\n    }",
+    "comment": " Creates a new (key, object) pair.  @param key  the key. @param object  the object (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "KeyedObjects.KeyedObjects",
+    "class_name": "org.jfree.data.KeyedObjects",
+    "signature": "org.jfree.data.KeyedObjects.KeyedObjects()",
+    "snippet": "    public KeyedObjects() {\n        this.data = new java.util.ArrayList();\n    }",
+    "comment": " Creates a new collection (initially empty). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "KeyedObjects.getIndex",
+    "class_name": "org.jfree.data.KeyedObjects",
+    "signature": "org.jfree.data.KeyedObjects.getIndex(Comparable)",
+    "snippet": "    public int getIndex(Comparable key) {\n        if (key == null) {\n            throw new IllegalArgumentException(\"Null 'key' argument.\");\n        }\n        int i = 0;\n        Iterator iterator = this.data.iterator();\n        while (iterator.hasNext()) {\n            KeyedObject ko = (KeyedObject) iterator.next();\n            if (ko.getKey().equals(key)) {\n                return i;\n            }\n            i++;\n        }\n        return -1;\n    }",
+    "comment": " Returns the index for a given key, or <code>-1</code>.  @param key  the key (<code>null</code> not permitted).  @return The index, or <code>-1</code> if the key is unrecognised.  @see #getKey(int) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "KeyedObjects.setObject",
+    "class_name": "org.jfree.data.KeyedObjects",
+    "signature": "org.jfree.data.KeyedObjects.setObject(Comparable,Object)",
+    "snippet": "    public void setObject(Comparable key, Object object) {\n        int keyIndex = getIndex(key);\n        if (keyIndex >= 0) {\n            KeyedObject ko = (KeyedObject) this.data.get(keyIndex);\n            ko.setObject(object);\n        }\n        else {\n            KeyedObject ko = new KeyedObject(key, object);\n            this.data.add(ko);\n        }\n    }",
+    "comment": " Replaces an existing object, or adds a new object to the collection. This is the same as the {@link #addObject(Comparable, Object)} method.  @param key  the key (<code>null</code> not permitted). @param object  the object.  @see #getObject(Comparable) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "KeyedObjects2D.KeyedObjects2D",
+    "class_name": "org.jfree.data.KeyedObjects2D",
+    "signature": "org.jfree.data.KeyedObjects2D.KeyedObjects2D()",
+    "snippet": "    public KeyedObjects2D() {\n        this.rowKeys = new java.util.ArrayList();\n        this.columnKeys = new java.util.ArrayList();\n        this.rows = new java.util.ArrayList();\n    }",
+    "comment": " Creates a new instance (initially empty). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "KeyedObjects2D.addObject",
+    "class_name": "org.jfree.data.KeyedObjects2D",
+    "signature": "org.jfree.data.KeyedObjects2D.addObject(Object,Comparable,Comparable)",
+    "snippet": "    public void addObject(Object object, Comparable rowKey,\n            Comparable columnKey) {\n        setObject(object, rowKey, columnKey);\n    }",
+    "comment": " Adds an object to the table.  Performs the same function as setObject().  @param object  the object. @param rowKey  the row key (<code>null</code> not permitted). @param columnKey  the column key (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "KeyedObjects2D.setObject",
+    "class_name": "org.jfree.data.KeyedObjects2D",
+    "signature": "org.jfree.data.KeyedObjects2D.setObject(Object,Comparable,Comparable)",
+    "snippet": "    public void setObject(Object object, Comparable rowKey,\n            Comparable columnKey) {\n\n        if (rowKey == null) {\n            throw new IllegalArgumentException(\"Null 'rowKey' argument.\");\n        }\n        if (columnKey == null) {\n            throw new IllegalArgumentException(\"Null 'columnKey' argument.\");\n        }\n        KeyedObjects row;\n        int rowIndex = this.rowKeys.indexOf(rowKey);\n        if (rowIndex >= 0) {\n            row = (KeyedObjects) this.rows.get(rowIndex);\n        }\n        else {\n            this.rowKeys.add(rowKey);\n            row = new KeyedObjects();\n            this.rows.add(row);\n        }\n        row.setObject(columnKey, object);\n        int columnIndex = this.columnKeys.indexOf(columnKey);\n        if (columnIndex < 0) {\n            this.columnKeys.add(columnKey);\n        }\n\n    }",
+    "comment": " Adds or updates an object.  @param object  the object. @param rowKey  the row key (<code>null</code> not permitted). @param columnKey  the column key (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SelectableValue.SelectableValue",
+    "class_name": "org.jfree.data.SelectableValue",
+    "signature": "org.jfree.data.SelectableValue.SelectableValue(Number)",
+    "snippet": "    public SelectableValue(Number value) {\n        this(value, false);\n    }",
+    "comment": " Creates a new instance with the specified value and the selection state set to <code>false</code>.  @param value  the value (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SelectableValue.SelectableValue",
+    "class_name": "org.jfree.data.SelectableValue",
+    "signature": "org.jfree.data.SelectableValue.SelectableValue(Number,boolean)",
+    "snippet": "    public SelectableValue(Number value, boolean selected) {\n        this.value = value;\n        this.selected = selected;\n    }",
+    "comment": " Creates a new instance with the specified value and selection state.  @param value  the value (<code>null</code> permitted). @param selected  the selection state. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractCategoryDataset.AbstractCategoryDataset",
+    "class_name": "org.jfree.data.category.AbstractCategoryDataset",
+    "signature": "org.jfree.data.category.AbstractCategoryDataset.AbstractCategoryDataset()",
+    "snippet": "    public AbstractCategoryDataset() {\n        super();\n    }",
+    "comment": " Default constructor. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractCategoryDataset.setSelectionState",
+    "class_name": "org.jfree.data.category.AbstractCategoryDataset",
+    "signature": "org.jfree.data.category.AbstractCategoryDataset.setSelectionState(CategoryDatasetSelectionState)",
+    "snippet": "    public void setSelectionState(CategoryDatasetSelectionState state) {\n        this.selectionState = state;\n        fireDatasetChanged(new DatasetChangeInfo());\n        // TODO:  fill in real change details\n    }",
+    "comment": " Sets the selection state for this dataset.  @param state  the selection state (<code>null</code> permitted).  @since 1.2.0 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultCategoryDataset.DefaultCategoryDataset",
+    "class_name": "org.jfree.data.category.DefaultCategoryDataset",
+    "signature": "org.jfree.data.category.DefaultCategoryDataset.DefaultCategoryDataset()",
+    "snippet": "    public DefaultCategoryDataset() {\n        this.data = new KeyedObjects2D();\n        // FIXME: will need to remove this later, because it should be optional\n        setSelectionState(this);\n    }",
+    "comment": " Creates a new (empty) dataset. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultCategoryDataset.addValue",
+    "class_name": "org.jfree.data.category.DefaultCategoryDataset",
+    "signature": "org.jfree.data.category.DefaultCategoryDataset.addValue(Number,Comparable,Comparable)",
+    "snippet": "    public void addValue(Number value, Comparable rowKey,\n                         Comparable columnKey) {\n        this.data.addObject(new SelectableValue(value), rowKey, columnKey);\n        fireDatasetChanged(new DatasetChangeInfo());\n        // TODO:  fill in real change details\n    }",
+    "comment": " Adds a value to the table.  Performs the same function as setValue().  @param value  the value. @param rowKey  the row key. @param columnKey  the column key.  @see #getValue(Comparable, Comparable) @see #removeValue(Comparable, Comparable) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultCategoryDataset.addValue",
+    "class_name": "org.jfree.data.category.DefaultCategoryDataset",
+    "signature": "org.jfree.data.category.DefaultCategoryDataset.addValue(double,Comparable,Comparable)",
+    "snippet": "    public void addValue(double value, Comparable rowKey,\n                         Comparable columnKey) {\n        addValue(new Double(value), rowKey, columnKey);\n    }",
+    "comment": " Adds a value to the table.  @param value  the value. @param rowKey  the row key. @param columnKey  the column key.  @see #getValue(Comparable, Comparable) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DatasetChangeEvent.DatasetChangeEvent",
+    "class_name": "org.jfree.data.event.DatasetChangeEvent",
+    "signature": "org.jfree.data.event.DatasetChangeEvent.DatasetChangeEvent(Object,Dataset,DatasetChangeInfo)",
+    "snippet": "    public DatasetChangeEvent(Object source, Dataset dataset,\n            DatasetChangeInfo info) {\n        super(source);\n        if (info == null) {\n            throw new IllegalArgumentException(\"Null 'info' argument.\");\n        }\n        this.dataset = dataset;\n        this.info = info;\n    }",
+    "comment": " Constructs a new event.  The source is either the dataset or the {@link Plot} class.  The dataset can be <code>null</code> (in this case the source will be the {@link Plot} class).  @param source  the source of the event. @param dataset  the dataset that generated the event (<code>null</code> permitted). @param info  information about the change (<code>null</code> not permitted).  @since 1.2.0 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractDataset.AbstractDataset",
+    "class_name": "org.jfree.data.general.AbstractDataset",
+    "signature": "org.jfree.data.general.AbstractDataset.AbstractDataset()",
+    "snippet": "    protected AbstractDataset() {\n        this.group = new DatasetGroup();\n        this.listenerList = new EventListenerList();\n    }",
+    "comment": " Constructs a dataset. By default, the dataset is assigned to its own group. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractDataset.addChangeListener",
+    "class_name": "org.jfree.data.general.AbstractDataset",
+    "signature": "org.jfree.data.general.AbstractDataset.addChangeListener(DatasetChangeListener)",
+    "snippet": "    public void addChangeListener(DatasetChangeListener listener) {\n        this.listenerList.add(DatasetChangeListener.class, listener);\n    }",
+    "comment": " Registers an object to receive notification of changes to the dataset.  @param listener  the object to register.  @see #removeChangeListener(DatasetChangeListener) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractDataset.fireDatasetChanged",
+    "class_name": "org.jfree.data.general.AbstractDataset",
+    "signature": "org.jfree.data.general.AbstractDataset.fireDatasetChanged(DatasetChangeInfo)",
+    "snippet": "    protected void fireDatasetChanged(DatasetChangeInfo info) {\n        notifyListeners(new DatasetChangeEvent(this, this, info));\n    }",
+    "comment": " Notifies all registered listeners that the dataset has changed.  @param info  information about the change (<code>null</code> not permitted).  @see #addChangeListener(DatasetChangeListener)  @since 1.2.0 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractDataset.notifyListeners",
+    "class_name": "org.jfree.data.general.AbstractDataset",
+    "signature": "org.jfree.data.general.AbstractDataset.notifyListeners(DatasetChangeEvent)",
+    "snippet": "    protected void notifyListeners(DatasetChangeEvent event) {\n        Object[] listeners = this.listenerList.getListenerList();\n        for (int i = listeners.length - 2; i >= 0; i -= 2) {\n            if (listeners[i] == DatasetChangeListener.class) {\n                ((DatasetChangeListener) listeners[i + 1]).datasetChanged(\n                        event);\n            }\n        }\n    }",
+    "comment": " Notifies all registered listeners that the dataset has changed.  @param event  contains information about the event that triggered the notification.  @see #addChangeListener(DatasetChangeListener) @see #removeChangeListener(DatasetChangeListener) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DatasetGroup.DatasetGroup",
+    "class_name": "org.jfree.data.general.DatasetGroup",
+    "signature": "org.jfree.data.general.DatasetGroup.DatasetGroup()",
+    "snippet": "    public DatasetGroup() {\n        super();\n        this.id = \"NOID\";\n    }",
+    "comment": " Constructs a new group. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

@@ -1,0 +1,432 @@
+[
+  {
+    "name": "IntervalsSet.IntervalsSet",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.oned.IntervalsSet",
+    "signature": "org.apache.commons.math3.geometry.euclidean.oned.IntervalsSet.IntervalsSet(double,double)",
+    "snippet": "    public IntervalsSet(final double lower, final double upper) {\n        super(buildTree(lower, upper));\n    }",
+    "comment": "Build an intervals set corresponding to a single interval. @param lower lower bound of the interval, must be lesser or equal to {@code upper} (may be {@code Double.NEGATIVE_INFINITY}) @param upper upper bound of the interval, must be greater or equal to {@code lower} (may be {@code Double.POSITIVE_INFINITY}) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "IntervalsSet.buildTree",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.oned.IntervalsSet",
+    "signature": "org.apache.commons.math3.geometry.euclidean.oned.IntervalsSet.buildTree(double,double)",
+    "snippet": "    private static BSPTree<Euclidean1D> buildTree(final double lower, final double upper) {\n        if (Double.isInfinite(lower) && (lower < 0)) {\n            if (Double.isInfinite(upper) && (upper > 0)) {\n                // the tree must cover the whole real line\n                return new BSPTree<Euclidean1D>(Boolean.TRUE);\n            }\n            // the tree must be open on the negative infinity side\n            final SubHyperplane<Euclidean1D> upperCut =\n                new OrientedPoint(new Vector1D(upper), true).wholeHyperplane();\n            return new BSPTree<Euclidean1D>(upperCut,\n                               new BSPTree<Euclidean1D>(Boolean.FALSE),\n                               new BSPTree<Euclidean1D>(Boolean.TRUE),\n                               null);\n        }\n        final SubHyperplane<Euclidean1D> lowerCut =\n            new OrientedPoint(new Vector1D(lower), false).wholeHyperplane();\n        if (Double.isInfinite(upper) && (upper > 0)) {\n            // the tree must be open on the positive infinity side\n            return new BSPTree<Euclidean1D>(lowerCut,\n                                            new BSPTree<Euclidean1D>(Boolean.FALSE),\n                                            new BSPTree<Euclidean1D>(Boolean.TRUE),\n                                            null);\n        }\n\n        // the tree must be bounded on the two sides\n        final SubHyperplane<Euclidean1D> upperCut =\n            new OrientedPoint(new Vector1D(upper), true).wholeHyperplane();\n        return new BSPTree<Euclidean1D>(lowerCut,\n                                        new BSPTree<Euclidean1D>(Boolean.FALSE),\n                                        new BSPTree<Euclidean1D>(upperCut,\n                                                                 new BSPTree<Euclidean1D>(Boolean.FALSE),\n                                                                 new BSPTree<Euclidean1D>(Boolean.TRUE),\n                                                                 null),\n                                        null);\n\n    }",
+    "comment": "Build an inside/outside tree representing a single interval. @param lower lower bound of the interval, must be lesser or equal to {@code upper} (may be {@code Double.NEGATIVE_INFINITY}) @param upper upper bound of the interval, must be greater or equal to {@code lower} (may be {@code Double.POSITIVE_INFINITY}) @return the built tree ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "OrientedPoint.OrientedPoint",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.oned.OrientedPoint",
+    "signature": "org.apache.commons.math3.geometry.euclidean.oned.OrientedPoint.OrientedPoint(Vector1D,boolean)",
+    "snippet": "    public OrientedPoint(final Vector1D location, final boolean direct) {\n        this.location = location;\n        this.direct   = direct;\n    }",
+    "comment": "Simple constructor. @param location location of the hyperplane @param direct if true, the plus side of the hyperplane is towards abscissas greater than {@code location} ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "OrientedPoint.wholeHyperplane",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.oned.OrientedPoint",
+    "signature": "org.apache.commons.math3.geometry.euclidean.oned.OrientedPoint.wholeHyperplane()",
+    "snippet": "    public SubOrientedPoint wholeHyperplane() {\n        return new SubOrientedPoint(this, null);\n    }",
+    "comment": "Build a region covering the whole hyperplane. <p>Since this class represent zero dimension spaces which does not have lower dimension sub-spaces, this method returns a dummy implementation of a {@link org.apache.commons.math3.geometry.partitioning.SubHyperplane SubHyperplane}. This implementation is only used to allow the {@link org.apache.commons.math3.geometry.partitioning.SubHyperplane SubHyperplane} class implementation to work properly, it should <em>not</em> be used otherwise.</p> @return a dummy sub hyperplane ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SubOrientedPoint.SubOrientedPoint",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.oned.SubOrientedPoint",
+    "signature": "org.apache.commons.math3.geometry.euclidean.oned.SubOrientedPoint.SubOrientedPoint(Hyperplane,Region)",
+    "snippet": "    public SubOrientedPoint(final Hyperplane<Euclidean1D> hyperplane,\n                            final Region<Euclidean1D> remainingRegion) {\n        super(hyperplane, remainingRegion);\n    }",
+    "comment": "Simple constructor. @param hyperplane underlying hyperplane @param remainingRegion remaining region of the hyperplane ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Vector1D.Vector1D",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.oned.Vector1D",
+    "signature": "org.apache.commons.math3.geometry.euclidean.oned.Vector1D.Vector1D(double)",
+    "snippet": "    public Vector1D(double x) {\n        this.x = x;\n    }",
+    "comment": "Simple constructor. Build a vector from its coordinates @param x abscissa @see #getX() ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Vector1D.getX",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.oned.Vector1D",
+    "signature": "org.apache.commons.math3.geometry.euclidean.oned.Vector1D.getX()",
+    "snippet": "    public double getX() {\n        return x;\n    }",
+    "comment": "Get the abscissa of the vector. @return abscissa of the vector @see #Vector1D(double) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Line.Line",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.threed.Line",
+    "signature": "org.apache.commons.math3.geometry.euclidean.threed.Line.Line(Vector3D,Vector3D)",
+    "snippet": "    public Line(final Vector3D p1, final Vector3D p2) throws MathIllegalArgumentException {\n        reset(p1, p2);\n    }",
+    "comment": "Build a line from two points. @param p1 first point belonging to the line (this can be any point) @param p2 second point belonging to the line (this can be any point, different from p1) @exception MathIllegalArgumentException if the points are equal ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Line.closestPoint",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.threed.Line",
+    "signature": "org.apache.commons.math3.geometry.euclidean.threed.Line.closestPoint(Line)",
+    "snippet": "    public Vector3D closestPoint(final Line line) {\n\n        final double cos = direction.dotProduct(line.direction);\n        final double n = 1 - cos * cos;\n        if (n < Precision.EPSILON) {\n            // the lines are parallel\n            return zero;\n        }\n\n        final Vector3D delta0 = line.zero.subtract(zero);\n        final double a        = delta0.dotProduct(direction);\n        final double b        = delta0.dotProduct(line.direction);\n\n        return new Vector3D(1, zero, (a - b * cos) / n, direction);\n\n    }",
+    "comment": "Compute the point of the instance closest to another line. @param line line to check against the instance @return point of the instance closest to another line ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Line.contains",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.threed.Line",
+    "signature": "org.apache.commons.math3.geometry.euclidean.threed.Line.contains(Vector3D)",
+    "snippet": "    public boolean contains(final Vector3D p) {\n        return distance(p) < 1.0e-10;\n    }",
+    "comment": "Check if the instance contains a point. @param p point to check @return true if p belongs to the line ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Line.distance",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.threed.Line",
+    "signature": "org.apache.commons.math3.geometry.euclidean.threed.Line.distance(Vector3D)",
+    "snippet": "    public double distance(final Vector3D p) {\n        final Vector3D d = p.subtract(zero);\n        final Vector3D n = new Vector3D(1.0, d, -d.dotProduct(direction), direction);\n        return n.getNorm();\n    }",
+    "comment": "Compute the distance between the instance and a point. @param p to check @return distance between the instance and the point ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Line.getAbscissa",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.threed.Line",
+    "signature": "org.apache.commons.math3.geometry.euclidean.threed.Line.getAbscissa(Vector3D)",
+    "snippet": "    public double getAbscissa(final Vector3D point) {\n        return point.subtract(zero).dotProduct(direction);\n    }",
+    "comment": "Get the abscissa of a point with respect to the line. <p>The abscissa is 0 if the projection of the point and the projection of the frame origin on the line are the same point.</p> @param point point to check @return abscissa of the point ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Line.intersection",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.threed.Line",
+    "signature": "org.apache.commons.math3.geometry.euclidean.threed.Line.intersection(Line)",
+    "snippet": "    public Vector3D intersection(final Line line) {\n        final Vector3D closest = closestPoint(line);\n        return line.contains(closest) ? closest : null;\n    }",
+    "comment": "Get the intersection point of the instance and another line. @param line other line @return intersection point of the instance and the other line or null if there are no intersection points ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Line.reset",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.threed.Line",
+    "signature": "org.apache.commons.math3.geometry.euclidean.threed.Line.reset(Vector3D,Vector3D)",
+    "snippet": "    public void reset(final Vector3D p1, final Vector3D p2) throws MathIllegalArgumentException {\n        final Vector3D delta = p2.subtract(p1);\n        final double norm2 = delta.getNormSq();\n        if (norm2 == 0.0) {\n            throw new MathIllegalArgumentException(LocalizedFormats.ZERO_NORM);\n        }\n        this.direction = new Vector3D(1.0 / FastMath.sqrt(norm2), delta);\n        zero = new Vector3D(1.0, p1, -p1.dotProduct(delta) / norm2, delta);\n    }",
+    "comment": "Reset the instance as if built from two points. @param p1 first point belonging to the line (this can be any point) @param p2 second point belonging to the line (this can be any point, different from p1) @exception MathIllegalArgumentException if the points are equal ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Line.toSubSpace",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.threed.Line",
+    "signature": "org.apache.commons.math3.geometry.euclidean.threed.Line.toSubSpace(Vector)",
+    "snippet": "    public Vector1D toSubSpace(final Vector<Euclidean3D> point) {\n        return new Vector1D(getAbscissa((Vector3D) point));\n    }",
+    "comment": "{@inheritDoc} @see #getAbscissa(Vector3D) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SubLine.SubLine",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.threed.SubLine",
+    "signature": "org.apache.commons.math3.geometry.euclidean.threed.SubLine.SubLine(Line,IntervalsSet)",
+    "snippet": "    public SubLine(final Line line, final IntervalsSet remainingRegion) {\n        this.line            = line;\n        this.remainingRegion = remainingRegion;\n    }",
+    "comment": "Simple constructor. @param line underlying line @param remainingRegion remaining region of the line ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SubLine.SubLine",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.threed.SubLine",
+    "signature": "org.apache.commons.math3.geometry.euclidean.threed.SubLine.SubLine(Vector3D,Vector3D)",
+    "snippet": "    public SubLine(final Vector3D start, final Vector3D end)\n        throws MathIllegalArgumentException {\n        this(new Line(start, end), buildIntervalSet(start, end));\n    }",
+    "comment": "Create a sub-line from two endpoints. @param start start point @param end end point @exception MathIllegalArgumentException if the points are equal ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SubLine.buildIntervalSet",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.threed.SubLine",
+    "signature": "org.apache.commons.math3.geometry.euclidean.threed.SubLine.buildIntervalSet(Vector3D,Vector3D)",
+    "snippet": "    private static IntervalsSet buildIntervalSet(final Vector3D start, final Vector3D end)\n        throws MathIllegalArgumentException {\n        final Line line = new Line(start, end);\n        return new IntervalsSet(line.toSubSpace(start).getX(),\n                                line.toSubSpace(end).getX());\n    }",
+    "comment": "Build an interval set from two points. @param start start point @param end end point @return an interval set @exception MathIllegalArgumentException if the points are equal ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SubLine.intersection",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.threed.SubLine",
+    "signature": "org.apache.commons.math3.geometry.euclidean.threed.SubLine.intersection(SubLine,boolean)",
+    "snippet": "    public Vector3D intersection(final SubLine subLine, final boolean includeEndPoints) {\n\n        // compute the intersection on infinite line\n        Vector3D v1D = line.intersection(subLine.line);\n\n        // check location of point with respect to first sub-line\n        Location loc1 = remainingRegion.checkPoint(line.toSubSpace(v1D));\n\n        // check location of point with respect to second sub-line\n        Location loc2 = subLine.remainingRegion.checkPoint(subLine.line.toSubSpace(v1D));\n\n        if (includeEndPoints) {\n            return ((loc1 != Location.OUTSIDE) && (loc2 != Location.OUTSIDE)) ? v1D : null;\n        } else {\n            return ((loc1 == Location.INSIDE) && (loc2 == Location.INSIDE)) ? v1D : null;\n        }\n\n    }",
+    "comment": "Get the intersection of the instance and another sub-line. <p> This method is related to the {@link Line#intersection(Line) intersection} method in the {@link Line Line} class, but in addition to compute the point along infinite lines, it also checks the point lies on both sub-line ranges. </p> @param subLine other sub-line which may intersect instance @param includeEndPoints if true, endpoints are considered to belong to instance (i.e. they are closed sets) and may be returned, otherwise endpoints are considered to not belong to instance (i.e. they are open sets) and intersection occurring on endpoints lead to null being returned @return the intersection point if there is one, null if the sub-lines don't intersect ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Vector3D.Vector3D",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.threed.Vector3D",
+    "signature": "org.apache.commons.math3.geometry.euclidean.threed.Vector3D.Vector3D(double,Vector3D)",
+    "snippet": "    public Vector3D(double a, Vector3D u) {\n        this.x = a * u.x;\n        this.y = a * u.y;\n        this.z = a * u.z;\n    }",
+    "comment": "Multiplicative constructor Build a vector from another one and a scale factor. The vector built will be a * u @param a scale factor @param u base (unscaled) vector ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Vector3D.Vector3D",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.threed.Vector3D",
+    "signature": "org.apache.commons.math3.geometry.euclidean.threed.Vector3D.Vector3D(double,Vector3D,double,Vector3D)",
+    "snippet": "    public Vector3D(double a1, Vector3D u1, double a2, Vector3D u2) {\n        this.x = MathArrays.linearCombination(a1, u1.x, a2, u2.x);\n        this.y = MathArrays.linearCombination(a1, u1.y, a2, u2.y);\n        this.z = MathArrays.linearCombination(a1, u1.z, a2, u2.z);\n    }",
+    "comment": "Linear constructor Build a vector from two other ones and corresponding scale factors. The vector built will be a1 * u1 + a2 * u2 @param a1 first scale factor @param u1 first base (unscaled) vector @param a2 second scale factor @param u2 second base (unscaled) vector ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Vector3D.Vector3D",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.threed.Vector3D",
+    "signature": "org.apache.commons.math3.geometry.euclidean.threed.Vector3D.Vector3D(double,double,double)",
+    "snippet": "    public Vector3D(double x, double y, double z) {\n        this.x = x;\n        this.y = y;\n        this.z = z;\n    }",
+    "comment": "Simple constructor. Build a vector from its coordinates @param x abscissa @param y ordinate @param z height @see #getX() @see #getY() @see #getZ() ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Vector3D.dotProduct",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.threed.Vector3D",
+    "signature": "org.apache.commons.math3.geometry.euclidean.threed.Vector3D.dotProduct(Vector)",
+    "snippet": "    public double dotProduct(final Vector<Euclidean3D> v) {\n        final Vector3D v3 = (Vector3D) v;\n        return MathArrays.linearCombination(x, v3.x, y, v3.y, z, v3.z);\n    }",
+    "comment": "{@inheritDoc} <p> The implementation uses specific multiplication and addition algorithms to preserve accuracy and reduce cancellation effects. It should be very accurate even for nearly orthogonal vectors. </p> @see MathArrays#linearCombination(double, double, double, double, double, double) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Vector3D.getNorm",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.threed.Vector3D",
+    "signature": "org.apache.commons.math3.geometry.euclidean.threed.Vector3D.getNorm()",
+    "snippet": "    public double getNorm() {\n        // there are no cancellation problems here, so we use the straightforward formula\n        return FastMath.sqrt (x * x + y * y + z * z);\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Vector3D.getNormSq",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.threed.Vector3D",
+    "signature": "org.apache.commons.math3.geometry.euclidean.threed.Vector3D.getNormSq()",
+    "snippet": "    public double getNormSq() {\n        // there are no cancellation problems here, so we use the straightforward formula\n        return x * x + y * y + z * z;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Vector3D.subtract",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.threed.Vector3D",
+    "signature": "org.apache.commons.math3.geometry.euclidean.threed.Vector3D.subtract(Vector)",
+    "snippet": "    public Vector3D subtract(final Vector<Euclidean3D> v) {\n        final Vector3D v3 = (Vector3D) v;\n        return new Vector3D(x - v3.x, y - v3.y, z - v3.z);\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Line.Line",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.twod.Line",
+    "signature": "org.apache.commons.math3.geometry.euclidean.twod.Line.Line(Vector2D,Vector2D)",
+    "snippet": "    public Line(final Vector2D p1, final Vector2D p2) {\n        reset(p1, p2);\n    }",
+    "comment": "Build a line from two points. <p>The line is oriented from p1 to p2</p> @param p1 first point @param p2 second point ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Line.intersection",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.twod.Line",
+    "signature": "org.apache.commons.math3.geometry.euclidean.twod.Line.intersection(Line)",
+    "snippet": "    public Vector2D intersection(final Line other) {\n        final double d = sin * other.cos - other.sin * cos;\n        if (FastMath.abs(d) < 1.0e-10) {\n            return null;\n        }\n        return new Vector2D((cos * other.originOffset - other.cos * originOffset) / d,\n                            (sin * other.originOffset - other.sin * originOffset) / d);\n    }",
+    "comment": "Get the intersection point of the instance and another line. @param other other line @return intersection point of the instance and the other line or null if there are no intersection points ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Line.reset",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.twod.Line",
+    "signature": "org.apache.commons.math3.geometry.euclidean.twod.Line.reset(Vector2D,Vector2D)",
+    "snippet": "    public void reset(final Vector2D p1, final Vector2D p2) {\n        final double dx = p2.getX() - p1.getX();\n        final double dy = p2.getY() - p1.getY();\n        final double d = FastMath.hypot(dx, dy);\n        if (d == 0.0) {\n            angle        = 0.0;\n            cos          = 1.0;\n            sin          = 0.0;\n            originOffset = p1.getY();\n        } else {\n            angle        = FastMath.PI + FastMath.atan2(-dy, -dx);\n            cos          = FastMath.cos(angle);\n            sin          = FastMath.sin(angle);\n            originOffset = (p2.getX() * p1.getY() - p1.getX() * p2.getY()) / d;\n        }\n    }",
+    "comment": "Reset the instance as if built from two points. <p>The line is oriented from p1 to p2</p> @param p1 first point @param p2 second point ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Line.toSubSpace",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.twod.Line",
+    "signature": "org.apache.commons.math3.geometry.euclidean.twod.Line.toSubSpace(Vector)",
+    "snippet": "    public Vector1D toSubSpace(final Vector<Euclidean2D> point) {\n        Vector2D p2 = (Vector2D) point;\n        return new Vector1D(cos * p2.getX() + sin * p2.getY());\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SubLine.SubLine",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.twod.SubLine",
+    "signature": "org.apache.commons.math3.geometry.euclidean.twod.SubLine.SubLine(Vector2D,Vector2D)",
+    "snippet": "    public SubLine(final Vector2D start, final Vector2D end) {\n        super(new Line(start, end), buildIntervalSet(start, end));\n    }",
+    "comment": "Create a sub-line from two endpoints. @param start start point @param end end point ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SubLine.buildIntervalSet",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.twod.SubLine",
+    "signature": "org.apache.commons.math3.geometry.euclidean.twod.SubLine.buildIntervalSet(Vector2D,Vector2D)",
+    "snippet": "    private static IntervalsSet buildIntervalSet(final Vector2D start, final Vector2D end) {\n        final Line line = new Line(start, end);\n        return new IntervalsSet(line.toSubSpace(start).getX(),\n                                line.toSubSpace(end).getX());\n    }",
+    "comment": "Build an interval set from two points. @param start start point @param end end point @return an interval set ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SubLine.intersection",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.twod.SubLine",
+    "signature": "org.apache.commons.math3.geometry.euclidean.twod.SubLine.intersection(SubLine,boolean)",
+    "snippet": "    public Vector2D intersection(final SubLine subLine, final boolean includeEndPoints) {\n\n        // retrieve the underlying lines\n        Line line1 = (Line) getHyperplane();\n        Line line2 = (Line) subLine.getHyperplane();\n\n        // compute the intersection on infinite line\n        Vector2D v2D = line1.intersection(line2);\n\n        // check location of point with respect to first sub-line\n        Location loc1 = getRemainingRegion().checkPoint(line1.toSubSpace(v2D));\n\n        // check location of point with respect to second sub-line\n        Location loc2 = subLine.getRemainingRegion().checkPoint(line2.toSubSpace(v2D));\n\n        if (includeEndPoints) {\n            return ((loc1 != Location.OUTSIDE) && (loc2 != Location.OUTSIDE)) ? v2D : null;\n        } else {\n            return ((loc1 == Location.INSIDE) && (loc2 == Location.INSIDE)) ? v2D : null;\n        }\n\n    }",
+    "comment": "Get the intersection of the instance and another sub-line. <p> This method is related to the {@link Line#intersection(Line) intersection} method in the {@link Line Line} class, but in addition to compute the point along infinite lines, it also checks the point lies on both sub-line ranges. </p> @param subLine other sub-line which may intersect instance @param includeEndPoints if true, endpoints are considered to belong to instance (i.e. they are closed sets) and may be returned, otherwise endpoints are considered to not belong to instance (i.e. they are open sets) and intersection occurring on endpoints lead to null being returned @return the intersection point if there is one, null if the sub-lines don't intersect ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Vector2D.Vector2D",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.twod.Vector2D",
+    "signature": "org.apache.commons.math3.geometry.euclidean.twod.Vector2D.Vector2D(double,double)",
+    "snippet": "    public Vector2D(double x, double y) {\n        this.x = x;\n        this.y = y;\n    }",
+    "comment": "Simple constructor. Build a vector from its coordinates @param x abscissa @param y ordinate @see #getX() @see #getY() ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Vector2D.getX",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.twod.Vector2D",
+    "signature": "org.apache.commons.math3.geometry.euclidean.twod.Vector2D.getX()",
+    "snippet": "    public double getX() {\n        return x;\n    }",
+    "comment": "Get the abscissa of the vector. @return abscissa of the vector @see #Vector2D(double, double) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Vector2D.getY",
+    "class_name": "org.apache.commons.math3.geometry.euclidean.twod.Vector2D",
+    "signature": "org.apache.commons.math3.geometry.euclidean.twod.Vector2D.getY()",
+    "snippet": "    public double getY() {\n        return y;\n    }",
+    "comment": "Get the ordinate of the vector. @return ordinate of the vector @see #Vector2D(double, double) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "AbstractRegion.AbstractRegion",
+    "class_name": "org.apache.commons.math3.geometry.partitioning.AbstractRegion",
+    "signature": "org.apache.commons.math3.geometry.partitioning.AbstractRegion.AbstractRegion(BSPTree)",
+    "snippet": "    protected AbstractRegion(final BSPTree<S> tree) {\n        this.tree = tree;\n    }",
+    "comment": "Build a region from an inside/outside BSP tree. <p>The leaf nodes of the BSP tree <em>must</em> have a {@code Boolean} attribute representing the inside status of the corresponding cell (true for inside cells, false for outside cells). In order to avoid building too many small objects, it is recommended to use the predefined constants {@code Boolean.TRUE} and {@code Boolean.FALSE}. The tree also <em>must</em> have either null internal nodes or internal nodes representing the boundary as specified in the {@link #getTree getTree} method).</p> @param tree inside/outside BSP tree representing the region ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "AbstractSubHyperplane.AbstractSubHyperplane",
+    "class_name": "org.apache.commons.math3.geometry.partitioning.AbstractSubHyperplane",
+    "signature": "org.apache.commons.math3.geometry.partitioning.AbstractSubHyperplane.AbstractSubHyperplane(Hyperplane,Region)",
+    "snippet": "    protected AbstractSubHyperplane(final Hyperplane<S> hyperplane,\n                                    final Region<T> remainingRegion) {\n        this.hyperplane      = hyperplane;\n        this.remainingRegion = remainingRegion;\n    }",
+    "comment": "Build a sub-hyperplane from an hyperplane and a region. @param hyperplane underlying hyperplane @param remainingRegion remaining region of the hyperplane ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "BSPTree.BSPTree",
+    "class_name": "org.apache.commons.math3.geometry.partitioning.BSPTree",
+    "signature": "org.apache.commons.math3.geometry.partitioning.BSPTree.BSPTree(Object)",
+    "snippet": "    public BSPTree(final Object attribute) {\n        cut    = null;\n        plus   = null;\n        minus  = null;\n        parent = null;\n        this.attribute = attribute;\n    }",
+    "comment": "Build a tree having only one root cell representing the whole space. @param attribute attribute of the tree (may be null) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "BSPTree.BSPTree",
+    "class_name": "org.apache.commons.math3.geometry.partitioning.BSPTree",
+    "signature": "org.apache.commons.math3.geometry.partitioning.BSPTree.BSPTree(SubHyperplane,BSPTree,BSPTree,Object)",
+    "snippet": "    public BSPTree(final SubHyperplane<S> cut, final BSPTree<S> plus, final BSPTree<S> minus,\n                   final Object attribute) {\n        this.cut       = cut;\n        this.plus      = plus;\n        this.minus     = minus;\n        this.parent    = null;\n        this.attribute = attribute;\n        plus.parent    = this;\n        minus.parent   = this;\n    }",
+    "comment": "Build a BSPTree from its underlying elements. <p>This method does <em>not</em> perform any verification on consistency of its arguments, it should therefore be used only when then caller knows what it is doing.</p> <p>This method is mainly useful kto build trees bottom-up. Building trees top-down is realized with the help of method {@link #insertCut insertCut}.</p> @param cut cut sub-hyperplane for the tree @param plus plus side sub-tree @param minus minus side sub-tree @param attribute attribute associated with the node (may be null) @see #insertCut ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "FastMath.sqrt",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.sqrt(double)",
+    "snippet": "    public static double sqrt(final double a) {\n        return Math.sqrt(a);\n    }",
+    "comment": "Compute the square root of a number. <p><b>Note:</b> this implementation currently delegates to {@link Math#sqrt} @param a number on which evaluation is done @return square root of a ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "MathArrays.linearCombination",
+    "class_name": "org.apache.commons.math3.util.MathArrays",
+    "signature": "org.apache.commons.math3.util.MathArrays.linearCombination(double,double,double,double)",
+    "snippet": "    public static double linearCombination(final double a1, final double b1,\n                                           final double a2, final double b2) {\n\n        // the code below is split in many additions/subtractions that may\n        // appear redundant. However, they should NOT be simplified, as they\n        // use IEEE754 floating point arithmetic rounding properties.\n        // as an example, the expression \"ca1 - (ca1 - a1)\" is NOT the same as \"a1\"\n        // The variable naming conventions are that xyzHigh contains the most significant\n        // bits of xyz and xyzLow contains its least significant bits. So theoretically\n        // xyz is the sum xyzHigh + xyzLow, but in many cases below, this sum cannot\n        // be represented in only one double precision number so we preserve two numbers\n        // to hold it as long as we can, combining the high and low order bits together\n        // only at the end, after cancellation may have occurred on high order bits\n\n        // split a1 and b1 as two 26 bits numbers\n        final double ca1        = SPLIT_FACTOR * a1;\n        final double a1High     = ca1 - (ca1 - a1);\n        final double a1Low      = a1 - a1High;\n        final double cb1        = SPLIT_FACTOR * b1;\n        final double b1High     = cb1 - (cb1 - b1);\n        final double b1Low      = b1 - b1High;\n\n        // accurate multiplication a1 * b1\n        final double prod1High  = a1 * b1;\n        final double prod1Low   = a1Low * b1Low - (((prod1High - a1High * b1High) - a1Low * b1High) - a1High * b1Low);\n\n        // split a2 and b2 as two 26 bits numbers\n        final double ca2        = SPLIT_FACTOR * a2;\n        final double a2High     = ca2 - (ca2 - a2);\n        final double a2Low      = a2 - a2High;\n        final double cb2        = SPLIT_FACTOR * b2;\n        final double b2High     = cb2 - (cb2 - b2);\n        final double b2Low      = b2 - b2High;\n\n        // accurate multiplication a2 * b2\n        final double prod2High  = a2 * b2;\n        final double prod2Low   = a2Low * b2Low - (((prod2High - a2High * b2High) - a2Low * b2High) - a2High * b2Low);\n\n        // accurate addition a1 * b1 + a2 * b2\n        final double s12High    = prod1High + prod2High;\n        final double s12Prime   = s12High - prod2High;\n        final double s12Low     = (prod2High - (s12High - s12Prime)) + (prod1High - s12Prime);\n\n        // final rounding, s12 may have suffered many cancellations, we try\n        // to recover some bits from the extra words we have saved up to now\n        double result = s12High + (prod1Low + prod2Low + s12Low);\n\n        if (Double.isNaN(result)) {\n            // either we have split infinite numbers or some coefficients were NaNs,\n            // just rely on the naive implementation and let IEEE754 handle this\n            result = a1 * b1 + a2 * b2;\n        }\n\n        return result;\n    }",
+    "comment": " Compute a linear combination accurately. <p> This method computes a<sub>1</sub>&times;b<sub>1</sub> + a<sub>2</sub>&times;b<sub>2</sub> to high accuracy. It does so by using specific multiplication and addition algorithms to preserve accuracy and reduce cancellation effects. It is based on the 2005 paper <a href=\"http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.2.1547\"> Accurate Sum and Dot Product</a> by Takeshi Ogita, Siegfried M. Rump, and Shin'ichi Oishi published in SIAM J. Sci. Comput. </p> @param a1 first factor of the first term @param b1 second factor of the first term @param a2 first factor of the second term @param b2 second factor of the second term @return a<sub>1</sub>&times;b<sub>1</sub> + a<sub>2</sub>&times;b<sub>2</sub> @see #linearCombination(double, double, double, double, double, double) @see #linearCombination(double, double, double, double, double, double, double, double) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "MathArrays.linearCombination",
+    "class_name": "org.apache.commons.math3.util.MathArrays",
+    "signature": "org.apache.commons.math3.util.MathArrays.linearCombination(double,double,double,double,double,double)",
+    "snippet": "    public static double linearCombination(final double a1, final double b1,\n                                           final double a2, final double b2,\n                                           final double a3, final double b3) {\n\n        // the code below is split in many additions/subtractions that may\n        // appear redundant. However, they should NOT be simplified, as they\n        // do use IEEE754 floating point arithmetic rounding properties.\n        // as an example, the expression \"ca1 - (ca1 - a1)\" is NOT the same as \"a1\"\n        // The variables naming conventions are that xyzHigh contains the most significant\n        // bits of xyz and xyzLow contains its least significant bits. So theoretically\n        // xyz is the sum xyzHigh + xyzLow, but in many cases below, this sum cannot\n        // be represented in only one double precision number so we preserve two numbers\n        // to hold it as long as we can, combining the high and low order bits together\n        // only at the end, after cancellation may have occurred on high order bits\n\n        // split a1 and b1 as two 26 bits numbers\n        final double ca1        = SPLIT_FACTOR * a1;\n        final double a1High     = ca1 - (ca1 - a1);\n        final double a1Low      = a1 - a1High;\n        final double cb1        = SPLIT_FACTOR * b1;\n        final double b1High     = cb1 - (cb1 - b1);\n        final double b1Low      = b1 - b1High;\n\n        // accurate multiplication a1 * b1\n        final double prod1High  = a1 * b1;\n        final double prod1Low   = a1Low * b1Low - (((prod1High - a1High * b1High) - a1Low * b1High) - a1High * b1Low);\n\n        // split a2 and b2 as two 26 bits numbers\n        final double ca2        = SPLIT_FACTOR * a2;\n        final double a2High     = ca2 - (ca2 - a2);\n        final double a2Low      = a2 - a2High;\n        final double cb2        = SPLIT_FACTOR * b2;\n        final double b2High     = cb2 - (cb2 - b2);\n        final double b2Low      = b2 - b2High;\n\n        // accurate multiplication a2 * b2\n        final double prod2High  = a2 * b2;\n        final double prod2Low   = a2Low * b2Low - (((prod2High - a2High * b2High) - a2Low * b2High) - a2High * b2Low);\n\n        // split a3 and b3 as two 26 bits numbers\n        final double ca3        = SPLIT_FACTOR * a3;\n        final double a3High     = ca3 - (ca3 - a3);\n        final double a3Low      = a3 - a3High;\n        final double cb3        = SPLIT_FACTOR * b3;\n        final double b3High     = cb3 - (cb3 - b3);\n        final double b3Low      = b3 - b3High;\n\n        // accurate multiplication a3 * b3\n        final double prod3High  = a3 * b3;\n        final double prod3Low   = a3Low * b3Low - (((prod3High - a3High * b3High) - a3Low * b3High) - a3High * b3Low);\n\n        // accurate addition a1 * b1 + a2 * b2\n        final double s12High    = prod1High + prod2High;\n        final double s12Prime   = s12High - prod2High;\n        final double s12Low     = (prod2High - (s12High - s12Prime)) + (prod1High - s12Prime);\n\n        // accurate addition a1 * b1 + a2 * b2 + a3 * b3\n        final double s123High   = s12High + prod3High;\n        final double s123Prime  = s123High - prod3High;\n        final double s123Low    = (prod3High - (s123High - s123Prime)) + (s12High - s123Prime);\n\n        // final rounding, s123 may have suffered many cancellations, we try\n        // to recover some bits from the extra words we have saved up to now\n        double result = s123High + (prod1Low + prod2Low + prod3Low + s12Low + s123Low);\n\n        if (Double.isNaN(result)) {\n            // either we have split infinite numbers or some coefficients were NaNs,\n            // just rely on the naive implementation and let IEEE754 handle this\n            result = a1 * b1 + a2 * b2 + a3 * b3;\n        }\n\n        return result;\n    }",
+    "comment": " Compute a linear combination accurately. <p> This method computes a<sub>1</sub>&times;b<sub>1</sub> + a<sub>2</sub>&times;b<sub>2</sub> + a<sub>3</sub>&times;b<sub>3</sub> to high accuracy. It does so by using specific multiplication and addition algorithms to preserve accuracy and reduce cancellation effects. It is based on the 2005 paper <a href=\"http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.2.1547\"> Accurate Sum and Dot Product</a> by Takeshi Ogita, Siegfried M. Rump, and Shin'ichi Oishi published in SIAM J. Sci. Comput. </p> @param a1 first factor of the first term @param b1 second factor of the first term @param a2 first factor of the second term @param b2 second factor of the second term @param a3 first factor of the third term @param b3 second factor of the third term @return a<sub>1</sub>&times;b<sub>1</sub> + a<sub>2</sub>&times;b<sub>2</sub> + a<sub>3</sub>&times;b<sub>3</sub> @see #linearCombination(double, double, double, double) @see #linearCombination(double, double, double, double, double, double, double, double) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  }
+]

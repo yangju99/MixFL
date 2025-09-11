@@ -1,0 +1,82 @@
+[
+  {
+    "name": "BigMatrixImpl.BigMatrixImpl",
+    "class_name": "org.apache.commons.math.linear.BigMatrixImpl",
+    "signature": "org.apache.commons.math.linear.BigMatrixImpl.BigMatrixImpl(BigDecimal[][],boolean)",
+    "snippet": "    public BigMatrixImpl(BigDecimal[][] d, boolean copyArray) {\n        if (copyArray) {\n            copyIn(d);\n        } else {\n            if (d == null) {\n                throw new NullPointerException();\n            }   \n            final int nRows = d.length;\n            if (nRows == 0) {\n                throw new IllegalArgumentException(\"Matrix must have at least one row.\"); \n            }\n            final int nCols = d[0].length;\n            if (nCols == 0) {\n                throw new IllegalArgumentException(\"Matrix must have at least one column.\"); \n            }\n            for (int r = 1; r < nRows; r++) {\n                if (d[r].length != nCols) {\n                    throw new IllegalArgumentException(\"All input rows must have the same length.\");\n                }\n            }       \n            data = d;\n        }\n        lu = null;\n    }",
+    "comment": " Create a new BigMatrix using the input array as the underlying data array. <p>If an array is built specially in order to be embedded in a BigMatrix and not used directly, the <code>copyArray</code> may be set to <code>false</code. This will prevent the copying and improve performance as no new array will be built and no data will be copied.</p> @param d data for new matrix @param copyArray if true, the input array will be copied, otherwise it will be referenced @throws IllegalArgumentException if <code>d</code> is not rectangular (not all rows have the same length) or empty @throws NullPointerException if <code>d</code> is null @see #BigMatrixImpl(BigDecimal[][]) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "BigMatrixImpl.getColumnDimension",
+    "class_name": "org.apache.commons.math.linear.BigMatrixImpl",
+    "signature": "org.apache.commons.math.linear.BigMatrixImpl.getColumnDimension()",
+    "snippet": "    public int getColumnDimension() {\n        return data[0].length;\n    }",
+    "comment": " Returns the number of columns in the matrix.  @return columnDimension ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "BigMatrixImpl.getRowDimension",
+    "class_name": "org.apache.commons.math.linear.BigMatrixImpl",
+    "signature": "org.apache.commons.math.linear.BigMatrixImpl.getRowDimension()",
+    "snippet": "    public int getRowDimension() {\n        return data.length;\n    }",
+    "comment": " Returns the number of rows in the matrix.  @return rowDimension ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "BigMatrixImpl.operate",
+    "class_name": "org.apache.commons.math.linear.BigMatrixImpl",
+    "signature": "org.apache.commons.math.linear.BigMatrixImpl.operate(BigDecimal[])",
+    "snippet": "    public BigDecimal[] operate(BigDecimal[] v) throws IllegalArgumentException {\n        if (v.length != this.getColumnDimension()) {\n            throw new IllegalArgumentException(\"vector has wrong length\");\n        }\n        final int nRows = this.getRowDimension();\n        final int nCols = this.getColumnDimension();\n        final BigDecimal[] out = new BigDecimal[v.length];\n        for (int row = 0; row < nRows; row++) {\n            BigDecimal sum = ZERO;\n            for (int i = 0; i < nCols; i++) {\n                sum = sum.add(data[row][i].multiply(v[i]));\n            }\n            out[row] = sum;\n        }\n        return out;\n    }",
+    "comment": " Returns the result of multiplying this by the vector <code>v</code>.  @param v the vector to operate on @return this*v @throws IllegalArgumentException if columnDimension != v.size() ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "RealMatrixImpl.RealMatrixImpl",
+    "class_name": "org.apache.commons.math.linear.RealMatrixImpl",
+    "signature": "org.apache.commons.math.linear.RealMatrixImpl.RealMatrixImpl(double[][],boolean)",
+    "snippet": "    public RealMatrixImpl(double[][] d, boolean copyArray) {\n        if (copyArray) {\n            copyIn(d);\n        } else {\n            if (d == null) {\n                throw new NullPointerException();\n            }   \n            final int nRows = d.length;\n            if (nRows == 0) {\n                throw new IllegalArgumentException(\"Matrix must have at least one row.\"); \n            }\n            final int nCols = d[0].length;\n            if (nCols == 0) {\n                throw new IllegalArgumentException(\"Matrix must have at least one column.\"); \n            }\n            for (int r = 1; r < nRows; r++) {\n                if (d[r].length != nCols) {\n                    throw new IllegalArgumentException(\"All input rows must have the same length.\");\n                }\n            }       \n            data = d;\n        }\n        lu = null;\n    }",
+    "comment": " Create a new RealMatrix using the input array as the underlying data array. <p>If an array is built specially in order to be embedded in a RealMatrix and not used directly, the <code>copyArray</code> may be set to <code>false</code. This will prevent the copying and improve performance as no new array will be built and no data will be copied.</p> @param d data for new matrix @param copyArray if true, the input array will be copied, otherwise it will be referenced @throws IllegalArgumentException if <code>d</code> is not rectangular (not all rows have the same length) or empty @throws NullPointerException if <code>d</code> is null @see #RealMatrixImpl(double[][]) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "RealMatrixImpl.getColumnDimension",
+    "class_name": "org.apache.commons.math.linear.RealMatrixImpl",
+    "signature": "org.apache.commons.math.linear.RealMatrixImpl.getColumnDimension()",
+    "snippet": "    public int getColumnDimension() {\n        return data[0].length;\n    }",
+    "comment": " @return columnDimension ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "RealMatrixImpl.getRowDimension",
+    "class_name": "org.apache.commons.math.linear.RealMatrixImpl",
+    "signature": "org.apache.commons.math.linear.RealMatrixImpl.getRowDimension()",
+    "snippet": "    public int getRowDimension() {\n        return data.length;\n    }",
+    "comment": " @return rowDimension ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "RealMatrixImpl.operate",
+    "class_name": "org.apache.commons.math.linear.RealMatrixImpl",
+    "signature": "org.apache.commons.math.linear.RealMatrixImpl.operate(double[])",
+    "snippet": "    public double[] operate(double[] v) throws IllegalArgumentException {\n        final int nRows = this.getRowDimension();\n        final int nCols = this.getColumnDimension();\n        if (v.length != nCols) {\n            throw new IllegalArgumentException(\"vector has wrong length\");\n        }\n        final double[] out = new double[v.length];\n        for (int row = 0; row < nRows; row++) {\n            final double[] dataRow = data[row];\n            double sum = 0;\n            for (int i = 0; i < nCols; i++) {\n                sum += dataRow[i] * v[i];\n            }\n            out[row] = sum;\n        }\n        return out;\n    }",
+    "comment": " @param v vector to operate on @throws IllegalArgumentException if columnDimension != v.length @return resulting vector ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  }
+]

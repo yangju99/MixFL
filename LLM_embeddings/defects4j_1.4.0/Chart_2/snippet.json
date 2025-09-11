@@ -1,0 +1,502 @@
+[
+  {
+    "name": "ComparableObjectItem.ComparableObjectItem",
+    "class_name": "org.jfree.data.ComparableObjectItem",
+    "signature": "org.jfree.data.ComparableObjectItem.ComparableObjectItem(Comparable,Object)",
+    "snippet": "    public ComparableObjectItem(Comparable x, Object y) {\n        if (x == null) {\n            throw new IllegalArgumentException(\"Null 'x' argument.\");\n        }\n        this.x = x;\n        this.obj = y;\n    }",
+    "comment": " Constructs a new data item.  @param x  the x-value (<code>null</code> NOT permitted). @param y  the y-value (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ComparableObjectItem.getObject",
+    "class_name": "org.jfree.data.ComparableObjectItem",
+    "signature": "org.jfree.data.ComparableObjectItem.getObject()",
+    "snippet": "    protected Object getObject() {\n        return this.obj;\n    }",
+    "comment": " Returns the y-value.  @return The y-value (possibly <code>null</code>). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ComparableObjectSeries.ComparableObjectSeries",
+    "class_name": "org.jfree.data.ComparableObjectSeries",
+    "signature": "org.jfree.data.ComparableObjectSeries.ComparableObjectSeries(Comparable,boolean,boolean)",
+    "snippet": "    public ComparableObjectSeries(Comparable key, boolean autoSort,\n            boolean allowDuplicateXValues) {\n        super(key);\n        this.data = new java.util.ArrayList();\n        this.autoSort = autoSort;\n        this.allowDuplicateXValues = allowDuplicateXValues;\n    }",
+    "comment": " Constructs a new series that contains no data.  You can specify whether or not duplicate x-values are allowed for the series.  @param key  the series key (<code>null</code> not permitted). @param autoSort  a flag that controls whether or not the items in the series are sorted. @param allowDuplicateXValues  a flag that controls whether duplicate x-values are allowed. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ComparableObjectSeries.add",
+    "class_name": "org.jfree.data.ComparableObjectSeries",
+    "signature": "org.jfree.data.ComparableObjectSeries.add(ComparableObjectItem,boolean)",
+    "snippet": "    protected void add(ComparableObjectItem item, boolean notify) {\n\n        if (item == null) {\n            throw new IllegalArgumentException(\"Null 'item' argument.\");\n        }\n\n        if (this.autoSort) {\n            int index = Collections.binarySearch(this.data, item);\n            if (index < 0) {\n                this.data.add(-index - 1, item);\n            }\n            else {\n                if (this.allowDuplicateXValues) {\n                    // need to make sure we are adding *after* any duplicates\n                    int size = this.data.size();\n                    while (index < size\n                           && item.compareTo(this.data.get(index)) == 0) {\n                        index++;\n                    }\n                    if (index < this.data.size()) {\n                        this.data.add(index, item);\n                    }\n                    else {\n                        this.data.add(item);\n                    }\n                }\n                else {\n                    throw new SeriesException(\"X-value already exists.\");\n                }\n            }\n        }\n        else {\n            if (!this.allowDuplicateXValues) {\n                // can't allow duplicate values, so we need to check whether\n                // there is an item with the given x-value already\n                int index = indexOf(item.getComparable());\n                if (index >= 0) {\n                    throw new SeriesException(\"X-value already exists.\");\n                }\n            }\n            this.data.add(item);\n        }\n        if (getItemCount() > this.maximumItemCount) {\n            this.data.remove(0);\n        }\n        if (notify) {\n            fireSeriesChanged();\n        }\n    }",
+    "comment": " Adds a data item to the series and, if requested, sends a {@link SeriesChangeEvent} to all registered listeners.  @param item  the (x, y) item (<code>null</code> not permitted). @param notify  a flag that controls whether or not a {@link SeriesChangeEvent} is sent to all registered listeners. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ComparableObjectSeries.getDataItem",
+    "class_name": "org.jfree.data.ComparableObjectSeries",
+    "signature": "org.jfree.data.ComparableObjectSeries.getDataItem(int)",
+    "snippet": "    protected ComparableObjectItem getDataItem(int index) {\n        return (ComparableObjectItem) this.data.get(index);\n    }",
+    "comment": " Return the data item with the specified index.  @param index  the index.  @return The data item with the specified index. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ComparableObjectSeries.getItemCount",
+    "class_name": "org.jfree.data.ComparableObjectSeries",
+    "signature": "org.jfree.data.ComparableObjectSeries.getItemCount()",
+    "snippet": "    public int getItemCount() {\n        return this.data.size();\n    }",
+    "comment": " Returns the number of items in the series.  @return The item count. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DatasetChangeEvent.DatasetChangeEvent",
+    "class_name": "org.jfree.data.event.DatasetChangeEvent",
+    "signature": "org.jfree.data.event.DatasetChangeEvent.DatasetChangeEvent(Object,Dataset,DatasetChangeInfo)",
+    "snippet": "    public DatasetChangeEvent(Object source, Dataset dataset,\n            DatasetChangeInfo info) {\n        super(source);\n        if (info == null) {\n            throw new IllegalArgumentException(\"Null 'info' argument.\");\n        }\n        this.dataset = dataset;\n        this.info = info;\n    }",
+    "comment": " Constructs a new event.  The source is either the dataset or the {@link Plot} class.  The dataset can be <code>null</code> (in this case the source will be the {@link Plot} class).  @param source  the source of the event. @param dataset  the dataset that generated the event (<code>null</code> permitted). @param info  information about the change (<code>null</code> not permitted).  @since 1.2.0 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SeriesChangeEvent.SeriesChangeEvent",
+    "class_name": "org.jfree.data.event.SeriesChangeEvent",
+    "signature": "org.jfree.data.event.SeriesChangeEvent.SeriesChangeEvent(Object)",
+    "snippet": "    public SeriesChangeEvent(Object source) {\n        this(source, null);\n    }",
+    "comment": " Constructs a new event.  @param source  the source of the change event. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "SeriesChangeEvent.SeriesChangeEvent",
+    "class_name": "org.jfree.data.event.SeriesChangeEvent",
+    "signature": "org.jfree.data.event.SeriesChangeEvent.SeriesChangeEvent(Object,SeriesChangeInfo)",
+    "snippet": "    public SeriesChangeEvent(Object source, SeriesChangeInfo summary) {\n        super(source);\n        this.summary = summary;\n    }",
+    "comment": " Constructs a new change event.  @param source  the event source. @param summary  a summary of the change (<code>null</code> permitted).  @since 1.2.0 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "AbstractDataset.AbstractDataset",
+    "class_name": "org.jfree.data.general.AbstractDataset",
+    "signature": "org.jfree.data.general.AbstractDataset.AbstractDataset()",
+    "snippet": "    protected AbstractDataset() {\n        this.group = new DatasetGroup();\n        this.listenerList = new EventListenerList();\n    }",
+    "comment": " Constructs a dataset. By default, the dataset is assigned to its own group. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "AbstractDataset.fireDatasetChanged",
+    "class_name": "org.jfree.data.general.AbstractDataset",
+    "signature": "org.jfree.data.general.AbstractDataset.fireDatasetChanged(DatasetChangeInfo)",
+    "snippet": "    protected void fireDatasetChanged(DatasetChangeInfo info) {\n        notifyListeners(new DatasetChangeEvent(this, this, info));\n    }",
+    "comment": " Notifies all registered listeners that the dataset has changed.  @param info  information about the change (<code>null</code> not permitted).  @see #addChangeListener(DatasetChangeListener)  @since 1.2.0 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "AbstractDataset.notifyListeners",
+    "class_name": "org.jfree.data.general.AbstractDataset",
+    "signature": "org.jfree.data.general.AbstractDataset.notifyListeners(DatasetChangeEvent)",
+    "snippet": "    protected void notifyListeners(DatasetChangeEvent event) {\n        Object[] listeners = this.listenerList.getListenerList();\n        for (int i = listeners.length - 2; i >= 0; i -= 2) {\n            if (listeners[i] == DatasetChangeListener.class) {\n                ((DatasetChangeListener) listeners[i + 1]).datasetChanged(\n                        event);\n            }\n        }\n    }",
+    "comment": " Notifies all registered listeners that the dataset has changed.  @param event  contains information about the event that triggered the notification.  @see #addChangeListener(DatasetChangeListener) @see #removeChangeListener(DatasetChangeListener) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "AbstractSeriesDataset.AbstractSeriesDataset",
+    "class_name": "org.jfree.data.general.AbstractSeriesDataset",
+    "signature": "org.jfree.data.general.AbstractSeriesDataset.AbstractSeriesDataset()",
+    "snippet": "    protected AbstractSeriesDataset() {\n        super();\n    }",
+    "comment": " Creates a new dataset. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DatasetGroup.DatasetGroup",
+    "class_name": "org.jfree.data.general.DatasetGroup",
+    "signature": "org.jfree.data.general.DatasetGroup.DatasetGroup()",
+    "snippet": "    public DatasetGroup() {\n        super();\n        this.id = \"NOID\";\n    }",
+    "comment": " Constructs a new group. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DatasetUtilities.iterateDomainBounds",
+    "class_name": "org.jfree.data.general.DatasetUtilities",
+    "signature": "org.jfree.data.general.DatasetUtilities.iterateDomainBounds(XYDataset)",
+    "snippet": "    public static Range iterateDomainBounds(XYDataset dataset) {\n        return iterateDomainBounds(dataset, true);\n    }",
+    "comment": " Iterates over the items in an {@link XYDataset} to find the range of x-values.  If the dataset is an instance of {@link IntervalXYDataset}, the starting and ending x-values will be used for the bounds calculation.  @param dataset  the dataset (<code>null</code> not permitted).  @return The range (possibly <code>null</code>). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DatasetUtilities.iterateDomainBounds",
+    "class_name": "org.jfree.data.general.DatasetUtilities",
+    "signature": "org.jfree.data.general.DatasetUtilities.iterateDomainBounds(XYDataset,boolean)",
+    "snippet": "    public static Range iterateDomainBounds(XYDataset dataset,\n                                            boolean includeInterval) {\n        if (dataset == null) {\n            throw new IllegalArgumentException(\"Null 'dataset' argument.\");\n        }\n        double minimum = Double.POSITIVE_INFINITY;\n        double maximum = Double.NEGATIVE_INFINITY;\n        int seriesCount = dataset.getSeriesCount();\n        double lvalue;\n        double uvalue;\n        if (includeInterval && dataset instanceof IntervalXYDataset) {\n            IntervalXYDataset intervalXYData = (IntervalXYDataset) dataset;\n            for (int series = 0; series < seriesCount; series++) {\n                int itemCount = dataset.getItemCount(series);\n                for (int item = 0; item < itemCount; item++) {\n                    lvalue = intervalXYData.getStartXValue(series, item);\n                    uvalue = intervalXYData.getEndXValue(series, item);\n                    if (!Double.isNaN(lvalue)) {\n                        minimum = Math.min(minimum, lvalue);\n                    }\n                    if (!Double.isNaN(uvalue)) {\n                        maximum = Math.max(maximum, uvalue);\n                    }\n                }\n            }\n        }\n        else {\n            for (int series = 0; series < seriesCount; series++) {\n                int itemCount = dataset.getItemCount(series);\n                for (int item = 0; item < itemCount; item++) {\n                    lvalue = dataset.getXValue(series, item);\n                    uvalue = lvalue;\n                    if (!Double.isNaN(lvalue)) {\n                        minimum = Math.min(minimum, lvalue);\n                        maximum = Math.max(maximum, uvalue);\n                    }\n                }\n            }\n        }\n        if (minimum > maximum) {\n            return null;\n        }\n        else {\n            return new Range(minimum, maximum);\n        }\n    }",
+    "comment": " Iterates over the items in an {@link XYDataset} to find the range of x-values.  @param dataset  the dataset (<code>null</code> not permitted). @param includeInterval  a flag that determines, for an {@link IntervalXYDataset}, whether the x-interval or just the x-value is used to determine the overall range.  @return The range (possibly <code>null</code>). ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DatasetUtilities.iterateRangeBounds",
+    "class_name": "org.jfree.data.general.DatasetUtilities",
+    "signature": "org.jfree.data.general.DatasetUtilities.iterateRangeBounds(XYDataset)",
+    "snippet": "    public static Range iterateRangeBounds(XYDataset dataset) {\n        return iterateRangeBounds(dataset, true);\n    }",
+    "comment": " Iterates over the data item of the xy dataset to find the range bounds.  @param dataset  the dataset (<code>null</code> not permitted).  @return The range (possibly <code>null</code>).  @since 1.0.10 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "DatasetUtilities.iterateRangeBounds",
+    "class_name": "org.jfree.data.general.DatasetUtilities",
+    "signature": "org.jfree.data.general.DatasetUtilities.iterateRangeBounds(XYDataset,boolean)",
+    "snippet": "    public static Range iterateRangeBounds(XYDataset dataset,\n            boolean includeInterval) {\n        double minimum = Double.POSITIVE_INFINITY;\n        double maximum = Double.NEGATIVE_INFINITY;\n        int seriesCount = dataset.getSeriesCount();\n\n        // handle three cases by dataset type\n        if (includeInterval && dataset instanceof IntervalXYDataset) {\n            // handle special case of IntervalXYDataset\n            IntervalXYDataset ixyd = (IntervalXYDataset) dataset;\n            for (int series = 0; series < seriesCount; series++) {\n                int itemCount = dataset.getItemCount(series);\n                for (int item = 0; item < itemCount; item++) {\n                    double lvalue = ixyd.getStartYValue(series, item);\n                    double uvalue = ixyd.getEndYValue(series, item);\n                    if (!Double.isNaN(lvalue)) {\n                        minimum = Math.min(minimum, lvalue);\n                    }\n                    if (!Double.isNaN(uvalue)) {\n                        maximum = Math.max(maximum, uvalue);\n                    }\n                }\n            }\n        }\n        else if (includeInterval && dataset instanceof OHLCDataset) {\n            // handle special case of OHLCDataset\n            OHLCDataset ohlc = (OHLCDataset) dataset;\n            for (int series = 0; series < seriesCount; series++) {\n                int itemCount = dataset.getItemCount(series);\n                for (int item = 0; item < itemCount; item++) {\n                    double lvalue = ohlc.getLowValue(series, item);\n                    double uvalue = ohlc.getHighValue(series, item);\n                    if (!Double.isNaN(lvalue)) {\n                        minimum = Math.min(minimum, lvalue);\n                    }\n                    if (!Double.isNaN(uvalue)) {\n                        maximum = Math.max(maximum, uvalue);\n                    }\n                }\n            }\n        }\n        else {\n            // standard case - plain XYDataset\n            for (int series = 0; series < seriesCount; series++) {\n                int itemCount = dataset.getItemCount(series);\n                for (int item = 0; item < itemCount; item++) {\n                    double value = dataset.getYValue(series, item);\n                    if (!Double.isNaN(value)) {\n                        minimum = Math.min(minimum, value);\n                        maximum = Math.max(maximum, value);\n                    }\n                }\n            }\n        }\n        if (minimum == Double.POSITIVE_INFINITY) {\n            return null;\n        }\n        else {\n            return new Range(minimum, maximum);\n        }\n    }",
+    "comment": " Iterates over the data items of the xy dataset to find the range bounds.  @param dataset  the dataset (<code>null</code> not permitted). @param includeInterval  a flag that determines, for an {@link IntervalXYDataset}, whether the y-interval or just the y-value is used to determine the overall range.  @return The range (possibly <code>null</code>).  @since 1.0.10 ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Series.Series",
+    "class_name": "org.jfree.data.general.Series",
+    "signature": "org.jfree.data.general.Series.Series(Comparable)",
+    "snippet": "    protected Series(Comparable key) {\n        this(key, null);\n    }",
+    "comment": " Creates a new series with the specified key.  @param key  the series key (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Series.Series",
+    "class_name": "org.jfree.data.general.Series",
+    "signature": "org.jfree.data.general.Series.Series(Comparable,String)",
+    "snippet": "    protected Series(Comparable key, String description) {\n        if (key == null) {\n            throw new IllegalArgumentException(\"Null 'key' argument.\");\n        }\n        this.key = key;\n        this.description = description;\n        this.listeners = new EventListenerList();\n        this.propertyChangeSupport = new PropertyChangeSupport(this);\n        this.notify = true;\n    }",
+    "comment": " Creates a new series with the specified key and description.  @param key  the series key (<code>null</code> NOT permitted). @param description  the series description (<code>null</code> permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Series.addChangeListener",
+    "class_name": "org.jfree.data.general.Series",
+    "signature": "org.jfree.data.general.Series.addChangeListener(SeriesChangeListener)",
+    "snippet": "    public void addChangeListener(SeriesChangeListener listener) {\n        this.listeners.add(SeriesChangeListener.class, listener);\n    }",
+    "comment": " Registers an object with this series, to receive notification whenever the series changes. <P> Objects being registered must implement the {@link SeriesChangeListener} interface.  @param listener  the listener to register. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Series.fireSeriesChanged",
+    "class_name": "org.jfree.data.general.Series",
+    "signature": "org.jfree.data.general.Series.fireSeriesChanged()",
+    "snippet": "    public void fireSeriesChanged() {\n        if (this.notify) {\n            notifyListeners(new SeriesChangeEvent(this));\n        }\n    }",
+    "comment": " General method for signalling to registered listeners that the series has been changed. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Series.notifyListeners",
+    "class_name": "org.jfree.data.general.Series",
+    "signature": "org.jfree.data.general.Series.notifyListeners(SeriesChangeEvent)",
+    "snippet": "    protected void notifyListeners(SeriesChangeEvent event) {\n\n        Object[] listenerList = this.listeners.getListenerList();\n        for (int i = listenerList.length - 2; i >= 0; i -= 2) {\n            if (listenerList[i] == SeriesChangeListener.class) {\n                ((SeriesChangeListener) listenerList[i + 1]).seriesChanged(\n                        event);\n            }\n        }\n\n    }",
+    "comment": " Sends a change event to all registered listeners.  @param event  contains information about the event that triggered the notification. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYInterval.XYInterval",
+    "class_name": "org.jfree.data.xy.XYInterval",
+    "signature": "org.jfree.data.xy.XYInterval.XYInterval(double,double,double,double,double)",
+    "snippet": "    public XYInterval(double xLow, double xHigh, double y, double yLow,\n            double yHigh) {\n        this.xLow = xLow;\n        this.xHigh = xHigh;\n        this.y = y;\n        this.yLow = yLow;\n        this.yHigh = yHigh;\n    }",
+    "comment": " Creates a new instance of <code>XYInterval</code>.  @param xLow  the lower bound of the x-interval. @param xHigh  the upper bound of the y-interval. @param y  the y-value. @param yLow  the lower bound of the y-interval. @param yHigh  the upper bound of the y-interval. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYInterval.getXHigh",
+    "class_name": "org.jfree.data.xy.XYInterval",
+    "signature": "org.jfree.data.xy.XYInterval.getXHigh()",
+    "snippet": "    public double getXHigh() {\n        return this.xHigh;\n    }",
+    "comment": " Returns the upper bound of the x-interval.  @return The upper bound of the x-interval. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYInterval.getXLow",
+    "class_name": "org.jfree.data.xy.XYInterval",
+    "signature": "org.jfree.data.xy.XYInterval.getXLow()",
+    "snippet": "    public double getXLow() {\n        return this.xLow;\n    }",
+    "comment": " Returns the lower bound of the x-interval.  @return The lower bound of the x-interval. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYInterval.getYHigh",
+    "class_name": "org.jfree.data.xy.XYInterval",
+    "signature": "org.jfree.data.xy.XYInterval.getYHigh()",
+    "snippet": "    public double getYHigh() {\n        return this.yHigh;\n    }",
+    "comment": " Returns the upper bound of the y-interval.  @return The upper bound of the y-interval. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYInterval.getYLow",
+    "class_name": "org.jfree.data.xy.XYInterval",
+    "signature": "org.jfree.data.xy.XYInterval.getYLow()",
+    "snippet": "    public double getYLow() {\n        return this.yLow;\n    }",
+    "comment": " Returns the lower bound of the y-interval.  @return The lower bound of the y-interval. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalDataItem.XYIntervalDataItem",
+    "class_name": "org.jfree.data.xy.XYIntervalDataItem",
+    "signature": "org.jfree.data.xy.XYIntervalDataItem.XYIntervalDataItem(double,double,double,double,double,double)",
+    "snippet": "    public XYIntervalDataItem(double x, double xLow, double xHigh, double y,\n            double yLow, double yHigh) {\n        super(new Double(x), new XYInterval(xLow, xHigh, y, yLow, yHigh));\n    }",
+    "comment": " Creates a new instance of <code>XYIntervalItem</code>.  @param x  the x-value. @param xLow  the lower bound of the x-interval. @param xHigh  the upper bound of the x-interval. @param y  the y-value. @param yLow  the lower bound of the y-interval. @param yHigh  the upper bound of the y-interval. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalDataItem.getXHighValue",
+    "class_name": "org.jfree.data.xy.XYIntervalDataItem",
+    "signature": "org.jfree.data.xy.XYIntervalDataItem.getXHighValue()",
+    "snippet": "    public double getXHighValue() {\n        XYInterval interval = (XYInterval) getObject();\n        if (interval != null) {\n            return interval.getXHigh();\n        }\n        else {\n            return Double.NaN;\n        }\n    }",
+    "comment": " Returns the upper bound of the x-interval.  @return The upper bound of the x-interval. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalDataItem.getXLowValue",
+    "class_name": "org.jfree.data.xy.XYIntervalDataItem",
+    "signature": "org.jfree.data.xy.XYIntervalDataItem.getXLowValue()",
+    "snippet": "    public double getXLowValue() {\n        XYInterval interval = (XYInterval) getObject();\n        if (interval != null) {\n            return interval.getXLow();\n        }\n        else {\n            return Double.NaN;\n        }\n    }",
+    "comment": " Returns the lower bound of the x-interval.  @return The lower bound of the x-interval. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalDataItem.getYHighValue",
+    "class_name": "org.jfree.data.xy.XYIntervalDataItem",
+    "signature": "org.jfree.data.xy.XYIntervalDataItem.getYHighValue()",
+    "snippet": "    public double getYHighValue() {\n        XYInterval interval = (XYInterval) getObject();\n        if (interval != null) {\n            return interval.getYHigh();\n        }\n        else {\n            return Double.NaN;\n        }\n    }",
+    "comment": " Returns the upper bound of the y-interval.  @return The upper bound of the y-interval. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalDataItem.getYLowValue",
+    "class_name": "org.jfree.data.xy.XYIntervalDataItem",
+    "signature": "org.jfree.data.xy.XYIntervalDataItem.getYLowValue()",
+    "snippet": "    public double getYLowValue() {\n        XYInterval interval = (XYInterval) getObject();\n        if (interval != null) {\n            return interval.getYLow();\n        }\n        else {\n            return Double.NaN;\n        }\n    }",
+    "comment": " Returns the lower bound of the y-interval.  @return The lower bound of the y-interval. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalSeries.XYIntervalSeries",
+    "class_name": "org.jfree.data.xy.XYIntervalSeries",
+    "signature": "org.jfree.data.xy.XYIntervalSeries.XYIntervalSeries(Comparable)",
+    "snippet": "    public XYIntervalSeries(Comparable key) {\n        this(key, true, true);\n    }",
+    "comment": " Creates a new empty series.  By default, items added to the series will be sorted into ascending order by x-value, and duplicate x-values will be allowed (these defaults can be modified with another constructor).  @param key  the series key (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalSeries.XYIntervalSeries",
+    "class_name": "org.jfree.data.xy.XYIntervalSeries",
+    "signature": "org.jfree.data.xy.XYIntervalSeries.XYIntervalSeries(Comparable,boolean,boolean)",
+    "snippet": "    public XYIntervalSeries(Comparable key, boolean autoSort,\n            boolean allowDuplicateXValues) {\n        super(key, autoSort, allowDuplicateXValues);\n    }",
+    "comment": " Constructs a new xy-series that contains no data.  You can specify whether or not duplicate x-values are allowed for the series.  @param key  the series key (<code>null</code> not permitted). @param autoSort  a flag that controls whether or not the items in the series are sorted. @param allowDuplicateXValues  a flag that controls whether duplicate x-values are allowed. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalSeries.add",
+    "class_name": "org.jfree.data.xy.XYIntervalSeries",
+    "signature": "org.jfree.data.xy.XYIntervalSeries.add(double,double,double,double,double,double)",
+    "snippet": "    public void add(double x, double xLow, double xHigh, double y, double yLow,\n            double yHigh) {\n        super.add(new XYIntervalDataItem(x, xLow, xHigh, y, yLow, yHigh), true);\n    }",
+    "comment": " Adds a data item to the series.  @param x  the x-value. @param xLow  the lower bound of the x-interval. @param xHigh  the upper bound of the x-interval. @param y  the y-value. @param yLow  the lower bound of the y-interval. @param yHigh  the upper bound of the y-interval. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalSeries.getDataItem",
+    "class_name": "org.jfree.data.xy.XYIntervalSeries",
+    "signature": "org.jfree.data.xy.XYIntervalSeries.getDataItem(int)",
+    "snippet": "    public ComparableObjectItem getDataItem(int index) {\n        return super.getDataItem(index);\n    }",
+    "comment": " Returns the data item at the specified index.  @param index  the item index.  @return The data item. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalSeries.getXHighValue",
+    "class_name": "org.jfree.data.xy.XYIntervalSeries",
+    "signature": "org.jfree.data.xy.XYIntervalSeries.getXHighValue(int)",
+    "snippet": "    public double getXHighValue(int index) {\n        XYIntervalDataItem item = (XYIntervalDataItem) getDataItem(index);\n        return item.getXHighValue();\n    }",
+    "comment": " Returns the upper bound of the x-interval for the specified item in the series.  @param index  the item index.  @return The upper bound of the x-interval.  @since 1.0.5 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalSeries.getXLowValue",
+    "class_name": "org.jfree.data.xy.XYIntervalSeries",
+    "signature": "org.jfree.data.xy.XYIntervalSeries.getXLowValue(int)",
+    "snippet": "    public double getXLowValue(int index) {\n        XYIntervalDataItem item = (XYIntervalDataItem) getDataItem(index);\n        return item.getXLowValue();\n    }",
+    "comment": " Returns the lower bound of the x-interval for the specified item in the series.  @param index  the item index.  @return The lower bound of the x-interval.  @since 1.0.5 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalSeries.getYHighValue",
+    "class_name": "org.jfree.data.xy.XYIntervalSeries",
+    "signature": "org.jfree.data.xy.XYIntervalSeries.getYHighValue(int)",
+    "snippet": "    public double getYHighValue(int index) {\n        XYIntervalDataItem item = (XYIntervalDataItem) getDataItem(index);\n        return item.getYHighValue();\n    }",
+    "comment": " Returns the upper bound of the y-interval for the specified item in the series.  @param index  the item index.  @return The upper bound of the y-interval.  @since 1.0.5 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalSeries.getYLowValue",
+    "class_name": "org.jfree.data.xy.XYIntervalSeries",
+    "signature": "org.jfree.data.xy.XYIntervalSeries.getYLowValue(int)",
+    "snippet": "    public double getYLowValue(int index) {\n        XYIntervalDataItem item = (XYIntervalDataItem) getDataItem(index);\n        return item.getYLowValue();\n    }",
+    "comment": " Returns the lower bound of the Y-interval for the specified item in the series.  @param index  the item index.  @return The lower bound of the Y-interval.  @since 1.0.5 ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalSeriesCollection.XYIntervalSeriesCollection",
+    "class_name": "org.jfree.data.xy.XYIntervalSeriesCollection",
+    "signature": "org.jfree.data.xy.XYIntervalSeriesCollection.XYIntervalSeriesCollection()",
+    "snippet": "    public XYIntervalSeriesCollection() {\n        this.data = new java.util.ArrayList();\n    }",
+    "comment": " Creates a new instance of <code>XIntervalSeriesCollection</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalSeriesCollection.addSeries",
+    "class_name": "org.jfree.data.xy.XYIntervalSeriesCollection",
+    "signature": "org.jfree.data.xy.XYIntervalSeriesCollection.addSeries(XYIntervalSeries)",
+    "snippet": "    public void addSeries(XYIntervalSeries series) {\n        if (series == null) {\n            throw new IllegalArgumentException(\"Null 'series' argument.\");\n        }\n        this.data.add(series);\n        series.addChangeListener(this);\n        fireDatasetChanged(new DatasetChangeInfo());\n        //TODO: fill in real change info\n    }",
+    "comment": " Adds a series to the collection and sends a {@link DatasetChangeEvent} to all registered listeners.  @param series  the series (<code>null</code> not permitted). ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalSeriesCollection.getEndXValue",
+    "class_name": "org.jfree.data.xy.XYIntervalSeriesCollection",
+    "signature": "org.jfree.data.xy.XYIntervalSeriesCollection.getEndXValue(int,int)",
+    "snippet": "    public double getEndXValue(int series, int item) {\n        XYIntervalSeries s = (XYIntervalSeries) this.data.get(series);\n        return s.getXHighValue(item);\n    }",
+    "comment": " Returns the end x-value (as a double primitive) for an item within a series.  @param series  the series index (zero-based). @param item  the item index (zero-based).  @return The value. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalSeriesCollection.getEndYValue",
+    "class_name": "org.jfree.data.xy.XYIntervalSeriesCollection",
+    "signature": "org.jfree.data.xy.XYIntervalSeriesCollection.getEndYValue(int,int)",
+    "snippet": "    public double getEndYValue(int series, int item) {\n        XYIntervalSeries s = (XYIntervalSeries) this.data.get(series);\n        return s.getYHighValue(item);\n    }",
+    "comment": " Returns the end y-value (as a double primitive) for an item within a series.  @param series  the series (zero-based index). @param item  the item (zero-based index).  @return The value. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalSeriesCollection.getItemCount",
+    "class_name": "org.jfree.data.xy.XYIntervalSeriesCollection",
+    "signature": "org.jfree.data.xy.XYIntervalSeriesCollection.getItemCount(int)",
+    "snippet": "    public int getItemCount(int series) {\n        // defer argument checking\n        return getSeries(series).getItemCount();\n    }",
+    "comment": " Returns the number of items in the specified series.  @param series  the series (zero-based index).  @return The item count.  @throws IllegalArgumentException if <code>series</code> is not in the range <code>0</code> to <code>getSeriesCount() - 1</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalSeriesCollection.getSeries",
+    "class_name": "org.jfree.data.xy.XYIntervalSeriesCollection",
+    "signature": "org.jfree.data.xy.XYIntervalSeriesCollection.getSeries(int)",
+    "snippet": "    public XYIntervalSeries getSeries(int series) {\n        if ((series < 0) || (series >= getSeriesCount())) {\n            throw new IllegalArgumentException(\"Series index out of bounds\");\n        }\n        return (XYIntervalSeries) this.data.get(series);\n    }",
+    "comment": " Returns a series from the collection.  @param series  the series index (zero-based).  @return The series.  @throws IllegalArgumentException if <code>series</code> is not in the range <code>0</code> to <code>getSeriesCount() - 1</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalSeriesCollection.getSeriesCount",
+    "class_name": "org.jfree.data.xy.XYIntervalSeriesCollection",
+    "signature": "org.jfree.data.xy.XYIntervalSeriesCollection.getSeriesCount()",
+    "snippet": "    public int getSeriesCount() {\n        return this.data.size();\n    }",
+    "comment": " Returns the number of series in the collection.  @return The series count. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalSeriesCollection.getStartXValue",
+    "class_name": "org.jfree.data.xy.XYIntervalSeriesCollection",
+    "signature": "org.jfree.data.xy.XYIntervalSeriesCollection.getStartXValue(int,int)",
+    "snippet": "    public double getStartXValue(int series, int item) {\n        XYIntervalSeries s = (XYIntervalSeries) this.data.get(series);\n        return s.getXLowValue(item);\n    }",
+    "comment": " Returns the start x-value (as a double primitive) for an item within a series.  @param series  the series index (zero-based). @param item  the item index (zero-based).  @return The value. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "XYIntervalSeriesCollection.getStartYValue",
+    "class_name": "org.jfree.data.xy.XYIntervalSeriesCollection",
+    "signature": "org.jfree.data.xy.XYIntervalSeriesCollection.getStartYValue(int,int)",
+    "snippet": "    public double getStartYValue(int series, int item) {\n        XYIntervalSeries s = (XYIntervalSeries) this.data.get(series);\n        return s.getYLowValue(item);\n    }",
+    "comment": " Returns the start y-value (as a double primitive) for an item within a series.  @param series  the series index (zero-based). @param item  the item index (zero-based).  @return The value. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  }
+]

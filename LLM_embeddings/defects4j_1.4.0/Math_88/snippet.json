@@ -1,0 +1,682 @@
+[
+  {
+    "name": "AbstractRealMatrix.AbstractRealMatrix",
+    "class_name": "org.apache.commons.math.linear.AbstractRealMatrix",
+    "signature": "org.apache.commons.math.linear.AbstractRealMatrix.AbstractRealMatrix()",
+    "snippet": "    protected AbstractRealMatrix() {\n        lu = null;\n    }",
+    "comment": " Creates a matrix with no data ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealMatrixImpl.RealMatrixImpl",
+    "class_name": "org.apache.commons.math.linear.RealMatrixImpl",
+    "signature": "org.apache.commons.math.linear.RealMatrixImpl.RealMatrixImpl(double[][])",
+    "snippet": "    public RealMatrixImpl(final double[][] d)\n        throws IllegalArgumentException, NullPointerException {\n        copyIn(d);\n    }",
+    "comment": " Create a new RealMatrix using the input array as the underlying data array. <p>The input array is copied, not referenced. This constructor has the same effect as calling {@link #RealMatrixImpl(double[][], boolean)} with the second argument set to <code>true</code>.</p>  @param d data for new matrix @throws IllegalArgumentException if <code>d</code> is not rectangular (not all rows have the same length) or empty @throws NullPointerException if <code>d</code> is null @see #RealMatrixImpl(double[][], boolean) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealMatrixImpl.copyIn",
+    "class_name": "org.apache.commons.math.linear.RealMatrixImpl",
+    "signature": "org.apache.commons.math.linear.RealMatrixImpl.copyIn(double[][])",
+    "snippet": "    private void copyIn(final double[][] in) {\n        setSubMatrix(in, 0, 0);\n    }",
+    "comment": " Replaces data with a fresh copy of the input array. <p> Verifies that the input array is rectangular and non-empty.</p>  @param in data to copy in @throws IllegalArgumentException if input array is empty or not rectangular @throws NullPointerException if input array is null ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealMatrixImpl.getColumnDimension",
+    "class_name": "org.apache.commons.math.linear.RealMatrixImpl",
+    "signature": "org.apache.commons.math.linear.RealMatrixImpl.getColumnDimension()",
+    "snippet": "    @Override\n    public int getColumnDimension() {\n        return ((data == null) || (data[0] == null)) ? 0 : data[0].length;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealMatrixImpl.getEntry",
+    "class_name": "org.apache.commons.math.linear.RealMatrixImpl",
+    "signature": "org.apache.commons.math.linear.RealMatrixImpl.getEntry(int,int)",
+    "snippet": "    @Override\n    public double getEntry(final int row, final int column)\n        throws MatrixIndexException {\n        try {\n            return data[row][column];\n        } catch (ArrayIndexOutOfBoundsException e) {\n            throw new MatrixIndexException(\n                    \"no entry at indices ({0}, {1}) in a {2}x{3} matrix\",\n                    row, column, getRowDimension(), getColumnDimension());\n        }\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealMatrixImpl.getRowDimension",
+    "class_name": "org.apache.commons.math.linear.RealMatrixImpl",
+    "signature": "org.apache.commons.math.linear.RealMatrixImpl.getRowDimension()",
+    "snippet": "    @Override\n    public int getRowDimension() {\n        return (data == null) ? 0 : data.length;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealMatrixImpl.setEntry",
+    "class_name": "org.apache.commons.math.linear.RealMatrixImpl",
+    "signature": "org.apache.commons.math.linear.RealMatrixImpl.setEntry(int,int,double)",
+    "snippet": "    @Override\n    public void setEntry(final int row, final int column, final double value)\n        throws MatrixIndexException {\n        try {\n            data[row][column] = value;\n        } catch (ArrayIndexOutOfBoundsException e) {\n            throw new MatrixIndexException(\n                    \"no entry at indices ({0}, {1}) in a {2}x{3} matrix\",\n                    row, column, getRowDimension(), getColumnDimension());\n        }\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealMatrixImpl.setSubMatrix",
+    "class_name": "org.apache.commons.math.linear.RealMatrixImpl",
+    "signature": "org.apache.commons.math.linear.RealMatrixImpl.setSubMatrix(double[][],int,int)",
+    "snippet": "    @Override\n    public void setSubMatrix(final double[][] subMatrix, final int row, final int column) \n    throws MatrixIndexException {\n        if (data == null) {\n            if (row > 0) {\n                throw MathRuntimeException.createIllegalStateException(\n                        \"first {0} rows are not initialized yet\",\n                        row);\n            }\n            if (column > 0) {\n                throw MathRuntimeException.createIllegalStateException(\n                        \"first {0} columns are not initialized yet\",\n                        column);\n            }\n            final int nRows = subMatrix.length;\n            if (nRows == 0) {\n                throw MathRuntimeException.createIllegalArgumentException(\"matrix must have at least one row\"); \n            }\n\n            final int nCols = subMatrix[0].length;\n            if (nCols == 0) {\n                throw MathRuntimeException.createIllegalArgumentException(\"matrix must have at least one column\"); \n            }\n            data = new double[subMatrix.length][nCols];\n            for (int i = 0; i < data.length; ++i) {\n                if (subMatrix[i].length != nCols) {\n                    throw MathRuntimeException.createIllegalArgumentException(\n                            \"some rows have length {0} while others have length {1}\",\n                            nCols, subMatrix[i].length); \n                }\n                System.arraycopy(subMatrix[i], 0, data[i + row], column, nCols);\n            }\n        } else {\n            super.setSubMatrix(subMatrix, row, column);\n        }\n\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealVectorFormat.RealVectorFormat",
+    "class_name": "org.apache.commons.math.linear.RealVectorFormat",
+    "signature": "org.apache.commons.math.linear.RealVectorFormat.RealVectorFormat(NumberFormat)",
+    "snippet": "    public RealVectorFormat(final NumberFormat format) {\n        this(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_SEPARATOR, format);\n    }",
+    "comment": " Create an instance with a custom number format for components. @param format the custom format for components. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealVectorFormat.RealVectorFormat",
+    "class_name": "org.apache.commons.math.linear.RealVectorFormat",
+    "signature": "org.apache.commons.math.linear.RealVectorFormat.RealVectorFormat(String,String,String,NumberFormat)",
+    "snippet": "    public RealVectorFormat(final String prefix, final String suffix,\n                            final String separator, final NumberFormat format) {\n        this.prefix      = prefix;\n        this.suffix      = suffix;\n        this.separator   = separator;\n        trimmedPrefix    = prefix.trim();\n        trimmedSuffix    = suffix.trim();\n        trimmedSeparator = separator.trim();\n        this.format      = format;\n    }",
+    "comment": " Create an instance with custom prefix, suffix, separator and format for components. @param prefix prefix to use instead of the default \"{\" @param suffix suffix to use instead of the default \"}\" @param separator separator to use instead of the default \"; \" @param format the custom format for components. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealVectorFormat.getInstance",
+    "class_name": "org.apache.commons.math.linear.RealVectorFormat",
+    "signature": "org.apache.commons.math.linear.RealVectorFormat.getInstance()",
+    "snippet": "    public static RealVectorFormat getInstance() {\n        return getInstance(Locale.getDefault());\n    }",
+    "comment": " Returns the default real vector format for the current locale. @return the default real vector format. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealVectorFormat.getInstance",
+    "class_name": "org.apache.commons.math.linear.RealVectorFormat",
+    "signature": "org.apache.commons.math.linear.RealVectorFormat.getInstance(Locale)",
+    "snippet": "    public static RealVectorFormat getInstance(final Locale locale) {\n        return new RealVectorFormat(getDefaultNumberFormat(locale));\n    }",
+    "comment": " Returns the default real vector format for the given locale. @param locale the specific locale used by the format. @return the real vector format specific to the given locale. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealVectorImpl.RealVectorImpl",
+    "class_name": "org.apache.commons.math.linear.RealVectorImpl",
+    "signature": "org.apache.commons.math.linear.RealVectorImpl.RealVectorImpl(double[])",
+    "snippet": "    public RealVectorImpl(double[] d) {\n        data = d.clone();\n    }",
+    "comment": " Construct a vector from an array, copying the input array. @param d array of doubles. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealVectorImpl.checkVectorDimensions",
+    "class_name": "org.apache.commons.math.linear.RealVectorImpl",
+    "signature": "org.apache.commons.math.linear.RealVectorImpl.checkVectorDimensions(int)",
+    "snippet": "    protected void checkVectorDimensions(int n)\n        throws IllegalArgumentException {\n        if (data.length != n) {\n            throw MathRuntimeException.createIllegalArgumentException(\n                    \"vector length mismatch: got {0} but expected {1}\",\n                    data.length, n);\n        }\n    }",
+    "comment": " Check if instance dimension is equal to some expected value.  @param n expected dimension. @exception IllegalArgumentException if the dimension is inconsistent with vector size ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealVectorImpl.dotProduct",
+    "class_name": "org.apache.commons.math.linear.RealVectorImpl",
+    "signature": "org.apache.commons.math.linear.RealVectorImpl.dotProduct(double[])",
+    "snippet": "    public double dotProduct(double[] v)\n        throws IllegalArgumentException {\n        checkVectorDimensions(v.length);\n        double dot = 0;\n        for (int i = 0; i < data.length; i++) {\n            dot += data[i] * v[i];\n        }\n        return dot;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealVectorImpl.getData",
+    "class_name": "org.apache.commons.math.linear.RealVectorImpl",
+    "signature": "org.apache.commons.math.linear.RealVectorImpl.getData()",
+    "snippet": "    public double[] getData() {\n        return data.clone();\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealVectorImpl.getDimension",
+    "class_name": "org.apache.commons.math.linear.RealVectorImpl",
+    "signature": "org.apache.commons.math.linear.RealVectorImpl.getDimension()",
+    "snippet": "    public int getDimension() {\n        return data.length;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealPointValuePair.RealPointValuePair",
+    "class_name": "org.apache.commons.math.optimization.RealPointValuePair",
+    "signature": "org.apache.commons.math.optimization.RealPointValuePair.RealPointValuePair(double[],double)",
+    "snippet": "    public RealPointValuePair(final double[] point, final double value) {\n        this.point = point.clone();\n        this.value  = value;\n    }",
+    "comment": "Build a point/objective function value pair. @param point point coordinates (the built instance will store a copy of the array, not the array passed as argument) @param value value of an objective function at the point ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealPointValuePair.getPoint",
+    "class_name": "org.apache.commons.math.optimization.RealPointValuePair",
+    "signature": "org.apache.commons.math.optimization.RealPointValuePair.getPoint()",
+    "snippet": "    public double[] getPoint() {\n        return point.clone();\n    }",
+    "comment": "Get the point. @return a copy of the stored point ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractLinearOptimizer.AbstractLinearOptimizer",
+    "class_name": "org.apache.commons.math.optimization.linear.AbstractLinearOptimizer",
+    "signature": "org.apache.commons.math.optimization.linear.AbstractLinearOptimizer.AbstractLinearOptimizer()",
+    "snippet": "    protected AbstractLinearOptimizer() {\n        setMaxIterations(DEFAULT_MAX_ITERATIONS);\n    }",
+    "comment": "Simple constructor with default settings. <p>The maximal number of evaluation is set to its default value.</p> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractLinearOptimizer.incrementIterationsCounter",
+    "class_name": "org.apache.commons.math.optimization.linear.AbstractLinearOptimizer",
+    "signature": "org.apache.commons.math.optimization.linear.AbstractLinearOptimizer.incrementIterationsCounter()",
+    "snippet": "    protected void incrementIterationsCounter()\n        throws OptimizationException {\n        if (++iterations > maxIterations) {\n            if (++iterations > maxIterations) {\n                throw new OptimizationException(new MaxIterationsExceededException(maxIterations));\n            }\n        }\n    }",
+    "comment": "Increment the iterations counter by 1. @exception OptimizationException if the maximal number of iterations is exceeded ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractLinearOptimizer.optimize",
+    "class_name": "org.apache.commons.math.optimization.linear.AbstractLinearOptimizer",
+    "signature": "org.apache.commons.math.optimization.linear.AbstractLinearOptimizer.optimize(LinearObjectiveFunction,Collection,GoalType,boolean)",
+    "snippet": "    public RealPointValuePair optimize(final LinearObjectiveFunction f,\n                                       final Collection<LinearConstraint> constraints,\n                                       final GoalType goalType, final boolean restrictToNonNegative)\n         throws OptimizationException {\n\n        // store linear problem characteristics\n        this.f                     = f;\n        this.constraints           = constraints;\n        this.goalType              = goalType;\n        this.restrictToNonNegative = restrictToNonNegative;\n\n        iterations = 0;\n\n        // solve the problem\n        return doOptimize();\n\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractLinearOptimizer.setMaxIterations",
+    "class_name": "org.apache.commons.math.optimization.linear.AbstractLinearOptimizer",
+    "signature": "org.apache.commons.math.optimization.linear.AbstractLinearOptimizer.setMaxIterations(int)",
+    "snippet": "    public void setMaxIterations(int maxIterations) {\n        this.maxIterations = maxIterations;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LinearConstraint.LinearConstraint",
+    "class_name": "org.apache.commons.math.optimization.linear.LinearConstraint",
+    "signature": "org.apache.commons.math.optimization.linear.LinearConstraint.LinearConstraint(RealVector,Relationship,double)",
+    "snippet": "    public LinearConstraint(final RealVector coefficients, final Relationship relationship,\n                            final double value) {\n        this.coefficients = coefficients;\n        this.relationship = relationship;\n        this.value        = value;\n    }",
+    "comment": " Build a constraint involving a single linear equation. <p> A linear constraint with a single linear equation has one of the forms: <ul> <li>c<sub>1</sub>x<sub>1</sub> + ... c<sub>n</sub>x<sub>n</sub> = v</li> <li>c<sub>1</sub>x<sub>1</sub> + ... c<sub>n</sub>x<sub>n</sub> &lt;= v</li> <li>c<sub>1</sub>x<sub>1</sub> + ... c<sub>n</sub>x<sub>n</sub> >= v</li> </ul> </p> @param coefficients The coefficients of the constraint (left hand side) @param relationship The type of (in)equality used in the constraint @param value The value of the constraint (right hand side) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LinearConstraint.LinearConstraint",
+    "class_name": "org.apache.commons.math.optimization.linear.LinearConstraint",
+    "signature": "org.apache.commons.math.optimization.linear.LinearConstraint.LinearConstraint(double[],Relationship,double)",
+    "snippet": "    public LinearConstraint(final double[] coefficients, final Relationship relationship,\n                            final double value) {\n        this(new RealVectorImpl(coefficients), relationship, value);\n    }",
+    "comment": " Build a constraint involving a single linear equation. <p> A linear constraint with a single linear equation has one of the forms: <ul> <li>c<sub>1</sub>x<sub>1</sub> + ... c<sub>n</sub>x<sub>n</sub> = v</li> <li>c<sub>1</sub>x<sub>1</sub> + ... c<sub>n</sub>x<sub>n</sub> &lt;= v</li> <li>c<sub>1</sub>x<sub>1</sub> + ... c<sub>n</sub>x<sub>n</sub> >= v</li> </ul> </p> @param coefficients The coefficients of the constraint (left hand side) @param relationship The type of (in)equality used in the constraint @param value The value of the constraint (right hand side) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LinearConstraint.getCoefficients",
+    "class_name": "org.apache.commons.math.optimization.linear.LinearConstraint",
+    "signature": "org.apache.commons.math.optimization.linear.LinearConstraint.getCoefficients()",
+    "snippet": "    public RealVector getCoefficients() {\n        return coefficients;\n    }",
+    "comment": " Get the coefficients of the constraint (left hand side). @return coefficients of the constraint (left hand side) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LinearConstraint.getRelationship",
+    "class_name": "org.apache.commons.math.optimization.linear.LinearConstraint",
+    "signature": "org.apache.commons.math.optimization.linear.LinearConstraint.getRelationship()",
+    "snippet": "    public Relationship getRelationship() {\n        return relationship;\n    }",
+    "comment": " Get the relationship between left and right hand sides. @return relationship between left and right hand sides ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LinearConstraint.getValue",
+    "class_name": "org.apache.commons.math.optimization.linear.LinearConstraint",
+    "signature": "org.apache.commons.math.optimization.linear.LinearConstraint.getValue()",
+    "snippet": "    public double getValue() {\n        return value;\n    }",
+    "comment": " Get the value of the constraint (right hand side). @return value of the constraint (right hand side) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LinearObjectiveFunction.LinearObjectiveFunction",
+    "class_name": "org.apache.commons.math.optimization.linear.LinearObjectiveFunction",
+    "signature": "org.apache.commons.math.optimization.linear.LinearObjectiveFunction.LinearObjectiveFunction(RealVector,double)",
+    "snippet": "    public LinearObjectiveFunction(RealVector coefficients, double constantTerm) {\n        this.coefficients = coefficients;\n        this.constantTerm = constantTerm;\n    }",
+    "comment": " @param coefficients The coefficients for the linear equation being optimized @param constantTerm The constant term of the linear equation ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LinearObjectiveFunction.LinearObjectiveFunction",
+    "class_name": "org.apache.commons.math.optimization.linear.LinearObjectiveFunction",
+    "signature": "org.apache.commons.math.optimization.linear.LinearObjectiveFunction.LinearObjectiveFunction(double[],double)",
+    "snippet": "    public LinearObjectiveFunction(double[] coefficients, double constantTerm) {\n        this(new RealVectorImpl(coefficients), constantTerm);\n    }",
+    "comment": " @param coefficients The coefficients for the linear equation being optimized @param constantTerm The constant term of the linear equation ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LinearObjectiveFunction.getCoefficients",
+    "class_name": "org.apache.commons.math.optimization.linear.LinearObjectiveFunction",
+    "signature": "org.apache.commons.math.optimization.linear.LinearObjectiveFunction.getCoefficients()",
+    "snippet": "    public RealVector getCoefficients() {\n        return coefficients;\n    }",
+    "comment": " Get the coefficients of the linear equation being optimized. @return coefficients of the linear equation being optimized ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LinearObjectiveFunction.getConstantTerm",
+    "class_name": "org.apache.commons.math.optimization.linear.LinearObjectiveFunction",
+    "signature": "org.apache.commons.math.optimization.linear.LinearObjectiveFunction.getConstantTerm()",
+    "snippet": "    public double getConstantTerm() {\n        return constantTerm;\n    }",
+    "comment": " Get the constant of the linear equation being optimized. @return constant of the linear equation being optimized ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LinearObjectiveFunction.getValue",
+    "class_name": "org.apache.commons.math.optimization.linear.LinearObjectiveFunction",
+    "signature": "org.apache.commons.math.optimization.linear.LinearObjectiveFunction.getValue(double[])",
+    "snippet": "    public double getValue(final double[] point) {\n        return coefficients.dotProduct(point) + constantTerm;\n    }",
+    "comment": " Compute the value of the linear equation at the current point @param point point at which linear equation must be evaluated @return value of the linear equation at the current point ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexSolver.SimplexSolver",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexSolver",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexSolver.SimplexSolver()",
+    "snippet": "    public SimplexSolver() {\n        this(DEFAULT_EPSILON);\n    }",
+    "comment": " Build a simplex solver with default settings. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexSolver.SimplexSolver",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexSolver",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexSolver.SimplexSolver(double)",
+    "snippet": "    public SimplexSolver(final double epsilon) {\n        this.epsilon = epsilon;\n    }",
+    "comment": " Build a simplex solver with a specified accepted amount of error @param epsilon the amount of error to accept in floating point comparisons ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexSolver.doIteration",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexSolver",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexSolver.doIteration(SimplexTableau)",
+    "snippet": "    protected void doIteration(final SimplexTableau tableau)\n        throws OptimizationException {\n\n        incrementIterationsCounter();\n\n        Integer pivotCol = getPivotColumn(tableau);\n        Integer pivotRow = getPivotRow(pivotCol, tableau);\n        if (pivotRow == null) {\n            throw new UnboundedSolutionException();\n        }\n\n        // set the pivot element to 1\n        double pivotVal = tableau.getEntry(pivotRow, pivotCol);\n        tableau.divideRow(pivotRow, pivotVal);\n\n        // set the rest of the pivot column to 0\n        for (int i = 0; i < tableau.getHeight(); i++) {\n            if (i != pivotRow) {\n                double multiplier = tableau.getEntry(i, pivotCol);\n                tableau.subtractRow(i, pivotRow, multiplier);\n            }\n        }\n    }",
+    "comment": " Runs one iteration of the Simplex method on the given model. @param tableau simple tableau for the problem @throws OptimizationException if the maximal iteration count has been exceeded or if the model is found not to have a bounded solution ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexSolver.doOptimize",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexSolver",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexSolver.doOptimize()",
+    "snippet": "    @Override\n    public RealPointValuePair doOptimize()\n        throws OptimizationException {\n        final SimplexTableau tableau =\n            new SimplexTableau(f, constraints, goalType, restrictToNonNegative, epsilon);\n        solvePhase1(tableau);\n        tableau.discardArtificialVariables();\n        while (!isOptimal(tableau)) {\n            doIteration(tableau);\n        }\n        return tableau.getSolution();\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexSolver.getPivotColumn",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexSolver",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexSolver.getPivotColumn(SimplexTableau)",
+    "snippet": "    private Integer getPivotColumn(SimplexTableau tableau) {\n        double minValue = 0;\n        Integer minPos = null;\n        for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1; i++) {\n            if (MathUtils.compareTo(tableau.getEntry(0, i), minValue, epsilon) < 0) {\n                minValue = tableau.getEntry(0, i);\n                minPos = i;\n            }\n        }\n        return minPos;\n    }",
+    "comment": " Returns the column with the most negative coefficient in the objective function row. @param tableau simple tableau for the problem @return column with the most negative coefficient ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexSolver.getPivotRow",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexSolver",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexSolver.getPivotRow(int,SimplexTableau)",
+    "snippet": "    private Integer getPivotRow(final int col, final SimplexTableau tableau) {\n        double minRatio = Double.MAX_VALUE;\n        Integer minRatioPos = null;\n        for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getHeight(); i++) {\n            double rhs = tableau.getEntry(i, tableau.getWidth() - 1);\n            if (MathUtils.compareTo(tableau.getEntry(i, col), 0, epsilon) >= 0) {\n                double ratio = rhs / tableau.getEntry(i, col);\n                if (ratio < minRatio) {\n                    minRatio = ratio;\n                    minRatioPos = i; \n                }\n            }\n        }\n        return minRatioPos;\n    }",
+    "comment": " Returns the row with the minimum ratio as given by the minimum ratio test (MRT). @param tableau simple tableau for the problem @param col the column to test the ratio of.  See {@link #getPivotColumn()} @return row with the minimum ratio ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexSolver.isOptimal",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexSolver",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexSolver.isOptimal(SimplexTableau)",
+    "snippet": "    public boolean isOptimal(final SimplexTableau tableau) {\n        if (tableau.getNumArtificialVariables() > 0) {\n            return false;\n        }\n        for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1; i++) {\n            if (MathUtils.compareTo(tableau.getEntry(0, i), 0, epsilon) < 0) {\n                return false;\n            }\n        }\n        return true;\n    }",
+    "comment": " Returns whether the problem is at an optimal state. @param tableau simple tableau for the problem @return whether the model has been solved ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexSolver.isPhase1Solved",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexSolver",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexSolver.isPhase1Solved(SimplexTableau)",
+    "snippet": "    private boolean isPhase1Solved(final SimplexTableau tableau) {\n        if (tableau.getNumArtificialVariables() == 0) {\n            return true;\n        }\n        for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1; i++) {\n            if (MathUtils.compareTo(tableau.getEntry(0, i), 0, epsilon) < 0) {\n                return false;\n            }\n        }\n        return true;\n    }",
+    "comment": " Checks whether Phase 1 is solved. @param tableau simple tableau for the problem @return whether Phase 1 is solved ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexSolver.solvePhase1",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexSolver",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexSolver.solvePhase1(SimplexTableau)",
+    "snippet": "    protected void solvePhase1(final SimplexTableau tableau)\n        throws OptimizationException {\n        // make sure we're in Phase 1\n        if (tableau.getNumArtificialVariables() == 0) {\n            return;\n        }\n\n        while (!isPhase1Solved(tableau)) {\n            doIteration(tableau);\n        }\n\n        // if W is not zero then we have no feasible solution\n        if (!MathUtils.equals(tableau.getEntry(0, tableau.getRhsOffset()), 0, epsilon)) {\n            throw new NoFeasibleSolutionException();\n        }\n    }",
+    "comment": " Solves Phase 1 of the Simplex method. @param tableau simple tableau for the problem @exception OptimizationException if the maximal number of iterations is exceeded, or if the problem is found not to have a bounded solution, or if there is no feasible solution ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.SimplexTableau",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.SimplexTableau(LinearObjectiveFunction,Collection,GoalType,boolean,double)",
+    "snippet": "    SimplexTableau(final LinearObjectiveFunction f,\n                   final Collection<LinearConstraint> constraints,\n                   final GoalType goalType, final boolean restrictToNonNegative,\n                   final double epsilon) {\n        this.f                      = f;\n        this.constraints            = constraints;\n        this.restrictToNonNegative  = restrictToNonNegative;\n        this.epsilon                = epsilon;\n        this.numDecisionVariables   = getNumVariables() + (restrictToNonNegative ? 0 : 1);\n        this.numSlackVariables      = getConstraintTypeCounts(Relationship.LEQ) +\n                                      getConstraintTypeCounts(Relationship.GEQ);\n        this.numArtificialVariables = getConstraintTypeCounts(Relationship.EQ) +\n                                      getConstraintTypeCounts(Relationship.GEQ);\n        this.tableau = new RealMatrixImpl(createTableau(goalType == GoalType.MAXIMIZE));\n        initialize();\n    }",
+    "comment": " Build a tableau for a linear problem. @param f linear objective function @param constraints linear constraints @param goalType type of optimization goal: either {@link GoalType#MAXIMIZE} or {@link GoalType#MINIMIZE} @param restrictToNonNegative whether to restrict the variables to non-negative values @param epsilon amount of error to accept in floating point comparisons ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.copyArray",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.copyArray(double[],double[],int)",
+    "snippet": "    private void copyArray(final double[] src, final double[] dest,\n                           final int destPos) {\n        System.arraycopy(src, 0, dest, getNumObjectiveFunctions(), src.length); \n    }",
+    "comment": " @param src the source array @param dest the destination array @param destPos the destination position ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.createTableau",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.createTableau(boolean)",
+    "snippet": "    protected double[][] createTableau(final boolean maximize) {\n\n        // create a matrix of the correct size\n        List<LinearConstraint> constraints = getNormalizedConstraints();\n        int width = numDecisionVariables + numSlackVariables +\n        numArtificialVariables + getNumObjectiveFunctions() + 1; // + 1 is for RHS\n        int height = constraints.size() + getNumObjectiveFunctions();\n        double[][] matrix = new double[height][width];\n\n        // initialize the objective function rows\n        if (getNumObjectiveFunctions() == 2) {\n            matrix[0][0] = -1;\n        }\n        int zIndex = (getNumObjectiveFunctions() == 1) ? 0 : 1;\n        matrix[zIndex][zIndex] = maximize ? 1 : -1;\n        RealVector objectiveCoefficients =\n            maximize ? f.getCoefficients().mapMultiply(-1) : f.getCoefficients();\n            copyArray(objectiveCoefficients.getData(), matrix[zIndex], getNumObjectiveFunctions());\n            matrix[zIndex][width - 1] =\n                maximize ? f.getConstantTerm() : -1 * f.getConstantTerm();\n\n                if (!restrictToNonNegative) {\n                    matrix[zIndex][getSlackVariableOffset() - 1] =\n                        getInvertedCoeffiecientSum(objectiveCoefficients);\n                }\n\n                // initialize the constraint rows\n                int slackVar = 0;\n                int artificialVar = 0;\n                for (int i = 0; i < constraints.size(); i++) {\n                    LinearConstraint constraint = constraints.get(i);\n                    int row = getNumObjectiveFunctions() + i;\n\n                    // decision variable coefficients\n                    copyArray(constraint.getCoefficients().getData(), matrix[row], 1);\n\n                    // x-\n                    if (!restrictToNonNegative) {\n                        matrix[row][getSlackVariableOffset() - 1] =\n                            getInvertedCoeffiecientSum(constraint.getCoefficients());\n                    }\n\n                    // RHS\n                    matrix[row][width - 1] = constraint.getValue();\n\n                    // slack variables\n                    if (constraint.getRelationship() == Relationship.LEQ) {\n                        matrix[row][getSlackVariableOffset() + slackVar++] = 1;  // slack\n                    } else if (constraint.getRelationship() == Relationship.GEQ) {\n                        matrix[row][getSlackVariableOffset() + slackVar++] = -1; // excess\n                    }\n\n                    // artificial variables\n                    if ((constraint.getRelationship() == Relationship.EQ) ||\n                        (constraint.getRelationship() == Relationship.GEQ)) {\n                        matrix[0][getArtificialVariableOffset() + artificialVar] = 1; \n                        matrix[row][getArtificialVariableOffset() + artificialVar++] = 1; \n                    }\n                }\n\n                return matrix;\n    }",
+    "comment": " Create the tableau by itself. @param maximize if true, goal is to maximize the objective function @return created tableau ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.discardArtificialVariables",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.discardArtificialVariables()",
+    "snippet": "    protected void discardArtificialVariables() {\n        if (numArtificialVariables == 0) {\n            return;\n        }\n        int width = getWidth() - numArtificialVariables - 1;\n        int height = getHeight() - 1;\n        double[][] matrix = new double[height][width];\n        for (int i = 0; i < height; i++) {\n            for (int j = 0; j < width - 1; j++) {\n                matrix[i][j] = getEntry(i + 1, j + 1);\n            }\n            matrix[i][width - 1] = getEntry(i + 1, getRhsOffset());\n        }\n        this.tableau = new RealMatrixImpl(matrix);\n        this.numArtificialVariables = 0;\n    }",
+    "comment": " Removes the phase 1 objective function and artificial variables from this tableau. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.divideRow",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.divideRow(int,double)",
+    "snippet": "    protected void divideRow(final int dividendRow, final double divisor) {\n        for (int j = 0; j < getWidth(); j++) {\n            tableau.setEntry(dividendRow, j, tableau.getEntry(dividendRow, j) / divisor);\n        }\n    }",
+    "comment": " Subtracts a multiple of one row from another. <p> After application of this operation, the following will hold: minuendRow = minuendRow - multiple * subtrahendRow </p> @param dividendRow index of the row @param divisor value of the divisor ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.getArtificialVariableOffset",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.getArtificialVariableOffset()",
+    "snippet": "    protected final int getArtificialVariableOffset() {\n        return getNumObjectiveFunctions() + numDecisionVariables + numSlackVariables;\n    }",
+    "comment": " Get the offset of the first artificial variable. @return offset of the first artificial variable ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.getBasicRow",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.getBasicRow(int)",
+    "snippet": "    private Integer getBasicRow(final int col) {\n        Integer row = null;\n        for (int i = getNumObjectiveFunctions(); i < getHeight(); i++) {\n            if (!MathUtils.equals(getEntry(i, col), 0.0, epsilon)) {\n                if (row == null) {\n                    row = i;\n                } else {\n                    return null;\n                }\n            }\n        }\n        return row;\n    }",
+    "comment": " Checks whether the given column is basic. @param col index of the column to check @return the row that the variable is basic in.  null if the column is not basic ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.getConstraintTypeCounts",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.getConstraintTypeCounts(Relationship)",
+    "snippet": "    private int getConstraintTypeCounts(final Relationship relationship) {\n        int count = 0;\n        for (final LinearConstraint constraint : constraints) {\n            if (constraint.getRelationship() == relationship) {\n                ++count;\n            }\n        }\n        return count;\n    }",
+    "comment": " Get a count of constraints corresponding to a specified relationship. @param relationship relationship to count @return number of constraint with the specified relationship ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.getEntry",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.getEntry(int,int)",
+    "snippet": "    protected final double getEntry(final int row, final int column) {\n        return tableau.getEntry(row, column);\n    }",
+    "comment": "Get an entry of the tableau. @param row row index @param column column index @return entry at (row, column) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.getHeight",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.getHeight()",
+    "snippet": "    protected final int getHeight() {\n        return tableau.getRowDimension();\n    }",
+    "comment": " Get the height of the tableau. @return height of the tableau ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.getNormalizedConstraints",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.getNormalizedConstraints()",
+    "snippet": "    public List<LinearConstraint> getNormalizedConstraints() {\n        List<LinearConstraint> normalized = new ArrayList<LinearConstraint>();\n        for (LinearConstraint constraint : constraints) {\n            normalized.add(normalize(constraint));\n        }\n        return normalized;\n    }",
+    "comment": " Get new versions of the constraints which have positive right hand sides. @return new versions of the constraints ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.getNumArtificialVariables",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.getNumArtificialVariables()",
+    "snippet": "    protected final int getNumArtificialVariables() {\n        return numArtificialVariables;\n    }",
+    "comment": " Get the number of artificial variables. @return number of artificial variables ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.getNumObjectiveFunctions",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.getNumObjectiveFunctions()",
+    "snippet": "    protected final int getNumObjectiveFunctions() {\n        return this.numArtificialVariables > 0 ? 2 : 1;\n    }",
+    "comment": " Get the number of objective functions in this tableau. @return 2 for Phase 1.  1 for Phase 2. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.getNumVariables",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.getNumVariables()",
+    "snippet": "    public int getNumVariables() {\n        return f.getCoefficients().getDimension();\n    }",
+    "comment": "Get the number of variables. @return number of variables ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.getOriginalNumDecisionVariables",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.getOriginalNumDecisionVariables()",
+    "snippet": "    protected final int getOriginalNumDecisionVariables() {\n        return restrictToNonNegative ? numDecisionVariables : numDecisionVariables - 1;\n    }",
+    "comment": " Get the original number of decision variables. @return original number of decision variables @see #getNumDecisionVariables() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.getRhsOffset",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.getRhsOffset()",
+    "snippet": "    protected final int getRhsOffset() {\n        return getWidth() - 1;\n    }",
+    "comment": " Get the offset of the right hand side. @return offset of the right hand side ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.getSlackVariableOffset",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.getSlackVariableOffset()",
+    "snippet": "    protected final int getSlackVariableOffset() {\n        return getNumObjectiveFunctions() + numDecisionVariables;\n    }",
+    "comment": " Get the offset of the first slack variable. @return offset of the first slack variable ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.getSolution",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.getSolution()",
+    "snippet": "    protected RealPointValuePair getSolution() {\n        double[] coefficients = new double[getOriginalNumDecisionVariables()];\n        Integer basicRow =\n            getBasicRow(getNumObjectiveFunctions() + getOriginalNumDecisionVariables());\n        double mostNegative = basicRow == null ? 0 : getEntry(basicRow, getRhsOffset());\n        for (int i = 0; i < coefficients.length; i++) {\n            basicRow = getBasicRow(getNumObjectiveFunctions() + i);\n                // if multiple variables can take a given value \n                // then we choose the first and set the rest equal to 0\n                coefficients[i] =\n                    (basicRow == null ? 0 : getEntry(basicRow, getRhsOffset())) -\n                    (restrictToNonNegative ? 0 : mostNegative);\n            if (basicRow != null) {\n                for (int j = getNumObjectiveFunctions(); j < getNumObjectiveFunctions() + i; j++) {\n                    if (tableau.getEntry(basicRow, j) == 1) {\n                         coefficients[i] = 0;\n                    }\n                }\n            }\n        }\n        return new RealPointValuePair(coefficients, f.getValue(coefficients));\n    }",
+    "comment": " Get the current solution. <p> {@link #solve} should be called first for this to be the optimal solution. </p> @return current solution ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.getWidth",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.getWidth()",
+    "snippet": "    protected final int getWidth() {\n        return tableau.getColumnDimension();\n    }",
+    "comment": " Get the width of the tableau. @return width of the tableau ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.initialize",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.initialize()",
+    "snippet": "    private void initialize() {\n        for (int artificialVar = 0; artificialVar < numArtificialVariables; artificialVar++) {\n            int row = getBasicRow(getArtificialVariableOffset() + artificialVar);\n            subtractRow(0, row, 1.0);\n        }\n    }",
+    "comment": " Puts the tableau in proper form by zeroing out the artificial variables in the objective function via elementary row operations. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.normalize",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.normalize(LinearConstraint)",
+    "snippet": "    private LinearConstraint normalize(final LinearConstraint constraint) {\n        if (constraint.getValue() < 0) {\n            return new LinearConstraint(constraint.getCoefficients().mapMultiply(-1),\n                                        constraint.getRelationship().oppositeRelationship(),\n                                        -1 * constraint.getValue());\n        }\n        return new LinearConstraint(constraint.getCoefficients(), \n                                    constraint.getRelationship(), constraint.getValue());\n    }",
+    "comment": " Get a new equation equivalent to this one with a positive right hand side. @param constraint reference constraint @return new equation ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimplexTableau.subtractRow",
+    "class_name": "org.apache.commons.math.optimization.linear.SimplexTableau",
+    "signature": "org.apache.commons.math.optimization.linear.SimplexTableau.subtractRow(int,int,double)",
+    "snippet": "    protected void subtractRow(final int minuendRow, final int subtrahendRow,\n                               final double multiple) {\n        for (int j = 0; j < getWidth(); j++) {\n            tableau.setEntry(minuendRow, j, tableau.getEntry(minuendRow, j) -\n                             multiple * tableau.getEntry(subtrahendRow, j));\n        }\n    }",
+    "comment": " Subtracts a multiple of one row from another. <p> After application of this operation, the following will hold: minuendRow = minuendRow - multiple * subtrahendRow </p> @param minuendRow row index @param subtrahendRow row index @param multiple multiplication factor ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompositeFormat.getDefaultNumberFormat",
+    "class_name": "org.apache.commons.math.util.CompositeFormat",
+    "signature": "org.apache.commons.math.util.CompositeFormat.getDefaultNumberFormat(Locale)",
+    "snippet": "    protected static NumberFormat getDefaultNumberFormat(final Locale locale) {\n        final NumberFormat nf = NumberFormat.getInstance(locale);\n        nf.setMaximumFractionDigits(2);\n        return nf;\n    }",
+    "comment": " Create a default number format.  The default number format is based on {@link NumberFormat#getInstance(java.util.Locale)} with the only customizing that the maximum number of fraction digits is set to 2.   @param locale the specific locale used by the format. @return the default number format specific to the given locale. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathUtils.compareTo",
+    "class_name": "org.apache.commons.math.util.MathUtils",
+    "signature": "org.apache.commons.math.util.MathUtils.compareTo(double,double,double)",
+    "snippet": "    public static int compareTo(double x, double y, double eps) {\n        if (equals(x, y, eps)) {\n            return 0;\n        } else if (x < y) {\n          return -1;\n        }\n        return 1;\n    }",
+    "comment": " Compares two numbers given some amount of allowed error.  @param x the first number @param y the second number @param eps the amount of error to allow when checking for equality @return <ul><li>0 if  {@link #equals(double, double, double) equals(x, y, eps)}</li> <li>&lt; 0 if !{@link #equals(double, double, double) equals(x, y, eps)} &amp;&amp; x &lt; y</li> <li>> 0 if !{@link #equals(double, double, double) equals(x, y, eps)} &amp;&amp; x > y</li></ul> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathUtils.equals",
+    "class_name": "org.apache.commons.math.util.MathUtils",
+    "signature": "org.apache.commons.math.util.MathUtils.equals(double,double)",
+    "snippet": "    public static boolean equals(double x, double y) {\n        return ((Double.isNaN(x) && Double.isNaN(y)) || x == y);\n    }",
+    "comment": " Returns true iff both arguments are NaN or neither is NaN and they are equal  @param x first value @param y second value @return true if the values are equal or both are NaN ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathUtils.equals",
+    "class_name": "org.apache.commons.math.util.MathUtils",
+    "signature": "org.apache.commons.math.util.MathUtils.equals(double,double,double)",
+    "snippet": "    public static boolean equals(double x, double y, double eps) {\n      return equals(x, y) || (Math.abs(y - x) <= eps);\n    }",
+    "comment": " Returns true iff both arguments are equal or within the range of allowed error (inclusive). <p> Two NaNs are considered equals, as are two infinities with same sign. </p>  @param x first value @param y second value @param eps the amount of absolute error to allow @return true if the values are equal or within range of each other ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

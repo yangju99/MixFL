@@ -1,0 +1,852 @@
+[
+  {
+    "name": "Gaussian.value",
+    "class_name": "org.apache.commons.math.analysis.function.Gaussian",
+    "signature": "org.apache.commons.math.analysis.function.Gaussian.value(double,double,double)",
+    "snippet": "    private static double value(double xMinusMean,\n                                double norm,\n                                double i2s2) {\n        return norm * FastMath.exp(-xMinusMean * xMinusMean * i2s2);\n    }",
+    "comment": " @param xMinusMean {@code x - mean}. @param norm Normalization factor. @param i2s2 Inverse of twice the square of the standard deviation. @return the value of the Gaussian at {@code x}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Parametric.gradient",
+    "class_name": "org.apache.commons.math.analysis.function.Gaussian$Parametric",
+    "signature": "org.apache.commons.math.analysis.function.Gaussian$Parametric.gradient(double,double[])",
+    "snippet": "        public double[] gradient(double x, double[] param) {\n            validateParameters(param);\n\n            final double norm = param[0];\n            final double diff = x - param[1];\n            final double sigma = param[2];\n            final double i2s2 = 1 / (2 * sigma * sigma);\n\n            final double n = Gaussian.value(diff, 1, i2s2);\n            final double m = norm * n * 2 * i2s2 * diff;\n            final double s = m * diff / sigma;\n\n            return new double[] { n, m, s };\n        }",
+    "comment": " Computes the value of the gradient at {@code x}. The components of the gradient vector are the partial derivatives of the function with respect to each of the <em>parameters</em> (norm, mean and standard deviation).  @param x Value at which the gradient must be computed. @param param Values of norm, mean and standard deviation. @return the gradient vector at {@code x}. @throws NullArgumentException if {@code param} is {@code null}. @throws DimensionMismatchException if the size of {@code param} is not 3. @throws NotStrictlyPositiveException if {@code param[2]} is negative. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Parametric.validateParameters",
+    "class_name": "org.apache.commons.math.analysis.function.Gaussian$Parametric",
+    "signature": "org.apache.commons.math.analysis.function.Gaussian$Parametric.validateParameters(double[])",
+    "snippet": "        private void validateParameters(double[] param) {\n            if (param == null) {\n                throw new NullArgumentException();\n            }\n            if (param.length != 3) {\n                throw new DimensionMismatchException(param.length, 3);\n            }\n            if (param[2] <= 0) {\n                throw new NotStrictlyPositiveException(param[2]);\n            }\n        }",
+    "comment": " Validates parameters to ensure they are appropriate for the evaluation of the {@link #value(double,double[])} and {@link #gradient(double,double[])} methods.  @param param Values of norm, mean and standard deviation. @throws NullArgumentException if {@code param} is {@code null}. @throws DimensionMismatchException if the size of {@code param} is not 3. @throws NotStrictlyPositiveException if {@code param[2]} is negative. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Parametric.value",
+    "class_name": "org.apache.commons.math.analysis.function.Gaussian$Parametric",
+    "signature": "org.apache.commons.math.analysis.function.Gaussian$Parametric.value(double,double[])",
+    "snippet": "        public double value(double x,\n                            double[] param) {\n            validateParameters(param);\n\n            final double diff = x - param[1];\n            final double i2s2 = 1 / (2 * param[2] * param[2]);\n            return Gaussian.value(diff, param[0], i2s2);\n        }",
+    "comment": " Computes the value of the Gaussian at {@code x}.  @param x Value for which the function must be computed. @param param Values of norm, mean and standard deviation. @return the value of the function. @throws NullArgumentException if {@code param} is {@code null}. @throws DimensionMismatchException if the size of {@code param} is not 3. @throws NotStrictlyPositiveException if {@code param[2]} is negative. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathIllegalArgumentException.MathIllegalArgumentException",
+    "class_name": "org.apache.commons.math.exception.MathIllegalArgumentException",
+    "signature": "org.apache.commons.math.exception.MathIllegalArgumentException.MathIllegalArgumentException(Localizable,Localizable,Object[])",
+    "snippet": "    public MathIllegalArgumentException(Localizable specific,\n                                        Localizable general,\n                                        Object ... args) {\n        super(null, specific, general, args);\n    }",
+    "comment": " @param specific Message pattern providing the specific context of the error. @param general Message pattern explaining the cause of the error. @param args Arguments. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathIllegalNumberException.MathIllegalNumberException",
+    "class_name": "org.apache.commons.math.exception.MathIllegalNumberException",
+    "signature": "org.apache.commons.math.exception.MathIllegalNumberException.MathIllegalNumberException(Localizable,Localizable,Number,Object[])",
+    "snippet": "    protected MathIllegalNumberException(Localizable specific,\n                                         Localizable general,\n                                         Number wrong,\n                                         Object ... arguments) {\n        super(specific, general, wrong, arguments);\n        argument = wrong;\n    }",
+    "comment": " Construct an exception.  @param specific Localizable pattern. @param general Localizable pattern. @param wrong Wrong number. @param arguments Arguments. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathRuntimeException.MathRuntimeException",
+    "class_name": "org.apache.commons.math.exception.MathRuntimeException",
+    "signature": "org.apache.commons.math.exception.MathRuntimeException.MathRuntimeException(Throwable,Localizable,Localizable,Object[])",
+    "snippet": "    public MathRuntimeException(final Throwable cause,\n                                final Localizable specific,\n                                final Localizable general,\n                                final Object ... arguments) {\n        super(cause);\n        this.specific = specific;\n        this.general = general;\n        this.arguments = ArgUtils.flatten(arguments);\n    }",
+    "comment": " Build an exception from two patterns (specific and general) and an argument list.  @param cause Cause of the error (may be null). @param specific Format specifier for the specific part (may be null). @param general Format specifier for the general part (may be null). @param arguments Format arguments. They will be substituted in <em>both</em> the {@code general} and {@code specific} format specifiers. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathRuntimeException.getLocalizedMessage",
+    "class_name": "org.apache.commons.math.exception.MathRuntimeException",
+    "signature": "org.apache.commons.math.exception.MathRuntimeException.getLocalizedMessage()",
+    "snippet": "    @Override\n    public String getLocalizedMessage() {\n        return getMessage(Locale.getDefault());\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathRuntimeException.getMessage",
+    "class_name": "org.apache.commons.math.exception.MathRuntimeException",
+    "signature": "org.apache.commons.math.exception.MathRuntimeException.getMessage()",
+    "snippet": "    @Override\n    public String getMessage() {\n        return getMessage(Locale.US);\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathRuntimeException.getMessage",
+    "class_name": "org.apache.commons.math.exception.MathRuntimeException",
+    "signature": "org.apache.commons.math.exception.MathRuntimeException.getMessage(Locale)",
+    "snippet": "    public String getMessage(final Locale locale) {\n        return MessageFactory.buildMessage(locale, specific, general, arguments);\n    }",
+    "comment": " Get the message in a specified locale.  @param locale Locale in which the message should be translated. @return the localized message. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NotStrictlyPositiveException.NotStrictlyPositiveException",
+    "class_name": "org.apache.commons.math.exception.NotStrictlyPositiveException",
+    "signature": "org.apache.commons.math.exception.NotStrictlyPositiveException.NotStrictlyPositiveException(Number)",
+    "snippet": "    public NotStrictlyPositiveException(Number value) {\n        super(value, 0, false);\n    }",
+    "comment": " Construct the exception.  @param value Argument. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NumberIsTooSmallException.NumberIsTooSmallException",
+    "class_name": "org.apache.commons.math.exception.NumberIsTooSmallException",
+    "signature": "org.apache.commons.math.exception.NumberIsTooSmallException.NumberIsTooSmallException(Localizable,Number,Number,boolean)",
+    "snippet": "    public NumberIsTooSmallException(Localizable specific,\n                                     Number wrong,\n                                     Number min,\n                                     boolean boundIsAllowed) {\n        super(specific,\n              boundIsAllowed ?\n              LocalizedFormats.NUMBER_TOO_SMALL :\n              LocalizedFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED,\n              wrong, min);\n\n        this.min = min;\n        this.boundIsAllowed = boundIsAllowed;\n    }",
+    "comment": " Construct the exception with a specific context.  @param specific Specific contexte pattern. @param wrong Value that is smaller than the minimum. @param min Minimum. @param boundIsAllowed Whether {@code min} is included in the allowed range. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "NumberIsTooSmallException.NumberIsTooSmallException",
+    "class_name": "org.apache.commons.math.exception.NumberIsTooSmallException",
+    "signature": "org.apache.commons.math.exception.NumberIsTooSmallException.NumberIsTooSmallException(Number,Number,boolean)",
+    "snippet": "    public NumberIsTooSmallException(Number wrong,\n                                     Number min,\n                                     boolean boundIsAllowed) {\n        this(null, wrong, min, boundIsAllowed);\n    }",
+    "comment": " Construct the exception.  @param wrong Value that is smaller than the minimum. @param min Minimum. @param boundIsAllowed Whether {@code min} is included in the allowed range. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "OutOfRangeException.OutOfRangeException",
+    "class_name": "org.apache.commons.math.exception.OutOfRangeException",
+    "signature": "org.apache.commons.math.exception.OutOfRangeException.OutOfRangeException(Localizable,Number,Number,Number)",
+    "snippet": "    public OutOfRangeException(Localizable specific,\n                               Number wrong,\n                               Number lo,\n                               Number hi) {\n        super(specific, LocalizedFormats.OUT_OF_RANGE_SIMPLE,\n              wrong, lo, hi);\n        this.lo = lo;\n        this.hi = hi;\n    }",
+    "comment": " Construct an exception from the mismatched dimensions with a specific context information.  @param specific Context information. @param wrong Requested value. @param lo Lower bound. @param hi Higher bound. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "OutOfRangeException.OutOfRangeException",
+    "class_name": "org.apache.commons.math.exception.OutOfRangeException",
+    "signature": "org.apache.commons.math.exception.OutOfRangeException.OutOfRangeException(Number,Number,Number)",
+    "snippet": "    public OutOfRangeException(Number wrong,\n                               Number lo,\n                               Number hi) {\n        this(null, wrong, lo, hi);\n    }",
+    "comment": " Construct an exception from the mismatched dimensions.  @param wrong Requested value. @param lo Lower bound. @param hi Higher bound. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ArgUtils.flatten",
+    "class_name": "org.apache.commons.math.exception.util.ArgUtils",
+    "signature": "org.apache.commons.math.exception.util.ArgUtils.flatten(Object[])",
+    "snippet": "    public static Object[] flatten(Object[] array) {\n        final List<Object> list = new ArrayList<Object>();\n        if (array != null) {\n            for (Object o : array) {\n                if (o instanceof Object[]) {\n                    for (Object oR : flatten((Object[]) o)) {\n                        list.add(oR);\n                    }\n                } else {\n                    list.add(o);\n                }\n            }\n        }\n        return list.toArray();\n    }",
+    "comment": " Transform a multidimensional array into a one-dimensional list.  @param array Array (possibly multidimensional). @return a list of all the {@code Object} instances contained in {@code array}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LocalizedFormats.getLocalizedString",
+    "class_name": "org.apache.commons.math.exception.util.LocalizedFormats",
+    "signature": "org.apache.commons.math.exception.util.LocalizedFormats.getLocalizedString(Locale)",
+    "snippet": "    public String getLocalizedString(final Locale locale) {\n        try {\n            ResourceBundle bundle =\n                    ResourceBundle.getBundle(\"META-INF/localization/LocalizedFormats\", locale);\n            if (bundle.getLocale().getLanguage().equals(locale.getLanguage())) {\n                // the value of the resource is the translated format\n                return bundle.getString(toString());\n            }\n\n        } catch (MissingResourceException mre) {\n            // do nothing here\n        }\n\n        // either the locale is not supported or the resource is unknown\n        // don't translate and fall back to using the source format\n        return sourceFormat;\n\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MessageFactory.buildMessage",
+    "class_name": "org.apache.commons.math.exception.util.MessageFactory",
+    "signature": "org.apache.commons.math.exception.util.MessageFactory.buildMessage(Locale,Localizable,Localizable,Object[])",
+    "snippet": "    public static String buildMessage(Locale locale,\n                                      Localizable specific,\n                                      Localizable general,\n                                      Object ... arguments) {\n        final StringBuilder sb = new StringBuilder();\n        if (general != null) {\n            final MessageFormat fmt = new MessageFormat(general.getLocalizedString(locale), locale);\n            sb.append(fmt.format(arguments));\n        }\n        if (specific != null) {\n            if (general != null) {\n                sb.append(\": \");\n            }\n            final MessageFormat fmt = new MessageFormat(specific.getLocalizedString(locale), locale);\n            sb.append(fmt.format(arguments));\n        }\n\n        return sb.toString();\n    }",
+    "comment": " Builds a message string by from two patterns (specific and general) and an argument list.  @param locale Locale in which the message should be translated. @param specific Format specifier (may be null). @param general Format specifier (may be null). @param arguments Format arguments. They will be substituted in <em>both</em> the {@code general} and {@code specific} format specifiers. @return a localized message string. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractConvergenceChecker.AbstractConvergenceChecker",
+    "class_name": "org.apache.commons.math.optimization.AbstractConvergenceChecker",
+    "signature": "org.apache.commons.math.optimization.AbstractConvergenceChecker.AbstractConvergenceChecker()",
+    "snippet": "    public AbstractConvergenceChecker() {\n        this.relativeThreshold = DEFAULT_RELATIVE_THRESHOLD;\n        this.absoluteThreshold = DEFAULT_ABSOLUTE_THRESHOLD;\n    }",
+    "comment": " Build an instance with default thresholds. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractConvergenceChecker.getAbsoluteThreshold",
+    "class_name": "org.apache.commons.math.optimization.AbstractConvergenceChecker",
+    "signature": "org.apache.commons.math.optimization.AbstractConvergenceChecker.getAbsoluteThreshold()",
+    "snippet": "    public double getAbsoluteThreshold() {\n        return absoluteThreshold;\n    }",
+    "comment": " @return the absolute threshold. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractConvergenceChecker.getRelativeThreshold",
+    "class_name": "org.apache.commons.math.optimization.AbstractConvergenceChecker",
+    "signature": "org.apache.commons.math.optimization.AbstractConvergenceChecker.getRelativeThreshold()",
+    "snippet": "    public double getRelativeThreshold() {\n        return relativeThreshold;\n    }",
+    "comment": " @return the relative threshold. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimpleVectorialValueChecker.SimpleVectorialValueChecker",
+    "class_name": "org.apache.commons.math.optimization.SimpleVectorialValueChecker",
+    "signature": "org.apache.commons.math.optimization.SimpleVectorialValueChecker.SimpleVectorialValueChecker()",
+    "snippet": "    public SimpleVectorialValueChecker() {}",
+    "comment": " Build an instance with default thresholds. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "SimpleVectorialValueChecker.converged",
+    "class_name": "org.apache.commons.math.optimization.SimpleVectorialValueChecker",
+    "signature": "org.apache.commons.math.optimization.SimpleVectorialValueChecker.converged(int,VectorialPointValuePair,VectorialPointValuePair)",
+    "snippet": "    @Override\n    public boolean converged(final int iteration,\n                             final VectorialPointValuePair previous,\n                             final VectorialPointValuePair current) {\n        final double[] p = previous.getValueRef();\n        final double[] c = current.getValueRef();\n        for (int i = 0; i < p.length; ++i) {\n            final double pi         = p[i];\n            final double ci         = c[i];\n            final double difference = FastMath.abs(pi - ci);\n            final double size       = FastMath.max(FastMath.abs(pi), FastMath.abs(ci));\n            if (difference > size * getRelativeThreshold() &&\n                difference > getAbsoluteThreshold()) {\n                return false;\n            }\n        }\n        return true;\n    }",
+    "comment": " Check if the optimization algorithm has converged considering the last two points. This method may be called several time from the same algorithm iteration with different points. This can be detected by checking the iteration number at each call if needed. Each time this method is called, the previous and current point correspond to points with the same role at each iteration, so they can be compared. As an example, simplex-based algorithms call this method for all points of the simplex, not only for the best or worst ones.  @param iteration Index of current iteration @param previous Best point in the previous iteration. @param current Best point in the current iteration. @return {@code true} if the algorithm has converged. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "VectorialPointValuePair.VectorialPointValuePair",
+    "class_name": "org.apache.commons.math.optimization.VectorialPointValuePair",
+    "signature": "org.apache.commons.math.optimization.VectorialPointValuePair.VectorialPointValuePair(double[],double[])",
+    "snippet": "    public VectorialPointValuePair(final double[] point, final double[] value) {\n        this.point = (point == null) ? null : point.clone();\n        this.value = (value == null) ? null : value.clone();\n    }",
+    "comment": "Build a point/objective function value pair. @param point point coordinates (the built instance will store a copy of the array, not the array passed as argument) @param value value of an objective function at the point ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "VectorialPointValuePair.getValueRef",
+    "class_name": "org.apache.commons.math.optimization.VectorialPointValuePair",
+    "signature": "org.apache.commons.math.optimization.VectorialPointValuePair.getValueRef()",
+    "snippet": "    public double[] getValueRef() {\n        return value;\n    }",
+    "comment": "Get a reference to the value of the objective function. <p>This method is provided as a convenience to avoid copying the array, the elements of the array should <em>not</em> be modified.</p> @return a reference to the internal array storing the value of the objective function ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractVectorialOptimizer.BaseAbstractVectorialOptimizer",
+    "class_name": "org.apache.commons.math.optimization.direct.BaseAbstractVectorialOptimizer",
+    "signature": "org.apache.commons.math.optimization.direct.BaseAbstractVectorialOptimizer.BaseAbstractVectorialOptimizer()",
+    "snippet": "    protected BaseAbstractVectorialOptimizer() {\n        this(new SimpleVectorialValueChecker());\n    }",
+    "comment": " Simple constructor with default settings. The convergence check is set to a {@link SimpleVectorialValueChecker} and the allowed number of evaluations is set to {@link Integer#MAX_VALUE}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractVectorialOptimizer.BaseAbstractVectorialOptimizer",
+    "class_name": "org.apache.commons.math.optimization.direct.BaseAbstractVectorialOptimizer",
+    "signature": "org.apache.commons.math.optimization.direct.BaseAbstractVectorialOptimizer.BaseAbstractVectorialOptimizer(ConvergenceChecker)",
+    "snippet": "    protected BaseAbstractVectorialOptimizer(ConvergenceChecker<VectorialPointValuePair> checker) {\n        this.checker = checker;\n    }",
+    "comment": " @param checker Convergence checker. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractVectorialOptimizer.computeObjectiveValue",
+    "class_name": "org.apache.commons.math.optimization.direct.BaseAbstractVectorialOptimizer",
+    "signature": "org.apache.commons.math.optimization.direct.BaseAbstractVectorialOptimizer.computeObjectiveValue(double[])",
+    "snippet": "    protected double[] computeObjectiveValue(double[] point) {\n        try {\n            evaluations.incrementCount();\n        } catch (MaxCountExceededException e) {\n            throw new TooManyEvaluationsException(e.getMax());\n        }\n        return function.value(point);\n    }",
+    "comment": " Compute the objective function value.  @param point Point at which the objective function must be evaluated. @return the objective function value at the specified point. @throws TooManyEvaluationsException if the maximal number of evaluations is exceeded. @throws org.apache.commons.math.exception.MathUserException if the objective function throws one. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractVectorialOptimizer.getConvergenceChecker",
+    "class_name": "org.apache.commons.math.optimization.direct.BaseAbstractVectorialOptimizer",
+    "signature": "org.apache.commons.math.optimization.direct.BaseAbstractVectorialOptimizer.getConvergenceChecker()",
+    "snippet": "    public ConvergenceChecker<VectorialPointValuePair> getConvergenceChecker() {\n        return checker;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractVectorialOptimizer.getTargetRef",
+    "class_name": "org.apache.commons.math.optimization.direct.BaseAbstractVectorialOptimizer",
+    "signature": "org.apache.commons.math.optimization.direct.BaseAbstractVectorialOptimizer.getTargetRef()",
+    "snippet": "    protected double[] getTargetRef() {\n        return target;\n    }",
+    "comment": " @return a reference to the {@link #target array}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BaseAbstractVectorialOptimizer.getWeightRef",
+    "class_name": "org.apache.commons.math.optimization.direct.BaseAbstractVectorialOptimizer",
+    "signature": "org.apache.commons.math.optimization.direct.BaseAbstractVectorialOptimizer.getWeightRef()",
+    "snippet": "    protected double[] getWeightRef() {\n        return weight;\n    }",
+    "comment": " @return a reference to the {@link #weight array}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CurveFitter.CurveFitter",
+    "class_name": "org.apache.commons.math.optimization.fitting.CurveFitter",
+    "signature": "org.apache.commons.math.optimization.fitting.CurveFitter.CurveFitter(DifferentiableMultivariateVectorialOptimizer)",
+    "snippet": "    public CurveFitter(final DifferentiableMultivariateVectorialOptimizer optimizer) {\n        this.optimizer = optimizer;\n        observations = new ArrayList<WeightedObservedPoint>();\n    }",
+    "comment": "Simple constructor. @param optimizer optimizer to use for the fitting ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CurveFitter.addObservedPoint",
+    "class_name": "org.apache.commons.math.optimization.fitting.CurveFitter",
+    "signature": "org.apache.commons.math.optimization.fitting.CurveFitter.addObservedPoint(double,double)",
+    "snippet": "    public void addObservedPoint(double x, double y) {\n        addObservedPoint(1.0, x, y);\n    }",
+    "comment": "Add an observed (x,y) point to the sample with unit weight. <p>Calling this method is equivalent to call {@code addObservedPoint(1.0, x, y)}.</p> @param x abscissa of the point @param y observed value of the point at x, after fitting we should have f(x) as close as possible to this value @see #addObservedPoint(double, double, double) @see #addObservedPoint(WeightedObservedPoint) @see #getObservations() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CurveFitter.addObservedPoint",
+    "class_name": "org.apache.commons.math.optimization.fitting.CurveFitter",
+    "signature": "org.apache.commons.math.optimization.fitting.CurveFitter.addObservedPoint(double,double,double)",
+    "snippet": "    public void addObservedPoint(double weight, double x, double y) {\n        observations.add(new WeightedObservedPoint(weight, x, y));\n    }",
+    "comment": "Add an observed weighted (x,y) point to the sample. @param weight weight of the observed point in the fit @param x abscissa of the point @param y observed value of the point at x, after fitting we should have f(x) as close as possible to this value @see #addObservedPoint(double, double) @see #addObservedPoint(WeightedObservedPoint) @see #getObservations() ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CurveFitter.fit",
+    "class_name": "org.apache.commons.math.optimization.fitting.CurveFitter",
+    "signature": "org.apache.commons.math.optimization.fitting.CurveFitter.fit(ParametricUnivariateRealFunction,double[])",
+    "snippet": "    public double[] fit(final ParametricUnivariateRealFunction f, final double[] initialGuess) {\n        return fit(Integer.MAX_VALUE, f, initialGuess);\n    }",
+    "comment": " Fit a curve. This method compute the coefficients of the curve that best fit the sample of observed points previously given through calls to the {@link #addObservedPoint(WeightedObservedPoint) addObservedPoint} method.  @param f parametric function to fit. @param initialGuess first guess of the function parameters. @return the fitted parameters. @throws org.apache.commons.math.exception.DimensionMismatchException if the start point dimension is wrong. @throws org.apache.commons.math.exception.MathUserException if the parametric function throws one. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CurveFitter.fit",
+    "class_name": "org.apache.commons.math.optimization.fitting.CurveFitter",
+    "signature": "org.apache.commons.math.optimization.fitting.CurveFitter.fit(int,ParametricUnivariateRealFunction,double[])",
+    "snippet": "    public double[] fit(int maxEval, final ParametricUnivariateRealFunction f,\n                        final double[] initialGuess) {\n        // prepare least squares problem\n        double[] target  = new double[observations.size()];\n        double[] weights = new double[observations.size()];\n        int i = 0;\n        for (WeightedObservedPoint point : observations) {\n            target[i]  = point.getY();\n            weights[i] = point.getWeight();\n            ++i;\n        }\n\n        // perform the fit\n        VectorialPointValuePair optimum =\n            optimizer.optimize(maxEval, new TheoreticalValuesFunction(f),\n                               target, weights, initialGuess);\n\n        // extract the coefficients\n        return optimum.getPointRef();\n    }",
+    "comment": " Fit a curve. This method compute the coefficients of the curve that best fit the sample of observed points previously given through calls to the {@link #addObservedPoint(WeightedObservedPoint) addObservedPoint} method.  @param f parametric function to fit. @param initialGuess first guess of the function parameters. @param maxEval Maximum number of function evaluations. @return the fitted parameters. @throws org.apache.commons.math.exception.TooManyEvaluationsException if the number of allowed evaluations is exceeded. @throws org.apache.commons.math.exception.DimensionMismatchException if the start point dimension is wrong. @throws org.apache.commons.math.exception.MathUserException if the parametric function throws one. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CurveFitter.getObservations",
+    "class_name": "org.apache.commons.math.optimization.fitting.CurveFitter",
+    "signature": "org.apache.commons.math.optimization.fitting.CurveFitter.getObservations()",
+    "snippet": "    public WeightedObservedPoint[] getObservations() {\n        return observations.toArray(new WeightedObservedPoint[observations.size()]);\n    }",
+    "comment": "Get the observed points. @return observed points @see #addObservedPoint(double, double) @see #addObservedPoint(double, double, double) @see #addObservedPoint(WeightedObservedPoint) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TheoreticalValuesFunction.jacobian",
+    "class_name": "org.apache.commons.math.optimization.fitting.CurveFitter$TheoreticalValuesFunction",
+    "signature": "org.apache.commons.math.optimization.fitting.CurveFitter$TheoreticalValuesFunction.jacobian()",
+    "snippet": "        public MultivariateMatrixFunction jacobian() {\n            return new MultivariateMatrixFunction() {\n                public double[][] value(double[] point) {\n                    final double[][] jacobian = new double[observations.size()][];\n\n                    int i = 0;\n                    for (WeightedObservedPoint observed : observations) {\n                        jacobian[i++] = f.gradient(observed.getX(), point);\n                    }\n\n                    return jacobian;\n                }\n            };\n        }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TheoreticalValuesFunction.value",
+    "class_name": "org.apache.commons.math.optimization.fitting.CurveFitter$TheoreticalValuesFunction",
+    "signature": "org.apache.commons.math.optimization.fitting.CurveFitter$TheoreticalValuesFunction.value(double[])",
+    "snippet": "        public double[] value(double[] point) {\n            // compute the residuals\n            final double[] values = new double[observations.size()];\n            int i = 0;\n            for (WeightedObservedPoint observed : observations) {\n                values[i++] = f.value(observed.getX(), point);\n            }\n\n            return values;\n        }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "GaussianFitter.GaussianFitter",
+    "class_name": "org.apache.commons.math.optimization.fitting.GaussianFitter",
+    "signature": "org.apache.commons.math.optimization.fitting.GaussianFitter.GaussianFitter(DifferentiableMultivariateVectorialOptimizer)",
+    "snippet": "    public GaussianFitter(DifferentiableMultivariateVectorialOptimizer optimizer) {\n        super(optimizer);\n    }",
+    "comment": " Constructs an instance using the specified optimizer.  @param optimizer Optimizer to use for the fitting. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "GaussianFitter.fit",
+    "class_name": "org.apache.commons.math.optimization.fitting.GaussianFitter",
+    "signature": "org.apache.commons.math.optimization.fitting.GaussianFitter.fit()",
+    "snippet": "    public double[] fit() {\n        final double[] guess = (new ParameterGuesser(getObservations())).guess();\n        return fit(new Gaussian.Parametric(), guess);\n    }",
+    "comment": " Fits a Gaussian function to the observed points.  @return the parameters of the Gaussian function that best fits the observed points (in the same order as above). ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ParameterGuesser.basicGuess",
+    "class_name": "org.apache.commons.math.optimization.fitting.GaussianFitter$ParameterGuesser",
+    "signature": "org.apache.commons.math.optimization.fitting.GaussianFitter$ParameterGuesser.basicGuess(WeightedObservedPoint[])",
+    "snippet": "        private double[] basicGuess(WeightedObservedPoint[] points) {\n            Arrays.sort(points, createWeightedObservedPointComparator());\n            double[] params = new double[3];\n\n            int maxYIdx = findMaxY(points);\n            params[0] = points[maxYIdx].getY();\n            params[1] = points[maxYIdx].getX();\n\n            double fwhmApprox;\n            try {\n                double halfY = params[0] + ((params[1] - params[0]) / 2.0);\n                double fwhmX1 = interpolateXAtY(points, maxYIdx, -1, halfY);\n                double fwhmX2 = interpolateXAtY(points, maxYIdx, +1, halfY);\n                fwhmApprox = fwhmX2 - fwhmX1;\n            } catch (OutOfRangeException e) {\n                fwhmApprox = points[points.length - 1].getX() - points[0].getX();\n            }\n            params[2] = fwhmApprox / (2.0 * Math.sqrt(2.0 * Math.log(2.0)));\n\n            return params;\n        }",
+    "comment": " Guesses the parameters based on the specified observed points.  @param points Observed points upon which should base guess. @return the guessed parameters: norm, mean and sigma. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ParameterGuesser.createWeightedObservedPointComparator",
+    "class_name": "org.apache.commons.math.optimization.fitting.GaussianFitter$ParameterGuesser",
+    "signature": "org.apache.commons.math.optimization.fitting.GaussianFitter$ParameterGuesser.createWeightedObservedPointComparator()",
+    "snippet": "        private Comparator<WeightedObservedPoint> createWeightedObservedPointComparator() {\n            return new Comparator<WeightedObservedPoint>() {\n                public int compare(WeightedObservedPoint p1, WeightedObservedPoint p2) {\n                    if (p1 == null && p2 == null) {\n                        return 0;\n                    }\n                    if (p1 == null) {\n                        return -1;\n                    }\n                    if (p2 == null) {\n                        return 1;\n                    }\n                    if (p1.getX() < p2.getX()) {\n                        return -1;\n                    }\n                    if (p1.getX() > p2.getX()) {\n                        return 1;\n                    }\n                    if (p1.getY() < p2.getY()) {\n                        return -1;\n                    }\n                    if (p1.getY() > p2.getY()) {\n                        return 1;\n                    }\n                    if (p1.getWeight() < p2.getWeight()) {\n                        return -1;\n                    }\n                    if (p1.getWeight() > p2.getWeight()) {\n                        return 1;\n                    }\n                    return 0;\n                }\n            };\n        }",
+    "comment": " Factory method creating {@code Comparator} for comparing {@code WeightedObservedPoint} instances.  @return the new {@code Comparator} instance. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ParameterGuesser.findMaxY",
+    "class_name": "org.apache.commons.math.optimization.fitting.GaussianFitter$ParameterGuesser",
+    "signature": "org.apache.commons.math.optimization.fitting.GaussianFitter$ParameterGuesser.findMaxY(WeightedObservedPoint[])",
+    "snippet": "        private int findMaxY(WeightedObservedPoint[] points) {\n            int maxYIdx = 0;\n            for (int i = 1; i < points.length; i++) {\n                if (points[i].getY() > points[maxYIdx].getY()) {\n                    maxYIdx = i;\n                }\n            }\n            return maxYIdx;\n        }",
+    "comment": " Finds index of point in specified points with the largest Y.  @param points Points to search. @return the index in specified points array. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ParameterGuesser.getInterpolationPointsForY",
+    "class_name": "org.apache.commons.math.optimization.fitting.GaussianFitter$ParameterGuesser",
+    "signature": "org.apache.commons.math.optimization.fitting.GaussianFitter$ParameterGuesser.getInterpolationPointsForY(WeightedObservedPoint[],int,int,double)",
+    "snippet": "        private WeightedObservedPoint[] getInterpolationPointsForY(WeightedObservedPoint[] points,\n                                                                   int startIdx, int idxStep, double y)\n            throws OutOfRangeException {\n            if (idxStep == 0) {\n                throw new ZeroException();\n            }\n            for (int i = startIdx;\n                 (idxStep < 0) ? (i + idxStep >= 0) : (i + idxStep < points.length);\n                 i += idxStep) {\n                if (isBetween(y, points[i].getY(), points[i + idxStep].getY())) {\n                    return (idxStep < 0) ?\n                           new WeightedObservedPoint[] { points[i + idxStep], points[i] } :\n                           new WeightedObservedPoint[] { points[i], points[i + idxStep] };\n                }\n            }\n\n            double minY = Double.POSITIVE_INFINITY;\n            double maxY = Double.NEGATIVE_INFINITY;\n            for (final WeightedObservedPoint point : points) {\n                minY = Math.min(minY, point.getY());\n                maxY = Math.max(maxY, point.getY());\n            }\n            throw new OutOfRangeException(y, minY, maxY);\n        }",
+    "comment": " Gets the two bounding interpolation points from the specified points suitable for determining X at the specified Y.  @param points Points to use for interpolation. @param startIdx Index within points from which to start search for interpolation bounds points. @param idxStep Index step for search for interpolation bounds points. @param y Y value for which X should be determined. @return the array containing two points suitable for determining X at the specified Y. @throws ZeroException if {@code idxStep} is 0. @throws OutOfRangeException if specified {@code y} is not within the range of the specified {@code points}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ParameterGuesser.guess",
+    "class_name": "org.apache.commons.math.optimization.fitting.GaussianFitter$ParameterGuesser",
+    "signature": "org.apache.commons.math.optimization.fitting.GaussianFitter$ParameterGuesser.guess()",
+    "snippet": "        public double[] guess() {\n            if (parameters == null) {\n                parameters = basicGuess(observations);\n            }\n            return parameters.clone();\n        }",
+    "comment": " Guesses the parameters based on the observed points.  @return the guessed parameters: norm, mean and sigma. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ParameterGuesser.interpolateXAtY",
+    "class_name": "org.apache.commons.math.optimization.fitting.GaussianFitter$ParameterGuesser",
+    "signature": "org.apache.commons.math.optimization.fitting.GaussianFitter$ParameterGuesser.interpolateXAtY(WeightedObservedPoint[],int,int,double)",
+    "snippet": "        private double interpolateXAtY(WeightedObservedPoint[] points,\n                                       int startIdx, int idxStep, double y)\n            throws OutOfRangeException {\n            if (idxStep == 0) {\n                throw new ZeroException();\n            }\n            WeightedObservedPoint[] twoPoints = getInterpolationPointsForY(points, startIdx, idxStep, y);\n            WeightedObservedPoint pointA = twoPoints[0];\n            WeightedObservedPoint pointB = twoPoints[1];\n            if (pointA.getY() == y) {\n                return pointA.getX();\n            }\n            if (pointB.getY() == y) {\n                return pointB.getX();\n            }\n            return pointA.getX() +\n                   (((y - pointA.getY()) * (pointB.getX() - pointA.getX())) /\n                    (pointB.getY() - pointA.getY()));\n        }",
+    "comment": " Interpolates using the specified points to determine X at the specified Y.  @param points Points to use for interpolation. @param startIdx Index within points from which to start search for interpolation bounds points. @param idxStep Index step for search for interpolation bounds points. @param y Y value for which X should be determined. @return the value of X at the specified Y. @throws ZeroException if {@code idxStep} is 0. @throws OutOfRangeException if specified {@code y} is not within the range of the specified {@code points}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ParameterGuesser.isBetween",
+    "class_name": "org.apache.commons.math.optimization.fitting.GaussianFitter$ParameterGuesser",
+    "signature": "org.apache.commons.math.optimization.fitting.GaussianFitter$ParameterGuesser.isBetween(double,double,double)",
+    "snippet": "        private boolean isBetween(double value, double boundary1, double boundary2) {\n            return (value >= boundary1 && value <= boundary2) ||\n                   (value >= boundary2 && value <= boundary1);\n        }",
+    "comment": " Determines whether a value is between two other values.  @param value Value to determine whether is between {@code boundary1} and {@code boundary2}. @param boundary1 One end of the range. @param boundary2 Other end of the range. @return {@code true} if {@code value} is between {@code boundary1} and {@code boundary2} (inclusive), {@code false} otherwise. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "WeightedObservedPoint.WeightedObservedPoint",
+    "class_name": "org.apache.commons.math.optimization.fitting.WeightedObservedPoint",
+    "signature": "org.apache.commons.math.optimization.fitting.WeightedObservedPoint.WeightedObservedPoint(double,double,double)",
+    "snippet": "    public WeightedObservedPoint(final double weight, final double x, final double y) {\n        this.weight = weight;\n        this.x      = x;\n        this.y      = y;\n    }",
+    "comment": "Simple constructor. @param weight weight of the measurement in the fitting process @param x abscissa of the measurement @param y ordinate of the measurement ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "WeightedObservedPoint.getWeight",
+    "class_name": "org.apache.commons.math.optimization.fitting.WeightedObservedPoint",
+    "signature": "org.apache.commons.math.optimization.fitting.WeightedObservedPoint.getWeight()",
+    "snippet": "    public double getWeight() {\n        return weight;\n    }",
+    "comment": "Get the weight of the measurement in the fitting process. @return weight of the measurement in the fitting process ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "WeightedObservedPoint.getX",
+    "class_name": "org.apache.commons.math.optimization.fitting.WeightedObservedPoint",
+    "signature": "org.apache.commons.math.optimization.fitting.WeightedObservedPoint.getX()",
+    "snippet": "    public double getX() {\n        return x;\n    }",
+    "comment": "Get the abscissa of the point. @return abscissa of the point ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "WeightedObservedPoint.getY",
+    "class_name": "org.apache.commons.math.optimization.fitting.WeightedObservedPoint",
+    "signature": "org.apache.commons.math.optimization.fitting.WeightedObservedPoint.getY()",
+    "snippet": "    public double getY() {\n        return y;\n    }",
+    "comment": "Get the observed value of the function at x. @return observed value of the function at x ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractLeastSquaresOptimizer.AbstractLeastSquaresOptimizer",
+    "class_name": "org.apache.commons.math.optimization.general.AbstractLeastSquaresOptimizer",
+    "signature": "org.apache.commons.math.optimization.general.AbstractLeastSquaresOptimizer.AbstractLeastSquaresOptimizer()",
+    "snippet": "    protected AbstractLeastSquaresOptimizer() {}",
+    "comment": " Simple constructor with default settings. The convergence check is set to a {@link org.apache.commons.math.optimization.SimpleVectorialValueChecker}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractLeastSquaresOptimizer.optimize",
+    "class_name": "org.apache.commons.math.optimization.general.AbstractLeastSquaresOptimizer",
+    "signature": "org.apache.commons.math.optimization.general.AbstractLeastSquaresOptimizer.optimize(int,DifferentiableMultivariateVectorialFunction,double[],double[],double[])",
+    "snippet": "    @Override\n    public VectorialPointValuePair optimize(int maxEval,\n                                            final DifferentiableMultivariateVectorialFunction f,\n                                            final double[] target, final double[] weights,\n                                            final double[] startPoint) {\n        // Reset counter.\n        jacobianEvaluations = 0;\n\n        // Store least squares problem characteristics.\n        jF = f.jacobian();\n        this.residuals = new double[target.length];\n\n        // Arrays shared with the other private methods.\n        point = startPoint.clone();\n        rows = target.length;\n        cols = point.length;\n\n        weightedResidualJacobian = new double[rows][cols];\n        this.weightedResiduals = new double[rows];\n\n        cost = Double.POSITIVE_INFINITY;\n\n        return super.optimize(maxEval, f, target, weights, startPoint);\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractLeastSquaresOptimizer.updateJacobian",
+    "class_name": "org.apache.commons.math.optimization.general.AbstractLeastSquaresOptimizer",
+    "signature": "org.apache.commons.math.optimization.general.AbstractLeastSquaresOptimizer.updateJacobian()",
+    "snippet": "    protected void updateJacobian() {\n        ++jacobianEvaluations;\n        weightedResidualJacobian = jF.value(point);\n        if (weightedResidualJacobian.length != rows) {\n            throw new DimensionMismatchException(weightedResidualJacobian.length, rows);\n        }\n\n        final double[] residualsWeights = getWeightRef();\n\n        for (int i = 0; i < rows; i++) {\n            final double[] ji = weightedResidualJacobian[i];\n            double wi = FastMath.sqrt(residualsWeights[i]);\n            for (int j = 0; j < cols; ++j) {\n                //ji[j] *=  -1.0;\n                weightedResidualJacobian[i][j] = -ji[j]*wi;\n            }\n        }\n    }",
+    "comment": " Update the jacobian matrix.  @throws DimensionMismatchException if the Jacobian dimension does not match problem dimension. @throws org.apache.commons.math.exception.MathUserException if the jacobian function throws one. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractLeastSquaresOptimizer.updateResidualsAndCost",
+    "class_name": "org.apache.commons.math.optimization.general.AbstractLeastSquaresOptimizer",
+    "signature": "org.apache.commons.math.optimization.general.AbstractLeastSquaresOptimizer.updateResidualsAndCost()",
+    "snippet": "    protected void updateResidualsAndCost() {\n        objective = computeObjectiveValue(point);\n        if (objective.length != rows) {\n            throw new DimensionMismatchException(objective.length, rows);\n        }\n\n        final double[] targetValues = getTargetRef();\n        final double[] residualsWeights = getWeightRef();\n\n        cost = 0;\n        int index = 0;\n        for (int i = 0; i < rows; i++) {\n            final double residual = targetValues[i] - objective[i];\n            weightedResiduals[i]= residual*FastMath.sqrt(residualsWeights[i]);\n            cost += residualsWeights[i] * residual * residual;\n            index += cols;\n        }\n        cost = FastMath.sqrt(cost);\n    }",
+    "comment": " Update the residuals array and cost function value. @throws DimensionMismatchException if the dimension does not match the problem dimension. @throws org.apache.commons.math.exception.TooManyEvaluationsException if the maximal number of evaluations is exceeded. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LevenbergMarquardtOptimizer.LevenbergMarquardtOptimizer",
+    "class_name": "org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer",
+    "signature": "org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer.LevenbergMarquardtOptimizer()",
+    "snippet": "    public LevenbergMarquardtOptimizer() {\n        this(100, 1e-10, 1e-10, 1e-10, MathUtils.SAFE_MIN);\n    }",
+    "comment": " Build an optimizer for least squares problems with default values for all the tuning parameters (see the {@link #LevenbergMarquardtOptimizer(double,double,double,double,double) other contructor}. The default values for the algorithm settings are: <ul> <li>Initial step bound factor}: 100</li> <li>Cost relative tolerance}: 1e-10</li> <li>Parameters relative tolerance}: 1e-10</li> <li>Orthogonality tolerance}: 1e-10</li> <li>QR ranking threshold}: {@link MathUtils#SAFE_MIN}</li> </ul> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LevenbergMarquardtOptimizer.LevenbergMarquardtOptimizer",
+    "class_name": "org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer",
+    "signature": "org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer.LevenbergMarquardtOptimizer(double,double,double,double,double)",
+    "snippet": "    public LevenbergMarquardtOptimizer(double initialStepBoundFactor,\n                                       double costRelativeTolerance,\n                                       double parRelativeTolerance,\n                                       double orthoTolerance,\n                                       double threshold) {\n        this.initialStepBoundFactor = initialStepBoundFactor;\n        this.costRelativeTolerance = costRelativeTolerance;\n        this.parRelativeTolerance = parRelativeTolerance;\n        this.orthoTolerance = orthoTolerance;\n        this.qrRankingThreshold = threshold;\n    }",
+    "comment": " The arguments control the behaviour of the default convergence checking procedure. Additional criteria can defined through the setting of a {@link ConvergenceChecker}.  @param initialStepBoundFactor Positive input variable used in determining the initial step bound. This bound is set to the product of initialStepBoundFactor and the euclidean norm of {@code diag * x} if non-zero, or else to {@code initialStepBoundFactor} itself. In most cases factor should lie in the interval {@code (0.1, 100.0)}. {@code 100} is a generally recommended value. @param costRelativeTolerance Desired relative error in the sum of squares. @param parRelativeTolerance Desired relative error in the approximate solution parameters. @param orthoTolerance Desired max cosine on the orthogonality between the function vector and the columns of the Jacobian. @param threshold Desired threshold for QR ranking. If the squared norm of a column vector is smaller or equal to this threshold during QR decomposition, it is considered to be a zero vector and hence the rank of the matrix is reduced. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LevenbergMarquardtOptimizer.determineLMDirection",
+    "class_name": "org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer",
+    "signature": "org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer.determineLMDirection(double[],double[],double[],double[])",
+    "snippet": "    private void determineLMDirection(double[] qy, double[] diag,\n            double[] lmDiag, double[] work) {\n\n        // copy R and Qty to preserve input and initialize s\n        //  in particular, save the diagonal elements of R in lmDir\n        for (int j = 0; j < solvedCols; ++j) {\n            int pj = permutation[j];\n            for (int i = j + 1; i < solvedCols; ++i) {\n                weightedResidualJacobian[i][pj] = weightedResidualJacobian[j][permutation[i]];\n            }\n            lmDir[j] = diagR[pj];\n            work[j]  = qy[j];\n        }\n\n        // eliminate the diagonal matrix d using a Givens rotation\n        for (int j = 0; j < solvedCols; ++j) {\n\n            // prepare the row of d to be eliminated, locating the\n            // diagonal element using p from the Q.R. factorization\n            int pj = permutation[j];\n            double dpj = diag[pj];\n            if (dpj != 0) {\n                Arrays.fill(lmDiag, j + 1, lmDiag.length, 0);\n            }\n            lmDiag[j] = dpj;\n\n            //  the transformations to eliminate the row of d\n            // modify only a single element of Qty\n            // beyond the first n, which is initially zero.\n            double qtbpj = 0;\n            for (int k = j; k < solvedCols; ++k) {\n                int pk = permutation[k];\n\n                // determine a Givens rotation which eliminates the\n                // appropriate element in the current row of d\n                if (lmDiag[k] != 0) {\n\n                    final double sin;\n                    final double cos;\n                    double rkk = weightedResidualJacobian[k][pk];\n                    if (FastMath.abs(rkk) < FastMath.abs(lmDiag[k])) {\n                        final double cotan = rkk / lmDiag[k];\n                        sin   = 1.0 / FastMath.sqrt(1.0 + cotan * cotan);\n                        cos   = sin * cotan;\n                    } else {\n                        final double tan = lmDiag[k] / rkk;\n                        cos = 1.0 / FastMath.sqrt(1.0 + tan * tan);\n                        sin = cos * tan;\n                    }\n\n                    // compute the modified diagonal element of R and\n                    // the modified element of (Qty,0)\n                    weightedResidualJacobian[k][pk] = cos * rkk + sin * lmDiag[k];\n                    final double temp = cos * work[k] + sin * qtbpj;\n                    qtbpj = -sin * work[k] + cos * qtbpj;\n                    work[k] = temp;\n\n                    // accumulate the tranformation in the row of s\n                    for (int i = k + 1; i < solvedCols; ++i) {\n                        double rik = weightedResidualJacobian[i][pk];\n                        final double temp2 = cos * rik + sin * lmDiag[i];\n                        lmDiag[i] = -sin * rik + cos * lmDiag[i];\n                        weightedResidualJacobian[i][pk] = temp2;\n                    }\n                }\n            }\n\n            // store the diagonal element of s and restore\n            // the corresponding diagonal element of R\n            lmDiag[j] = weightedResidualJacobian[j][permutation[j]];\n            weightedResidualJacobian[j][permutation[j]] = lmDir[j];\n        }\n\n        // solve the triangular system for z, if the system is\n        // singular, then obtain a least squares solution\n        int nSing = solvedCols;\n        for (int j = 0; j < solvedCols; ++j) {\n            if ((lmDiag[j] == 0) && (nSing == solvedCols)) {\n                nSing = j;\n            }\n            if (nSing < solvedCols) {\n                work[j] = 0;\n            }\n        }\n        if (nSing > 0) {\n            for (int j = nSing - 1; j >= 0; --j) {\n                int pj = permutation[j];\n                double sum = 0;\n                for (int i = j + 1; i < nSing; ++i) {\n                    sum += weightedResidualJacobian[i][pj] * work[i];\n                }\n                work[j] = (work[j] - sum) / lmDiag[j];\n            }\n        }\n\n        // permute the components of z back to components of lmDir\n        for (int j = 0; j < lmDir.length; ++j) {\n            lmDir[permutation[j]] = work[j];\n        }\n    }",
+    "comment": " Solve a*x = b and d*x = 0 in the least squares sense. <p>This implementation is a translation in Java of the MINPACK <a href=\"http://www.netlib.org/minpack/qrsolv.f\">qrsolv</a> routine.</p> <p>This method sets the lmDir and lmDiag attributes.</p> <p>The authors of the original fortran function are:</p> <ul> <li>Argonne National Laboratory. MINPACK project. March 1980</li> <li>Burton  S. Garbow</li> <li>Kenneth E. Hillstrom</li> <li>Jorge   J. More</li> </ul> <p>Luc Maisonobe did the Java translation.</p>  @param qy array containing qTy @param diag diagonal matrix @param lmDiag diagonal elements associated with lmDir @param work work array ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LevenbergMarquardtOptimizer.determineLMParameter",
+    "class_name": "org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer",
+    "signature": "org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer.determineLMParameter(double[],double,double[],double[],double[],double[])",
+    "snippet": "    private void determineLMParameter(double[] qy, double delta, double[] diag,\n            double[] work1, double[] work2, double[] work3) {\n\n        // compute and store in x the gauss-newton direction, if the\n        // jacobian is rank-deficient, obtain a least squares solution\n        for (int j = 0; j < rank; ++j) {\n            lmDir[permutation[j]] = qy[j];\n        }\n        for (int j = rank; j < cols; ++j) {\n            lmDir[permutation[j]] = 0;\n        }\n        for (int k = rank - 1; k >= 0; --k) {\n            int pk = permutation[k];\n            double ypk = lmDir[pk] / diagR[pk];\n            for (int i = 0; i < k; ++i) {\n                lmDir[permutation[i]] -= ypk * weightedResidualJacobian[i][pk];\n            }\n            lmDir[pk] = ypk;\n        }\n\n        // evaluate the function at the origin, and test\n        // for acceptance of the Gauss-Newton direction\n        double dxNorm = 0;\n        for (int j = 0; j < solvedCols; ++j) {\n            int pj = permutation[j];\n            double s = diag[pj] * lmDir[pj];\n            work1[pj] = s;\n            dxNorm += s * s;\n        }\n        dxNorm = FastMath.sqrt(dxNorm);\n        double fp = dxNorm - delta;\n        if (fp <= 0.1 * delta) {\n            lmPar = 0;\n            return;\n        }\n\n        // if the jacobian is not rank deficient, the Newton step provides\n        // a lower bound, parl, for the zero of the function,\n        // otherwise set this bound to zero\n        double sum2;\n        double parl = 0;\n        if (rank == solvedCols) {\n            for (int j = 0; j < solvedCols; ++j) {\n                int pj = permutation[j];\n                work1[pj] *= diag[pj] / dxNorm;\n            }\n            sum2 = 0;\n            for (int j = 0; j < solvedCols; ++j) {\n                int pj = permutation[j];\n                double sum = 0;\n                for (int i = 0; i < j; ++i) {\n                    sum += weightedResidualJacobian[i][pj] * work1[permutation[i]];\n                }\n                double s = (work1[pj] - sum) / diagR[pj];\n                work1[pj] = s;\n                sum2 += s * s;\n            }\n            parl = fp / (delta * sum2);\n        }\n\n        // calculate an upper bound, paru, for the zero of the function\n        sum2 = 0;\n        for (int j = 0; j < solvedCols; ++j) {\n            int pj = permutation[j];\n            double sum = 0;\n            for (int i = 0; i <= j; ++i) {\n                sum += weightedResidualJacobian[i][pj] * qy[i];\n            }\n            sum /= diag[pj];\n            sum2 += sum * sum;\n        }\n        double gNorm = FastMath.sqrt(sum2);\n        double paru = gNorm / delta;\n        if (paru == 0) {\n            // 2.2251e-308 is the smallest positive real for IEE754\n            paru = 2.2251e-308 / FastMath.min(delta, 0.1);\n        }\n\n        // if the input par lies outside of the interval (parl,paru),\n        // set par to the closer endpoint\n        lmPar = FastMath.min(paru, FastMath.max(lmPar, parl));\n        if (lmPar == 0) {\n            lmPar = gNorm / dxNorm;\n        }\n\n        for (int countdown = 10; countdown >= 0; --countdown) {\n\n            // evaluate the function at the current value of lmPar\n            if (lmPar == 0) {\n                lmPar = FastMath.max(2.2251e-308, 0.001 * paru);\n            }\n            double sPar = FastMath.sqrt(lmPar);\n            for (int j = 0; j < solvedCols; ++j) {\n                int pj = permutation[j];\n                work1[pj] = sPar * diag[pj];\n            }\n            determineLMDirection(qy, work1, work2, work3);\n\n            dxNorm = 0;\n            for (int j = 0; j < solvedCols; ++j) {\n                int pj = permutation[j];\n                double s = diag[pj] * lmDir[pj];\n                work3[pj] = s;\n                dxNorm += s * s;\n            }\n            dxNorm = FastMath.sqrt(dxNorm);\n            double previousFP = fp;\n            fp = dxNorm - delta;\n\n            // if the function is small enough, accept the current value\n            // of lmPar, also test for the exceptional cases where parl is zero\n            if ((FastMath.abs(fp) <= 0.1 * delta) ||\n                    ((parl == 0) && (fp <= previousFP) && (previousFP < 0))) {\n                return;\n            }\n\n            // compute the Newton correction\n            for (int j = 0; j < solvedCols; ++j) {\n                int pj = permutation[j];\n                work1[pj] = work3[pj] * diag[pj] / dxNorm;\n            }\n            for (int j = 0; j < solvedCols; ++j) {\n                int pj = permutation[j];\n                work1[pj] /= work2[j];\n                double tmp = work1[pj];\n                for (int i = j + 1; i < solvedCols; ++i) {\n                    work1[permutation[i]] -= weightedResidualJacobian[i][pj] * tmp;\n                }\n            }\n            sum2 = 0;\n            for (int j = 0; j < solvedCols; ++j) {\n                double s = work1[permutation[j]];\n                sum2 += s * s;\n            }\n            double correction = fp / (delta * sum2);\n\n            // depending on the sign of the function, update parl or paru.\n            if (fp > 0) {\n                parl = FastMath.max(parl, lmPar);\n            } else if (fp < 0) {\n                paru = FastMath.min(paru, lmPar);\n            }\n\n            // compute an improved estimate for lmPar\n            lmPar = FastMath.max(parl, lmPar + correction);\n\n        }\n    }",
+    "comment": " Determine the Levenberg-Marquardt parameter. <p>This implementation is a translation in Java of the MINPACK <a href=\"http://www.netlib.org/minpack/lmpar.f\">lmpar</a> routine.</p> <p>This method sets the lmPar and lmDir attributes.</p> <p>The authors of the original fortran function are:</p> <ul> <li>Argonne National Laboratory. MINPACK project. March 1980</li> <li>Burton  S. Garbow</li> <li>Kenneth E. Hillstrom</li> <li>Jorge   J. More</li> </ul> <p>Luc Maisonobe did the Java translation.</p>  @param qy array containing qTy @param delta upper bound on the euclidean norm of diagR * lmDir @param diag diagonal matrix @param work1 work array @param work2 work array @param work3 work array ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LevenbergMarquardtOptimizer.doOptimize",
+    "class_name": "org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer",
+    "signature": "org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer.doOptimize()",
+    "snippet": "    @Override\n    protected VectorialPointValuePair doOptimize() throws MathUserException {\n        // arrays shared with the other private methods\n        solvedCols  = FastMath.min(rows, cols);\n        diagR       = new double[cols];\n        jacNorm     = new double[cols];\n        beta        = new double[cols];\n        permutation = new int[cols];\n        lmDir       = new double[cols];\n\n        // local point\n        double   delta   = 0;\n        double   xNorm   = 0;\n        double[] diag    = new double[cols];\n        double[] oldX    = new double[cols];\n        double[] oldRes  = new double[rows];\n        double[] oldObj  = new double[rows];\n        double[] qtf     = new double[rows];\n        double[] work1   = new double[cols];\n        double[] work2   = new double[cols];\n        double[] work3   = new double[cols];\n\n        // evaluate the function at the starting point and calculate its norm\n        updateResidualsAndCost();\n\n        // outer loop\n        lmPar = 0;\n        boolean firstIteration = true;\n        VectorialPointValuePair current = new VectorialPointValuePair(point, objective);\n        int iter = 0;\n        final ConvergenceChecker<VectorialPointValuePair> checker = getConvergenceChecker();\n        while (true) {\n            ++iter;\n\n            for (int i=0;i<rows;i++) {\n                qtf[i]=weightedResiduals[i];\n            }\n\n            // compute the Q.R. decomposition of the jacobian matrix\n            VectorialPointValuePair previous = current;\n            updateJacobian();\n            qrDecomposition();\n\n            // compute Qt.res\n            qTy(qtf);\n            // now we don't need Q anymore,\n            // so let jacobian contain the R matrix with its diagonal elements\n            for (int k = 0; k < solvedCols; ++k) {\n                int pk = permutation[k];\n                weightedResidualJacobian[k][pk] = diagR[pk];\n            }\n\n            if (firstIteration) {\n                // scale the point according to the norms of the columns\n                // of the initial jacobian\n                xNorm = 0;\n                for (int k = 0; k < cols; ++k) {\n                    double dk = jacNorm[k];\n                    if (dk == 0) {\n                        dk = 1.0;\n                    }\n                    double xk = dk * point[k];\n                    xNorm  += xk * xk;\n                    diag[k] = dk;\n                }\n                xNorm = FastMath.sqrt(xNorm);\n\n                // initialize the step bound delta\n                delta = (xNorm == 0) ? initialStepBoundFactor : (initialStepBoundFactor * xNorm);\n            }\n\n            // check orthogonality between function vector and jacobian columns\n            double maxCosine = 0;\n            if (cost != 0) {\n                for (int j = 0; j < solvedCols; ++j) {\n                    int    pj = permutation[j];\n                    double s  = jacNorm[pj];\n                    if (s != 0) {\n                        double sum = 0;\n                        for (int i = 0; i <= j; ++i) {\n                            sum += weightedResidualJacobian[i][pj] * qtf[i];\n                        }\n                        maxCosine = FastMath.max(maxCosine, FastMath.abs(sum) / (s * cost));\n                    }\n                }\n            }\n            if (maxCosine <= orthoTolerance) {\n                // convergence has been reached\n                updateResidualsAndCost();\n                current = new VectorialPointValuePair(point, objective);\n                return current;\n            }\n\n            // rescale if necessary\n            for (int j = 0; j < cols; ++j) {\n                diag[j] = FastMath.max(diag[j], jacNorm[j]);\n            }\n\n            // inner loop\n            for (double ratio = 0; ratio < 1.0e-4;) {\n\n                // save the state\n                for (int j = 0; j < solvedCols; ++j) {\n                    int pj = permutation[j];\n                    oldX[pj] = point[pj];\n                }\n                double previousCost = cost;\n                double[] tmpVec = weightedResiduals;\n                weightedResiduals = oldRes;\n                oldRes    = tmpVec;\n                tmpVec    = objective;\n                objective = oldObj;\n                oldObj    = tmpVec;\n\n                // determine the Levenberg-Marquardt parameter\n                determineLMParameter(qtf, delta, diag, work1, work2, work3);\n\n                // compute the new point and the norm of the evolution direction\n                double lmNorm = 0;\n                for (int j = 0; j < solvedCols; ++j) {\n                    int pj = permutation[j];\n                    lmDir[pj] = -lmDir[pj];\n                    point[pj] = oldX[pj] + lmDir[pj];\n                    double s = diag[pj] * lmDir[pj];\n                    lmNorm  += s * s;\n                }\n                lmNorm = FastMath.sqrt(lmNorm);\n                // on the first iteration, adjust the initial step bound.\n                if (firstIteration) {\n                    delta = FastMath.min(delta, lmNorm);\n                }\n\n                // evaluate the function at x + p and calculate its norm\n                updateResidualsAndCost();\n\n                // compute the scaled actual reduction\n                double actRed = -1.0;\n                if (0.1 * cost < previousCost) {\n                    double r = cost / previousCost;\n                    actRed = 1.0 - r * r;\n                }\n\n                // compute the scaled predicted reduction\n                // and the scaled directional derivative\n                for (int j = 0; j < solvedCols; ++j) {\n                    int pj = permutation[j];\n                    double dirJ = lmDir[pj];\n                    work1[j] = 0;\n                    for (int i = 0; i <= j; ++i) {\n                        work1[i] += weightedResidualJacobian[i][pj] * dirJ;\n                    }\n                }\n                double coeff1 = 0;\n                for (int j = 0; j < solvedCols; ++j) {\n                    coeff1 += work1[j] * work1[j];\n                }\n                double pc2 = previousCost * previousCost;\n                coeff1 = coeff1 / pc2;\n                double coeff2 = lmPar * lmNorm * lmNorm / pc2;\n                double preRed = coeff1 + 2 * coeff2;\n                double dirDer = -(coeff1 + coeff2);\n\n                // ratio of the actual to the predicted reduction\n                ratio = (preRed == 0) ? 0 : (actRed / preRed);\n\n                // update the step bound\n                if (ratio <= 0.25) {\n                    double tmp =\n                        (actRed < 0) ? (0.5 * dirDer / (dirDer + 0.5 * actRed)) : 0.5;\n                        if ((0.1 * cost >= previousCost) || (tmp < 0.1)) {\n                            tmp = 0.1;\n                        }\n                        delta = tmp * FastMath.min(delta, 10.0 * lmNorm);\n                        lmPar /= tmp;\n                } else if ((lmPar == 0) || (ratio >= 0.75)) {\n                    delta = 2 * lmNorm;\n                    lmPar *= 0.5;\n                }\n\n                // test for successful iteration.\n                if (ratio >= 1.0e-4) {\n                    // successful iteration, update the norm\n                    firstIteration = false;\n                    xNorm = 0;\n                    for (int k = 0; k < cols; ++k) {\n                        double xK = diag[k] * point[k];\n                        xNorm += xK * xK;\n                    }\n                    xNorm = FastMath.sqrt(xNorm);\n                    current = new VectorialPointValuePair(point, objective);\n\n                    // tests for convergence.\n                    if (checker != null) {\n                        // we use the vectorial convergence checker\n                        if (checker.converged(iter, previous, current)) {\n                            return current;\n                        }\n                    }\n                } else {\n                    // failed iteration, reset the previous values\n                    cost = previousCost;\n                    for (int j = 0; j < solvedCols; ++j) {\n                        int pj = permutation[j];\n                        point[pj] = oldX[pj];\n                    }\n                    tmpVec    = weightedResiduals;\n                    weightedResiduals = oldRes;\n                    oldRes    = tmpVec;\n                    tmpVec    = objective;\n                    objective = oldObj;\n                    oldObj    = tmpVec;\n                }\n\n                // Default convergence criteria.\n                if ((FastMath.abs(actRed) <= costRelativeTolerance &&\n                     preRed <= costRelativeTolerance &&\n                     ratio <= 2.0) ||\n                    delta <= parRelativeTolerance * xNorm) {\n                    return current;\n                }\n\n                // tests for termination and stringent tolerances\n                // (2.2204e-16 is the machine epsilon for IEEE754)\n                if ((FastMath.abs(actRed) <= 2.2204e-16) && (preRed <= 2.2204e-16) && (ratio <= 2.0)) {\n                    throw new ConvergenceException(LocalizedFormats.TOO_SMALL_COST_RELATIVE_TOLERANCE,\n                            costRelativeTolerance);\n                } else if (delta <= 2.2204e-16 * xNorm) {\n                    throw new ConvergenceException(LocalizedFormats.TOO_SMALL_PARAMETERS_RELATIVE_TOLERANCE,\n                            parRelativeTolerance);\n                } else if (maxCosine <= 2.2204e-16)  {\n                    throw new ConvergenceException(LocalizedFormats.TOO_SMALL_ORTHOGONALITY_TOLERANCE,\n                            orthoTolerance);\n                }\n            }\n        }\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LevenbergMarquardtOptimizer.qTy",
+    "class_name": "org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer",
+    "signature": "org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer.qTy(double[])",
+    "snippet": "    private void qTy(double[] y) {\n        for (int k = 0; k < cols; ++k) {\n            int pk = permutation[k];\n            double gamma = 0;\n            for (int i = k; i < rows; ++i) {\n                gamma += weightedResidualJacobian[i][pk] * y[i];\n            }\n            gamma *= beta[pk];\n            for (int i = k; i < rows; ++i) {\n                y[i] -= gamma * weightedResidualJacobian[i][pk];\n            }\n        }\n    }",
+    "comment": " Compute the product Qt.y for some Q.R. decomposition.  @param y vector to multiply (will be overwritten with the result) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "LevenbergMarquardtOptimizer.qrDecomposition",
+    "class_name": "org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer",
+    "signature": "org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer.qrDecomposition()",
+    "snippet": "    private void qrDecomposition() throws ConvergenceException {\n\n        // initializations\n        for (int k = 0; k < cols; ++k) {\n            permutation[k] = k;\n            double norm2 = 0;\n            for (int i = 0; i < weightedResidualJacobian.length; ++i) {\n                double akk = weightedResidualJacobian[i][k];\n                norm2 += akk * akk;\n            }\n            jacNorm[k] = FastMath.sqrt(norm2);\n        }\n\n        // transform the matrix column after column\n        for (int k = 0; k < cols; ++k) {\n\n            // select the column with the greatest norm on active components\n            int nextColumn = -1;\n            double ak2 = Double.NEGATIVE_INFINITY;\n            for (int i = k; i < cols; ++i) {\n                double norm2 = 0;\n                for (int j = k; j < weightedResidualJacobian.length; ++j) {\n                    double aki = weightedResidualJacobian[j][permutation[i]];\n                    norm2 += aki * aki;\n                }\n                if (Double.isInfinite(norm2) || Double.isNaN(norm2)) {\n                    throw new ConvergenceException(LocalizedFormats.UNABLE_TO_PERFORM_QR_DECOMPOSITION_ON_JACOBIAN,\n                            rows, cols);\n                }\n                if (norm2 > ak2) {\n                    nextColumn = i;\n                    ak2        = norm2;\n                }\n            }\n            if (ak2 <= qrRankingThreshold) {\n                rank = k;\n                return;\n            }\n            int pk                  = permutation[nextColumn];\n            permutation[nextColumn] = permutation[k];\n            permutation[k]          = pk;\n\n            // choose alpha such that Hk.u = alpha ek\n            double akk   = weightedResidualJacobian[k][pk];\n            double alpha = (akk > 0) ? -FastMath.sqrt(ak2) : FastMath.sqrt(ak2);\n            double betak = 1.0 / (ak2 - akk * alpha);\n            beta[pk]     = betak;\n\n            // transform the current column\n            diagR[pk]        = alpha;\n            weightedResidualJacobian[k][pk] -= alpha;\n\n            // transform the remaining columns\n            for (int dk = cols - 1 - k; dk > 0; --dk) {\n                double gamma = 0;\n                for (int j = k; j < weightedResidualJacobian.length; ++j) {\n                    gamma += weightedResidualJacobian[j][pk] * weightedResidualJacobian[j][permutation[k + dk]];\n                }\n                gamma *= betak;\n                for (int j = k; j < weightedResidualJacobian.length; ++j) {\n                    weightedResidualJacobian[j][permutation[k + dk]] -= gamma * weightedResidualJacobian[j][pk];\n                }\n            }\n        }\n        rank = solvedCols;\n    }",
+    "comment": " Decompose a matrix A as A.P = Q.R using Householder transforms. <p>As suggested in the P. Lascaux and R. Theodor book <i>Analyse num&eacute;rique matricielle appliqu&eacute;e &agrave; l'art de l'ing&eacute;nieur</i> (Masson, 1986), instead of representing the Householder transforms with u<sub>k</sub> unit vectors such that: <pre> H<sub>k</sub> = I - 2u<sub>k</sub>.u<sub>k</sub><sup>t</sup> </pre> we use <sub>k</sub> non-unit vectors such that: <pre> H<sub>k</sub> = I - beta<sub>k</sub>v<sub>k</sub>.v<sub>k</sub><sup>t</sup> </pre> where v<sub>k</sub> = a<sub>k</sub> - alpha<sub>k</sub> e<sub>k</sub>. The beta<sub>k</sub> coefficients are provided upon exit as recomputing them from the v<sub>k</sub> vectors would be costly.</p> <p>This decomposition handles rank deficient cases since the tranformations are performed in non-increasing columns norms order thanks to columns pivoting. The diagonal elements of the R matrix are therefore also in non-increasing absolute values order.</p> @exception ConvergenceException if the decomposition cannot be performed ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.abs",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.abs(double)",
+    "snippet": "    public static double abs(double x) {\n        return (x < 0.0) ? -x : (x == 0.0) ? 0.0 : x; // -0.0 => +0.0\n    }",
+    "comment": " Absolute value. @param x number from which absolute value is requested @return abs(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.buildSinCosTables",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.buildSinCosTables()",
+    "snippet": "    private static void buildSinCosTables() {\n        final double result[] = new double[2];\n\n        /* Use taylor series for 0 <= x <= 6/8 */\n        for (int i = 0; i < 7; i++) {\n            double x = i / 8.0;\n\n            slowSin(x, result);\n            SINE_TABLE_A[i] = result[0];\n            SINE_TABLE_B[i] = result[1];\n\n            slowCos(x, result);\n            COSINE_TABLE_A[i] = result[0];\n            COSINE_TABLE_B[i] = result[1];\n        }\n\n        /* Use angle addition formula to complete table to 13/8, just beyond pi/2 */\n        for (int i = 7; i < 14; i++) {\n            double xs[] = new double[2];\n            double ys[] = new double[2];\n            double as[] = new double[2];\n            double bs[] = new double[2];\n            double temps[] = new double[2];\n\n            if ( (i & 1) == 0) {\n                // Even, use double angle\n                xs[0] = SINE_TABLE_A[i/2];\n                xs[1] = SINE_TABLE_B[i/2];\n                ys[0] = COSINE_TABLE_A[i/2];\n                ys[1] = COSINE_TABLE_B[i/2];\n\n                /* compute sine */\n                splitMult(xs, ys, result);\n                SINE_TABLE_A[i] = result[0] * 2.0;\n                SINE_TABLE_B[i] = result[1] * 2.0;\n\n                /* Compute cosine */\n                splitMult(ys, ys, as);\n                splitMult(xs, xs, temps);\n                temps[0] = -temps[0];\n                temps[1] = -temps[1];\n                splitAdd(as, temps, result);\n                COSINE_TABLE_A[i] = result[0];\n                COSINE_TABLE_B[i] = result[1];\n            } else {\n                xs[0] = SINE_TABLE_A[i/2];\n                xs[1] = SINE_TABLE_B[i/2];\n                ys[0] = COSINE_TABLE_A[i/2];\n                ys[1] = COSINE_TABLE_B[i/2];\n                as[0] = SINE_TABLE_A[i/2+1];\n                as[1] = SINE_TABLE_B[i/2+1];\n                bs[0] = COSINE_TABLE_A[i/2+1];\n                bs[1] = COSINE_TABLE_B[i/2+1];\n\n                /* compute sine */\n                splitMult(xs, bs, temps);\n                splitMult(ys, as, result);\n                splitAdd(result, temps, result);\n                SINE_TABLE_A[i] = result[0];\n                SINE_TABLE_B[i] = result[1];\n\n                /* Compute cosine */\n                splitMult(ys, bs, result);\n                splitMult(xs, as, temps);\n                temps[0] = -temps[0];\n                temps[1] = -temps[1];\n                splitAdd(result, temps, result);\n                COSINE_TABLE_A[i] = result[0];\n                COSINE_TABLE_B[i] = result[1];\n            }\n        }\n\n        /* Compute tangent = sine/cosine */\n        for (int i = 0; i < 14; i++) {\n            double xs[] = new double[2];\n            double ys[] = new double[2];\n            double as[] = new double[2];\n\n            as[0] = COSINE_TABLE_A[i];\n            as[1] = COSINE_TABLE_B[i];\n\n            splitReciprocal(as, ys);\n\n            xs[0] = SINE_TABLE_A[i];\n            xs[1] = SINE_TABLE_B[i];\n\n            splitMult(xs, ys, as);\n\n            TANGENT_TABLE_A[i] = as[0];\n            TANGENT_TABLE_B[i] = as[1];\n        }\n\n    }",
+    "comment": "Build the sine and cosine tables. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.exp",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.exp(double)",
+    "snippet": "    public static double exp(double x) {\n        return exp(x, 0.0, null);\n    }",
+    "comment": " Exponential function.  Computes exp(x), function result is nearly rounded.   It will be correctly rounded to the theoretical value for 99.9% of input values, otherwise it will have a 1 UPL error.  Method: Lookup intVal = exp(int(x)) Lookup fracVal = exp(int(x-int(x) / 1024.0) * 1024.0 ); Compute z as the exponential of the remaining bits by a polynomial minus one exp(x) = intVal * fracVal * (1 + z)  Accuracy: Calculation is done with 63 bits of precision, so result should be correctly rounded for 99.9% of input values, with less than 1 ULP error otherwise.  @param x   a double @return double e<sup>x</sup> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.exp",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.exp(double,double,double[])",
+    "snippet": "    private static double exp(double x, double extra, double[] hiPrec) {\n        double intPartA;\n        double intPartB;\n        int intVal;\n\n        /* Lookup exp(floor(x)).\n         * intPartA will have the upper 22 bits, intPartB will have the lower\n         * 52 bits.\n         */\n        if (x < 0.0) {\n            intVal = (int) -x;\n\n            if (intVal > 746) {\n                if (hiPrec != null) {\n                    hiPrec[0] = 0.0;\n                    hiPrec[1] = 0.0;\n                }\n                return 0.0;\n            }\n\n            if (intVal > 709) {\n                /* This will produce a subnormal output */\n                final double result = exp(x+40.19140625, extra, hiPrec) / 285040095144011776.0;\n                if (hiPrec != null) {\n                    hiPrec[0] /= 285040095144011776.0;\n                    hiPrec[1] /= 285040095144011776.0;\n                }\n                return result;\n            }\n\n            if (intVal == 709) {\n                /* exp(1.494140625) is nearly a machine number... */\n                final double result = exp(x+1.494140625, extra, hiPrec) / 4.455505956692756620;\n                if (hiPrec != null) {\n                    hiPrec[0] /= 4.455505956692756620;\n                    hiPrec[1] /= 4.455505956692756620;\n                }\n                return result;\n            }\n\n            intVal++;\n\n            intPartA = EXP_INT_TABLE_A[750-intVal];\n            intPartB = EXP_INT_TABLE_B[750-intVal];\n\n            intVal = -intVal;\n        } else {\n            intVal = (int) x;\n\n            if (intVal > 709) {\n                if (hiPrec != null) {\n                    hiPrec[0] = Double.POSITIVE_INFINITY;\n                    hiPrec[1] = 0.0;\n                }\n                return Double.POSITIVE_INFINITY;\n            }\n\n            intPartA = EXP_INT_TABLE_A[750+intVal];\n            intPartB = EXP_INT_TABLE_B[750+intVal];\n        }\n\n        /* Get the fractional part of x, find the greatest multiple of 2^-10 less than\n         * x and look up the exp function of it.\n         * fracPartA will have the upper 22 bits, fracPartB the lower 52 bits.\n         */\n        final int intFrac = (int) ((x - intVal) * 1024.0);\n        final double fracPartA = EXP_FRAC_TABLE_A[intFrac];\n        final double fracPartB = EXP_FRAC_TABLE_B[intFrac];\n\n        /* epsilon is the difference in x from the nearest multiple of 2^-10.  It\n         * has a value in the range 0 <= epsilon < 2^-10.\n         * Do the subtraction from x as the last step to avoid possible loss of percison.\n         */\n        final double epsilon = x - (intVal + intFrac / 1024.0);\n\n        /* Compute z = exp(epsilon) - 1.0 via a minimax polynomial.  z has\n       full double precision (52 bits).  Since z < 2^-10, we will have\n       62 bits of precision when combined with the contant 1.  This will be\n       used in the last addition below to get proper rounding. */\n\n        /* Remez generated polynomial.  Converges on the interval [0, 2^-10], error\n       is less than 0.5 ULP */\n        double z = 0.04168701738764507;\n        z = z * epsilon + 0.1666666505023083;\n        z = z * epsilon + 0.5000000000042687;\n        z = z * epsilon + 1.0;\n        z = z * epsilon + -3.940510424527919E-20;\n\n        /* Compute (intPartA+intPartB) * (fracPartA+fracPartB) by binomial\n       expansion.\n       tempA is exact since intPartA and intPartB only have 22 bits each.\n       tempB will have 52 bits of precision.\n         */\n        double tempA = intPartA * fracPartA;\n        double tempB = intPartA * fracPartB + intPartB * fracPartA + intPartB * fracPartB;\n\n        /* Compute the result.  (1+z)(tempA+tempB).  Order of operations is\n       important.  For accuracy add by increasing size.  tempA is exact and\n       much larger than the others.  If there are extra bits specified from the\n       pow() function, use them. */\n        final double tempC = tempB + tempA;\n        final double result;\n        if (extra != 0.0) {\n            result = tempC*extra*z + tempC*extra + tempC*z + tempB + tempA;\n        } else {\n            result = tempC*z + tempB + tempA;\n        }\n\n        if (hiPrec != null) {\n            // If requesting high precision\n            hiPrec[0] = tempA;\n            hiPrec[1] = tempC*extra*z + tempC*extra + tempC*z + tempB;\n        }\n\n        return result;\n    }",
+    "comment": " Internal helper method for exponential function. @param x original argument of the exponential function @param extra extra bits of precision on input (To Be Confirmed) @param hiPrec extra bits of precision on output (To Be Confirmed) @return exp(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.expint",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.expint(int,double[])",
+    "snippet": "    private static double expint(int p, final double result[]) {\n        //double x = M_E;\n        final double xs[] = new double[2];\n        final double as[] = new double[2];\n        final double ys[] = new double[2];\n        //split(x, xs);\n        //xs[1] = (double)(2.7182818284590452353602874713526625L - xs[0]);\n        //xs[0] = 2.71827697753906250000;\n        //xs[1] = 4.85091998273542816811e-06;\n        //xs[0] = Double.longBitsToDouble(0x4005bf0800000000L);\n        //xs[1] = Double.longBitsToDouble(0x3ed458a2bb4a9b00L);\n\n        /* E */\n        xs[0] = 2.718281828459045;\n        xs[1] = 1.4456468917292502E-16;\n\n        split(1.0, ys);\n\n        while (p > 0) {\n            if ((p & 1) != 0) {\n                quadMult(ys, xs, as);\n                ys[0] = as[0]; ys[1] = as[1];\n            }\n\n            quadMult(xs, xs, as);\n            xs[0] = as[0]; xs[1] = as[1];\n\n            p >>= 1;\n        }\n\n        if (result != null) {\n            result[0] = ys[0];\n            result[1] = ys[1];\n\n            resplit(result);\n        }\n\n        return ys[0] + ys[1];\n    }",
+    "comment": "Compute exp(p) for a integer p in extended precision. @param p integer whose exponential is requested @param result placeholder where to put the result in extended precision @return exp(p) in standard precision (equal to result[0] + result[1]) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.max",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.max(double,double)",
+    "snippet": "    public static double max(final double a, final double b) {\n        if (a > b) {\n            return a;\n        }\n        if (a < b) {\n            return b;\n        }\n        /* if either arg is NaN, return NaN */\n        if (a != b) {\n            return Double.NaN;\n        }\n        /* min(+0.0,-0.0) == -0.0 */\n        /* 0x8000000000000000L == Double.doubleToRawLongBits(-0.0d) */\n        long bits = Double.doubleToRawLongBits(a);\n        if (bits == 0x8000000000000000L) {\n            return b;\n        }\n        return a;\n    }",
+    "comment": "Compute the maximum of two values @param a first value @param b second value @return b if a is lesser or equal to b, a otherwise ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.min",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.min(double,double)",
+    "snippet": "    public static double min(final double a, final double b) {\n        if (a > b) {\n            return b;\n        }\n        if (a < b) {\n            return a;\n        }\n        /* if either arg is NaN, return NaN */\n        if (a != b) {\n            return Double.NaN;\n        }\n        /* min(+0.0,-0.0) == -0.0 */\n        /* 0x8000000000000000L == Double.doubleToRawLongBits(-0.0d) */\n        long bits = Double.doubleToRawLongBits(a);\n        if (bits == 0x8000000000000000L) {\n            return a;\n        }\n        return b;\n    }",
+    "comment": "Compute the minimum of two values @param a first value @param b second value @return a if a is lesser or equal to b, b otherwise ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.min",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.min(int,int)",
+    "snippet": "    public static int min(final int a, final int b) {\n        return (a <= b) ? a : b;\n    }",
+    "comment": "Compute the minimum of two values @param a first value @param b second value @return a if a is lesser or equal to b, b otherwise ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.quadMult",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.quadMult(double[],double[],double[])",
+    "snippet": "    private static void quadMult(final double a[], final double b[], final double result[]) {\n        final double xs[] = new double[2];\n        final double ys[] = new double[2];\n        final double zs[] = new double[2];\n\n        /* a[0] * b[0] */\n        split(a[0], xs);\n        split(b[0], ys);\n        splitMult(xs, ys, zs);\n\n        result[0] = zs[0];\n        result[1] = zs[1];\n\n        /* a[0] * b[1] */\n        split(b[1], ys);\n        splitMult(xs, ys, zs);\n\n        double tmp = result[0] + zs[0];\n        result[1] = result[1] - (tmp - result[0] - zs[0]);\n        result[0] = tmp;\n        tmp = result[0] + zs[1];\n        result[1] = result[1] - (tmp - result[0] - zs[1]);\n        result[0] = tmp;\n\n        /* a[1] * b[0] */\n        split(a[1], xs);\n        split(b[0], ys);\n        splitMult(xs, ys, zs);\n\n        tmp = result[0] + zs[0];\n        result[1] = result[1] - (tmp - result[0] - zs[0]);\n        result[0] = tmp;\n        tmp = result[0] + zs[1];\n        result[1] = result[1] - (tmp - result[0] - zs[1]);\n        result[0] = tmp;\n\n        /* a[1] * b[0] */\n        split(a[1], xs);\n        split(b[1], ys);\n        splitMult(xs, ys, zs);\n\n        tmp = result[0] + zs[0];\n        result[1] = result[1] - (tmp - result[0] - zs[0]);\n        result[0] = tmp;\n        tmp = result[0] + zs[1];\n        result[1] = result[1] - (tmp - result[0] - zs[1]);\n        result[0] = tmp;\n    }",
+    "comment": "Compute (a[0] + a[1]) * (b[0] + b[1]) in extended precision. @param a first term of the multiplication @param b second term of the multiplication @param result placeholder where to put the result ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.resplit",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.resplit(double[])",
+    "snippet": "    private static void resplit(final double a[]) {\n        final double c = a[0] + a[1];\n        final double d = -(c - a[0] - a[1]);\n\n        if (c < 8e298 && c > -8e298) {\n            double z = c * HEX_40000000;\n            a[0] = (c + z) - z;\n            a[1] = c - a[0] + d;\n        } else {\n            double z = c * 9.31322574615478515625E-10;\n            a[0] = (c + z - c) * HEX_40000000;\n            a[1] = c - a[0] + d;\n        }\n    }",
+    "comment": "Recompute a split. @param a input/out array containing the split, changed on output ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.slowCos",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.slowCos(double,double[])",
+    "snippet": "    private static double slowCos(final double x, final double result[]) {\n\n        final double xs[] = new double[2];\n        final double ys[] = new double[2];\n        final double facts[] = new double[2];\n        final double as[] = new double[2];\n        split(x, xs);\n        ys[0] = ys[1] = 0.0;\n\n        for (int i = 19; i >= 0; i--) {\n            splitMult(xs, ys, as);\n            ys[0] = as[0]; ys[1] = as[1];\n\n            if ( (i & 1) != 0) {\n                continue;\n            }\n\n            split(FACT[i], as);\n            splitReciprocal(as, facts);\n\n            if ( (i & 2) != 0 ) {\n                facts[0] = -facts[0];\n                facts[1] = -facts[1];\n            }\n\n            splitAdd(ys, facts, as);\n            ys[0] = as[0]; ys[1] = as[1];\n        }\n\n        if (result != null) {\n            result[0] = ys[0];\n            result[1] = ys[1];\n        }\n\n        return ys[0] + ys[1];\n    }",
+    "comment": " For x between 0 and pi/4 compute cosine @param x number from which cosine is requested @param result placeholder where to put the result in extended precision @return cos(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.slowLog",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.slowLog(double)",
+    "snippet": "    private static double[] slowLog(double xi) {\n        double x[] = new double[2];\n        double x2[] = new double[2];\n        double y[] = new double[2];\n        double a[] = new double[2];\n\n        split(xi, x);\n\n        /* Set X = (x-1)/(x+1) */\n        x[0] += 1.0;\n        resplit(x);\n        splitReciprocal(x, a);\n        x[0] -= 2.0;\n        resplit(x);\n        splitMult(x, a, y);\n        x[0] = y[0];\n        x[1] = y[1];\n\n        /* Square X -> X2*/\n        splitMult(x, x, x2);\n\n\n        //x[0] -= 1.0;\n        //resplit(x);\n\n        y[0] = LN_SPLIT_COEF[LN_SPLIT_COEF.length-1][0];\n        y[1] = LN_SPLIT_COEF[LN_SPLIT_COEF.length-1][1];\n\n        for (int i = LN_SPLIT_COEF.length-2; i >= 0; i--) {\n            splitMult(y, x2, a);\n            y[0] = a[0];\n            y[1] = a[1];\n            splitAdd(y, LN_SPLIT_COEF[i], a);\n            y[0] = a[0];\n            y[1] = a[1];\n        }\n\n        splitMult(y, x, a);\n        y[0] = a[0];\n        y[1] = a[1];\n\n        return y;\n    }",
+    "comment": "xi in the range of [1, 2]. 3        5        7 x+1           /          x        x        x          \\ ln ----- =   2 *  |  x  +   ----  +  ----  +  ---- + ...  | 1-x           \\          3        5        7          /  So, compute a Remez approximation of the following function  ln ((sqrt(x)+1)/(1-sqrt(x)))  /  x  This will be an even function with only positive coefficents. x is in the range [0 - 1/3].  Transform xi for input to the above function by setting x = (xi-1)/(xi+1).   Input to the polynomial is x^2, then the result is multiplied by x. @param xi number from which log is requested @return log(xi) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.slowSin",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.slowSin(double,double[])",
+    "snippet": "    private static double slowSin(final double x, final double result[]) {\n        final double xs[] = new double[2];\n        final double ys[] = new double[2];\n        final double facts[] = new double[2];\n        final double as[] = new double[2];\n        split(x, xs);\n        ys[0] = ys[1] = 0.0;\n\n        for (int i = 19; i >= 0; i--) {\n            splitMult(xs, ys, as);\n            ys[0] = as[0]; ys[1] = as[1];\n\n            if ( (i & 1) == 0) {\n                continue;\n            }\n\n            split(FACT[i], as);\n            splitReciprocal(as, facts);\n\n            if ( (i & 2) != 0 ) {\n                facts[0] = -facts[0];\n                facts[1] = -facts[1];\n            }\n\n            splitAdd(ys, facts, as);\n            ys[0] = as[0]; ys[1] = as[1];\n        }\n\n        if (result != null) {\n            result[0] = ys[0];\n            result[1] = ys[1];\n        }\n\n        return ys[0] + ys[1];\n    }",
+    "comment": " For x between 0 and pi/4 compute sine. @param x number from which sine is requested @param result placeholder where to put the result in extended precision @return sin(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.slowexp",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.slowexp(double,double[])",
+    "snippet": "    private static double slowexp(final double x, final double result[]) {\n        final double xs[] = new double[2];\n        final double ys[] = new double[2];\n        final double facts[] = new double[2];\n        final double as[] = new double[2];\n        split(x, xs);\n        ys[0] = ys[1] = 0.0;\n\n        for (int i = 19; i >= 0; i--) {\n            splitMult(xs, ys, as);\n            ys[0] = as[0];\n            ys[1] = as[1];\n\n            split(FACT[i], as);\n            splitReciprocal(as, facts);\n\n            splitAdd(ys, facts, as);\n            ys[0] = as[0];\n            ys[1] = as[1];\n        }\n\n        if (result != null) {\n            result[0] = ys[0];\n            result[1] = ys[1];\n        }\n\n        return ys[0] + ys[1];\n    }",
+    "comment": " For x between 0 and 1, returns exp(x), uses extended precision @param x argument of exponential @param result placeholder where to place exp(x) split in two terms for extra precision (i.e. exp(x) = result[0] ° result[1] @return exp(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.split",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.split(double,double[])",
+    "snippet": "    private static void split(final double d, final double split[]) {\n        if (d < 8e298 && d > -8e298) {\n            final double a = d * HEX_40000000;\n            split[0] = (d + a) - a;\n            split[1] = d - split[0];\n        } else {\n            final double a = d * 9.31322574615478515625E-10;\n            split[0] = (d + a - d) * HEX_40000000;\n            split[1] = d - split[0];\n        }\n    }",
+    "comment": "Compute split[0], split[1] such that their sum is equal to d, and split[0] has its 30 least significant bits as zero. @param d number to split @param split placeholder where to place the result ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.splitAdd",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.splitAdd(double[],double[],double[])",
+    "snippet": "    private static void splitAdd(final double a[], final double b[], final double ans[]) {\n        ans[0] = a[0] + b[0];\n        ans[1] = a[1] + b[1];\n\n        resplit(ans);\n    }",
+    "comment": "Add two numbers in split form. @param a first term of addition @param b second term of addition @param ans placeholder where to put the result ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.splitMult",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.splitMult(double[],double[],double[])",
+    "snippet": "    private static void splitMult(double a[], double b[], double ans[]) {\n        ans[0] = a[0] * b[0];\n        ans[1] = a[0] * b[1] + a[1] * b[0] + a[1] * b[1];\n\n        /* Resplit */\n        resplit(ans);\n    }",
+    "comment": "Multiply two numbers in split form. @param a first term of multiplication @param b second term of multiplication @param ans placeholder where to put the result ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.splitReciprocal",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.splitReciprocal(double[],double[])",
+    "snippet": "    private static void splitReciprocal(final double in[], final double result[]) {\n        final double b = 1.0/4194304.0;\n        final double a = 1.0 - b;\n\n        if (in[0] == 0.0) {\n            in[0] = in[1];\n            in[1] = 0.0;\n        }\n\n        result[0] = a / in[0];\n        result[1] = (b*in[0]-a*in[1]) / (in[0]*in[0] + in[0]*in[1]);\n\n        if (result[1] != result[1]) { // can happen if result[1] is NAN\n            result[1] = 0.0;\n        }\n\n        /* Resplit */\n        resplit(result);\n\n        for (int i = 0; i < 2; i++) {\n            /* this may be overkill, probably once is enough */\n            double err = 1.0 - result[0] * in[0] - result[0] * in[1] -\n            result[1] * in[0] - result[1] * in[1];\n            /*err = 1.0 - err; */\n            err = err * (result[0] + result[1]);\n            /*printf(\"err = %16e\\n\", err); */\n            result[1] += err;\n        }\n    }",
+    "comment": "Compute the reciprocal of in.  Use the following algorithm. in = c + d. want to find x + y such that x+y = 1/(c+d) and x is much larger than y and x has several zero bits on the right.  Set b = 1/(2^22),  a = 1 - b.  Thus (a+b) = 1. Use following identity to compute (a+b)/(c+d)  (a+b)/(c+d)  =   a/c   +    (bc - ad) / (c^2 + cd) set x = a/c  and y = (bc - ad) / (c^2 + cd) This will be close to the right answer, but there will be some rounding in the calculation of X.  So by carefully computing 1 - (c+d)(x+y) we can compute an error and add that back in.   This is done carefully so that terms of similar size are subtracted first. @param in initial number, in split form @param result placeholder where to put the result ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.sqrt",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.sqrt(double)",
+    "snippet": "    public static double sqrt(final double a) {\n        return Math.sqrt(a);\n    }",
+    "comment": "Compute the square root of a number. <p><b>Note:</b> this implementation currently delegates to {@link Math#sqrt} @param a number on which evaluation is done @return square root of a ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.incrementCount",
+    "class_name": "org.apache.commons.math.util.Incrementor",
+    "signature": "org.apache.commons.math.util.Incrementor.incrementCount()",
+    "snippet": "    public void incrementCount() {\n        if (++count > maximalCount) {\n            throw new MaxCountExceededException(maximalCount);\n        }\n    }",
+    "comment": " Add one to the current iteration count.  @throws MaxCountExceededException at counter exhaustion. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.resetCount",
+    "class_name": "org.apache.commons.math.util.Incrementor",
+    "signature": "org.apache.commons.math.util.Incrementor.resetCount()",
+    "snippet": "    public void resetCount() {\n        count = 0;\n    }",
+    "comment": " Reset the counter to 0. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Incrementor.setMaximalCount",
+    "class_name": "org.apache.commons.math.util.Incrementor",
+    "signature": "org.apache.commons.math.util.Incrementor.setMaximalCount(int)",
+    "snippet": "    public void setMaximalCount(int max) {\n        maximalCount = max;\n    }",
+    "comment": " Set the upper limit for the counter.  @param max Upper limit of the counter. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

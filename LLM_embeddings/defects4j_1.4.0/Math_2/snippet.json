@@ -1,0 +1,282 @@
+[
+  {
+    "name": "AbstractIntegerDistribution.AbstractIntegerDistribution",
+    "class_name": "org.apache.commons.math3.distribution.AbstractIntegerDistribution",
+    "signature": "org.apache.commons.math3.distribution.AbstractIntegerDistribution.AbstractIntegerDistribution(RandomGenerator)",
+    "snippet": "    protected AbstractIntegerDistribution(RandomGenerator rng) {\n        random = rng;\n    }",
+    "comment": " @param rng Random number generator. @since 3.1 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractIntegerDistribution.inverseCumulativeProbability",
+    "class_name": "org.apache.commons.math3.distribution.AbstractIntegerDistribution",
+    "signature": "org.apache.commons.math3.distribution.AbstractIntegerDistribution.inverseCumulativeProbability(double)",
+    "snippet": "    public int inverseCumulativeProbability(final double p) throws OutOfRangeException {\n        if (p < 0.0 || p > 1.0) {\n            throw new OutOfRangeException(p, 0, 1);\n        }\n\n        int lower = getSupportLowerBound();\n        if (p == 0.0) {\n            return lower;\n        }\n        if (lower == Integer.MIN_VALUE) {\n            if (checkedCumulativeProbability(lower) >= p) {\n                return lower;\n            }\n        } else {\n            lower -= 1; // this ensures cumulativeProbability(lower) < p, which\n                        // is important for the solving step\n        }\n\n        int upper = getSupportUpperBound();\n        if (p == 1.0) {\n            return upper;\n        }\n\n        // use the one-sided Chebyshev inequality to narrow the bracket\n        // cf. AbstractRealDistribution.inverseCumulativeProbability(double)\n        final double mu = getNumericalMean();\n        final double sigma = FastMath.sqrt(getNumericalVariance());\n        final boolean chebyshevApplies = !(Double.isInfinite(mu) || Double.isNaN(mu) ||\n                Double.isInfinite(sigma) || Double.isNaN(sigma) || sigma == 0.0);\n        if (chebyshevApplies) {\n            double k = FastMath.sqrt((1.0 - p) / p);\n            double tmp = mu - k * sigma;\n            if (tmp > lower) {\n                lower = ((int) Math.ceil(tmp)) - 1;\n            }\n            k = 1.0 / k;\n            tmp = mu + k * sigma;\n            if (tmp < upper) {\n                upper = ((int) Math.ceil(tmp)) - 1;\n            }\n        }\n\n        return solveInverseCumulativeProbability(p, lower, upper);\n    }",
+    "comment": " {@inheritDoc}  The default implementation returns <ul> <li>{@link #getSupportLowerBound()} for {@code p = 0},</li> <li>{@link #getSupportUpperBound()} for {@code p = 1}, and</li> <li>{@link #solveInverseCumulativeProbability(double, int, int)} for {@code 0 < p < 1}.</li> </ul> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractIntegerDistribution.sample",
+    "class_name": "org.apache.commons.math3.distribution.AbstractIntegerDistribution",
+    "signature": "org.apache.commons.math3.distribution.AbstractIntegerDistribution.sample()",
+    "snippet": "    public int sample() {\n        return inverseCumulativeProbability(random.nextDouble());\n    }",
+    "comment": " {@inheritDoc}  The default implementation uses the <a href=\"http://en.wikipedia.org/wiki/Inverse_transform_sampling\"> inversion method</a>. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractIntegerDistribution.solveInverseCumulativeProbability",
+    "class_name": "org.apache.commons.math3.distribution.AbstractIntegerDistribution",
+    "signature": "org.apache.commons.math3.distribution.AbstractIntegerDistribution.solveInverseCumulativeProbability(double,int,int)",
+    "snippet": "    protected int solveInverseCumulativeProbability(final double p, int lower, int upper) {\n        while (lower + 1 < upper) {\n            int xm = (lower + upper) / 2;\n            if (xm < lower || xm > upper) {\n                /*\n                 * Overflow.\n                 * There will never be an overflow in both calculation methods\n                 * for xm at the same time\n                 */\n                xm = lower + (upper - lower) / 2;\n            }\n\n            double pm = checkedCumulativeProbability(xm);\n            if (pm >= p) {\n                upper = xm;\n            } else {\n                lower = xm;\n            }\n        }\n        return upper;\n    }",
+    "comment": " This is a utility function used by {@link #inverseCumulativeProbability(double)}. It assumes {@code 0 < p < 1} and that the inverse cumulative probability lies in the bracket {@code (lower, upper]}. The implementation does simple bisection to find the smallest {@code p}-quantile <code>inf{x in Z | P(X<=x) >= p}</code>.  @param p the cumulative probability @param lower a value satisfying {@code cumulativeProbability(lower) < p} @param upper a value satisfying {@code p <= cumulativeProbability(upper)} @return the smallest {@code p}-quantile of this distribution ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "HypergeometricDistribution.HypergeometricDistribution",
+    "class_name": "org.apache.commons.math3.distribution.HypergeometricDistribution",
+    "signature": "org.apache.commons.math3.distribution.HypergeometricDistribution.HypergeometricDistribution(RandomGenerator,int,int,int)",
+    "snippet": "    public HypergeometricDistribution(RandomGenerator rng,\n                                      int populationSize,\n                                      int numberOfSuccesses,\n                                      int sampleSize)\n    throws NotPositiveException, NotStrictlyPositiveException, NumberIsTooLargeException {\n        super(rng);\n\n        if (populationSize <= 0) {\n            throw new NotStrictlyPositiveException(LocalizedFormats.POPULATION_SIZE,\n                                                   populationSize);\n        }\n        if (numberOfSuccesses < 0) {\n            throw new NotPositiveException(LocalizedFormats.NUMBER_OF_SUCCESSES,\n                                           numberOfSuccesses);\n        }\n        if (sampleSize < 0) {\n            throw new NotPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,\n                                           sampleSize);\n        }\n\n        if (numberOfSuccesses > populationSize) {\n            throw new NumberIsTooLargeException(LocalizedFormats.NUMBER_OF_SUCCESS_LARGER_THAN_POPULATION_SIZE,\n                                                numberOfSuccesses, populationSize, true);\n        }\n        if (sampleSize > populationSize) {\n            throw new NumberIsTooLargeException(LocalizedFormats.SAMPLE_SIZE_LARGER_THAN_POPULATION_SIZE,\n                                                sampleSize, populationSize, true);\n        }\n\n        this.numberOfSuccesses = numberOfSuccesses;\n        this.populationSize = populationSize;\n        this.sampleSize = sampleSize;\n    }",
+    "comment": " Creates a new hypergeometric distribution.  @param rng Random number generator. @param populationSize Population size. @param numberOfSuccesses Number of successes in the population. @param sampleSize Sample size. @throws NotPositiveException if {@code numberOfSuccesses < 0}. @throws NotStrictlyPositiveException if {@code populationSize <= 0}. @throws NumberIsTooLargeException if {@code numberOfSuccesses > populationSize}, or {@code sampleSize > populationSize}. @since 3.1 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "HypergeometricDistribution.HypergeometricDistribution",
+    "class_name": "org.apache.commons.math3.distribution.HypergeometricDistribution",
+    "signature": "org.apache.commons.math3.distribution.HypergeometricDistribution.HypergeometricDistribution(int,int,int)",
+    "snippet": "    public HypergeometricDistribution(int populationSize, int numberOfSuccesses, int sampleSize)\n    throws NotPositiveException, NotStrictlyPositiveException, NumberIsTooLargeException {\n        this(new Well19937c(), populationSize, numberOfSuccesses, sampleSize);\n    }",
+    "comment": " Construct a new hypergeometric distribution with the specified population size, number of successes in the population, and sample size.  @param populationSize Population size. @param numberOfSuccesses Number of successes in the population. @param sampleSize Sample size. @throws NotPositiveException if {@code numberOfSuccesses < 0}. @throws NotStrictlyPositiveException if {@code populationSize <= 0}. @throws NumberIsTooLargeException if {@code numberOfSuccesses > populationSize}, or {@code sampleSize > populationSize}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "HypergeometricDistribution.calculateNumericalVariance",
+    "class_name": "org.apache.commons.math3.distribution.HypergeometricDistribution",
+    "signature": "org.apache.commons.math3.distribution.HypergeometricDistribution.calculateNumericalVariance()",
+    "snippet": "    protected double calculateNumericalVariance() {\n        final double N = getPopulationSize();\n        final double m = getNumberOfSuccesses();\n        final double n = getSampleSize();\n        return (n * m * (N - n) * (N - m)) / (N * N * (N - 1));\n    }",
+    "comment": " Used by {@link #getNumericalVariance()}.  @return the variance of this distribution ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "HypergeometricDistribution.getNumberOfSuccesses",
+    "class_name": "org.apache.commons.math3.distribution.HypergeometricDistribution",
+    "signature": "org.apache.commons.math3.distribution.HypergeometricDistribution.getNumberOfSuccesses()",
+    "snippet": "    public int getNumberOfSuccesses() {\n        return numberOfSuccesses;\n    }",
+    "comment": " Access the number of successes.  @return the number of successes. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "HypergeometricDistribution.getNumericalMean",
+    "class_name": "org.apache.commons.math3.distribution.HypergeometricDistribution",
+    "signature": "org.apache.commons.math3.distribution.HypergeometricDistribution.getNumericalMean()",
+    "snippet": "    public double getNumericalMean() {\n        return (double) (getSampleSize() * getNumberOfSuccesses()) / (double) getPopulationSize();\n    }",
+    "comment": " {@inheritDoc}  For population size {@code N}, number of successes {@code m}, and sample size {@code n}, the mean is {@code n * m / N}. ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "HypergeometricDistribution.getNumericalVariance",
+    "class_name": "org.apache.commons.math3.distribution.HypergeometricDistribution",
+    "signature": "org.apache.commons.math3.distribution.HypergeometricDistribution.getNumericalVariance()",
+    "snippet": "    public double getNumericalVariance() {\n        if (!numericalVarianceIsCalculated) {\n            numericalVariance = calculateNumericalVariance();\n            numericalVarianceIsCalculated = true;\n        }\n        return numericalVariance;\n    }",
+    "comment": " {@inheritDoc}  For population size {@code N}, number of successes {@code m}, and sample size {@code n}, the variance is {@code [n * m * (N - n) * (N - m)] / [N^2 * (N - 1)]}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "HypergeometricDistribution.getPopulationSize",
+    "class_name": "org.apache.commons.math3.distribution.HypergeometricDistribution",
+    "signature": "org.apache.commons.math3.distribution.HypergeometricDistribution.getPopulationSize()",
+    "snippet": "    public int getPopulationSize() {\n        return populationSize;\n    }",
+    "comment": " Access the population size.  @return the population size. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "HypergeometricDistribution.getSampleSize",
+    "class_name": "org.apache.commons.math3.distribution.HypergeometricDistribution",
+    "signature": "org.apache.commons.math3.distribution.HypergeometricDistribution.getSampleSize()",
+    "snippet": "    public int getSampleSize() {\n        return sampleSize;\n    }",
+    "comment": " Access the sample size.  @return the sample size. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "HypergeometricDistribution.getSupportLowerBound",
+    "class_name": "org.apache.commons.math3.distribution.HypergeometricDistribution",
+    "signature": "org.apache.commons.math3.distribution.HypergeometricDistribution.getSupportLowerBound()",
+    "snippet": "    public int getSupportLowerBound() {\n        return FastMath.max(0,\n                            getSampleSize() + getNumberOfSuccesses() - getPopulationSize());\n    }",
+    "comment": " {@inheritDoc}  For population size {@code N}, number of successes {@code m}, and sample size {@code n}, the lower bound of the support is {@code max(0, n + m - N)}.  @return lower bound of the support ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "HypergeometricDistribution.getSupportUpperBound",
+    "class_name": "org.apache.commons.math3.distribution.HypergeometricDistribution",
+    "signature": "org.apache.commons.math3.distribution.HypergeometricDistribution.getSupportUpperBound()",
+    "snippet": "    public int getSupportUpperBound() {\n        return FastMath.min(getNumberOfSuccesses(), getSampleSize());\n    }",
+    "comment": " {@inheritDoc}  For number of successes {@code m} and sample size {@code n}, the upper bound of the support is {@code min(m, n)}.  @return upper bound of the support ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractWell.AbstractWell",
+    "class_name": "org.apache.commons.math3.random.AbstractWell",
+    "signature": "org.apache.commons.math3.random.AbstractWell.AbstractWell(int,int,int,int)",
+    "snippet": "    protected AbstractWell(final int k, final int m1, final int m2, final int m3) {\n        this(k, m1, m2, m3, null);\n    }",
+    "comment": "Creates a new random number generator. <p>The instance is initialized using the current time plus the system identity hash code of this instance as the seed.</p> @param k number of bits in the pool (not necessarily a multiple of 32) @param m1 first parameter of the algorithm @param m2 second parameter of the algorithm @param m3 third parameter of the algorithm ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractWell.AbstractWell",
+    "class_name": "org.apache.commons.math3.random.AbstractWell",
+    "signature": "org.apache.commons.math3.random.AbstractWell.AbstractWell(int,int,int,int,int[])",
+    "snippet": "    protected AbstractWell(final int k, final int m1, final int m2, final int m3, final int[] seed) {\n\n        // the bits pool contains k bits, k = r w - p where r is the number\n        // of w bits blocks, w is the block size (always 32 in the original paper)\n        // and p is the number of unused bits in the last block\n        final int w = 32;\n        final int r = (k + w - 1) / w;\n        this.v      = new int[r];\n        this.index  = 0;\n\n        // precompute indirection index tables. These tables are used for optimizing access\n        // they allow saving computations like \"(j + r - 2) % r\" with costly modulo operations\n        iRm1 = new int[r];\n        iRm2 = new int[r];\n        i1   = new int[r];\n        i2   = new int[r];\n        i3   = new int[r];\n        for (int j = 0; j < r; ++j) {\n            iRm1[j] = (j + r - 1) % r;\n            iRm2[j] = (j + r - 2) % r;\n            i1[j]   = (j + m1)    % r;\n            i2[j]   = (j + m2)    % r;\n            i3[j]   = (j + m3)    % r;\n        }\n\n        // initialize the pool content\n        setSeed(seed);\n\n    }",
+    "comment": "Creates a new random number generator using an int array seed. @param k number of bits in the pool (not necessarily a multiple of 32) @param m1 first parameter of the algorithm @param m2 second parameter of the algorithm @param m3 third parameter of the algorithm @param seed the initial seed (32 bits integers array), if null the seed of the generator will be related to the current time ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractWell.setSeed",
+    "class_name": "org.apache.commons.math3.random.AbstractWell",
+    "signature": "org.apache.commons.math3.random.AbstractWell.setSeed(int[])",
+    "snippet": "    @Override\n    public void setSeed(final int[] seed) {\n        if (seed == null) {\n            setSeed(System.currentTimeMillis() + System.identityHashCode(this));\n            return;\n        }\n\n        System.arraycopy(seed, 0, v, 0, Math.min(seed.length, v.length));\n\n        if (seed.length < v.length) {\n            for (int i = seed.length; i < v.length; ++i) {\n                final long l = v[i - seed.length];\n                v[i] = (int) ((1812433253l * (l ^ (l >> 30)) + i) & 0xffffffffL);\n            }\n        }\n\n        index = 0;\n        clear();  // Clear normal deviate cache\n    }",
+    "comment": "Reinitialize the generator as if just built with the given int array seed. <p>The state of the generator is exactly the same as a new generator built with the same seed.</p> @param seed the initial seed (32 bits integers array). If null the seed of the generator will be the system time plus the system identity hash code of the instance. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractWell.setSeed",
+    "class_name": "org.apache.commons.math3.random.AbstractWell",
+    "signature": "org.apache.commons.math3.random.AbstractWell.setSeed(long)",
+    "snippet": "    @Override\n    public void setSeed(final long seed) {\n        setSeed(new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffl) });\n    }",
+    "comment": "Reinitialize the generator as if just built with the given long seed. <p>The state of the generator is exactly the same as a new generator built with the same seed.</p> @param seed the initial seed (64 bits integer) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BitsStreamGenerator.BitsStreamGenerator",
+    "class_name": "org.apache.commons.math3.random.BitsStreamGenerator",
+    "signature": "org.apache.commons.math3.random.BitsStreamGenerator.BitsStreamGenerator()",
+    "snippet": "    public BitsStreamGenerator() {\n        nextGaussian = Double.NaN;\n    }",
+    "comment": " Creates a new random number generator. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BitsStreamGenerator.clear",
+    "class_name": "org.apache.commons.math3.random.BitsStreamGenerator",
+    "signature": "org.apache.commons.math3.random.BitsStreamGenerator.clear()",
+    "snippet": "    public void clear() {\n        nextGaussian = Double.NaN;\n    }",
+    "comment": " Clears the cache used by the default implementation of {@link #nextGaussian}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BitsStreamGenerator.nextDouble",
+    "class_name": "org.apache.commons.math3.random.BitsStreamGenerator",
+    "signature": "org.apache.commons.math3.random.BitsStreamGenerator.nextDouble()",
+    "snippet": "    public double nextDouble() {\n        final long high = ((long) next(26)) << 26;\n        final int  low  = next(26);\n        return (high | low) * 0x1.0p-52d;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RandomDataGenerator.RandomDataGenerator",
+    "class_name": "org.apache.commons.math3.random.RandomDataGenerator",
+    "signature": "org.apache.commons.math3.random.RandomDataGenerator.RandomDataGenerator()",
+    "snippet": "    public RandomDataGenerator() {\n    }",
+    "comment": " Construct a RandomDataGenerator, using a default random generator as the source of randomness.  <p>The default generator is a {@link Well19937c} seeded with {@code System.currentTimeMillis() + System.identityHashCode(this))}. The generator is initialized and seeded on first use.</p> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RandomDataImpl.RandomDataImpl",
+    "class_name": "org.apache.commons.math3.random.RandomDataImpl",
+    "signature": "org.apache.commons.math3.random.RandomDataImpl.RandomDataImpl()",
+    "snippet": "    public RandomDataImpl() {\n        delegate = new RandomDataGenerator();\n    }",
+    "comment": " Construct a RandomDataImpl, using a default random generator as the source of randomness.  <p>The default generator is a {@link Well19937c} seeded with {@code System.currentTimeMillis() + System.identityHashCode(this))}. The generator is initialized and seeded on first use.</p> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Well19937c.Well19937c",
+    "class_name": "org.apache.commons.math3.random.Well19937c",
+    "signature": "org.apache.commons.math3.random.Well19937c.Well19937c()",
+    "snippet": "    public Well19937c() {\n        super(K, M1, M2, M3);\n    }",
+    "comment": "Creates a new random number generator. <p>The instance is initialized using the current time as the seed.</p> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Well19937c.next",
+    "class_name": "org.apache.commons.math3.random.Well19937c",
+    "signature": "org.apache.commons.math3.random.Well19937c.next(int)",
+    "snippet": "    @Override\n    protected int next(final int bits) {\n\n        final int indexRm1 = iRm1[index];\n        final int indexRm2 = iRm2[index];\n\n        final int v0       = v[index];\n        final int vM1      = v[i1[index]];\n        final int vM2      = v[i2[index]];\n        final int vM3      = v[i3[index]];\n\n        final int z0 = (0x80000000 & v[indexRm1]) ^ (0x7FFFFFFF & v[indexRm2]);\n        final int z1 = (v0 ^ (v0 << 25))  ^ (vM1 ^ (vM1 >>> 27));\n        final int z2 = (vM2 >>> 9) ^ (vM3 ^ (vM3 >>> 1));\n        final int z3 = z1      ^ z2;\n        int z4 = z0 ^ (z1 ^ (z1 << 9)) ^ (z2 ^ (z2 << 21)) ^ (z3 ^ (z3 >>> 21));\n\n        v[index]     = z3;\n        v[indexRm1]  = z4;\n        v[indexRm2] &= 0x80000000;\n        index        = indexRm1;\n\n\n        // add Matsumoto-Kurita tempering\n        // to get a maximally-equidistributed generator\n        z4 = z4 ^ ((z4 <<  7) & 0xe46e1700);\n        z4 = z4 ^ ((z4 << 15) & 0x9b868000);\n\n        return z4 >>> (32 - bits);\n\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.max",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.max(int,int)",
+    "snippet": "    public static int max(final int a, final int b) {\n        return (a <= b) ? b : a;\n    }",
+    "comment": "Compute the maximum of two values @param a first value @param b second value @return b if a is lesser or equal to b, a otherwise ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.min",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.min(int,int)",
+    "snippet": "    public static int min(final int a, final int b) {\n        return (a <= b) ? a : b;\n    }",
+    "comment": "Compute the minimum of two values @param a first value @param b second value @return a if a is lesser or equal to b, b otherwise ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.sqrt",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.sqrt(double)",
+    "snippet": "    public static double sqrt(final double a) {\n        return Math.sqrt(a);\n    }",
+    "comment": "Compute the square root of a number. <p><b>Note:</b> this implementation currently delegates to {@link Math#sqrt} @param a number on which evaluation is done @return square root of a ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "name": "ClassUtils.addAbbreviation",
+    "class_name": "org.apache.commons.lang.ClassUtils",
+    "signature": "org.apache.commons.lang.ClassUtils.addAbbreviation(String,String)",
+    "snippet": "    private static void addAbbreviation(String primitive, String abbreviation) {\n        abbreviationMap.put(primitive, abbreviation);\n        reverseAbbreviationMap.put(abbreviation, primitive);\n    }",
+    "comment": " Add primitive type abbreviation to maps of abbreviations.  @param primitive Canonical name of primitive type @param abbreviation Corresponding abbreviation of primitive type ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ClassUtils.getPackageName",
+    "class_name": "org.apache.commons.lang.ClassUtils",
+    "signature": "org.apache.commons.lang.ClassUtils.getPackageName(Class)",
+    "snippet": "    public static String getPackageName(Class<?> cls) {\n        if (cls == null) {\n            return StringUtils.EMPTY;\n        }\n        return getPackageName(cls.getName());\n    }",
+    "comment": " <p>Gets the package name of a <code>Class</code>.</p>  @param cls  the class to get the package name for, may be <code>null</code>. @return the package name or an empty string ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ClassUtils.getPackageName",
+    "class_name": "org.apache.commons.lang.ClassUtils",
+    "signature": "org.apache.commons.lang.ClassUtils.getPackageName(String)",
+    "snippet": "    public static String getPackageName(String className) {\n        if (className == null) {\n            return StringUtils.EMPTY;\n        }\n\n        // Strip array encoding\n        // Strip Object type encoding\n\n        int i = className.lastIndexOf(PACKAGE_SEPARATOR_CHAR);\n        if (i == -1) {\n            return StringUtils.EMPTY;\n        }\n        return className.substring(0, i);\n    }",
+    "comment": " <p>Gets the package name from a <code>String</code>.</p>  <p>The string passed in is assumed to be a class name - it is not checked.</p> <p>If the class is unpackaged, return an empty string.</p>  @param className  the className to get the package name for, may be <code>null</code> @return the package name or an empty string ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ClassUtils.getShortClassName",
+    "class_name": "org.apache.commons.lang.ClassUtils",
+    "signature": "org.apache.commons.lang.ClassUtils.getShortClassName(Class)",
+    "snippet": "    public static String getShortClassName(Class<?> cls) {\n        if (cls == null) {\n            return StringUtils.EMPTY;\n        }\n        return getShortClassName(cls.getName());\n    }",
+    "comment": " <p>Gets the class name minus the package name from a <code>Class</code>.</p>  @param cls  the class to get the short name for. @return the class name without the package name or an empty string ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  },
+  {
+    "name": "ClassUtils.getShortClassName",
+    "class_name": "org.apache.commons.lang.ClassUtils",
+    "signature": "org.apache.commons.lang.ClassUtils.getShortClassName(String)",
+    "snippet": "    public static String getShortClassName(String className) {\n        if (className == null) {\n            return StringUtils.EMPTY;\n        }\n        if (className.length() == 0) {\n            return StringUtils.EMPTY;\n        }\n\n\n        // Handle array encoding\n            // Strip Object type encoding\n\n\n        int lastDotIdx = className.lastIndexOf(PACKAGE_SEPARATOR_CHAR);\n        int innerIdx = className.indexOf(\n                INNER_CLASS_SEPARATOR_CHAR, lastDotIdx == -1 ? 0 : lastDotIdx + 1);\n        String out = className.substring(lastDotIdx + 1);\n        if (innerIdx != -1) {\n            out = out.replace(INNER_CLASS_SEPARATOR_CHAR, PACKAGE_SEPARATOR_CHAR);\n        }\n        return out;\n    }",
+    "comment": " <p>Gets the class name minus the package name from a String.</p>  <p>The string passed in is assumed to be a class name - it is not checked.</p>  @param className  the className to get the short name for @return the class name of the class without the package name or an empty string ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 2
+  }
+]

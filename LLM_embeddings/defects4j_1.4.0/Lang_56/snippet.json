@@ -1,0 +1,242 @@
+[
+  {
+    "name": "SerializationException.SerializationException",
+    "class_name": "org.apache.commons.lang.SerializationException",
+    "signature": "org.apache.commons.lang.SerializationException.SerializationException(Throwable)",
+    "snippet": "    public SerializationException(Throwable cause) {\n        super(cause);\n    }",
+    "comment": " <p>Constructs a new <code>SerializationException</code> with specified nested <code>Throwable</code>.</p>  @param cause  The <code>Exception</code> or <code>Error</code> that caused this exception to be thrown. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "SerializationUtils.serialize",
+    "class_name": "org.apache.commons.lang.SerializationUtils",
+    "signature": "org.apache.commons.lang.SerializationUtils.serialize(Serializable)",
+    "snippet": "    public static byte[] serialize(Serializable obj) {\n        ByteArrayOutputStream baos = new ByteArrayOutputStream(512);\n        serialize(obj, baos);\n        return baos.toByteArray();\n    }",
+    "comment": " <p>Serializes an <code>Object</code> to a byte array for storage/serialization.</p>  @param obj  the object to serialize to bytes @return a byte[] with the converted Serializable @throws SerializationException (runtime) if the serialization fails ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "SerializationUtils.serialize",
+    "class_name": "org.apache.commons.lang.SerializationUtils",
+    "signature": "org.apache.commons.lang.SerializationUtils.serialize(Serializable,OutputStream)",
+    "snippet": "    public static void serialize(Serializable obj, OutputStream outputStream) {\n        if (outputStream == null) {\n            throw new IllegalArgumentException(\"The OutputStream must not be null\");\n        }\n        ObjectOutputStream out = null;\n        try {\n            // stream closed in the finally\n            out = new ObjectOutputStream(outputStream);\n            out.writeObject(obj);\n            \n        } catch (IOException ex) {\n            throw new SerializationException(ex);\n        } finally {\n            try {\n                if (out != null) {\n                    out.close();\n                }\n            } catch (IOException ex) {\n                // ignore close exception\n            }\n        }\n    }",
+    "comment": " <p>Serializes an <code>Object</code> to the specified stream.</p>  <p>The stream will be closed once the object is written. This avoids the need for a finally clause, and maybe also exception handling, in the application code.</p>  <p>The stream passed in is not buffered internally within this method. This is the responsibility of your application if desired.</p>  @param obj  the object to serialize to bytes, may be null @param outputStream  the stream to write to, must not be null @throws IllegalArgumentException if <code>outputStream</code> is <code>null</code> @throws SerializationException (runtime) if the serialization fails ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "ExceptionUtils.isThrowableNested",
+    "class_name": "org.apache.commons.lang.exception.ExceptionUtils",
+    "signature": "org.apache.commons.lang.exception.ExceptionUtils.isThrowableNested()",
+    "snippet": "    public static boolean isThrowableNested() {\n        return THROWABLE_CAUSE_METHOD != null;\n    }",
+    "comment": " <p>Checks if the Throwable class has a <code>getCause</code> method.</p>  <p>This is true for JDK 1.4 and above.</p>  @return true if Throwable is nestable @since 2.0 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "NestableDelegate.NestableDelegate",
+    "class_name": "org.apache.commons.lang.exception.NestableDelegate",
+    "signature": "org.apache.commons.lang.exception.NestableDelegate.NestableDelegate(Nestable)",
+    "snippet": "    public NestableDelegate(Nestable nestable) {\n        if (nestable instanceof Throwable) {\n            this.nestable = (Throwable) nestable;\n        } else {\n            throw new IllegalArgumentException(MUST_BE_THROWABLE);\n        }\n    }",
+    "comment": " Constructs a new <code>NestableDelegate</code> instance to manage the specified <code>Nestable</code>.  @param nestable the Nestable implementation (<i>must</i> extend {@link java.lang.Throwable}) @since 2.0 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "NestableDelegate.printStackTrace",
+    "class_name": "org.apache.commons.lang.exception.NestableDelegate",
+    "signature": "org.apache.commons.lang.exception.NestableDelegate.printStackTrace(PrintStream)",
+    "snippet": "    public void printStackTrace(PrintStream out) {\n        synchronized (out) {\n            PrintWriter pw = new PrintWriter(out, false);\n            printStackTrace(pw);\n            // Flush the PrintWriter before it's GC'ed.\n            pw.flush();\n        }\n    }",
+    "comment": " Prints the stack trace of this exception to the specified stream.  @param out <code>PrintStream</code> to use for output. @see #printStackTrace(PrintWriter) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "NestableDelegate.printStackTrace",
+    "class_name": "org.apache.commons.lang.exception.NestableDelegate",
+    "signature": "org.apache.commons.lang.exception.NestableDelegate.printStackTrace(PrintWriter)",
+    "snippet": "    public void printStackTrace(PrintWriter out) {\n        Throwable throwable = this.nestable;\n        // if running on jre1.4 or higher, use default printStackTrace\n        if (ExceptionUtils.isThrowableNested()) {\n            if (throwable instanceof Nestable) {\n                ((Nestable)throwable).printPartialStackTrace(out);\n            } else {\n                throwable.printStackTrace(out);\n            }\n            return;\n        }\n\n        // generating the nested stack trace\n        List stacks = new ArrayList();\n        while (throwable != null) {\n            String[] st = getStackFrames(throwable);\n            stacks.add(st);\n            throwable = ExceptionUtils.getCause(throwable);\n        }\n\n        // If NOT topDown, reverse the stack\n        String separatorLine = \"Caused by: \";\n        if (!topDown) {\n            separatorLine = \"Rethrown as: \";\n            Collections.reverse(stacks);\n        }\n\n        // Remove the repeated lines in the stack\n        if (trimStackFrames) {\n          trimStackFrames(stacks);\n        }\n\n        synchronized (out) {\n            for (Iterator iter=stacks.iterator(); iter.hasNext();) {\n                String[] st = (String[]) iter.next();\n                for (int i=0, len=st.length; i < len; i++) {\n                    out.println(st[i]);\n                }\n                if (iter.hasNext()) {\n                    out.print(separatorLine);\n                }\n            }\n        }\n    }",
+    "comment": " Prints the stack trace of this exception to the specified writer. If the Throwable class has a <code>getCause</code> method (i.e. running on jre1.4 or higher), this method just  uses Throwable's printStackTrace() method. Otherwise, generates the stack-trace, by taking into account the 'topDown' and  'trimStackFrames' parameters. The topDown and trimStackFrames  are set to 'true' by default (produces jre1.4-like stack trace).  @param out <code>PrintWriter</code> to use for output. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "NestableRuntimeException.NestableRuntimeException",
+    "class_name": "org.apache.commons.lang.exception.NestableRuntimeException",
+    "signature": "org.apache.commons.lang.exception.NestableRuntimeException.NestableRuntimeException(Throwable)",
+    "snippet": "    public NestableRuntimeException(Throwable cause) {\n        super();\n        this.cause = cause;\n    }",
+    "comment": " Constructs a new <code>NestableRuntimeException</code> with specified nested <code>Throwable</code>.  @param cause the exception or error that caused this exception to be thrown ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "NestableRuntimeException.getCause",
+    "class_name": "org.apache.commons.lang.exception.NestableRuntimeException",
+    "signature": "org.apache.commons.lang.exception.NestableRuntimeException.getCause()",
+    "snippet": "    public Throwable getCause() {\n        return cause;\n    }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "NestableRuntimeException.getMessage",
+    "class_name": "org.apache.commons.lang.exception.NestableRuntimeException",
+    "signature": "org.apache.commons.lang.exception.NestableRuntimeException.getMessage()",
+    "snippet": "    public String getMessage() {\n        if (super.getMessage() != null) {\n            return super.getMessage();\n        } else if (cause != null) {\n            return cause.toString();\n        } else {\n            return null;\n        }\n    }",
+    "comment": " Returns the detail message string of this throwable. If it was created with a null message, returns the following: (cause==null ? null : cause.toString()).  @return String message string of the throwable ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "NestableRuntimeException.printPartialStackTrace",
+    "class_name": "org.apache.commons.lang.exception.NestableRuntimeException",
+    "signature": "org.apache.commons.lang.exception.NestableRuntimeException.printPartialStackTrace(PrintWriter)",
+    "snippet": "    public final void printPartialStackTrace(PrintWriter out) {\n        super.printStackTrace(out);\n    }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "NestableRuntimeException.printStackTrace",
+    "class_name": "org.apache.commons.lang.exception.NestableRuntimeException",
+    "signature": "org.apache.commons.lang.exception.NestableRuntimeException.printStackTrace(PrintStream)",
+    "snippet": "    public void printStackTrace(PrintStream out) {\n        delegate.printStackTrace(out);\n    }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "FastDateFormat.FastDateFormat",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.FastDateFormat(String,TimeZone,Locale)",
+    "snippet": "    protected FastDateFormat(String pattern, TimeZone timeZone, Locale locale) {\n        super();\n        if (pattern == null) {\n            throw new IllegalArgumentException(\"The pattern must not be null\");\n        }\n        mPattern = pattern;\n        \n        mTimeZoneForced = (timeZone != null);\n        if (timeZone == null) {\n            timeZone = TimeZone.getDefault();\n        }\n        mTimeZone = timeZone;\n        \n        mLocaleForced = (locale != null);\n        if (locale == null) {\n            locale = Locale.getDefault();\n        }\n        mLocale = locale;\n    }",
+    "comment": " <p>Constructs a new FastDateFormat.</p>  @param pattern  {@link java.text.SimpleDateFormat} compatible pattern @param timeZone  time zone to use, <code>null</code> means use default for <code>Date</code> and value within for <code>Calendar</code> @param locale  locale, <code>null</code> means use system default @throws IllegalArgumentException if pattern is invalid or <code>null</code> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "FastDateFormat.getInstance",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.getInstance(String)",
+    "snippet": "    public static FastDateFormat getInstance(String pattern) {\n        return getInstance(pattern, null, null);\n    }",
+    "comment": " <p>Gets a formatter instance using the specified pattern in the default locale.</p>  @param pattern  {@link java.text.SimpleDateFormat} compatible pattern @return a pattern based date/time formatter @throws IllegalArgumentException if pattern is invalid ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "FastDateFormat.getInstance",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.getInstance(String,TimeZone,Locale)",
+    "snippet": "    public static synchronized FastDateFormat getInstance(String pattern, TimeZone timeZone, Locale locale) {\n        FastDateFormat emptyFormat = new FastDateFormat(pattern, timeZone, locale);\n        FastDateFormat format = (FastDateFormat) cInstanceCache.get(emptyFormat);\n        if (format == null) {\n            format = emptyFormat;\n            format.init();  // convert shell format into usable one\n            cInstanceCache.put(format, format);  // this is OK!\n        }\n        return format;\n    }",
+    "comment": " <p>Gets a formatter instance using the specified pattern, time zone and locale.</p>  @param pattern  {@link java.text.SimpleDateFormat} compatible pattern @param timeZone  optional time zone, overrides time zone of formatted date @param locale  optional locale, overrides system locale @return a pattern based date/time formatter @throws IllegalArgumentException if pattern is invalid or <code>null</code> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "FastDateFormat.hashCode",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.hashCode()",
+    "snippet": "    public int hashCode() {\n        int total = 0;\n        total += mPattern.hashCode();\n        total += mTimeZone.hashCode();\n        total += (mTimeZoneForced ? 1 : 0);\n        total += mLocale.hashCode();\n        total += (mLocaleForced ? 1 : 0);\n        return total;\n    }",
+    "comment": " <p>Returns a hashcode compatible with equals.</p>  @return a hashcode compatible with equals ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "FastDateFormat.init",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.init()",
+    "snippet": "    protected void init() {\n        List rulesList = parsePattern();\n        mRules = (Rule[]) rulesList.toArray(new Rule[rulesList.size()]);\n\n        int len = 0;\n        for (int i=mRules.length; --i >= 0; ) {\n            len += mRules[i].estimateLength();\n        }\n\n        mMaxLengthEstimate = len;\n    }",
+    "comment": " <p>Initializes the instance for first use.</p> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "FastDateFormat.parsePattern",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.parsePattern()",
+    "snippet": "    protected List parsePattern() {\n        DateFormatSymbols symbols = new DateFormatSymbols(mLocale);\n        List rules = new ArrayList();\n\n        String[] ERAs = symbols.getEras();\n        String[] months = symbols.getMonths();\n        String[] shortMonths = symbols.getShortMonths();\n        String[] weekdays = symbols.getWeekdays();\n        String[] shortWeekdays = symbols.getShortWeekdays();\n        String[] AmPmStrings = symbols.getAmPmStrings();\n\n        int length = mPattern.length();\n        int[] indexRef = new int[1];\n\n        for (int i = 0; i < length; i++) {\n            indexRef[0] = i;\n            String token = parseToken(mPattern, indexRef);\n            i = indexRef[0];\n\n            int tokenLen = token.length();\n            if (tokenLen == 0) {\n                break;\n            }\n\n            Rule rule;\n            char c = token.charAt(0);\n\n            switch (c) {\n            case 'G': // era designator (text)\n                rule = new TextField(Calendar.ERA, ERAs);\n                break;\n            case 'y': // year (number)\n                if (tokenLen >= 4) {\n                    rule = selectNumberRule(Calendar.YEAR, tokenLen);\n                } else {\n                    rule = TwoDigitYearField.INSTANCE;\n                }\n                break;\n            case 'M': // month in year (text and number)\n                if (tokenLen >= 4) {\n                    rule = new TextField(Calendar.MONTH, months);\n                } else if (tokenLen == 3) {\n                    rule = new TextField(Calendar.MONTH, shortMonths);\n                } else if (tokenLen == 2) {\n                    rule = TwoDigitMonthField.INSTANCE;\n                } else {\n                    rule = UnpaddedMonthField.INSTANCE;\n                }\n                break;\n            case 'd': // day in month (number)\n                rule = selectNumberRule(Calendar.DAY_OF_MONTH, tokenLen);\n                break;\n            case 'h': // hour in am/pm (number, 1..12)\n                rule = new TwelveHourField(selectNumberRule(Calendar.HOUR, tokenLen));\n                break;\n            case 'H': // hour in day (number, 0..23)\n                rule = selectNumberRule(Calendar.HOUR_OF_DAY, tokenLen);\n                break;\n            case 'm': // minute in hour (number)\n                rule = selectNumberRule(Calendar.MINUTE, tokenLen);\n                break;\n            case 's': // second in minute (number)\n                rule = selectNumberRule(Calendar.SECOND, tokenLen);\n                break;\n            case 'S': // millisecond (number)\n                rule = selectNumberRule(Calendar.MILLISECOND, tokenLen);\n                break;\n            case 'E': // day in week (text)\n                rule = new TextField(Calendar.DAY_OF_WEEK, tokenLen < 4 ? shortWeekdays : weekdays);\n                break;\n            case 'D': // day in year (number)\n                rule = selectNumberRule(Calendar.DAY_OF_YEAR, tokenLen);\n                break;\n            case 'F': // day of week in month (number)\n                rule = selectNumberRule(Calendar.DAY_OF_WEEK_IN_MONTH, tokenLen);\n                break;\n            case 'w': // week in year (number)\n                rule = selectNumberRule(Calendar.WEEK_OF_YEAR, tokenLen);\n                break;\n            case 'W': // week in month (number)\n                rule = selectNumberRule(Calendar.WEEK_OF_MONTH, tokenLen);\n                break;\n            case 'a': // am/pm marker (text)\n                rule = new TextField(Calendar.AM_PM, AmPmStrings);\n                break;\n            case 'k': // hour in day (1..24)\n                rule = new TwentyFourHourField(selectNumberRule(Calendar.HOUR_OF_DAY, tokenLen));\n                break;\n            case 'K': // hour in am/pm (0..11)\n                rule = selectNumberRule(Calendar.HOUR, tokenLen);\n                break;\n            case 'z': // time zone (text)\n                if (tokenLen >= 4) {\n                    rule = new TimeZoneNameRule(mTimeZone, mTimeZoneForced, mLocale, TimeZone.LONG);\n                } else {\n                    rule = new TimeZoneNameRule(mTimeZone, mTimeZoneForced, mLocale, TimeZone.SHORT);\n                }\n                break;\n            case 'Z': // time zone (value)\n                if (tokenLen == 1) {\n                    rule = TimeZoneNumberRule.INSTANCE_NO_COLON;\n                } else {\n                    rule = TimeZoneNumberRule.INSTANCE_COLON;\n                }\n                break;\n            case '\\'': // literal text\n                String sub = token.substring(1);\n                if (sub.length() == 1) {\n                    rule = new CharacterLiteral(sub.charAt(0));\n                } else {\n                    rule = new StringLiteral(sub);\n                }\n                break;\n            default:\n                throw new IllegalArgumentException(\"Illegal pattern component: \" + token);\n            }\n\n            rules.add(rule);\n        }\n\n        return rules;\n    }",
+    "comment": " <p>Returns a list of Rules given a pattern.</p>  @return a <code>List</code> of Rule objects @throws IllegalArgumentException if pattern is invalid ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "FastDateFormat.parseToken",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.parseToken(String,int[])",
+    "snippet": "    protected String parseToken(String pattern, int[] indexRef) {\n        StringBuffer buf = new StringBuffer();\n\n        int i = indexRef[0];\n        int length = pattern.length();\n\n        char c = pattern.charAt(i);\n        if (c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z') {\n            // Scan a run of the same character, which indicates a time\n            // pattern.\n            buf.append(c);\n\n            while (i + 1 < length) {\n                char peek = pattern.charAt(i + 1);\n                if (peek == c) {\n                    buf.append(c);\n                    i++;\n                } else {\n                    break;\n                }\n            }\n        } else {\n            // This will identify token as text.\n            buf.append('\\'');\n\n            boolean inLiteral = false;\n\n            for (; i < length; i++) {\n                c = pattern.charAt(i);\n\n                if (c == '\\'') {\n                    if (i + 1 < length && pattern.charAt(i + 1) == '\\'') {\n                        // '' is treated as escaped '\n                        i++;\n                        buf.append(c);\n                    } else {\n                        inLiteral = !inLiteral;\n                    }\n                } else if (!inLiteral &&\n                         (c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z')) {\n                    i--;\n                    break;\n                } else {\n                    buf.append(c);\n                }\n            }\n        }\n\n        indexRef[0] = i;\n        return buf.toString();\n    }",
+    "comment": " <p>Performs the parsing of tokens.</p>  @param pattern  the pattern @param indexRef  index references @return parsed token ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "FastDateFormat.selectNumberRule",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat",
+    "signature": "org.apache.commons.lang.time.FastDateFormat.selectNumberRule(int,int)",
+    "snippet": "    protected NumberRule selectNumberRule(int field, int padding) {\n        switch (padding) {\n        case 1:\n            return new UnpaddedNumberField(field);\n        case 2:\n            return new TwoDigitNumberField(field);\n        default:\n            return new PaddedNumberField(field, padding);\n        }\n    }",
+    "comment": " <p>Gets an appropriate rule for the padding required.</p>  @param field  the field to get a rule for @param padding  the padding required @return a new rule with the correct padding ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "CharacterLiteral.estimateLength",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat$CharacterLiteral",
+    "signature": "org.apache.commons.lang.time.FastDateFormat$CharacterLiteral.estimateLength()",
+    "snippet": "        public int estimateLength() {\n            return 1;\n        }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "PaddedNumberField.estimateLength",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat$PaddedNumberField",
+    "signature": "org.apache.commons.lang.time.FastDateFormat$PaddedNumberField.estimateLength()",
+    "snippet": "        public int estimateLength() {\n            return 4;\n        }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "TwoDigitMonthField.estimateLength",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat$TwoDigitMonthField",
+    "signature": "org.apache.commons.lang.time.FastDateFormat$TwoDigitMonthField.estimateLength()",
+    "snippet": "        public int estimateLength() {\n            return 2;\n        }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  },
+  {
+    "name": "TwoDigitNumberField.estimateLength",
+    "class_name": "org.apache.commons.lang.time.FastDateFormat$TwoDigitNumberField",
+    "signature": "org.apache.commons.lang.time.FastDateFormat$TwoDigitNumberField.estimateLength()",
+    "snippet": "        public int estimateLength() {\n            return 2;\n        }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 0
+  }
+]

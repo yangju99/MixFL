@@ -1,0 +1,92 @@
+[
+  {
+    "name": "AbstractListChromosome.AbstractListChromosome",
+    "class_name": "org.apache.commons.math3.genetics.AbstractListChromosome",
+    "signature": "org.apache.commons.math3.genetics.AbstractListChromosome.AbstractListChromosome(List)",
+    "snippet": "    public AbstractListChromosome(final List<T> representation) {\n        checkValidity(representation);\n        this.representation = Collections.unmodifiableList(new ArrayList<T> (representation));\n    }",
+    "comment": " Constructor. @param representation inner representation of the chromosome @throws InvalidRepresentationException iff the <code>representation</code> can not represent a valid chromosome ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BinaryChromosome.BinaryChromosome",
+    "class_name": "org.apache.commons.math3.genetics.BinaryChromosome",
+    "signature": "org.apache.commons.math3.genetics.BinaryChromosome.BinaryChromosome(List)",
+    "snippet": "    public BinaryChromosome(List<Integer> representation) {\n        super(representation);\n    }",
+    "comment": " Constructor. @param representation list of {0,1} values representing the chromosome @throws InvalidRepresentationException iff the <code>representation</code> can not represent a valid chromosome ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BinaryChromosome.checkValidity",
+    "class_name": "org.apache.commons.math3.genetics.BinaryChromosome",
+    "signature": "org.apache.commons.math3.genetics.BinaryChromosome.checkValidity(List)",
+    "snippet": "    @Override\n    protected void checkValidity(List<Integer> chromosomeRepresentation)\n        throws InvalidRepresentationException {\n        for (int i : chromosomeRepresentation) {\n            if (i < 0 || i >1) {\n                throw new InvalidRepresentationException(LocalizedFormats.INVALID_BINARY_DIGIT,\n                                                         i);\n            }\n        }\n    }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "BinaryChromosome.randomBinaryRepresentation",
+    "class_name": "org.apache.commons.math3.genetics.BinaryChromosome",
+    "signature": "org.apache.commons.math3.genetics.BinaryChromosome.randomBinaryRepresentation(int)",
+    "snippet": "    public static List<Integer> randomBinaryRepresentation(int length) {\n        // random binary list\n        List<Integer> rList= new ArrayList<Integer> (length);\n        for (int j=0; j<length; j++) {\n            rList.add(GeneticAlgorithm.getRandomGenerator().nextInt(2));\n        }\n        return rList;\n    }",
+    "comment": " Returns a representation of a random binary array of length <code>length</code>. @param length length of the array @return a random binary array of length <code>length</code> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "GeneticAlgorithm.getRandomGenerator",
+    "class_name": "org.apache.commons.math3.genetics.GeneticAlgorithm",
+    "signature": "org.apache.commons.math3.genetics.GeneticAlgorithm.getRandomGenerator()",
+    "snippet": "    public static synchronized RandomGenerator getRandomGenerator() {\n        return randomGenerator;\n    }",
+    "comment": " Returns the (static) random generator.  @return the static random generator shared by GA implementation classes ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ListPopulation.ListPopulation",
+    "class_name": "org.apache.commons.math3.genetics.ListPopulation",
+    "signature": "org.apache.commons.math3.genetics.ListPopulation.ListPopulation(List,int)",
+    "snippet": "    public ListPopulation(final List<Chromosome> chromosomes, final int populationLimit) {\n        if (chromosomes == null) {\n            throw new NullArgumentException();\n        }\n        if (populationLimit <= 0) {\n            throw new NotPositiveException(LocalizedFormats.POPULATION_LIMIT_NOT_POSITIVE, populationLimit);\n        }\n        if (chromosomes.size() > populationLimit) {\n            throw new NumberIsTooLargeException(LocalizedFormats.LIST_OF_CHROMOSOMES_BIGGER_THAN_POPULATION_SIZE,\n                                                chromosomes.size(), populationLimit, false);\n        }\n        this.populationLimit = populationLimit;\n        this.chromosomes = new ArrayList<Chromosome>(populationLimit);\n        this.chromosomes.addAll(chromosomes);\n    }",
+    "comment": " Creates a new ListPopulation instance. <p>Note: the chromosomes of the specified list are added to the population.</p> @param chromosomes list of chromosomes to be added to the population @param populationLimit maximal size of the population @throws NullArgumentException if the list of chromosomes is {@code null} @throws NotPositiveException if the population limit is not a positive number (&lt; 1) @throws NumberIsTooLargeException if the list of chromosomes exceeds the population limit ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ListPopulation.ListPopulation",
+    "class_name": "org.apache.commons.math3.genetics.ListPopulation",
+    "signature": "org.apache.commons.math3.genetics.ListPopulation.ListPopulation(int)",
+    "snippet": "    public ListPopulation(final int populationLimit) {\n        this(Collections.<Chromosome> emptyList(), populationLimit);\n    }",
+    "comment": " Creates a new ListPopulation instance and initializes its inner chromosome list.  @param populationLimit maximal size of the population @throws NotPositiveException if the population limit is not a positive number (&lt; 1) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ListPopulation.addChromosomes",
+    "class_name": "org.apache.commons.math3.genetics.ListPopulation",
+    "signature": "org.apache.commons.math3.genetics.ListPopulation.addChromosomes(Collection)",
+    "snippet": "    public void addChromosomes(final Collection<Chromosome> chromosomeColl) {\n        if (chromosomes.size() + chromosomeColl.size() > populationLimit) {\n            throw new NumberIsTooLargeException(LocalizedFormats.LIST_OF_CHROMOSOMES_BIGGER_THAN_POPULATION_SIZE,\n                                                chromosomes.size(), populationLimit, false);\n        }\n        this.chromosomes.addAll(chromosomeColl);\n    }",
+    "comment": " Add a {@link Collection} of chromosomes to this {@link Population}. @param chromosomeColl a {@link Collection} of chromosomes @throws NumberIsTooLargeException if the population would exceed the population limit when adding this chromosome ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ListPopulation.iterator",
+    "class_name": "org.apache.commons.math3.genetics.ListPopulation",
+    "signature": "org.apache.commons.math3.genetics.ListPopulation.iterator()",
+    "snippet": "    public Iterator<Chromosome> iterator() {\n        return chromosomes.iterator();\n    }",
+    "comment": " Returns an iterator over the unmodifiable list of chromosomes. <p>Any call to {@link Iterator#remove()} will result in a {@link UnsupportedOperationException}.</p>  @return chromosome iterator ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

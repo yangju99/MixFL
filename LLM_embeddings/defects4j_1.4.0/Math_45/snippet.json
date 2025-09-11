@@ -1,0 +1,72 @@
+[
+  {
+    "name": "AbstractRealMatrix.AbstractRealMatrix",
+    "class_name": "org.apache.commons.math.linear.AbstractRealMatrix",
+    "signature": "org.apache.commons.math.linear.AbstractRealMatrix.AbstractRealMatrix(int,int)",
+    "snippet": "    protected AbstractRealMatrix(final int rowDimension, final int columnDimension) {\n        if (rowDimension < 1) {\n            throw new NotStrictlyPositiveException(rowDimension);\n        }\n        if (columnDimension < 1) {\n            throw new NotStrictlyPositiveException(columnDimension);\n        }\n    }",
+    "comment": " Create a new RealMatrix with the supplied row and column dimensions.  @param rowDimension  the number of rows in the new matrix @param columnDimension  the number of columns in the new matrix @throws NotStrictlyPositiveException if row or column dimension is not positive ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "OpenMapRealMatrix.OpenMapRealMatrix",
+    "class_name": "org.apache.commons.math.linear.OpenMapRealMatrix",
+    "signature": "org.apache.commons.math.linear.OpenMapRealMatrix.OpenMapRealMatrix(int,int)",
+    "snippet": "    public OpenMapRealMatrix(int rowDimension, int columnDimension) {\n        super(rowDimension, columnDimension);\n        this.rows = rowDimension;\n        this.columns = columnDimension;\n        this.entries = new OpenIntToDoubleHashMap(0.0);\n    }",
+    "comment": " Build a sparse matrix with the supplied row and column dimensions.  @param rowDimension Number of rows of the matrix. @param columnDimension Number of columns of the matrix. ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.ceil",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.ceil(double)",
+    "snippet": "    public static double ceil(double x) {\n        double y;\n\n        if (x != x) { // NaN\n            return x;\n        }\n\n        y = floor(x);\n        if (y == x) {\n            return y;\n        }\n\n        y += 1.0;\n\n        if (y == 0) {\n            return x*y;\n        }\n\n        return y;\n    }",
+    "comment": "Get the smallest whole number larger than x. @param x number from which ceil is requested @return a double number c such that c is an integer c - 1.0 < x <= c ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.floor",
+    "class_name": "org.apache.commons.math.util.FastMath",
+    "signature": "org.apache.commons.math.util.FastMath.floor(double)",
+    "snippet": "    public static double floor(double x) {\n        long y;\n\n        if (x != x) { // NaN\n            return x;\n        }\n\n        if (x >= TWO_POWER_52 || x <= -TWO_POWER_52) {\n            return x;\n        }\n\n        y = (long) x;\n        if (x < 0 && y != x) {\n            y--;\n        }\n\n        if (y == 0) {\n            return x*y;\n        }\n\n        return y;\n    }",
+    "comment": "Get the largest whole number smaller than x. @param x number from which floor is requested @return a double number f such that f is an integer f <= x < f + 1.0 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "OpenIntToDoubleHashMap.OpenIntToDoubleHashMap",
+    "class_name": "org.apache.commons.math.util.OpenIntToDoubleHashMap",
+    "signature": "org.apache.commons.math.util.OpenIntToDoubleHashMap.OpenIntToDoubleHashMap(double)",
+    "snippet": "    public OpenIntToDoubleHashMap(final double missingEntries) {\n        this(DEFAULT_EXPECTED_SIZE, missingEntries);\n    }",
+    "comment": " Build an empty map with default size @param missingEntries value to return when a missing entry is fetched ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "OpenIntToDoubleHashMap.OpenIntToDoubleHashMap",
+    "class_name": "org.apache.commons.math.util.OpenIntToDoubleHashMap",
+    "signature": "org.apache.commons.math.util.OpenIntToDoubleHashMap.OpenIntToDoubleHashMap(int,double)",
+    "snippet": "    public OpenIntToDoubleHashMap(final int expectedSize,\n                                  final double missingEntries) {\n        final int capacity = computeCapacity(expectedSize);\n        keys   = new int[capacity];\n        values = new double[capacity];\n        states = new byte[capacity];\n        this.missingEntries = missingEntries;\n        mask   = capacity - 1;\n    }",
+    "comment": " Build an empty map with specified size. @param expectedSize expected number of elements in the map @param missingEntries value to return when a missing entry is fetched ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "OpenIntToDoubleHashMap.computeCapacity",
+    "class_name": "org.apache.commons.math.util.OpenIntToDoubleHashMap",
+    "signature": "org.apache.commons.math.util.OpenIntToDoubleHashMap.computeCapacity(int)",
+    "snippet": "    private static int computeCapacity(final int expectedSize) {\n        if (expectedSize == 0) {\n            return 1;\n        }\n        final int capacity   = (int) FastMath.ceil(expectedSize / LOAD_FACTOR);\n        final int powerOfTwo = Integer.highestOneBit(capacity);\n        if (powerOfTwo == capacity) {\n            return capacity;\n        }\n        return nextPowerOfTwo(capacity);\n    }",
+    "comment": " Compute the capacity needed for a given size. @param expectedSize expected size of the map @return capacity to use for the specified size ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

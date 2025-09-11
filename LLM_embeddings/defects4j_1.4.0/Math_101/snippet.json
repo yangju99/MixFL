@@ -1,0 +1,162 @@
+[
+  {
+    "name": "ComplexFormat.ComplexFormat",
+    "class_name": "org.apache.commons.math.complex.ComplexFormat",
+    "signature": "org.apache.commons.math.complex.ComplexFormat.ComplexFormat()",
+    "snippet": "    public ComplexFormat() {\n        this(DEFAULT_IMAGINARY_CHARACTER, getDefaultNumberFormat());\n    }",
+    "comment": " Create an instance with the default imaginary character, 'i', and the default number format for both real and imaginary parts. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComplexFormat.ComplexFormat",
+    "class_name": "org.apache.commons.math.complex.ComplexFormat",
+    "signature": "org.apache.commons.math.complex.ComplexFormat.ComplexFormat(NumberFormat)",
+    "snippet": "    public ComplexFormat(NumberFormat format) {\n        this(DEFAULT_IMAGINARY_CHARACTER, format);\n    }",
+    "comment": " Create an instance with a custom number format for both real and imaginary parts. @param format the custom format for both real and imaginary parts. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComplexFormat.ComplexFormat",
+    "class_name": "org.apache.commons.math.complex.ComplexFormat",
+    "signature": "org.apache.commons.math.complex.ComplexFormat.ComplexFormat(String,NumberFormat)",
+    "snippet": "    public ComplexFormat(String imaginaryCharacter, NumberFormat format) {\n        this(imaginaryCharacter, format, (NumberFormat)format.clone());\n    }",
+    "comment": " Create an instance with a custom imaginary character, and a custom number format for both real and imaginary parts. @param imaginaryCharacter The custom imaginary character. @param format the custom format for both real and imaginary parts. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComplexFormat.ComplexFormat",
+    "class_name": "org.apache.commons.math.complex.ComplexFormat",
+    "signature": "org.apache.commons.math.complex.ComplexFormat.ComplexFormat(String,NumberFormat,NumberFormat)",
+    "snippet": "    public ComplexFormat(String imaginaryCharacter, NumberFormat realFormat,\n            NumberFormat imaginaryFormat) {\n        super();\n        setImaginaryCharacter(imaginaryCharacter);\n        setImaginaryFormat(imaginaryFormat);\n        setRealFormat(realFormat);\n    }",
+    "comment": " Create an instance with a custom imaginary character, a custom number format for the real part, and a custom number format for the imaginary part. @param imaginaryCharacter The custom imaginary character. @param realFormat the custom format for the real part. @param imaginaryFormat the custom format for the imaginary part. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComplexFormat.getDefaultNumberFormat",
+    "class_name": "org.apache.commons.math.complex.ComplexFormat",
+    "signature": "org.apache.commons.math.complex.ComplexFormat.getDefaultNumberFormat()",
+    "snippet": "    private static NumberFormat getDefaultNumberFormat() {\n        return getDefaultNumberFormat(Locale.getDefault());\n    }",
+    "comment": " Create a default number format.  The default number format is based on {@link NumberFormat#getInstance()} with the only customizing is the maximum number of fraction digits, which is set to 2.   @return the default number format. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComplexFormat.getDefaultNumberFormat",
+    "class_name": "org.apache.commons.math.complex.ComplexFormat",
+    "signature": "org.apache.commons.math.complex.ComplexFormat.getDefaultNumberFormat(Locale)",
+    "snippet": "    private static NumberFormat getDefaultNumberFormat(Locale locale) {\n        NumberFormat nf = NumberFormat.getInstance(locale);\n        nf.setMaximumFractionDigits(2);\n        return nf;\n    }",
+    "comment": " Create a default number format.  The default number format is based on {@link NumberFormat#getInstance(java.util.Locale)} with the only customizing is the maximum number of fraction digits, which is set to 2.   @param locale the specific locale used by the format. @return the default number format specific to the given locale. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComplexFormat.getImaginaryCharacter",
+    "class_name": "org.apache.commons.math.complex.ComplexFormat",
+    "signature": "org.apache.commons.math.complex.ComplexFormat.getImaginaryCharacter()",
+    "snippet": "    public String getImaginaryCharacter() {\n        return imaginaryCharacter;\n    }",
+    "comment": " Access the imaginaryCharacter. @return the imaginaryCharacter. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComplexFormat.getInstance",
+    "class_name": "org.apache.commons.math.complex.ComplexFormat",
+    "signature": "org.apache.commons.math.complex.ComplexFormat.getInstance(Locale)",
+    "snippet": "    public static ComplexFormat getInstance(Locale locale) {\n        NumberFormat f = getDefaultNumberFormat(locale);\n        return new ComplexFormat(f);\n    }",
+    "comment": " Returns the default complex format for the given locale. @param locale the specific locale used by the format. @return the complex format specific to the given locale. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComplexFormat.getRealFormat",
+    "class_name": "org.apache.commons.math.complex.ComplexFormat",
+    "signature": "org.apache.commons.math.complex.ComplexFormat.getRealFormat()",
+    "snippet": "    public NumberFormat getRealFormat() {\n        return realFormat;\n    }",
+    "comment": " Access the realFormat. @return the realFormat. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComplexFormat.parse",
+    "class_name": "org.apache.commons.math.complex.ComplexFormat",
+    "signature": "org.apache.commons.math.complex.ComplexFormat.parse(String,ParsePosition)",
+    "snippet": "    public Complex parse(String source, ParsePosition pos) {\n        int initialIndex = pos.getIndex();\n\n        // parse whitespace\n        parseAndIgnoreWhitespace(source, pos);\n\n        // parse real\n        Number re = parseNumber(source, getRealFormat(), pos);\n        if (re == null) {\n            // invalid real number\n            // set index back to initial, error index should already be set\n            // character examined.\n            pos.setIndex(initialIndex);\n            return null;\n        }\n\n        // parse sign\n        int startIndex = pos.getIndex();\n        char c = parseNextCharacter(source, pos);\n        int sign = 0;\n        switch (c) {\n        case 0 :\n            // no sign\n            // return real only complex number\n            return new Complex(re.doubleValue(), 0.0);\n        case '-' :\n            sign = -1;\n            break;\n        case '+' :\n            sign = 1;\n            break;\n        default :\n            // invalid sign\n            // set index back to initial, error index should be the last\n            // character examined.\n            pos.setIndex(initialIndex);\n            pos.setErrorIndex(startIndex);\n            return null;\n        }\n\n        // parse whitespace\n        parseAndIgnoreWhitespace(source, pos);\n\n        // parse imaginary\n        Number im = parseNumber(source, getRealFormat(), pos);\n        if (im == null) {\n            // invalid imaginary number\n            // set index back to initial, error index should already be set\n            // character examined.\n            pos.setIndex(initialIndex);\n            return null;\n        }\n\n        // parse imaginary character\n        int n = getImaginaryCharacter().length();\n        startIndex = pos.getIndex();\n        int endIndex = startIndex + n;\n        if (\n            source.substring(startIndex, endIndex).compareTo(\n            getImaginaryCharacter()) != 0) {\n            // set index back to initial, error index should be the start index\n            // character examined.\n            pos.setIndex(initialIndex);\n            pos.setErrorIndex(startIndex);\n            return null;\n        }\n        pos.setIndex(endIndex);\n\n        return new Complex(re.doubleValue(), im.doubleValue() * sign);\n    }",
+    "comment": " Parses a string to produce a {@link Complex} object.  @param source the string to parse @param pos input/ouput parsing parameter. @return the parsed {@link Complex} object. ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComplexFormat.parseAndIgnoreWhitespace",
+    "class_name": "org.apache.commons.math.complex.ComplexFormat",
+    "signature": "org.apache.commons.math.complex.ComplexFormat.parseAndIgnoreWhitespace(String,ParsePosition)",
+    "snippet": "    private void parseAndIgnoreWhitespace(String source, ParsePosition pos) {\n        parseNextCharacter(source, pos);\n        pos.setIndex(pos.getIndex() - 1);\n    }",
+    "comment": " Parses <code>source</code> until a non-whitespace character is found.  @param source the string to parse @param pos input/ouput parsing parameter.  On output, <code>pos</code> holds the index of the next non-whitespace character. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComplexFormat.parseNextCharacter",
+    "class_name": "org.apache.commons.math.complex.ComplexFormat",
+    "signature": "org.apache.commons.math.complex.ComplexFormat.parseNextCharacter(String,ParsePosition)",
+    "snippet": "    private char parseNextCharacter(String source, ParsePosition pos) {\n         int index = pos.getIndex();\n         int n = source.length();\n         char ret = 0;\n\n         if (index < n) {\n             char c;\n             do {\n                 c = source.charAt(index++);\n             } while (Character.isWhitespace(c) && index < n);\n             pos.setIndex(index);\n         \n             if (index < n) {\n                 ret = c;\n             }\n         }\n         \n         return ret;\n    }",
+    "comment": " Parses <code>source</code> until a non-whitespace character is found.  @param source the string to parse @param pos input/ouput parsing parameter. @return the first non-whitespace character. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComplexFormat.parseNumber",
+    "class_name": "org.apache.commons.math.complex.ComplexFormat",
+    "signature": "org.apache.commons.math.complex.ComplexFormat.parseNumber(String,NumberFormat,ParsePosition)",
+    "snippet": "    private Number parseNumber(String source, NumberFormat format, ParsePosition pos) {\n        int startIndex = pos.getIndex();\n        Number number = format.parse(source, pos);\n        int endIndex = pos.getIndex();\n        \n        // check for error parsing number\n        if (startIndex == endIndex) {\n            // try parsing special numbers\n            double[] special = {Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY};\n            for (int i = 0; i < special.length; ++i) {\n                number = parseNumber(source, special[i], pos);\n                if (number != null) {\n                    break;\n                }\n            }\n        }\n        \n        return number;\n    }",
+    "comment": " Parses <code>source</code> for a number.  This method can parse normal, numeric values as well as special values.  These special values include Double.NaN, Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY.  @param source the string to parse @param format the number format used to parse normal, numeric values. @param pos input/ouput parsing parameter. @return the parsed number. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComplexFormat.setImaginaryCharacter",
+    "class_name": "org.apache.commons.math.complex.ComplexFormat",
+    "signature": "org.apache.commons.math.complex.ComplexFormat.setImaginaryCharacter(String)",
+    "snippet": "    public void setImaginaryCharacter(String imaginaryCharacter) {\n        if (imaginaryCharacter == null || imaginaryCharacter.length() == 0) {\n            throw new IllegalArgumentException(\n                \"imaginaryCharacter must be a non-empty string.\");\n        }\n        this.imaginaryCharacter = imaginaryCharacter;\n    }",
+    "comment": " Modify the imaginaryCharacter. @param imaginaryCharacter The new imaginaryCharacter value. @throws IllegalArgumentException if <code>imaginaryCharacter</code> is <code>null</code> or an empty string. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComplexFormat.setImaginaryFormat",
+    "class_name": "org.apache.commons.math.complex.ComplexFormat",
+    "signature": "org.apache.commons.math.complex.ComplexFormat.setImaginaryFormat(NumberFormat)",
+    "snippet": "    public void setImaginaryFormat(NumberFormat imaginaryFormat) {\n        if (imaginaryFormat == null) {\n            throw new IllegalArgumentException(\n                \"imaginaryFormat can not be null.\");\n        }\n        this.imaginaryFormat = imaginaryFormat;\n    }",
+    "comment": " Modify the imaginaryFormat. @param imaginaryFormat The new imaginaryFormat value. @throws IllegalArgumentException if <code>imaginaryFormat</code> is <code>null</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ComplexFormat.setRealFormat",
+    "class_name": "org.apache.commons.math.complex.ComplexFormat",
+    "signature": "org.apache.commons.math.complex.ComplexFormat.setRealFormat(NumberFormat)",
+    "snippet": "    public void setRealFormat(NumberFormat realFormat) {\n        if (realFormat == null) {\n            throw new IllegalArgumentException(\n                \"realFormat can not be null.\");\n        }\n        this.realFormat = realFormat;\n    }",
+    "comment": " Modify the realFormat. @param realFormat The new realFormat value. @throws IllegalArgumentException if <code>realFormat</code> is <code>null</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  }
+]

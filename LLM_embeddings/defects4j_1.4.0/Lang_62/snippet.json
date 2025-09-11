@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Entities.addEntities",
+    "class_name": "org.apache.commons.lang.Entities",
+    "signature": "org.apache.commons.lang.Entities.addEntities(String[][])",
+    "snippet": "    public void addEntities(String[][] entityArray) {\n        for (int i = 0; i < entityArray.length; ++i) {\n            addEntity(entityArray[i][0], Integer.parseInt(entityArray[i][1]));\n        }\n    }",
+    "comment": " <p>Adds entities to this entity.</p>  @param entityArray array of entities to be added ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Entities.addEntity",
+    "class_name": "org.apache.commons.lang.Entities",
+    "signature": "org.apache.commons.lang.Entities.addEntity(String,int)",
+    "snippet": "    public void addEntity(String name, int value) {\n        map.add(name, value);\n    }",
+    "comment": " <p>Add an entity to this entity.</p>  @param name name of the entity @param value vale of the entity ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Entities.fillWithHtml40Entities",
+    "class_name": "org.apache.commons.lang.Entities",
+    "signature": "org.apache.commons.lang.Entities.fillWithHtml40Entities(Entities)",
+    "snippet": "    static void fillWithHtml40Entities(Entities entities) {\n        entities.addEntities(BASIC_ARRAY);\n        entities.addEntities(ISO8859_1_ARRAY);\n        entities.addEntities(HTML40_ARRAY);\n    }",
+    "comment": " <p>Fills the specified entities instance with HTML 40 entities.</p>  @param entities the instance to be filled. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  },
+  {
+    "name": "Entities.unescape",
+    "class_name": "org.apache.commons.lang.Entities",
+    "signature": "org.apache.commons.lang.Entities.unescape(String)",
+    "snippet": "    public String unescape(String str) {\n        int firstAmp = str.indexOf('&');\n        if (firstAmp < 0) {\n            return str;\n        }\n\n        StringBuffer buf = new StringBuffer(str.length());\n        buf.append(str.substring(0, firstAmp));\n        for (int i = firstAmp; i < str.length(); ++i) {\n            char ch = str.charAt(i);\n            if (ch == '&') {\n                int semi = str.indexOf(';', i + 1);\n                if (semi == -1) {\n                    buf.append(ch);\n                    continue;\n                }\n                int amph = str.indexOf('&', i + 1);\n                if( amph != -1 && amph < semi ) {\n                    // Then the text looks like &...&...;\n                    buf.append(ch);\n                    continue;\n                }\n                String entityName = str.substring(i + 1, semi);\n                int entityValue;\n                if (entityName.length() == 0) {\n                    entityValue = -1;\n                } else if (entityName.charAt(0) == '#') {\n                    if (entityName.length() == 1) {\n                        entityValue = -1;\n                    } else {\n                        char charAt1 = entityName.charAt(1);\n                        try {\n                            if (charAt1 == 'x' || charAt1=='X') {\n                                entityValue = Integer.valueOf(entityName.substring(2), 16).intValue();\n                            } else {\n                                entityValue = Integer.parseInt(entityName.substring(1));\n                            }\n                        } catch (NumberFormatException ex) {\n                            entityValue = -1;\n                        }\n                    }\n                } else {\n                    entityValue = this.entityValue(entityName);\n                }\n                if (entityValue == -1) {\n                    buf.append('&');\n                    buf.append(entityName);\n                    buf.append(';');\n                } else {\n                    buf.append((char) (entityValue));\n                }\n                i = semi;\n            } else {\n                buf.append(ch);\n            }\n        }\n        return buf.toString();\n    }",
+    "comment": " <p>Unescapes the entities in a <code>String</code>.</p>  <p>For example, if you have called addEntity(&quot;foo&quot;, 0xA1), unescape(&quot;&amp;foo;&quot;) will return &quot;\\u00A1&quot;</p>  @param str The <code>String</code> to escape. @return A new escaped <code>String</code>. ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  },
+  {
+    "name": "PrimitiveEntityMap.add",
+    "class_name": "org.apache.commons.lang.Entities$PrimitiveEntityMap",
+    "signature": "org.apache.commons.lang.Entities$PrimitiveEntityMap.add(String,int)",
+    "snippet": "        public void add(String name, int value) {\n            mapNameToValue.put(name, new Integer(value));\n            mapValueToName.put(value, name);\n        }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  },
+  {
+    "name": "IntHashMap.IntHashMap",
+    "class_name": "org.apache.commons.lang.IntHashMap",
+    "signature": "org.apache.commons.lang.IntHashMap.IntHashMap()",
+    "snippet": "    public IntHashMap() {\n        this(20, 0.75f);\n    }",
+    "comment": " <p>Constructs a new, empty hashtable with a default capacity and load factor, which is <code>20</code> and <code>0.75</code> respectively.</p> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  },
+  {
+    "name": "IntHashMap.IntHashMap",
+    "class_name": "org.apache.commons.lang.IntHashMap",
+    "signature": "org.apache.commons.lang.IntHashMap.IntHashMap(int,float)",
+    "snippet": "    public IntHashMap(int initialCapacity, float loadFactor) {\n        super();\n        if (initialCapacity < 0) {\n            throw new IllegalArgumentException(\"Illegal Capacity: \" + initialCapacity);\n        }\n        if (loadFactor <= 0) {\n            throw new IllegalArgumentException(\"Illegal Load: \" + loadFactor);\n        }\n        if (initialCapacity == 0) {\n            initialCapacity = 1;\n        }\n\n        this.loadFactor = loadFactor;\n        table = new Entry[initialCapacity];\n        threshold = (int) (initialCapacity * loadFactor);\n    }",
+    "comment": " <p>Constructs a new, empty hashtable with the specified initial capacity and the specified load factor.</p>  @param initialCapacity the initial capacity of the hashtable. @param loadFactor the load factor of the hashtable. @throws IllegalArgumentException  if the initial capacity is less than zero, or if the load factor is nonpositive. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  },
+  {
+    "name": "IntHashMap.put",
+    "class_name": "org.apache.commons.lang.IntHashMap",
+    "signature": "org.apache.commons.lang.IntHashMap.put(int,Object)",
+    "snippet": "    public Object put(int key, Object value) {\n        // Makes sure the key is not already in the hashtable.\n        Entry tab[] = table;\n        int hash = key;\n        int index = (hash & 0x7FFFFFFF) % tab.length;\n        for (Entry e = tab[index]; e != null; e = e.next) {\n            if (e.hash == hash) {\n                Object old = e.value;\n                e.value = value;\n                return old;\n            }\n        }\n\n        if (count >= threshold) {\n            // Rehash the table if the threshold is exceeded\n            rehash();\n\n            tab = table;\n            index = (hash & 0x7FFFFFFF) % tab.length;\n        }\n\n        // Creates the new entry.\n        Entry e = new Entry(hash, key, value, tab[index]);\n        tab[index] = e;\n        count++;\n        return null;\n    }",
+    "comment": " <p>Maps the specified <code>key</code> to the specified <code>value</code> in this hashtable. The key cannot be <code>null</code>. </p>  <p>The value can be retrieved by calling the <code>get</code> method with a key that is equal to the original key.</p>  @param key     the hashtable key. @param value   the value. @return the previous value of the specified key in this hashtable, or <code>null</code> if it did not have one. @throws  NullPointerException  if the key is <code>null</code>. @see     #get(int) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  },
+  {
+    "name": "IntHashMap.rehash",
+    "class_name": "org.apache.commons.lang.IntHashMap",
+    "signature": "org.apache.commons.lang.IntHashMap.rehash()",
+    "snippet": "    protected void rehash() {\n        int oldCapacity = table.length;\n        Entry oldMap[] = table;\n\n        int newCapacity = oldCapacity * 2 + 1;\n        Entry newMap[] = new Entry[newCapacity];\n\n        threshold = (int) (newCapacity * loadFactor);\n        table = newMap;\n\n        for (int i = oldCapacity; i-- > 0;) {\n            for (Entry old = oldMap[i]; old != null;) {\n                Entry e = old;\n                old = old.next;\n\n                int index = (e.hash & 0x7FFFFFFF) % newCapacity;\n                e.next = newMap[index];\n                newMap[index] = e;\n            }\n        }\n    }",
+    "comment": " <p>Increases the capacity of and internally reorganizes this hashtable, in order to accommodate and access its entries more efficiently.</p>  <p>This method is called automatically when the number of keys in the hashtable exceeds this hashtable's capacity and load factor.</p> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  }
+]

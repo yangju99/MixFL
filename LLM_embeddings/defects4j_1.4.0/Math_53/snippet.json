@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Complex.Complex",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.Complex(double,double)",
+    "snippet": "    public Complex(double real, double imaginary) {\n        super();\n        this.real = real;\n        this.imaginary = imaginary;\n\n        isNaN = Double.isNaN(real) || Double.isNaN(imaginary);\n        isInfinite = !isNaN &&\n        (Double.isInfinite(real) || Double.isInfinite(imaginary));\n    }",
+    "comment": " Create a complex number given the real and imaginary parts.  @param real the real part @param imaginary the imaginary part ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Complex.add",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.add(Complex)",
+    "snippet": "    public Complex add(Complex rhs)\n        throws NullArgumentException {\n        MathUtils.checkNotNull(rhs);\n        return createComplex(real + rhs.getReal(),\n            imaginary + rhs.getImaginary());\n    }",
+    "comment": " Return the sum of this complex number and the given complex number. <p> Uses the definitional formula <pre> (a + bi) + (c + di) = (a+c) + (b+d)i </pre></p> <p> If either this or <code>rhs</code> has a NaN value in either part, {@link #NaN} is returned; otherwise Infinite and NaN values are returned in the parts of the result according to the rules for {@link java.lang.Double} arithmetic.</p>  @param rhs the other complex number @return the complex number sum @throws NullArgumentException if <code>rhs</code> is null ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Complex.createComplex",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.createComplex(double,double)",
+    "snippet": "    protected Complex createComplex(double realPart, double imaginaryPart) {\n        return new Complex(realPart, imaginaryPart);\n    }",
+    "comment": " Create a complex number given the real and imaginary parts.  @param realPart the real part @param imaginaryPart the imaginary part @return a new complex number instance @since 1.2 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Complex.getImaginary",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.getImaginary()",
+    "snippet": "    public double getImaginary() {\n        return imaginary;\n    }",
+    "comment": " Access the imaginary part.  @return the imaginary part ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Complex.getReal",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.getReal()",
+    "snippet": "    public double getReal() {\n        return real;\n    }",
+    "comment": " Access the real part.  @return the real part ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Complex.isNaN",
+    "class_name": "org.apache.commons.math.complex.Complex",
+    "signature": "org.apache.commons.math.complex.Complex.isNaN()",
+    "snippet": "    public boolean isNaN() {\n        return isNaN;\n    }",
+    "comment": " Returns true if either or both parts of this complex number is NaN; false otherwise  @return  true if either or both parts of this complex number is NaN; false otherwise ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathUtils.checkNotNull",
+    "class_name": "org.apache.commons.math.util.MathUtils",
+    "signature": "org.apache.commons.math.util.MathUtils.checkNotNull(Object)",
+    "snippet": "    public static void checkNotNull(Object o)\n        throws NullArgumentException {\n        if (o == null) {\n            throw new NullArgumentException();\n        }\n    }",
+    "comment": " Checks that an object is not null.  @param o Object to be checked. @throws NullArgumentException if {@code o} is {@code null}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

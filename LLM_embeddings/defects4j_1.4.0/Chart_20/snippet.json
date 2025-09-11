@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Marker.Marker",
+    "class_name": "org.jfree.chart.plot.Marker",
+    "signature": "org.jfree.chart.plot.Marker.Marker(Paint,Stroke,Paint,Stroke,float)",
+    "snippet": "    protected Marker(Paint paint, Stroke stroke, \n                     Paint outlinePaint, Stroke outlineStroke, \n                     float alpha) {\n\n        if (paint == null) {\n            throw new IllegalArgumentException(\"Null 'paint' argument.\");\n        }\n        if (stroke == null) {\n            throw new IllegalArgumentException(\"Null 'stroke' argument.\");\n        }\n        if (alpha < 0.0f || alpha > 1.0f)\n            throw new IllegalArgumentException(\n                    \"The 'alpha' value must be in the range 0.0f to 1.0f\");\n        \n        this.paint = paint;\n        this.stroke = stroke;\n        this.outlinePaint = outlinePaint;\n        this.outlineStroke = outlineStroke;\n        this.alpha = alpha;\n        \n        this.labelFont = new Font(\"SansSerif\", Font.PLAIN, 9);\n        this.labelPaint = Color.black;\n        this.labelAnchor = RectangleAnchor.TOP_LEFT;\n        this.labelOffset = new RectangleInsets(3.0, 3.0, 3.0, 3.0);\n        this.labelOffsetType = LengthAdjustmentType.CONTRACT;\n        this.labelTextAnchor = TextAnchor.CENTER;\n        \n        this.listenerList = new EventListenerList();\n    }",
+    "comment": " Constructs a new marker.  @param paint  the paint (<code>null</code> not permitted). @param stroke  the stroke (<code>null</code> not permitted). @param outlinePaint  the outline paint (<code>null</code> permitted). @param outlineStroke  the outline stroke (<code>null</code> permitted). @param alpha  the alpha transparency (must be in the range 0.0f to  1.0f).  @throws IllegalArgumentException if <code>paint</code> or  <code>stroke</code> is <code>null</code>, or <code>alpha</code> is  not in the specified range. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Marker.getOutlinePaint",
+    "class_name": "org.jfree.chart.plot.Marker",
+    "signature": "org.jfree.chart.plot.Marker.getOutlinePaint()",
+    "snippet": "    public Paint getOutlinePaint() {\n        return this.outlinePaint;\n    }",
+    "comment": " Returns the outline paint.  @return The outline paint (possibly <code>null</code>).  @see #setOutlinePaint(Paint) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Marker.getPaint",
+    "class_name": "org.jfree.chart.plot.Marker",
+    "signature": "org.jfree.chart.plot.Marker.getPaint()",
+    "snippet": "    public Paint getPaint() {\n        return this.paint;\n    }",
+    "comment": " Returns the paint.  @return The paint (never <code>null</code>).  @see #setPaint(Paint) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Marker.getStroke",
+    "class_name": "org.jfree.chart.plot.Marker",
+    "signature": "org.jfree.chart.plot.Marker.getStroke()",
+    "snippet": "    public Stroke getStroke() {\n        return this.stroke;\n    }",
+    "comment": " Returns the stroke.  @return The stroke (never <code>null</code>).  @see #setStroke(Stroke) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ValueMarker.ValueMarker",
+    "class_name": "org.jfree.chart.plot.ValueMarker",
+    "signature": "org.jfree.chart.plot.ValueMarker.ValueMarker(double,Paint,Stroke,Paint,Stroke,float)",
+    "snippet": "    public ValueMarker(double value, Paint paint, Stroke stroke, \n                       Paint outlinePaint, Stroke outlineStroke, float alpha) {\n        super(paint, stroke, paint, stroke, alpha);\n        this.value = value;\n    }",
+    "comment": " Creates a new value marker.  @param value  the value. @param paint  the paint (<code>null</code> not permitted). @param stroke  the stroke (<code>null</code> not permitted). @param outlinePaint  the outline paint (<code>null</code> permitted). @param outlineStroke  the outline stroke (<code>null</code> permitted). @param alpha  the alpha transparency (in the range 0.0f to 1.0f). ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ValueMarker.getValue",
+    "class_name": "org.jfree.chart.plot.ValueMarker",
+    "signature": "org.jfree.chart.plot.ValueMarker.getValue()",
+    "snippet": "    public double getValue() {\n        return this.value;\n    }",
+    "comment": " Returns the value.  @return The value.  @see #setValue(double) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleInsets.RectangleInsets",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.RectangleInsets(UnitType,double,double,double,double)",
+    "snippet": "    public RectangleInsets(UnitType unitType, double top, double left, \n                           double bottom, double right) {\n        if (unitType == null) {\n            throw new IllegalArgumentException(\"Null 'unitType' argument.\");\n        }\n        this.unitType = unitType;\n        this.top = top;\n        this.bottom = bottom;\n        this.left = left;\n        this.right = right;\n    }",
+    "comment": " Creates a new instance.  @param unitType  absolute or relative units (<code>null</code> not  permitted). @param top  the top insets. @param left  the left insets. @param bottom  the bottom insets. @param right  the right insets. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangleInsets.RectangleInsets",
+    "class_name": "org.jfree.chart.util.RectangleInsets",
+    "signature": "org.jfree.chart.util.RectangleInsets.RectangleInsets(double,double,double,double)",
+    "snippet": "    public RectangleInsets(double top, double left, double bottom, \n            double right) {\n        this(UnitType.ABSOLUTE, top, left, bottom, right);   \n    }",
+    "comment": " Creates a new instance with the specified insets (as 'absolute' units).  @param top  the top insets. @param left  the left insets. @param bottom  the bottom insets. @param right  the right insets. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

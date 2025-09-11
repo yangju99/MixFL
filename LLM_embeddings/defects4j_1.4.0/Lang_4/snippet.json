@@ -1,0 +1,22 @@
+[
+  {
+    "name": "LookupTranslator.LookupTranslator",
+    "class_name": "org.apache.commons.lang3.text.translate.LookupTranslator",
+    "signature": "org.apache.commons.lang3.text.translate.LookupTranslator.LookupTranslator(CharSequence[][])",
+    "snippet": "    public LookupTranslator(final CharSequence[]... lookup) {\n        lookupMap = new HashMap<CharSequence, CharSequence>();\n        int _shortest = Integer.MAX_VALUE;\n        int _longest = 0;\n        if (lookup != null) {\n            for (final CharSequence[] seq : lookup) {\n                this.lookupMap.put(seq[0], seq[1]);\n                final int sz = seq[0].length();\n                if (sz < _shortest) {\n                    _shortest = sz;\n                }\n                if (sz > _longest) {\n                    _longest = sz;\n                }\n            }\n        }\n        shortest = _shortest;\n        longest = _longest;\n    }",
+    "comment": " Define the lookup table to be used in translation  Note that, as of Lang 3.1, the key to the lookup table is converted to a  java.lang.String, while the value remains as a java.lang.CharSequence.  This is because we need the key to support hashCode and equals(Object),  allowing it to be the key for a HashMap. See LANG-882.  @param lookup CharSequence[][] table of size [*][2] ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  },
+  {
+    "name": "LookupTranslator.translate",
+    "class_name": "org.apache.commons.lang3.text.translate.LookupTranslator",
+    "signature": "org.apache.commons.lang3.text.translate.LookupTranslator.translate(CharSequence,int,Writer)",
+    "snippet": "    @Override\n    public int translate(final CharSequence input, final int index, final Writer out) throws IOException {\n        int max = longest;\n        if (index + longest > input.length()) {\n            max = input.length() - index;\n        }\n        // descend so as to get a greedy algorithm\n        for (int i = max; i >= shortest; i--) {\n            final CharSequence subSeq = input.subSequence(index, index + i);\n            final CharSequence result = lookupMap.get(subSeq);\n            if (result != null) {\n                out.write(result.toString());\n                return i;\n            }\n        }\n        return 0;\n    }",
+    "comment": " {@inheritDoc} ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 2
+  }
+]

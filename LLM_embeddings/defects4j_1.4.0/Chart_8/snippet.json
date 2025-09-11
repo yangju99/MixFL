@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Week.Week",
+    "class_name": "org.jfree.data.time.Week",
+    "signature": "org.jfree.data.time.Week.Week(Date,TimeZone)",
+    "snippet": "    public Week(Date time, TimeZone zone) {\n        // defer argument checking...\n        this(time, RegularTimePeriod.DEFAULT_TIME_ZONE, Locale.getDefault());\n    }",
+    "comment": " Creates a time period for the week in which the specified date/time falls, calculated relative to the specified time zone.  @param time  the date/time (<code>null</code> not permitted). @param zone  the time zone (<code>null</code> not permitted).  @deprecated As of 1.0.7, use {@link #Week(Date, TimeZone, Locale)}. ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Week.Week",
+    "class_name": "org.jfree.data.time.Week",
+    "signature": "org.jfree.data.time.Week.Week(Date,TimeZone,Locale)",
+    "snippet": "    public Week(Date time, TimeZone zone, Locale locale) {\n        if (time == null) {\n            throw new IllegalArgumentException(\"Null 'time' argument.\");\n        }\n        if (zone == null) {\n            throw new IllegalArgumentException(\"Null 'zone' argument.\");\n        }\n        if (locale == null) {\n            throw new IllegalArgumentException(\"Null 'locale' argument.\");\n        }\n        Calendar calendar = Calendar.getInstance(zone, locale);\n        calendar.setTime(time);\n\n        // sometimes the last few days of the year are considered to fall in\n        // the *first* week of the following year.  Refer to the Javadocs for\n        // GregorianCalendar.\n        int tempWeek = calendar.get(Calendar.WEEK_OF_YEAR);\n        if (tempWeek == 1\n                && calendar.get(Calendar.MONTH) == Calendar.DECEMBER) {\n            this.week = 1;\n            this.year = (short) (calendar.get(Calendar.YEAR) + 1);\n        }\n        else {\n            this.week = (byte) Math.min(tempWeek, LAST_WEEK_IN_YEAR);\n            int yyyy = calendar.get(Calendar.YEAR);\n            // alternatively, sometimes the first few days of the year are\n            // considered to fall in the *last* week of the previous year...\n            if (calendar.get(Calendar.MONTH) == Calendar.JANUARY\n                    && this.week >= 52) {\n                yyyy--;\n            }\n            this.year = (short) yyyy;\n        }\n        peg(calendar);\n    }",
+    "comment": " Creates a time period for the week in which the specified date/time falls, calculated relative to the specified time zone.  @param time  the date/time (<code>null</code> not permitted). @param zone  the time zone (<code>null</code> not permitted). @param locale  the locale (<code>null</code> not permitted).  @since 1.0.7 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Week.Week",
+    "class_name": "org.jfree.data.time.Week",
+    "signature": "org.jfree.data.time.Week.Week(int,int)",
+    "snippet": "    public Week(int week, int year) {\n        if ((week < FIRST_WEEK_IN_YEAR) && (week > LAST_WEEK_IN_YEAR)) {\n            throw new IllegalArgumentException(\n                    \"The 'week' argument must be in the range 1 - 53.\");\n        }\n        this.week = (byte) week;\n        this.year = (short) year;\n        peg(Calendar.getInstance());\n    }",
+    "comment": " Creates a time period representing the week in the specified year.  @param week  the week (1 to 53). @param year  the year (1900 to 9999). ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Week.getFirstMillisecond",
+    "class_name": "org.jfree.data.time.Week",
+    "signature": "org.jfree.data.time.Week.getFirstMillisecond(Calendar)",
+    "snippet": "    public long getFirstMillisecond(Calendar calendar) {\n        Calendar c = (Calendar) calendar.clone();\n        c.clear();\n        c.set(Calendar.YEAR, this.year);\n        c.set(Calendar.WEEK_OF_YEAR, this.week);\n        c.set(Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek());\n        c.set(Calendar.HOUR, 0);\n        c.set(Calendar.MINUTE, 0);\n        c.set(Calendar.SECOND, 0);\n        c.set(Calendar.MILLISECOND, 0);\n        //return c.getTimeInMillis();  // this won't work for JDK 1.3\n        return c.getTime().getTime();\n    }",
+    "comment": " Returns the first millisecond of the week, evaluated using the supplied calendar (which determines the time zone).  @param calendar  the calendar (<code>null</code> not permitted).  @return The first millisecond of the week.  @throws NullPointerException if <code>calendar</code> is <code>null</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Week.getLastMillisecond",
+    "class_name": "org.jfree.data.time.Week",
+    "signature": "org.jfree.data.time.Week.getLastMillisecond(Calendar)",
+    "snippet": "    public long getLastMillisecond(Calendar calendar) {\n        Calendar c = (Calendar) calendar.clone();\n        c.clear();\n        c.set(Calendar.YEAR, this.year);\n        c.set(Calendar.WEEK_OF_YEAR, this.week + 1);\n        c.set(Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek());\n        c.set(Calendar.HOUR, 0);\n        c.set(Calendar.MINUTE, 0);\n        c.set(Calendar.SECOND, 0);\n        c.set(Calendar.MILLISECOND, 0);\n        //return c.getTimeInMillis();  // this won't work for JDK 1.3\n        return c.getTime().getTime() - 1;\n    }",
+    "comment": " Returns the last millisecond of the week, evaluated using the supplied calendar (which determines the time zone).  @param calendar  the calendar (<code>null</code> not permitted).  @return The last millisecond of the week.  @throws NullPointerException if <code>calendar</code> is <code>null</code>. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Week.getWeek",
+    "class_name": "org.jfree.data.time.Week",
+    "signature": "org.jfree.data.time.Week.getWeek()",
+    "snippet": "    public int getWeek() {\n        return this.week;\n    }",
+    "comment": " Returns the week.  @return The week. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Week.peg",
+    "class_name": "org.jfree.data.time.Week",
+    "signature": "org.jfree.data.time.Week.peg(Calendar)",
+    "snippet": "    public void peg(Calendar calendar) {\n        this.firstMillisecond = getFirstMillisecond(calendar);\n        this.lastMillisecond = getLastMillisecond(calendar);\n    }",
+    "comment": " Recalculates the start date/time and end date/time for this time period relative to the supplied calendar (which incorporates a time zone).  @param calendar  the calendar (<code>null</code> not permitted).  @since 1.0.3 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

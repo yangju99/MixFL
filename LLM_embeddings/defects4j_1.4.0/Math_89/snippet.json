@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Frequency.Frequency",
+    "class_name": "org.apache.commons.math.stat.Frequency",
+    "signature": "org.apache.commons.math.stat.Frequency.Frequency()",
+    "snippet": "    public Frequency() {\n        freqTable = new TreeMap();\n    }",
+    "comment": " Default constructor. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Frequency.addValue",
+    "class_name": "org.apache.commons.math.stat.Frequency",
+    "signature": "org.apache.commons.math.stat.Frequency.addValue(Object)",
+    "snippet": "    @Deprecated\n    public void addValue(Object v) {\n            addValue((Comparable<?>) v);            \n    }",
+    "comment": " Adds 1 to the frequency count for v. <p> If other objects have already been added to this Frequency, v must be comparable to those that have already been added. </p>  @param v the value to add. @throws IllegalArgumentException if <code>v</code> is not Comparable,  or is not comparable with previous entries @deprecated use {@link #addValue(Comparable)} instead ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

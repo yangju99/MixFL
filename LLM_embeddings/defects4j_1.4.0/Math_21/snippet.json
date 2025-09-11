@@ -1,0 +1,432 @@
+[
+  {
+    "name": "AbstractRealMatrix.AbstractRealMatrix",
+    "class_name": "org.apache.commons.math3.linear.AbstractRealMatrix",
+    "signature": "org.apache.commons.math3.linear.AbstractRealMatrix.AbstractRealMatrix()",
+    "snippet": "    protected AbstractRealMatrix() {}",
+    "comment": " Creates a matrix with no data ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractRealMatrix.AbstractRealMatrix",
+    "class_name": "org.apache.commons.math3.linear.AbstractRealMatrix",
+    "signature": "org.apache.commons.math3.linear.AbstractRealMatrix.AbstractRealMatrix(int,int)",
+    "snippet": "    protected AbstractRealMatrix(final int rowDimension, final int columnDimension) {\n        if (rowDimension < 1) {\n            throw new NotStrictlyPositiveException(rowDimension);\n        }\n        if (columnDimension < 1) {\n            throw new NotStrictlyPositiveException(columnDimension);\n        }\n    }",
+    "comment": " Create a new RealMatrix with the supplied row and column dimensions.  @param rowDimension  the number of rows in the new matrix @param columnDimension  the number of columns in the new matrix @throws NotStrictlyPositiveException if row or column dimension is not positive ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractRealMatrix.getNorm",
+    "class_name": "org.apache.commons.math3.linear.AbstractRealMatrix",
+    "signature": "org.apache.commons.math3.linear.AbstractRealMatrix.getNorm()",
+    "snippet": "    public double getNorm() {\n        return walkInColumnOrder(new RealMatrixPreservingVisitor() {\n\n            /** Last row index. */\n            private double endRow;\n\n            /** Sum of absolute values on one column. */\n            private double columnSum;\n\n            /** Maximal sum across all columns. */\n            private double maxColSum;\n\n            /** {@inheritDoc} */\n            public void start(final int rows, final int columns,\n                              final int startRow, final int endRow,\n                              final int startColumn, final int endColumn) {\n                this.endRow = endRow;\n                columnSum   = 0;\n                maxColSum   = 0;\n            }\n\n            /** {@inheritDoc} */\n            public void visit(final int row, final int column, final double value) {\n                columnSum += FastMath.abs(value);\n                if (row == endRow) {\n                    maxColSum = FastMath.max(maxColSum, columnSum);\n                    columnSum = 0;\n                }\n            }\n\n            /** {@inheritDoc} */\n            public double end() {\n                return maxColSum;\n            }\n        });\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractRealMatrix.multiply",
+    "class_name": "org.apache.commons.math3.linear.AbstractRealMatrix",
+    "signature": "org.apache.commons.math3.linear.AbstractRealMatrix.multiply(RealMatrix)",
+    "snippet": "    public RealMatrix multiply(final RealMatrix m) {\n        // Safety check.\n        MatrixUtils.checkMultiplicationCompatible(this, m);\n\n        final int nRows = getRowDimension();\n        final int nCols = m.getColumnDimension();\n        final int nSum  = getColumnDimension();\n        final RealMatrix out = createMatrix(nRows, nCols);\n        for (int row = 0; row < nRows; ++row) {\n            for (int col = 0; col < nCols; ++col) {\n                double sum = 0;\n                for (int i = 0; i < nSum; ++i) {\n                    sum += getEntry(row, i) * m.getEntry(i, col);\n                }\n                out.setEntry(row, col, sum);\n            }\n        }\n\n        return out;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractRealMatrix.subtract",
+    "class_name": "org.apache.commons.math3.linear.AbstractRealMatrix",
+    "signature": "org.apache.commons.math3.linear.AbstractRealMatrix.subtract(RealMatrix)",
+    "snippet": "    public RealMatrix subtract(final RealMatrix m) {\n        // Safety check.\n        MatrixUtils.checkSubtractionCompatible(this, m);\n\n        final int rowCount    = getRowDimension();\n        final int columnCount = getColumnDimension();\n        final RealMatrix out = createMatrix(rowCount, columnCount);\n        for (int row = 0; row < rowCount; ++row) {\n            for (int col = 0; col < columnCount; ++col) {\n                out.setEntry(row, col, getEntry(row, col) - m.getEntry(row, col));\n            }\n        }\n\n        return out;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractRealMatrix.transpose",
+    "class_name": "org.apache.commons.math3.linear.AbstractRealMatrix",
+    "signature": "org.apache.commons.math3.linear.AbstractRealMatrix.transpose()",
+    "snippet": "    public RealMatrix transpose() {\n        final int nRows = getRowDimension();\n        final int nCols = getColumnDimension();\n        final RealMatrix out = createMatrix(nCols, nRows);\n        walkInOptimizedOrder(new DefaultRealMatrixPreservingVisitor() {\n\n            /** {@inheritDoc} */\n            @Override\n            public void visit(final int row, final int column, final double value) {\n                out.setEntry(column, row, value);\n            }\n\n        });\n\n        return out;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "AbstractRealMatrix.walkInOptimizedOrder",
+    "class_name": "org.apache.commons.math3.linear.AbstractRealMatrix",
+    "signature": "org.apache.commons.math3.linear.AbstractRealMatrix.walkInOptimizedOrder(RealMatrixPreservingVisitor)",
+    "snippet": "    public double walkInOptimizedOrder(final RealMatrixPreservingVisitor visitor) {\n        return walkInRowOrder(visitor);\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Array2DRowRealMatrix.Array2DRowRealMatrix",
+    "class_name": "org.apache.commons.math3.linear.Array2DRowRealMatrix",
+    "signature": "org.apache.commons.math3.linear.Array2DRowRealMatrix.Array2DRowRealMatrix(double[][])",
+    "snippet": "    public Array2DRowRealMatrix(final double[][] d)\n        throws DimensionMismatchException, NoDataException, NullArgumentException {\n        copyIn(d);\n    }",
+    "comment": " Create a new {@code RealMatrix} using the input array as the underlying data array. <p>The input array is copied, not referenced. This constructor has the same effect as calling {@link #Array2DRowRealMatrix(double[][], boolean)} with the second argument set to {@code true}.</p>  @param d Data for the new matrix. @throws DimensionMismatchException if {@code d} is not rectangular. @throws NoDataException if {@code d} row or colum dimension is zero. @throws NullArgumentException if {@code d} is {@code null}. @see #Array2DRowRealMatrix(double[][], boolean) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Array2DRowRealMatrix.Array2DRowRealMatrix",
+    "class_name": "org.apache.commons.math3.linear.Array2DRowRealMatrix",
+    "signature": "org.apache.commons.math3.linear.Array2DRowRealMatrix.Array2DRowRealMatrix(int,int)",
+    "snippet": "    public Array2DRowRealMatrix(final int rowDimension, final int columnDimension) {\n        super(rowDimension, columnDimension);\n        data = new double[rowDimension][columnDimension];\n    }",
+    "comment": " Create a new RealMatrix with the supplied row and column dimensions.  @param rowDimension Number of rows in the new matrix. @param columnDimension Number of columns in the new matrix. @throws org.apache.commons.math3.exception.NotStrictlyPositiveException if the row or column dimension is not positive. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Array2DRowRealMatrix.copyIn",
+    "class_name": "org.apache.commons.math3.linear.Array2DRowRealMatrix",
+    "signature": "org.apache.commons.math3.linear.Array2DRowRealMatrix.copyIn(double[][])",
+    "snippet": "    private void copyIn(final double[][] in)\n        throws DimensionMismatchException, NoDataException, NullArgumentException {\n        setSubMatrix(in, 0, 0);\n    }",
+    "comment": " Replace data with a fresh copy of the input array.  @param in Data to copy. @throws NoDataException if the input array is empty. @throws DimensionMismatchException if the input array is not rectangular. @throws NullArgumentException if the input array is {@code null}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Array2DRowRealMatrix.copyOut",
+    "class_name": "org.apache.commons.math3.linear.Array2DRowRealMatrix",
+    "signature": "org.apache.commons.math3.linear.Array2DRowRealMatrix.copyOut()",
+    "snippet": "    private double[][] copyOut() {\n        final int nRows = this.getRowDimension();\n        final double[][] out = new double[nRows][this.getColumnDimension()];\n        // can't copy 2-d array in one shot, otherwise get row references\n        for (int i = 0; i < nRows; i++) {\n            System.arraycopy(data[i], 0, out[i], 0, data[i].length);\n        }\n        return out;\n    }",
+    "comment": " Get a fresh copy of the underlying data array.  @return a copy of the underlying data array. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Array2DRowRealMatrix.createMatrix",
+    "class_name": "org.apache.commons.math3.linear.Array2DRowRealMatrix",
+    "signature": "org.apache.commons.math3.linear.Array2DRowRealMatrix.createMatrix(int,int)",
+    "snippet": "    @Override\n    public RealMatrix createMatrix(final int rowDimension,\n                                   final int columnDimension) {\n        return new Array2DRowRealMatrix(rowDimension, columnDimension);\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Array2DRowRealMatrix.getColumnDimension",
+    "class_name": "org.apache.commons.math3.linear.Array2DRowRealMatrix",
+    "signature": "org.apache.commons.math3.linear.Array2DRowRealMatrix.getColumnDimension()",
+    "snippet": "    @Override\n    public int getColumnDimension() {\n        return ((data == null) || (data[0] == null)) ? 0 : data[0].length;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Array2DRowRealMatrix.getData",
+    "class_name": "org.apache.commons.math3.linear.Array2DRowRealMatrix",
+    "signature": "org.apache.commons.math3.linear.Array2DRowRealMatrix.getData()",
+    "snippet": "    @Override\n    public double[][] getData() {\n        return copyOut();\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Array2DRowRealMatrix.getEntry",
+    "class_name": "org.apache.commons.math3.linear.Array2DRowRealMatrix",
+    "signature": "org.apache.commons.math3.linear.Array2DRowRealMatrix.getEntry(int,int)",
+    "snippet": "    @Override\n    public double getEntry(final int row, final int column) {\n        MatrixUtils.checkMatrixIndex(this, row, column);\n        return data[row][column];\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Array2DRowRealMatrix.getRowDimension",
+    "class_name": "org.apache.commons.math3.linear.Array2DRowRealMatrix",
+    "signature": "org.apache.commons.math3.linear.Array2DRowRealMatrix.getRowDimension()",
+    "snippet": "    @Override\n    public int getRowDimension() {\n        return (data == null) ? 0 : data.length;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Array2DRowRealMatrix.setEntry",
+    "class_name": "org.apache.commons.math3.linear.Array2DRowRealMatrix",
+    "signature": "org.apache.commons.math3.linear.Array2DRowRealMatrix.setEntry(int,int,double)",
+    "snippet": "    @Override\n    public void setEntry(final int row, final int column, final double value) {\n        MatrixUtils.checkMatrixIndex(this, row, column);\n        data[row][column] = value;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Array2DRowRealMatrix.setSubMatrix",
+    "class_name": "org.apache.commons.math3.linear.Array2DRowRealMatrix",
+    "signature": "org.apache.commons.math3.linear.Array2DRowRealMatrix.setSubMatrix(double[][],int,int)",
+    "snippet": "    @Override\n    public void setSubMatrix(final double[][] subMatrix,\n                             final int row, final int column) {\n        if (data == null) {\n            if (row > 0) {\n                throw new MathIllegalStateException(LocalizedFormats.FIRST_ROWS_NOT_INITIALIZED_YET, row);\n            }\n            if (column > 0) {\n                throw new MathIllegalStateException(LocalizedFormats.FIRST_COLUMNS_NOT_INITIALIZED_YET, column);\n            }\n            MathUtils.checkNotNull(subMatrix);\n            final int nRows = subMatrix.length;\n            if (nRows == 0) {\n                throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_ROW);\n            }\n\n            final int nCols = subMatrix[0].length;\n            if (nCols == 0) {\n                throw new NoDataException(LocalizedFormats.AT_LEAST_ONE_COLUMN);\n            }\n            data = new double[subMatrix.length][nCols];\n            for (int i = 0; i < data.length; ++i) {\n                if (subMatrix[i].length != nCols) {\n                    throw new DimensionMismatchException(subMatrix[i].length, nCols);\n                }\n                System.arraycopy(subMatrix[i], 0, data[i + row], column, nCols);\n            }\n        } else {\n            super.setSubMatrix(subMatrix, row, column);\n        }\n\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Array2DRowRealMatrix.walkInColumnOrder",
+    "class_name": "org.apache.commons.math3.linear.Array2DRowRealMatrix",
+    "signature": "org.apache.commons.math3.linear.Array2DRowRealMatrix.walkInColumnOrder(RealMatrixPreservingVisitor)",
+    "snippet": "    @Override\n    public double walkInColumnOrder(final RealMatrixPreservingVisitor visitor) {\n        final int rows    = getRowDimension();\n        final int columns = getColumnDimension();\n        visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);\n        for (int j = 0; j < columns; ++j) {\n            for (int i = 0; i < rows; ++i) {\n                visitor.visit(i, j, data[i][j]);\n            }\n        }\n        return visitor.end();\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "Array2DRowRealMatrix.walkInRowOrder",
+    "class_name": "org.apache.commons.math3.linear.Array2DRowRealMatrix",
+    "signature": "org.apache.commons.math3.linear.Array2DRowRealMatrix.walkInRowOrder(RealMatrixPreservingVisitor)",
+    "snippet": "    @Override\n    public double walkInRowOrder(final RealMatrixPreservingVisitor visitor) {\n        final int rows    = getRowDimension();\n        final int columns = getColumnDimension();\n        visitor.start(rows, columns, 0, rows - 1, 0, columns - 1);\n        for (int i = 0; i < rows; ++i) {\n            final double[] rowI = data[i];\n            for (int j = 0; j < columns; ++j) {\n                visitor.visit(i, j, rowI[j]);\n            }\n        }\n        return visitor.end();\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultRealMatrixPreservingVisitor.end",
+    "class_name": "org.apache.commons.math3.linear.DefaultRealMatrixPreservingVisitor",
+    "signature": "org.apache.commons.math3.linear.DefaultRealMatrixPreservingVisitor.end()",
+    "snippet": "    public double end() {\n        return 0;\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "DefaultRealMatrixPreservingVisitor.start",
+    "class_name": "org.apache.commons.math3.linear.DefaultRealMatrixPreservingVisitor",
+    "signature": "org.apache.commons.math3.linear.DefaultRealMatrixPreservingVisitor.start(int,int,int,int,int,int)",
+    "snippet": "    public void start(int rows, int columns,\n                      int startRow, int endRow, int startColumn, int endColumn) {\n    }",
+    "comment": "{@inheritDoc} */",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MatrixUtils.checkColumnIndex",
+    "class_name": "org.apache.commons.math3.linear.MatrixUtils",
+    "signature": "org.apache.commons.math3.linear.MatrixUtils.checkColumnIndex(AnyMatrix,int)",
+    "snippet": "    public static void checkColumnIndex(final AnyMatrix m, final int column)\n        throws OutOfRangeException {\n        if (column < 0 || column >= m.getColumnDimension()) {\n            throw new OutOfRangeException(LocalizedFormats.COLUMN_INDEX,\n                                           column, 0, m.getColumnDimension() - 1);\n        }\n    }",
+    "comment": " Check if a column index is valid.  @param m Matrix. @param column Column index to check. @throws OutOfRangeException if {@code column} is not a valid index. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MatrixUtils.checkMatrixIndex",
+    "class_name": "org.apache.commons.math3.linear.MatrixUtils",
+    "signature": "org.apache.commons.math3.linear.MatrixUtils.checkMatrixIndex(AnyMatrix,int,int)",
+    "snippet": "    public static void checkMatrixIndex(final AnyMatrix m,\n                                        final int row, final int column)\n        throws OutOfRangeException {\n        checkRowIndex(m, row);\n        checkColumnIndex(m, column);\n    }",
+    "comment": " Check if matrix indices are valid.  @param m Matrix. @param row Row index to check. @param column Column index to check. @throws OutOfRangeException if {@code row} or {@code column} is not a valid index. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MatrixUtils.checkMultiplicationCompatible",
+    "class_name": "org.apache.commons.math3.linear.MatrixUtils",
+    "signature": "org.apache.commons.math3.linear.MatrixUtils.checkMultiplicationCompatible(AnyMatrix,AnyMatrix)",
+    "snippet": "    public static void checkMultiplicationCompatible(final AnyMatrix left, final AnyMatrix right)\n        throws DimensionMismatchException {\n\n        if (left.getColumnDimension() != right.getRowDimension()) {\n            throw new DimensionMismatchException(left.getColumnDimension(),\n                                                 right.getRowDimension());\n        }\n    }",
+    "comment": " Check if matrices are multiplication compatible  @param left Left hand side matrix. @param right Right hand side matrix. @throws DimensionMismatchException if matrices are not multiplication compatible. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MatrixUtils.checkRowIndex",
+    "class_name": "org.apache.commons.math3.linear.MatrixUtils",
+    "signature": "org.apache.commons.math3.linear.MatrixUtils.checkRowIndex(AnyMatrix,int)",
+    "snippet": "    public static void checkRowIndex(final AnyMatrix m, final int row)\n        throws OutOfRangeException {\n        if (row < 0 ||\n            row >= m.getRowDimension()) {\n            throw new OutOfRangeException(LocalizedFormats.ROW_INDEX,\n                                          row, 0, m.getRowDimension() - 1);\n        }\n    }",
+    "comment": " Check if a row index is valid.  @param m Matrix. @param row Row index to check. @throws OutOfRangeException if {@code row} is not a valid index. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MatrixUtils.checkSubtractionCompatible",
+    "class_name": "org.apache.commons.math3.linear.MatrixUtils",
+    "signature": "org.apache.commons.math3.linear.MatrixUtils.checkSubtractionCompatible(AnyMatrix,AnyMatrix)",
+    "snippet": "    public static void checkSubtractionCompatible(final AnyMatrix left, final AnyMatrix right)\n        throws MatrixDimensionMismatchException {\n        if ((left.getRowDimension()    != right.getRowDimension()) ||\n            (left.getColumnDimension() != right.getColumnDimension())) {\n            throw new MatrixDimensionMismatchException(left.getRowDimension(), left.getColumnDimension(),\n                                                       right.getRowDimension(), right.getColumnDimension());\n        }\n    }",
+    "comment": " Check if matrices are subtraction compatible  @param left Left hand side matrix. @param right Right hand side matrix. @throws MatrixDimensionMismatchException if the matrices are not addition compatible. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MatrixUtils.createRealMatrix",
+    "class_name": "org.apache.commons.math3.linear.MatrixUtils",
+    "signature": "org.apache.commons.math3.linear.MatrixUtils.createRealMatrix(double[][])",
+    "snippet": "    public static RealMatrix createRealMatrix(double[][] data)\n        throws NullArgumentException, DimensionMismatchException,\n        NoDataException {\n        if (data == null ||\n            data[0] == null) {\n            throw new NullArgumentException();\n        }\n        return (data.length * data[0].length <= 4096) ?\n                new Array2DRowRealMatrix(data) : new BlockRealMatrix(data);\n    }",
+    "comment": " Returns a {@link RealMatrix} whose entries are the the values in the the input array. <p>The type of matrix returned depends on the dimension. Below 2<sup>12</sup> elements (i.e. 4096 elements or 64&times;64 for a square matrix) which can be stored in a 32kB array, a {@link Array2DRowRealMatrix} instance is built. Above this threshold a {@link BlockRealMatrix} instance is built.</p> <p>The input array is copied, not referenced.</p>  @param data input array @return  RealMatrix containing the values of the array @throws org.apache.commons.math3.exception.DimensionMismatchException if {@code data} is not rectangular (not all rows have the same length). @throws NoDataException if a row or column is empty. @throws NullArgumentException if either {@code data} or {@code data[0]} is {@code null}. @throws DimensionMismatchException if {@code data} is not rectangular. @see #createRealMatrix(int, int) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MatrixUtils.createRealMatrix",
+    "class_name": "org.apache.commons.math3.linear.MatrixUtils",
+    "signature": "org.apache.commons.math3.linear.MatrixUtils.createRealMatrix(int,int)",
+    "snippet": "    public static RealMatrix createRealMatrix(final int rows, final int columns) {\n        return (rows * columns <= 4096) ?\n                new Array2DRowRealMatrix(rows, columns) : new BlockRealMatrix(rows, columns);\n    }",
+    "comment": " Returns a {@link RealMatrix} with specified dimensions. <p>The type of matrix returned depends on the dimension. Below 2<sup>12</sup> elements (i.e. 4096 elements or 64&times;64 for a square matrix) which can be stored in a 32kB array, a {@link Array2DRowRealMatrix} instance is built. Above this threshold a {@link BlockRealMatrix} instance is built.</p> <p>The matrix elements are all set to 0.0.</p> @param rows number of rows of the matrix @param columns number of columns of the matrix @return  RealMatrix with specified dimensions @see #createRealMatrix(double[][]) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealMatrixFormat.RealMatrixFormat",
+    "class_name": "org.apache.commons.math3.linear.RealMatrixFormat",
+    "signature": "org.apache.commons.math3.linear.RealMatrixFormat.RealMatrixFormat(NumberFormat)",
+    "snippet": "    public RealMatrixFormat(final NumberFormat format) {\n        this(DEFAULT_PREFIX, DEFAULT_SUFFIX, DEFAULT_ROW_PREFIX, DEFAULT_ROW_SUFFIX,\n                DEFAULT_ROW_SEPARATOR, DEFAULT_COLUMN_SEPARATOR, format);\n    }",
+    "comment": " Create an instance with a custom number format for components. @param format the custom format for components. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealMatrixFormat.RealMatrixFormat",
+    "class_name": "org.apache.commons.math3.linear.RealMatrixFormat",
+    "signature": "org.apache.commons.math3.linear.RealMatrixFormat.RealMatrixFormat(String,String,String,String,String,String)",
+    "snippet": "    public RealMatrixFormat(final String prefix, final String suffix,\n                            final String rowPrefix, final String rowSuffix,\n                            final String rowSeparator, final String columnSeparator) {\n        this(prefix, suffix, rowPrefix, rowSuffix, rowSeparator, columnSeparator,\n                CompositeFormat.getDefaultNumberFormat());\n    }",
+    "comment": " Create an instance with custom prefix, suffix and separator. @param prefix prefix to use instead of the default \"{\" @param suffix suffix to use instead of the default \"}\" @param rowPrefix row prefix to use instead of the default \"{\" @param rowSuffix row suffix to use instead of the default \"}\" @param rowSeparator tow separator to use instead of the default \";\" @param columnSeparator column separator to use instead of the default \", \" ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealMatrixFormat.RealMatrixFormat",
+    "class_name": "org.apache.commons.math3.linear.RealMatrixFormat",
+    "signature": "org.apache.commons.math3.linear.RealMatrixFormat.RealMatrixFormat(String,String,String,String,String,String,NumberFormat)",
+    "snippet": "    public RealMatrixFormat(final String prefix, final String suffix,\n                            final String rowPrefix, final String rowSuffix,\n                            final String rowSeparator, final String columnSeparator,\n                            final NumberFormat format) {\n        this.prefix            = prefix;\n        this.suffix            = suffix;\n        this.rowPrefix         = rowPrefix;\n        this.rowSuffix         = rowSuffix;\n        this.rowSeparator      = rowSeparator;\n        this.columnSeparator   = columnSeparator;\n        this.format            = format;\n        // disable grouping to prevent parsing problems\n        this.format.setGroupingUsed(false);\n    }",
+    "comment": " Create an instance with custom prefix, suffix, separator and format for components. @param prefix prefix to use instead of the default \"{\" @param suffix suffix to use instead of the default \"}\" @param rowPrefix row prefix to use instead of the default \"{\" @param rowSuffix row suffix to use instead of the default \"}\" @param rowSeparator tow separator to use instead of the default \";\" @param columnSeparator column separator to use instead of the default \", \" @param format the custom format for components. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealMatrixFormat.getFormat",
+    "class_name": "org.apache.commons.math3.linear.RealMatrixFormat",
+    "signature": "org.apache.commons.math3.linear.RealMatrixFormat.getFormat()",
+    "snippet": "    public NumberFormat getFormat() {\n        return format;\n    }",
+    "comment": " Get the components format. @return components format. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealMatrixFormat.getInstance",
+    "class_name": "org.apache.commons.math3.linear.RealMatrixFormat",
+    "signature": "org.apache.commons.math3.linear.RealMatrixFormat.getInstance()",
+    "snippet": "    public static RealMatrixFormat getInstance() {\n        return getInstance(Locale.getDefault());\n    }",
+    "comment": " Returns the default real vector format for the current locale. @return the default real vector format. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RealMatrixFormat.getInstance",
+    "class_name": "org.apache.commons.math3.linear.RealMatrixFormat",
+    "signature": "org.apache.commons.math3.linear.RealMatrixFormat.getInstance(Locale)",
+    "snippet": "    public static RealMatrixFormat getInstance(final Locale locale) {\n        return new RealMatrixFormat(CompositeFormat.getDefaultNumberFormat(locale));\n    }",
+    "comment": " Returns the default real vector format for the given locale. @param locale the specific locale used by the format. @return the real vector format specific to the given locale. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangularCholeskyDecomposition.RectangularCholeskyDecomposition",
+    "class_name": "org.apache.commons.math3.linear.RectangularCholeskyDecomposition",
+    "signature": "org.apache.commons.math3.linear.RectangularCholeskyDecomposition.RectangularCholeskyDecomposition(RealMatrix,double)",
+    "snippet": "    public RectangularCholeskyDecomposition(RealMatrix matrix, double small)\n        throws NonPositiveDefiniteMatrixException {\n\n        final int order = matrix.getRowDimension();\n        final double[][] c = matrix.getData();\n        final double[][] b = new double[order][order];\n\n        int[] swap  = new int[order];\n        int[] index = new int[order];\n        for (int i = 0; i < order; ++i) {\n            index[i] = i;\n        }\n\n        int r = 0;\n        for (boolean loop = true; loop;) {\n\n            // find maximal diagonal element\n            swap[r] = r;\n            for (int i = r + 1; i < order; ++i) {\n                int ii  = index[i];\n                int isi = index[swap[i]];\n                if (c[ii][ii] > c[isi][isi]) {\n                    swap[r] = i;\n                }\n            }\n\n\n            // swap elements\n            if (swap[r] != r) {\n                int tmp = index[r];\n                index[r] = index[swap[r]];\n                index[swap[r]] = tmp;\n            }\n\n            // check diagonal element\n            int ir = index[r];\n            if (c[ir][ir] < small) {\n\n                if (r == 0) {\n                    throw new NonPositiveDefiniteMatrixException(c[ir][ir], ir, small);\n                }\n\n                // check remaining diagonal elements\n                for (int i = r; i < order; ++i) {\n                    if (c[index[i]][index[i]] < -small) {\n                        // there is at least one sufficiently negative diagonal element,\n                        // the symmetric positive semidefinite matrix is wrong\n                        throw new NonPositiveDefiniteMatrixException(c[index[i]][index[i]], i, small);\n                    }\n                }\n\n                // all remaining diagonal elements are close to zero, we consider we have\n                // found the rank of the symmetric positive semidefinite matrix\n                ++r;\n                loop = false;\n\n            } else {\n\n                // transform the matrix\n                final double sqrt = FastMath.sqrt(c[ir][ir]);\n                b[r][r] = sqrt;\n                final double inverse  = 1 / sqrt;\n                for (int i = r + 1; i < order; ++i) {\n                    final int ii = index[i];\n                    final double e = inverse * c[ii][ir];\n                    b[i][r] = e;\n                    c[ii][ii] -= e * e;\n                    for (int j = r + 1; j < i; ++j) {\n                        final int ij = index[j];\n                        final double f = c[ii][ij] - e * b[j][r];\n                        c[ii][ij] = f;\n                        c[ij][ii] = f;\n                    }\n                }\n\n                // prepare next iteration\n                loop = ++r < order;\n            }\n        }\n\n        // build the root matrix\n        rank = r;\n        root = MatrixUtils.createRealMatrix(order, r);\n        for (int i = 0; i < order; ++i) {\n            for (int j = 0; j < r; ++j) {\n                root.setEntry(index[i], j, b[i][j]);\n            }\n        }\n\n    }",
+    "comment": " Decompose a symmetric positive semidefinite matrix.  @param matrix Symmetric positive semidefinite matrix. @param small Diagonal elements threshold under which  column are considered to be dependent on previous ones and are discarded. @exception NonPositiveDefiniteMatrixException if the matrix is not positive semidefinite. ",
+    "is_bug": true,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "RectangularCholeskyDecomposition.getRootMatrix",
+    "class_name": "org.apache.commons.math3.linear.RectangularCholeskyDecomposition",
+    "signature": "org.apache.commons.math3.linear.RectangularCholeskyDecomposition.getRootMatrix()",
+    "snippet": "    public RealMatrix getRootMatrix() {\n        return root;\n    }",
+    "comment": "Get the root of the covariance matrix. The root is the rectangular matrix <code>B</code> such that the covariance matrix is equal to <code>B.B<sup>T</sup></code> @return root of the square matrix @see #getRank() ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompositeFormat.getDefaultNumberFormat",
+    "class_name": "org.apache.commons.math3.util.CompositeFormat",
+    "signature": "org.apache.commons.math3.util.CompositeFormat.getDefaultNumberFormat()",
+    "snippet": "    public static NumberFormat getDefaultNumberFormat() {\n        return getDefaultNumberFormat(Locale.getDefault());\n    }",
+    "comment": " Create a default number format.  The default number format is based on {@link NumberFormat#getInstance()} with the only customizing that the maximum number of fraction digits is set to 10. @return the default number format. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "CompositeFormat.getDefaultNumberFormat",
+    "class_name": "org.apache.commons.math3.util.CompositeFormat",
+    "signature": "org.apache.commons.math3.util.CompositeFormat.getDefaultNumberFormat(Locale)",
+    "snippet": "    public static NumberFormat getDefaultNumberFormat(final Locale locale) {\n        final NumberFormat nf = NumberFormat.getInstance(locale);\n        nf.setMaximumFractionDigits(10);\n        return nf;\n    }",
+    "comment": " Create a default number format.  The default number format is based on {@link NumberFormat#getInstance(java.util.Locale)} with the only customizing that the maximum number of fraction digits is set to 10. @param locale the specific locale used by the format. @return the default number format specific to the given locale. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.abs",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.abs(double)",
+    "snippet": "    public static double abs(double x) {\n        return (x < 0.0) ? -x : (x == 0.0) ? 0.0 : x; // -0.0 => +0.0\n    }",
+    "comment": " Absolute value. @param x number from which absolute value is requested @return abs(x) ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.max",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.max(double,double)",
+    "snippet": "    public static double max(final double a, final double b) {\n        if (a > b) {\n            return a;\n        }\n        if (a < b) {\n            return b;\n        }\n        /* if either arg is NaN, return NaN */\n        if (a != b) {\n            return Double.NaN;\n        }\n        /* min(+0.0,-0.0) == -0.0 */\n        /* 0x8000000000000000L == Double.doubleToRawLongBits(-0.0d) */\n        long bits = Double.doubleToRawLongBits(a);\n        if (bits == 0x8000000000000000L) {\n            return b;\n        }\n        return a;\n    }",
+    "comment": "Compute the maximum of two values @param a first value @param b second value @return b if a is lesser or equal to b, a otherwise ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.sqrt",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.sqrt(double)",
+    "snippet": "    public static double sqrt(final double a) {\n        return Math.sqrt(a);\n    }",
+    "comment": "Compute the square root of a number. <p><b>Note:</b> this implementation currently delegates to {@link Math#sqrt} @param a number on which evaluation is done @return square root of a ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  },
+  {
+    "name": "MathUtils.checkNotNull",
+    "class_name": "org.apache.commons.math3.util.MathUtils",
+    "signature": "org.apache.commons.math3.util.MathUtils.checkNotNull(Object)",
+    "snippet": "    public static void checkNotNull(Object o)\n        throws NullArgumentException {\n        if (o == null) {\n            throw new NullArgumentException();\n        }\n    }",
+    "comment": " Checks that an object is not null.  @param o Object to be checked. @throws NullArgumentException if {@code o} is {@code null}. ",
+    "is_bug": false,
+    "failing_test_cases": 2,
+    "buggy_methods": 1
+  }
+]

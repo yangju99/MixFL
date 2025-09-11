@@ -1,0 +1,152 @@
+[
+  {
+    "name": "ParameterGuesser.guess",
+    "class_name": "org.apache.commons.math3.optimization.fitting.HarmonicFitter$ParameterGuesser",
+    "signature": "org.apache.commons.math3.optimization.fitting.HarmonicFitter$ParameterGuesser.guess()",
+    "snippet": "        public double[] guess() {\n            sortObservations();\n            guessAOmega();\n            guessPhi();\n            return new double[] { a, omega, phi };\n        }",
+    "comment": " Estimate a first guess of the coefficients.  @return the guessed coefficients, in the following order: <ul> <li>Amplitude</li> <li>Angular frequency</li> <li>Phase</li> </ul> ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ParameterGuesser.guessAOmega",
+    "class_name": "org.apache.commons.math3.optimization.fitting.HarmonicFitter$ParameterGuesser",
+    "signature": "org.apache.commons.math3.optimization.fitting.HarmonicFitter$ParameterGuesser.guessAOmega()",
+    "snippet": "        private void guessAOmega() {\n            // initialize the sums for the linear model between the two integrals\n            double sx2 = 0;\n            double sy2 = 0;\n            double sxy = 0;\n            double sxz = 0;\n            double syz = 0;\n\n            double currentX = observations[0].getX();\n            double currentY = observations[0].getY();\n            double f2Integral = 0;\n            double fPrime2Integral = 0;\n            final double startX = currentX;\n            for (int i = 1; i < observations.length; ++i) {\n                // one step forward\n                final double previousX = currentX;\n                final double previousY = currentY;\n                currentX = observations[i].getX();\n                currentY = observations[i].getY();\n\n                // update the integrals of f<sup>2</sup> and f'<sup>2</sup>\n                // considering a linear model for f (and therefore constant f')\n                final double dx = currentX - previousX;\n                final double dy = currentY - previousY;\n                final double f2StepIntegral =\n                    dx * (previousY * previousY + previousY * currentY + currentY * currentY) / 3;\n                final double fPrime2StepIntegral = dy * dy / dx;\n\n                final double x = currentX - startX;\n                f2Integral += f2StepIntegral;\n                fPrime2Integral += fPrime2StepIntegral;\n\n                sx2 += x * x;\n                sy2 += f2Integral * f2Integral;\n                sxy += x * f2Integral;\n                sxz += x * fPrime2Integral;\n                syz += f2Integral * fPrime2Integral;\n            }\n\n            // compute the amplitude and pulsation coefficients\n            double c1 = sy2 * sxz - sxy * syz;\n            double c2 = sxy * sxz - sx2 * syz;\n            double c3 = sx2 * sy2 - sxy * sxy;\n            if ((c1 / c2 < 0) || (c2 / c3 < 0)) {\n                final int last = observations.length - 1;\n                // Range of the observations, assuming that the\n                // observations are sorted.\n                final double xRange = observations[last].getX() - observations[0].getX();\n                if (xRange == 0) {\n                    throw new ZeroException();\n                }\n                omega = 2 * Math.PI / xRange;\n\n                double yMin = Double.POSITIVE_INFINITY;\n                double yMax = Double.NEGATIVE_INFINITY;\n                for (int i = 1; i < observations.length; ++i) {\n                    final double y = observations[i].getY();\n                    if (y < yMin) {\n                        yMin = y;\n                    }\n                    if (y > yMax) {\n                        yMax = y;\n                    }\n                }\n                a = 0.5 * (yMax - yMin);\n            } else {\n                    // In some ill-conditioned cases (cf. MATH-844), the guesser\n                    // procedure cannot produce sensible results.\n\n                a = FastMath.sqrt(c1 / c2);\n                omega = FastMath.sqrt(c2 / c3);\n            }\n        }",
+    "comment": " Estimate a first guess of the amplitude and angular frequency. This method assumes that the {@link #sortObservations()} method has been called previously.  @throws ZeroException if the abscissa range is zero. @throws MathIllegalStateException when the guessing procedure cannot produce sensible results. ",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ParameterGuesser.guessPhi",
+    "class_name": "org.apache.commons.math3.optimization.fitting.HarmonicFitter$ParameterGuesser",
+    "signature": "org.apache.commons.math3.optimization.fitting.HarmonicFitter$ParameterGuesser.guessPhi()",
+    "snippet": "        private void guessPhi() {\n            // initialize the means\n            double fcMean = 0;\n            double fsMean = 0;\n\n            double currentX = observations[0].getX();\n            double currentY = observations[0].getY();\n            for (int i = 1; i < observations.length; ++i) {\n                // one step forward\n                final double previousX = currentX;\n                final double previousY = currentY;\n                currentX = observations[i].getX();\n                currentY = observations[i].getY();\n                final double currentYPrime = (currentY - previousY) / (currentX - previousX);\n\n                double omegaX = omega * currentX;\n                double cosine = FastMath.cos(omegaX);\n                double sine = FastMath.sin(omegaX);\n                fcMean += omega * currentY * cosine - currentYPrime * sine;\n                fsMean += omega * currentY * sine + currentYPrime * cosine;\n            }\n\n            phi = FastMath.atan2(-fsMean, fcMean);\n        }",
+    "comment": " Estimate a first guess of the phase. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "ParameterGuesser.sortObservations",
+    "class_name": "org.apache.commons.math3.optimization.fitting.HarmonicFitter$ParameterGuesser",
+    "signature": "org.apache.commons.math3.optimization.fitting.HarmonicFitter$ParameterGuesser.sortObservations()",
+    "snippet": "        private void sortObservations() {\n            // Since the samples are almost always already sorted, this\n            // method is implemented as an insertion sort that reorders the\n            // elements in place. Insertion sort is very efficient in this case.\n            WeightedObservedPoint curr = observations[0];\n            for (int j = 1; j < observations.length; ++j) {\n                WeightedObservedPoint prec = curr;\n                curr = observations[j];\n                if (curr.getX() < prec.getX()) {\n                    // the current element should be inserted closer to the beginning\n                    int i = j - 1;\n                    WeightedObservedPoint mI = observations[i];\n                    while ((i >= 0) && (curr.getX() < mI.getX())) {\n                        observations[i + 1] = mI;\n                        if (i-- != 0) {\n                            mI = observations[i];\n                        }\n                    }\n                    observations[i + 1] = curr;\n                    curr = observations[j];\n                }\n            }\n        }",
+    "comment": " Sort the observations with respect to the abscissa. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "WeightedObservedPoint.WeightedObservedPoint",
+    "class_name": "org.apache.commons.math3.optimization.fitting.WeightedObservedPoint",
+    "signature": "org.apache.commons.math3.optimization.fitting.WeightedObservedPoint.WeightedObservedPoint(double,double,double)",
+    "snippet": "    public WeightedObservedPoint(final double weight, final double x, final double y) {\n        this.weight = weight;\n        this.x      = x;\n        this.y      = y;\n    }",
+    "comment": "Simple constructor. @param weight weight of the measurement in the fitting process @param x abscissa of the measurement @param y ordinate of the measurement ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "WeightedObservedPoint.getX",
+    "class_name": "org.apache.commons.math3.optimization.fitting.WeightedObservedPoint",
+    "signature": "org.apache.commons.math3.optimization.fitting.WeightedObservedPoint.getX()",
+    "snippet": "    public double getX() {\n        return x;\n    }",
+    "comment": "Get the abscissa of the point. @return abscissa of the point ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "WeightedObservedPoint.getY",
+    "class_name": "org.apache.commons.math3.optimization.fitting.WeightedObservedPoint",
+    "signature": "org.apache.commons.math3.optimization.fitting.WeightedObservedPoint.getY()",
+    "snippet": "    public double getY() {\n        return y;\n    }",
+    "comment": "Get the observed value of the function at x. @return observed value of the function at x ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.atan2",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.atan2(double,double)",
+    "snippet": "    public static double atan2(double y, double x) {\n        if (x != x || y != y) {\n            return Double.NaN;\n        }\n\n        if (y == 0) {\n            final double result = x * y;\n            final double invx = 1d / x;\n            final double invy = 1d / y;\n\n            if (invx == 0) { // X is infinite\n                if (x > 0) {\n                    return y; // return +/- 0.0\n                } else {\n                    return copySign(Math.PI, y);\n                }\n            }\n\n            if (x < 0 || invx < 0) {\n                if (y < 0 || invy < 0) {\n                    return -Math.PI;\n                } else {\n                    return Math.PI;\n                }\n            } else {\n                return result;\n            }\n        }\n\n        // y cannot now be zero\n\n        if (y == Double.POSITIVE_INFINITY) {\n            if (x == Double.POSITIVE_INFINITY) {\n                return Math.PI * F_1_4;\n            }\n\n            if (x == Double.NEGATIVE_INFINITY) {\n                return Math.PI * F_3_4;\n            }\n\n            return Math.PI * F_1_2;\n        }\n\n        if (y == Double.NEGATIVE_INFINITY) {\n            if (x == Double.POSITIVE_INFINITY) {\n                return -Math.PI * F_1_4;\n            }\n\n            if (x == Double.NEGATIVE_INFINITY) {\n                return -Math.PI * F_3_4;\n            }\n\n            return -Math.PI * F_1_2;\n        }\n\n        if (x == Double.POSITIVE_INFINITY) {\n            if (y > 0 || 1 / y > 0) {\n                return 0d;\n            }\n\n            if (y < 0 || 1 / y < 0) {\n                return -0d;\n            }\n        }\n\n        if (x == Double.NEGATIVE_INFINITY)\n        {\n            if (y > 0.0 || 1 / y > 0.0) {\n                return Math.PI;\n            }\n\n            if (y < 0 || 1 / y < 0) {\n                return -Math.PI;\n            }\n        }\n\n        // Neither y nor x can be infinite or NAN here\n\n        if (x == 0) {\n            if (y > 0 || 1 / y > 0) {\n                return Math.PI * F_1_2;\n            }\n\n            if (y < 0 || 1 / y < 0) {\n                return -Math.PI * F_1_2;\n            }\n        }\n\n        // Compute ratio r = y/x\n        final double r = y / x;\n        if (Double.isInfinite(r)) { // bypass calculations that can create NaN\n            return atan(r, 0, x < 0);\n        }\n\n        double ra = doubleHighPart(r);\n        double rb = r - ra;\n\n        // Split x\n        final double xa = doubleHighPart(x);\n        final double xb = x - xa;\n\n        rb += (y - ra * xa - ra * xb - rb * xa - rb * xb) / x;\n\n        final double temp = ra + rb;\n        rb = -(temp - ra - rb);\n        ra = temp;\n\n        if (ra == 0) { // Fix up the sign so atan works correctly\n            ra = copySign(0d, y);\n        }\n\n        // Call atan\n        final double result = atan(ra, rb, x < 0);\n\n        return result;\n    }",
+    "comment": " Two arguments arctangent function @param y ordinate @param x abscissa @return phase angle of point (x,y) between {@code -PI} and {@code PI} ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.cos",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.cos(double)",
+    "snippet": "    public static double cos(double x) {\n        int quadrant = 0;\n\n        /* Take absolute value of the input */\n        double xa = x;\n        if (x < 0) {\n            xa = -xa;\n        }\n\n        if (xa != xa || xa == Double.POSITIVE_INFINITY) {\n            return Double.NaN;\n        }\n\n        /* Perform any argument reduction */\n        double xb = 0;\n        if (xa > 3294198.0) {\n            // PI * (2**20)\n            // Argument too big for CodyWaite reduction.  Must use\n            // PayneHanek.\n            double reduceResults[] = new double[3];\n            reducePayneHanek(xa, reduceResults);\n            quadrant = ((int) reduceResults[0]) & 3;\n            xa = reduceResults[1];\n            xb = reduceResults[2];\n        } else if (xa > 1.5707963267948966) {\n            final CodyWaite cw = new CodyWaite(xa, xb);\n            quadrant = cw.getK() & 3;\n            xa = cw.getRemA();\n            xb = cw.getRemB();\n        }\n\n        //if (negative)\n        //  quadrant = (quadrant + 2) % 4;\n\n        switch (quadrant) {\n            case 0:\n                return cosQ(xa, xb);\n            case 1:\n                return -sinQ(xa, xb);\n            case 2:\n                return -cosQ(xa, xb);\n            case 3:\n                return sinQ(xa, xb);\n            default:\n                return Double.NaN;\n        }\n    }",
+    "comment": " Cosine function.  @param x Argument. @return cos(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.cosQ",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.cosQ(double,double)",
+    "snippet": "    private static double cosQ(double xa, double xb) {\n        final double pi2a = 1.5707963267948966;\n        final double pi2b = 6.123233995736766E-17;\n\n        final double a = pi2a - xa;\n        double b = -(a - pi2a + xa);\n        b += pi2b - xb;\n\n        return sinQ(a, b);\n    }",
+    "comment": " Compute cosine in the first quadrant by subtracting input from PI/2 and then calling sinQ.  This is more accurate as the input approaches PI/2. @param xa number from which cosine is requested @param xb extra bits for x (may be 0.0) @return cos(xa + xb) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.polyCosine",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.polyCosine(double)",
+    "snippet": "    private static double polyCosine(double x) {\n        double x2 = x*x;\n\n        double p = 2.479773539153719E-5;\n        p = p * x2 + -0.0013888888689039883;\n        p = p * x2 + 0.041666666666621166;\n        p = p * x2 + -0.49999999999999994;\n        p *= x2;\n\n        return p;\n    }",
+    "comment": " Computes cos(x) - 1, where |x| < 1/16. Use a Remez polynomial approximation. @param x a number smaller than 1/16 @return cos(x) - 1 ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.polySine",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.polySine(double)",
+    "snippet": "    private static double polySine(final double x)\n    {\n        double x2 = x*x;\n\n        double p = 2.7553817452272217E-6;\n        p = p * x2 + -1.9841269659586505E-4;\n        p = p * x2 + 0.008333333333329196;\n        p = p * x2 + -0.16666666666666666;\n        //p *= x2;\n        //p *= x;\n        p = p * x2 * x;\n\n        return p;\n    }",
+    "comment": " Computes sin(x) - x, where |x| < 1/16. Use a Remez polynomial approximation. @param x a number smaller than 1/16 @return sin(x) - x ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.sin",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.sin(double)",
+    "snippet": "    public static double sin(double x) {\n        boolean negative = false;\n        int quadrant = 0;\n        double xa;\n        double xb = 0.0;\n\n        /* Take absolute value of the input */\n        xa = x;\n        if (x < 0) {\n            negative = true;\n            xa = -xa;\n        }\n\n        /* Check for zero and negative zero */\n        if (xa == 0.0) {\n            long bits = Double.doubleToLongBits(x);\n            if (bits < 0) {\n                return -0.0;\n            }\n            return 0.0;\n        }\n\n        if (xa != xa || xa == Double.POSITIVE_INFINITY) {\n            return Double.NaN;\n        }\n\n        /* Perform any argument reduction */\n        if (xa > 3294198.0) {\n            // PI * (2**20)\n            // Argument too big for CodyWaite reduction.  Must use\n            // PayneHanek.\n            double reduceResults[] = new double[3];\n            reducePayneHanek(xa, reduceResults);\n            quadrant = ((int) reduceResults[0]) & 3;\n            xa = reduceResults[1];\n            xb = reduceResults[2];\n        } else if (xa > 1.5707963267948966) {\n            final CodyWaite cw = new CodyWaite(xa, xb);\n            quadrant = cw.getK() & 3;\n            xa = cw.getRemA();\n            xb = cw.getRemB();\n        }\n\n        if (negative) {\n            quadrant ^= 2;  // Flip bit 1\n        }\n\n        switch (quadrant) {\n            case 0:\n                return sinQ(xa, xb);\n            case 1:\n                return cosQ(xa, xb);\n            case 2:\n                return -sinQ(xa, xb);\n            case 3:\n                return -cosQ(xa, xb);\n            default:\n                return Double.NaN;\n        }\n    }",
+    "comment": " Sine function.  @param x Argument. @return sin(x) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.sinQ",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.sinQ(double,double)",
+    "snippet": "    private static double sinQ(double xa, double xb) {\n        int idx = (int) ((xa * 8.0) + 0.5);\n        final double epsilon = xa - EIGHTHS[idx]; //idx*0.125;\n\n        // Table lookups\n        final double sintA = SINE_TABLE_A[idx];\n        final double sintB = SINE_TABLE_B[idx];\n        final double costA = COSINE_TABLE_A[idx];\n        final double costB = COSINE_TABLE_B[idx];\n\n        // Polynomial eval of sin(epsilon), cos(epsilon)\n        double sinEpsA = epsilon;\n        double sinEpsB = polySine(epsilon);\n        final double cosEpsA = 1.0;\n        final double cosEpsB = polyCosine(epsilon);\n\n        // Split epsilon   xa + xb = x\n        final double temp = sinEpsA * HEX_40000000;\n        double temp2 = (sinEpsA + temp) - temp;\n        sinEpsB +=  sinEpsA - temp2;\n        sinEpsA = temp2;\n\n        /* Compute sin(x) by angle addition formula */\n        double result;\n\n        /* Compute the following sum:\n         *\n         * result = sintA + costA*sinEpsA + sintA*cosEpsB + costA*sinEpsB +\n         *          sintB + costB*sinEpsA + sintB*cosEpsB + costB*sinEpsB;\n         *\n         * Ranges of elements\n         *\n         * xxxtA   0            PI/2\n         * xxxtB   -1.5e-9      1.5e-9\n         * sinEpsA -0.0625      0.0625\n         * sinEpsB -6e-11       6e-11\n         * cosEpsA  1.0\n         * cosEpsB  0           -0.0625\n         *\n         */\n\n        //result = sintA + costA*sinEpsA + sintA*cosEpsB + costA*sinEpsB +\n        //          sintB + costB*sinEpsA + sintB*cosEpsB + costB*sinEpsB;\n\n        //result = sintA + sintA*cosEpsB + sintB + sintB * cosEpsB;\n        //result += costA*sinEpsA + costA*sinEpsB + costB*sinEpsA + costB * sinEpsB;\n        double a = 0;\n        double b = 0;\n\n        double t = sintA;\n        double c = a + t;\n        double d = -(c - a - t);\n        a = c;\n        b = b + d;\n\n        t = costA * sinEpsA;\n        c = a + t;\n        d = -(c - a - t);\n        a = c;\n        b = b + d;\n\n        b = b + sintA * cosEpsB + costA * sinEpsB;\n        /*\n    t = sintA*cosEpsB;\n    c = a + t;\n    d = -(c - a - t);\n    a = c;\n    b = b + d;\n\n    t = costA*sinEpsB;\n    c = a + t;\n    d = -(c - a - t);\n    a = c;\n    b = b + d;\n         */\n\n        b = b + sintB + costB * sinEpsA + sintB * cosEpsB + costB * sinEpsB;\n        /*\n    t = sintB;\n    c = a + t;\n    d = -(c - a - t);\n    a = c;\n    b = b + d;\n\n    t = costB*sinEpsA;\n    c = a + t;\n    d = -(c - a - t);\n    a = c;\n    b = b + d;\n\n    t = sintB*cosEpsB;\n    c = a + t;\n    d = -(c - a - t);\n    a = c;\n    b = b + d;\n\n    t = costB*sinEpsB;\n    c = a + t;\n    d = -(c - a - t);\n    a = c;\n    b = b + d;\n         */\n\n        if (xb != 0.0) {\n            t = ((costA + costB) * (cosEpsA + cosEpsB) -\n                 (sintA + sintB) * (sinEpsA + sinEpsB)) * xb;  // approximate cosine*xb\n            c = a + t;\n            d = -(c - a - t);\n            a = c;\n            b = b + d;\n        }\n\n        result = a + b;\n\n        return result;\n    }",
+    "comment": " Compute sine over the first quadrant (0 < x < pi/2). Use combination of table lookup and rational polynomial expansion. @param xa number from which sine is requested @param xb extra bits for x (may be 0.0) @return sin(xa + xb) ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FastMath.sqrt",
+    "class_name": "org.apache.commons.math3.util.FastMath",
+    "signature": "org.apache.commons.math3.util.FastMath.sqrt(double)",
+    "snippet": "    public static double sqrt(final double a) {\n        return Math.sqrt(a);\n    }",
+    "comment": "Compute the square root of a number. <p><b>Note:</b> this implementation currently delegates to {@link Math#sqrt} @param a number on which evaluation is done @return square root of a ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]

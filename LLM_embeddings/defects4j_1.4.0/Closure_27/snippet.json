@@ -1,0 +1,162 @@
+[
+  {
+    "name": "IR.block",
+    "class_name": "com.google.javascript.rhino.IR",
+    "signature": "com.google.javascript.rhino.IR.block()",
+    "snippet": "  public static Node block() {\n    Node block = new Node(Token.BLOCK);\n    return block;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 3
+  },
+  {
+    "name": "IR.block",
+    "class_name": "com.google.javascript.rhino.IR",
+    "signature": "com.google.javascript.rhino.IR.block(Node)",
+    "snippet": "  public static Node block(Node stmt) {\n    Preconditions.checkState(mayBeStatement(stmt));\n    Node block = new Node(Token.BLOCK, stmt);\n    return block;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 3
+  },
+  {
+    "name": "IR.catchNode",
+    "class_name": "com.google.javascript.rhino.IR",
+    "signature": "com.google.javascript.rhino.IR.catchNode(Node,Node)",
+    "snippet": "  public static Node catchNode(Node expr, Node body) {\n    Preconditions.checkState(expr.isName());\n    Preconditions.checkState(body.isBlock());\n    return new Node(Token.CATCH, expr, body);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 3
+  },
+  {
+    "name": "IR.mayBeStatement",
+    "class_name": "com.google.javascript.rhino.IR",
+    "signature": "com.google.javascript.rhino.IR.mayBeStatement(Node)",
+    "snippet": "  private static boolean mayBeStatement(Node n) {\n    switch (n.getType()) {\n      case Token.EMPTY:\n      case Token.FUNCTION:\n        // EMPTY and FUNCTION are used both in expression and statement\n        // contexts\n        return true;\n\n      case Token.BLOCK:\n      case Token.BREAK:\n      case Token.CONST:\n      case Token.CONTINUE:\n      case Token.DEBUGGER:\n      case Token.DO:\n      case Token.EXPR_RESULT:\n      case Token.FOR:\n      case Token.IF:\n      case Token.LABEL:\n      case Token.RETURN:\n      case Token.SWITCH:\n      case Token.THROW:\n      case Token.TRY:\n      case Token.VAR:\n      case Token.WHILE:\n      case Token.WITH:\n        return true;\n\n      default:\n        return false;\n    }\n  }",
+    "comment": " It isn't possible to always determine if a detached node is a expression, so make a best guess. ",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 3
+  },
+  {
+    "name": "IR.name",
+    "class_name": "com.google.javascript.rhino.IR",
+    "signature": "com.google.javascript.rhino.IR.name(String)",
+    "snippet": "  public static Node name(String name) {\n    return Node.newString(Token.NAME, name);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 3
+  },
+  {
+    "name": "IR.tryCatch",
+    "class_name": "com.google.javascript.rhino.IR",
+    "signature": "com.google.javascript.rhino.IR.tryCatch(Node,Node)",
+    "snippet": "  public static Node tryCatch(Node tryBody, Node catchNode) {\n    Preconditions.checkState(tryBody.isBlock());\n    Preconditions.checkState(catchNode.isCatch());\n    Node catchBody = block(catchNode).copyInformationFrom(catchNode);\n    return new Node(Token.TRY, tryBody, catchBody);\n  }",
+    "comment": "",
+    "is_bug": true,
+    "failing_test_cases": 3,
+    "buggy_methods": 3
+  },
+  {
+    "name": "IR.tryCatchFinally",
+    "class_name": "com.google.javascript.rhino.IR",
+    "signature": "com.google.javascript.rhino.IR.tryCatchFinally(Node,Node,Node)",
+    "snippet": "  public static Node tryCatchFinally(\n      Node tryBody, Node catchNode, Node finallyBody) {\n    Preconditions.checkState(finallyBody.isBlock());\n    Node tryNode = tryCatch(tryBody, catchNode);\n    tryNode.addChildToBack(finallyBody);\n    return tryNode;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 3
+  },
+  {
+    "name": "IR.tryFinally",
+    "class_name": "com.google.javascript.rhino.IR",
+    "signature": "com.google.javascript.rhino.IR.tryFinally(Node,Node)",
+    "snippet": "  public static Node tryFinally(Node tryBody, Node finallyBody) {\n    Preconditions.checkState(tryBody.isLabelName());\n    Preconditions.checkState(finallyBody.isLabelName());\n    Node catchBody = block().copyInformationFrom(tryBody);\n    return new Node(Token.TRY, tryBody, catchBody, finallyBody);\n  }",
+    "comment": "",
+    "is_bug": true,
+    "failing_test_cases": 3,
+    "buggy_methods": 3
+  },
+  {
+    "name": "Node.Node",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.Node(int)",
+    "snippet": "  public Node(int nodeType) {\n    type = nodeType;\n    parent = null;\n    sourcePosition = -1;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 3
+  },
+  {
+    "name": "Node.Node",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.Node(int,Node,Node)",
+    "snippet": "  public Node(int nodeType, Node left, Node right) {\n    Preconditions.checkArgument(left.parent == null,\n        \"first new child has existing parent\");\n    Preconditions.checkArgument(left.next == null,\n        \"first new child has existing sibling\");\n    Preconditions.checkArgument(right.parent == null,\n        \"second new child has existing parent\");\n    Preconditions.checkArgument(right.next == null,\n        \"second new child has existing sibling\");\n    type = nodeType;\n    parent = null;\n    first = left;\n    last = right;\n    left.next = right;\n    left.parent = this;\n    right.next = null;\n    right.parent = this;\n    sourcePosition = -1;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 3
+  },
+  {
+    "name": "Node.getType",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.getType()",
+    "snippet": "  public int getType() {\n    return type;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 3
+  },
+  {
+    "name": "Node.isBlock",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.isBlock()",
+    "snippet": "  public boolean isBlock() {\n    return this.getType() == Token.BLOCK;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 3
+  },
+  {
+    "name": "Node.isCatch",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.isCatch()",
+    "snippet": "  public boolean isCatch() {\n    return this.getType() == Token.CATCH;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 3
+  },
+  {
+    "name": "Node.isLabelName",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.isLabelName()",
+    "snippet": "  public boolean isLabelName() {\n    return this.getType() == Token.LABEL_NAME;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 3
+  },
+  {
+    "name": "Node.isName",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.isName()",
+    "snippet": "  public boolean isName() {\n    return this.getType() == Token.NAME;\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 3
+  },
+  {
+    "name": "Node.newString",
+    "class_name": "com.google.javascript.rhino.Node",
+    "signature": "com.google.javascript.rhino.Node.newString(int,String)",
+    "snippet": "  public static Node newString(int type, String str) {\n    return new StringNode(type, str);\n  }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 3,
+    "buggy_methods": 3
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "name": "Checks.checkNotNull",
+    "class_name": "org.mockito.internal.util.Checks",
+    "signature": "org.mockito.internal.util.Checks.checkNotNull(T,String)",
+    "snippet": "    public static <T> T checkNotNull(T value, String checkedValue) {\n        if(value == null) {\n            throw new NullPointerException(checkedValue + \" should not be null\");\n        }\n        return value;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "GenericMetadataSupport.boundsOf",
+    "class_name": "org.mockito.internal.util.reflection.GenericMetadataSupport",
+    "signature": "org.mockito.internal.util.reflection.GenericMetadataSupport.boundsOf(TypeVariable)",
+    "snippet": "    private BoundedType boundsOf(TypeVariable typeParameter) {\n        if (typeParameter.getBounds()[0] instanceof TypeVariable) {\n            return boundsOf((TypeVariable) typeParameter.getBounds()[0]);\n        }\n        return new TypeVarBoundedType(typeParameter);\n    }",
+    "comment": " @param typeParameter The TypeVariable parameter @return A {@link BoundedType} for easy bound information, if first bound is a TypeVariable then retrieve BoundedType of this TypeVariable ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "GenericMetadataSupport.getActualTypeArgumentFor",
+    "class_name": "org.mockito.internal.util.reflection.GenericMetadataSupport",
+    "signature": "org.mockito.internal.util.reflection.GenericMetadataSupport.getActualTypeArgumentFor(TypeVariable)",
+    "snippet": "    protected Type getActualTypeArgumentFor(TypeVariable typeParameter) {\n        Type type = this.contextualActualTypeParameters.get(typeParameter);\n        if (type instanceof TypeVariable) {\n            TypeVariable typeVariable = (TypeVariable) type;\n            return getActualTypeArgumentFor(typeVariable);\n        }\n\n        return type;\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "GenericMetadataSupport.inferFrom",
+    "class_name": "org.mockito.internal.util.reflection.GenericMetadataSupport",
+    "signature": "org.mockito.internal.util.reflection.GenericMetadataSupport.inferFrom(Type)",
+    "snippet": "    public static GenericMetadataSupport inferFrom(Type type) {\n        Checks.checkNotNull(type, \"type\");\n        if (type instanceof Class) {\n            return new FromClassGenericMetadataSupport((Class<?>) type);\n        }\n        if (type instanceof ParameterizedType) {\n            return new FromParameterizedTypeGenericMetadataSupport((ParameterizedType) type);\n        }\n\n        throw new MockitoException(\"Type meta-data for this Type (\" + type.getClass().getCanonicalName() + \") is not supported : \" + type);\n    }",
+    "comment": " Create an new instance of {@link GenericMetadataSupport} inferred from a {@link Type}.  <p> At the moment <code>type</code> can only be a {@link Class} or a {@link ParameterizedType}, otherwise it'll throw a {@link MockitoException}. </p>  @param type The class from which the {@link GenericMetadataSupport} should be built. @return The new {@link GenericMetadataSupport}. @throws MockitoException Raised if type is not a {@link Class} or a {@link ParameterizedType}. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "GenericMetadataSupport.registerTypeParametersOn",
+    "class_name": "org.mockito.internal.util.reflection.GenericMetadataSupport",
+    "signature": "org.mockito.internal.util.reflection.GenericMetadataSupport.registerTypeParametersOn(TypeVariable[])",
+    "snippet": "    protected void registerTypeParametersOn(TypeVariable[] typeParameters) {\n        for (TypeVariable typeVariable : typeParameters) {\n            registerTypeVariableIfNotPresent(typeVariable);\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "GenericMetadataSupport.registerTypeVariableIfNotPresent",
+    "class_name": "org.mockito.internal.util.reflection.GenericMetadataSupport",
+    "signature": "org.mockito.internal.util.reflection.GenericMetadataSupport.registerTypeVariableIfNotPresent(TypeVariable)",
+    "snippet": "    private void registerTypeVariableIfNotPresent(TypeVariable typeVariable) {\n        if (!contextualActualTypeParameters.containsKey(typeVariable)) {\n            contextualActualTypeParameters.put(typeVariable, boundsOf(typeVariable));\n            // logger.log(\"For '\" + typeVariable.getGenericDeclaration() + \"' found type variable : { '\" + typeVariable + \"(\" + System.identityHashCode(typeVariable) + \")\" + \"' : '\" + boundsOf(typeVariable) + \"' }\");\n        }\n    }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "GenericMetadataSupport.registerTypeVariablesOn",
+    "class_name": "org.mockito.internal.util.reflection.GenericMetadataSupport",
+    "signature": "org.mockito.internal.util.reflection.GenericMetadataSupport.registerTypeVariablesOn(Type)",
+    "snippet": "    protected void registerTypeVariablesOn(Type classType) {\n        if (!(classType instanceof ParameterizedType)) {\n            return;\n        }\n        ParameterizedType parameterizedType = (ParameterizedType) classType;\n        TypeVariable[] typeParameters = ((Class<?>) parameterizedType.getRawType()).getTypeParameters();\n        Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();\n        for (int i = 0; i < actualTypeArguments.length; i++) {\n            TypeVariable typeParameter = typeParameters[i];\n            Type actualTypeArgument = actualTypeArguments[i];\n\n            if (actualTypeArgument instanceof WildcardType) {\n                contextualActualTypeParameters.put(typeParameter, boundsOf((WildcardType) actualTypeArgument));\n            } else {\n                contextualActualTypeParameters.put(typeParameter, actualTypeArgument);\n            }\n            // logger.log(\"For '\" + parameterizedType + \"' found type variable : { '\" + typeParameter + \"(\" + System.identityHashCode(typeParameter) + \")\" + \"' : '\" + actualTypeArgument + \"(\" + System.identityHashCode(typeParameter) + \")\" + \"' }\");\n        }\n    }",
+    "comment": "",
+    "is_bug": true,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "GenericMetadataSupport.resolveGenericReturnType",
+    "class_name": "org.mockito.internal.util.reflection.GenericMetadataSupport",
+    "signature": "org.mockito.internal.util.reflection.GenericMetadataSupport.resolveGenericReturnType(Method)",
+    "snippet": "    public GenericMetadataSupport resolveGenericReturnType(Method method) {\n        Type genericReturnType = method.getGenericReturnType();\n        // logger.log(\"Method '\" + method.toGenericString() + \"' has return type : \" + genericReturnType.getClass().getInterfaces()[0].getSimpleName() + \" : \" + genericReturnType);\n\n        if (genericReturnType instanceof Class) {\n            return new NotGenericReturnTypeSupport(genericReturnType);\n        }\n        if (genericReturnType instanceof ParameterizedType) {\n            return new ParameterizedReturnType(this, method.getTypeParameters(), (ParameterizedType) method.getGenericReturnType());\n        }\n        if (genericReturnType instanceof TypeVariable) {\n            return new TypeVariableReturnType(this, method.getTypeParameters(), (TypeVariable) genericReturnType);\n        }\n\n        throw new MockitoException(\"Ouch, it shouldn't happen, type '\" + genericReturnType.getClass().getCanonicalName() + \"' on method : '\" + method.toGenericString() + \"' is not supported : \" + genericReturnType);\n    }",
+    "comment": " Resolve current method generic return type to a {@link GenericMetadataSupport}.  @param method Method to resolve the return type. @return {@link GenericMetadataSupport} representing this generic return type. ",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FromClassGenericMetadataSupport.readActualTypeParametersOnDeclaringClass",
+    "class_name": "org.mockito.internal.util.reflection.GenericMetadataSupport$FromClassGenericMetadataSupport",
+    "signature": "org.mockito.internal.util.reflection.GenericMetadataSupport$FromClassGenericMetadataSupport.readActualTypeParametersOnDeclaringClass(Class)",
+    "snippet": "        private void readActualTypeParametersOnDeclaringClass(Class<?> clazz) {\n            registerTypeParametersOn(clazz.getTypeParameters());\n            registerTypeVariablesOn(clazz.getGenericSuperclass());\n            for (Type genericInterface : clazz.getGenericInterfaces()) {\n                registerTypeVariablesOn(genericInterface);\n            }\n        }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "FromClassGenericMetadataSupport.superClassOf",
+    "class_name": "org.mockito.internal.util.reflection.GenericMetadataSupport$FromClassGenericMetadataSupport",
+    "signature": "org.mockito.internal.util.reflection.GenericMetadataSupport$FromClassGenericMetadataSupport.superClassOf(Class)",
+    "snippet": "        private Class superClassOf(Class currentExploredClass) {\n            Type genericSuperclass = currentExploredClass.getGenericSuperclass();\n            if (genericSuperclass instanceof ParameterizedType) {\n                Type rawType = ((ParameterizedType) genericSuperclass).getRawType();\n                return (Class) rawType;\n            }\n            return (Class) genericSuperclass;\n        }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TypeVariableReturnType.readTypeParameters",
+    "class_name": "org.mockito.internal.util.reflection.GenericMetadataSupport$TypeVariableReturnType",
+    "signature": "org.mockito.internal.util.reflection.GenericMetadataSupport$TypeVariableReturnType.readTypeParameters()",
+    "snippet": "        private void readTypeParameters() {\n            registerTypeParametersOn(typeParameters);\n        }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  },
+  {
+    "name": "TypeVariableReturnType.readTypeVariables",
+    "class_name": "org.mockito.internal.util.reflection.GenericMetadataSupport$TypeVariableReturnType",
+    "signature": "org.mockito.internal.util.reflection.GenericMetadataSupport$TypeVariableReturnType.readTypeVariables()",
+    "snippet": "        private void readTypeVariables() {\n            for (Type type : typeVariable.getBounds()) {\n                registerTypeVariablesOn(type);\n            }\n            registerTypeVariablesOn(getActualTypeArgumentFor(typeVariable));\n        }",
+    "comment": "",
+    "is_bug": false,
+    "failing_test_cases": 1,
+    "buggy_methods": 1
+  }
+]
