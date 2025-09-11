@@ -1,5 +1,5 @@
-## 📄 MixFL: Fault Localization with Mixture of Language Models for Code  
-This is the online repository for the FSE 2026 submission, **"MixFL: Fault Localization with Mixture of Language Models for Code"**.
+## 📄 MixFL: Fault Localization with Mixture of Language Models for Code Embeddings  
+This is the online repository for the FSE 2026 submission, **"MixFL: Fault Localization with Mixture of Language Models for Code Embeddings"**.
 
 ### 🖼️ Overview Image
 
