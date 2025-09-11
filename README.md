@@ -1,6 +1,10 @@
 ## 📄 MixFL: Fault Localization with Mixture of Language Models for Code  
 This is the online repository for the FSE 2026 submission, **"MixFL: Fault Localization with Mixture of Language Models for Code"**.
 
+### 🖼️ Overview Image
+
+![overview image](overview.png)
+
 ### 🧪 Dataset  
 We use **Defects4J-V1.4.0**.  
 > ⚠️ Note: The buggy items in v1.4.0 are identical to those in v1.2.0. We choose v1.4.0 to avoid issues in v1.2.0.
@@ -34,7 +38,5 @@ All experiment results will be stored in the `results/` directory.
 
 ---
 
-### 🖼️ Overview Image
 
-![overview image](overview.png)
 
