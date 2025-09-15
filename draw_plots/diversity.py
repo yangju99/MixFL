@@ -35,7 +35,7 @@ x_offsets = {
 input_path = "../results/averaged_top_n.json"
 output_dir = "../results/figures"
 os.makedirs(output_dir, exist_ok=True)
-output_path = os.path.join(output_dir, "topN_by_architecture_diversity_clean.png")
+output_path = os.path.join(output_dir, "architecture_diversity.png")
 
 with open(input_path, "r") as f:
     data = json.load(f)
@@ -118,7 +118,7 @@ legend_elements = [
     Line2D([0], [0], marker='o', color='w', label='1 Architecture Type', markerfacecolor='red', markersize=10),
     Line2D([0], [0], marker='s', color='w', label='2 Architecture Types', markerfacecolor='green', markersize=10),
     Line2D([0], [0], marker='^', color='w', label='3 Architecture Types', markerfacecolor='blue', markersize=10),
-    Line2D([0], [0], linestyle='dashed', color='black', label='Per-Top-N Mean Line')
+    Line2D([0], [0], linestyle='dashed', color='black', label='Mean Line')
 ]
 plt.legend(handles=legend_elements, title="Architecture Diversity", loc="best", fontsize=11, title_fontsize=12)
 
