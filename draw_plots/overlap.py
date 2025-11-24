@@ -38,8 +38,8 @@ def main():
     sets = OrderedDict()
     for llm_id, llm_name in LLM_MAP.items():
 
-        #change this if you want to get rid of a CodeLM from the resulting png.
-        if llm_id == 4:
+        # #change this if you want to get rid of a CodeLM from the resulting png.
+        if llm_id == 1:
             continue
 
         comb_str = str(llm_id)

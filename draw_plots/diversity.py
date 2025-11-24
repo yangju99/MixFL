@@ -4,6 +4,15 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
 
+LLM_MAP = {
+    1: "CodeBERT",
+    2: "CodeGen",
+    3: "CodeT5",
+    4: "GraphCodeBERT",
+    5: "InCoder",
+    6: "UniXcoder",
+}
+
 LLM_ARCH = {
     1: "encoder",
     2: "decoder",

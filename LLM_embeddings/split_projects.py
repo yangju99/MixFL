@@ -15,7 +15,7 @@ MODELS = [
 PROJECTS = ["Lang", "Chart", "Closure", "Math", "Time", "Mockito"]
 
 # SEEDS = [1, 2, 3, 4, 5]
-SEEDS = [3]  
+SEEDS = [4, 5]  
 
 def process_model_seed_dir(model: str, seed: int):
     model_seed_dir = os.path.join(ROOT_DIR, model, str(seed))
