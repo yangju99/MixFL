@@ -1,5 +1,7 @@
-## 📄 MixFL: Fault Localization with Mixture of Language Models for Code Embeddings  
-This is the online repository for the FSE 2026 submission, **"MixFL: Fault Localization with Mixture of Language Models for Code Embeddings"**.
+## 📄 MixFL: Adaptive Mixing of Embeddings from Multiple Code Language Models for Fault Localization 
+
+This is the online repository for 19th IEEE International Conference on Software Testing, Verification and Validation (ICST) 2026 accepted paper, **"Adaptive Mixing of Embeddings from Multiple
+Code Language Models for Fault Localization"**. 
 
 ### 🖼️ Overview Image
 
